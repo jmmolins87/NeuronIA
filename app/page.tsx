@@ -1,7 +1,7 @@
 import { SiteShell } from "@/components/site-shell"
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { Logo } from "@/components/logo"
 
 export default function Home() {
   return (
@@ -10,19 +10,16 @@ export default function Home() {
         <div className="max-w-4xl space-y-8">
           {/* Logo grande */}
           <div className="flex justify-center">
-            <Image
-              src="/neuroxia-logo.svg"
-              alt="NeuronIA"
-              width={200}
-              height={200}
-              className="h-32 w-auto sm:h-40 md:h-48 lg:h-56"
-              priority
+            <Logo 
+              width={800} 
+              height={200} 
+              className="h-32 w-auto sm:h-40 md:h-48 lg:h-56 xl:h-64" 
             />
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             Automatización Inteligente con{" "}
-            <span className="text-primary">IA</span>
+            <span className="text-primary dark:text-glow-primary">IA</span>
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
             Transforma tu negocio con soluciones de inteligencia artificial

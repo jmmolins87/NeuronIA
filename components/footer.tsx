@@ -1,6 +1,7 @@
 import Link from "next/link"
-import Image from "next/image"
 import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button"
+import { Logo } from "@/components/logo"
 
 const footerLinks = {
   product: [
@@ -25,15 +26,8 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/neuroxia-logo.svg"
-                alt="NeuronIA Logo"
-                width={32}
-                height={32}
-                className="h-8 w-auto"
-              />
-              <span className="text-lg font-bold">NeuronIA</span>
+            <Link href="/" className="inline-block">
+              <Logo width={200} height={50} className="h-10 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
               Automatización inteligente impulsada por IA para transformar tu negocio.
@@ -80,12 +74,9 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">
               Reserva una demo personalizada y descubre el potencial de la IA.
             </p>
-            <Link
-              href="/reservar"
-              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-            >
-              Reservar Demo
-            </Link>
+            <Button asChild size="sm">
+              <Link href="/reservar">Reservar Demo</Link>
+            </Button>
           </div>
         </div>
 

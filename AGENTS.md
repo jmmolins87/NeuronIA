@@ -8,7 +8,8 @@ This document provides essential information for AI coding agents working on the
 **Framework**: Next.js 16 (App Router)  
 **Language**: TypeScript 5.x (strict mode)  
 **Styling**: Tailwind CSS 4.x + shadcn/ui  
-**Theme**: next-themes (system default + manual toggle with persistence)
+**Themes**: Health-Tech (Light) + Cyber Clinic (Dark) con paleta NEÓN  
+**Theme System**: next-themes (system default + manual toggle with persistence)
 
 ## Build & Development Commands
 
@@ -142,32 +143,85 @@ import "./globals.css"
 
 All colors use **oklch** color space for better perceptual uniformity.
 
-### Light Theme Tokens
-- `--background`: Page background
-- `--foreground`: Primary text color
-- `--primary`: Brand color for CTAs
-- `--secondary`: Secondary UI elements
-- `--muted`: Disabled/subtle elements
-- `--accent`: Highlighted elements
-- `--destructive`: Error/danger states
-- `--border`: Border colors
-- `--input`: Input field borders
-- `--ring`: Focus ring color
+### Health-Tech Theme (Light)
+Clean, professional with controlled neon accents:
+- `--background`: Almost white with cool tint
+- `--foreground`: Deep navy-blue (high contrast)
+- `--primary`: **NEON GREEN** (from logo #00FF9A)
+- `--accent`: **NEON YELLOW** for highlights
+- `--secondary`: Light teal tones
+- `--muted`: Subtle grays for disabled states
+- `--border`: Light borders with cyan hint
+- `--ring`: Neon green focus ring
+- `--glow`: Neon green for glow effects
+- `--section-alt`: Alternate section background
 
-### Dark Theme
-All tokens automatically switch in `.dark` class context.
+### Cyber Clinic Theme (Dark)
+Deep dark with vibrant neon accents and subtle glow:
+- `--background`: Deep navy-blue, almost black
+- `--foreground`: Off-white with cyan hint
+- `--primary`: **NEON GREEN** (brighter for dark bg)
+- `--accent`: **NEON YELLOW** (brighter for dark bg)
+- `--secondary`: Dark teal surfaces
+- `--muted`: Dark grays for disabled states
+- `--border`: Cyan-tinted borders
+- `--ring`: Bright neon green focus ring
+- `--glow`: Neon green glow (more visible in dark)
+- `--section-alt`: Alternate dark section
 
-### Usage
+### Neon Glow Utilities
+Use sparingly for CTAs and highlights:
 ```tsx
-// ✅ Correct
+// Box shadow glows
+<div className="glow-sm">Small glow</div>
+<div className="glow-md">Medium glow</div>
+<div className="glow-lg">Large glow</div>
+<div className="glow-primary">Primary color glow</div>
+<div className="glow-accent">Accent color glow</div>
+
+// Text shadow glows
+<h1 className="text-glow-primary">Neon text</h1>
+<h1 className="text-glow-accent">Accent neon text</h1>
+
+// Conditional glow (only in dark mode)
+<Button className="dark:glow-primary">CTA</Button>
+```
+
+### Usage Guidelines
+```tsx
+// ✅ Correct - Using CSS variables
 <div className="bg-background text-foreground border-border">
+<Button className="bg-primary text-primary-foreground">CTA</Button>
+<h1 className="text-primary dark:text-glow-primary">Destacado</h1>
+
+// ✅ Correct - Conditional glow in dark mode
+<div className="dark:glow-sm">Card with subtle glow</div>
 
 // ❌ Wrong - No inline styles
 <div style={{ backgroundColor: '#ffffff' }}>
 
 // ❌ Wrong - No hardcoded hex
-<div className="bg-[#ffffff]">
+<div className="bg-[#00FF9A]">
+
+// ❌ Wrong - Excessive glow (use sparingly!)
+<div className="glow-lg glow-primary glow-accent">
 ```
+
+### Neon Usage Best Practices
+**USE neon for:**
+- Primary CTAs and buttons
+- Active navigation states
+- Focus rings (automatic)
+- Hero headings highlights
+- Badges and status indicators
+- Card borders on hover
+
+**AVOID neon for:**
+- Body text and paragraphs
+- Large background areas
+- Multiple simultaneous elements
+- Small text (<14px)
+- More than 2-3 glows per viewport
 
 ## Path Aliases
 

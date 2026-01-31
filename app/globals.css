@@ -8,35 +8,50 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+  
+  /* Core tokens */
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Extra neon tokens */
+  --color-glow: var(--glow);
+  --color-section-alt: var(--section-alt);
+  --color-gradient-from: var(--gradient-from);
+  --color-gradient-to: var(--gradient-to);
+  
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  
+  /* Sidebar colors */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Radius tokens */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -47,116 +62,144 @@
 }
 
 :root {
-  /* Border radius tokens */
+  /* ═══════════════════════════════════════════════════════════
+     HEALTH-TECH THEME (LIGHT)
+     Fondo claro, limpio, neón controlado para CTAs/highlights
+     ═══════════════════════════════════════════════════════════ */
+  
+  /* Border radius */
   --radius: 0.625rem;
 
-  /* Base colors - Light theme (will be replaced with neon palette in Phase 2) */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Base colors - Clean white background with dark text */
+  --background: oklch(0.99 0.002 106);        /* Almost white with slight cool tint */
+  --foreground: oklch(0.18 0.015 250);        /* Deep navy-blue, high contrast */
 
-  /* Card colors */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* Card colors - Subtle elevation */
+  --card: oklch(1 0 0);                       /* Pure white cards */
+  --card-foreground: oklch(0.18 0.015 250);   /* Same as foreground */
 
   /* Popover colors */
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);                    /* Pure white */
+  --popover-foreground: oklch(0.18 0.015 250);
 
-  /* Primary brand colors */
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Primary - ULTRA NEON GREEN (máxima vibración) */
+  --primary: oklch(0.88 0.33 166);            /* MAXIMUM vibrant neon green */
+  --primary-foreground: oklch(0.08 0.02 250); /* Super dark blue text on green */
 
-  /* Secondary colors */
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  /* Secondary - NEON Teal/Cyan */
+  --secondary: oklch(0.75 0.20 200);          /* Bright neon teal */
+  --secondary-foreground: oklch(0.12 0.02 200); /* Dark text */
 
-  /* Muted/disabled states */
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* Muted - Subtle but with neon hint */
+  --muted: oklch(0.94 0.01 250);              /* Light gray-blue */
+  --muted-foreground: oklch(0.48 0.03 250);   /* Medium gray with hint */
 
-  /* Accent colors */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* Accent - ABSOLUTE MAXIMUM NEON YELLOW (fluorescencia total) */
+  --accent: oklch(0.99 0.40 115);             /* ABSOLUTE MAXIMUM fluorescent yellow-lime */
+  --accent-foreground: oklch(0.03 0.01 250);  /* Almost black text for contrast */
 
-  /* Destructive/error states */
-  --destructive: oklch(0.577 0.245 27.325);
+  /* Destructive - Red for errors */
+  --destructive: oklch(0.60 0.24 25);         /* Vibrant red */
+  --destructive-foreground: oklch(0.98 0.01 25); /* Light text on red */
 
-  /* Border and input */
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Border and input - Subtle with neon hint */
+  --border: oklch(0.88 0.01 200);             /* Light border with cyan hint */
+  --input: oklch(0.90 0.01 200);              /* Slightly darker input border */
+  --ring: oklch(0.82 0.21 166);               /* Neon green focus ring */
 
-  /* Chart colors */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* Extra neon tokens */
+  --glow: oklch(0.88 0.33 166);               /* MAXIMUM neon green for glows */
+  --section-alt: oklch(0.97 0.01 180);        /* Alternate section background */
+  
+  /* Gradient colors - Verde neón a Azul neón MÁXIMA VIBRACIÓN */
+  --gradient-from: oklch(0.88 0.33 166);      /* MAXIMUM neon green start */
+  --gradient-to: oklch(0.75 0.30 230);        /* MAXIMUM neon blue end */
+
+  /* Chart colors - ULTRA NEON palette */
+  --chart-1: oklch(0.88 0.33 166);            /* ULTRA neon green */
+  --chart-2: oklch(0.75 0.30 230);            /* ULTRA neon blue */
+  --chart-3: oklch(0.99 0.40 115);            /* ABSOLUTE MAXIMUM neon yellow */
+  --chart-4: oklch(0.78 0.26 320);            /* ULTRA neon magenta */
+  --chart-5: oklch(0.82 0.26 40);             /* ULTRA neon orange */
 
   /* Sidebar colors */
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.98 0.005 200);
+  --sidebar-foreground: oklch(0.20 0.015 250);
+  --sidebar-primary: oklch(0.82 0.21 166);
+  --sidebar-primary-foreground: oklch(0.12 0.02 250);
+  --sidebar-accent: oklch(0.92 0.04 200);
+  --sidebar-accent-foreground: oklch(0.25 0.08 200);
+  --sidebar-border: oklch(0.88 0.01 200);
+  --sidebar-ring: oklch(0.82 0.21 166);
 }
 
 .dark {
-  /* Base colors - Dark theme (will be replaced with neon palette in Phase 2) */
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  /* ═══════════════════════════════════════════════════════════
+     CYBER CLINIC THEME (DARK)
+     Deep dark background, neon accents with subtle glow
+     ═══════════════════════════════════════════════════════════ */
 
-  /* Card colors */
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  /* Base colors - Deep dark with neon text */
+  --background: oklch(0.12 0.015 250);        /* Deep navy-blue, almost black */
+  --foreground: oklch(0.95 0.01 180);         /* Off-white with cyan hint */
+
+  /* Card colors - Elevated dark surfaces */
+  --card: oklch(0.16 0.02 250);               /* Slightly lighter navy */
+  --card-foreground: oklch(0.95 0.01 180);    /* Off-white text */
 
   /* Popover colors */
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.14 0.018 250);           /* Dark navy popup */
+  --popover-foreground: oklch(0.95 0.01 180);
 
-  /* Primary brand colors */
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  /* Primary - ULTRA NEON GREEN for dark mode (máxima brillantez) */
+  --primary: oklch(0.92 0.35 166);            /* ABSOLUTE MAXIMUM neon green brilliance */
+  --primary-foreground: oklch(0.06 0.02 250); /* Almost black text */
 
-  /* Secondary colors */
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  /* Secondary - NEON Teal/Cyan for dark */
+  --secondary: oklch(0.28 0.15 200);          /* Bright neon teal surface */
+  --secondary-foreground: oklch(0.88 0.18 180); /* Very bright cyan text */
 
-  /* Muted/disabled states */
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  /* Muted - Dark with neon hints */
+  --muted: oklch(0.20 0.02 250);              /* Dark gray-blue */
+  --muted-foreground: oklch(0.58 0.08 200);   /* Medium cyan-gray with neon hint */
 
-  /* Accent colors */
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Accent - ABSOLUTE MAXIMUM NEON YELLOW (fluorescencia total dark) */
+  --accent: oklch(1.0 0.42 115);              /* ABSOLUTE MAXIMUM (lightness máxima) */
+  --accent-foreground: oklch(0.02 0.01 250);  /* Pure black text */
 
-  /* Destructive/error states */
-  --destructive: oklch(0.704 0.191 22.216);
+  /* Destructive - Neon red */
+  --destructive: oklch(0.65 0.26 25);         /* Brighter red for dark bg */
+  --destructive-foreground: oklch(0.95 0.01 25); /* Light text on red */
 
-  /* Border and input */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* Border and input - Subtle neon borders */
+  --border: oklch(0.30 0.04 200);             /* Cyan-tinted border */
+  --input: oklch(0.32 0.05 200);              /* Slightly brighter input border */
+  --ring: oklch(0.85 0.25 166);               /* Neon green focus ring */
 
-  /* Chart colors */
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  /* Extra neon tokens */
+  --glow: oklch(0.92 0.35 166);               /* ABSOLUTE MAXIMUM neon green glow */
+  --section-alt: oklch(0.14 0.018 240);       /* Alternate section */
+  
+  /* Gradient colors - ABSOLUTE MAXIMUM neon vibrancy for dark mode */
+  --gradient-from: oklch(0.92 0.35 166);      /* ABSOLUTE MAXIMUM neon green */
+  --gradient-to: oklch(0.78 0.32 230);        /* ABSOLUTE MAXIMUM neon blue */
+
+  /* Chart colors - MAXIMUM neon vibrancy for dark */
+  --chart-1: oklch(0.92 0.35 166);            /* MAXIMUM neon green */
+  --chart-2: oklch(0.78 0.32 230);            /* MAXIMUM neon blue */
+  --chart-3: oklch(1.0 0.42 115);             /* ABSOLUTE MAXIMUM neon yellow */
+  --chart-4: oklch(0.82 0.28 320);            /* MAXIMUM neon magenta */
+  --chart-5: oklch(0.85 0.28 40);             /* MAXIMUM neon orange */
 
   /* Sidebar colors */
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar: oklch(0.14 0.018 250);
+  --sidebar-foreground: oklch(0.95 0.01 180);
+  --sidebar-primary: oklch(0.85 0.25 166);
+  --sidebar-primary-foreground: oklch(0.10 0.02 250);
+  --sidebar-accent: oklch(0.22 0.05 200);
+  --sidebar-accent-foreground: oklch(0.85 0.12 180);
+  --sidebar-border: oklch(0.30 0.04 200);
+  --sidebar-ring: oklch(0.85 0.25 166);
 }
 
 @layer base {
@@ -165,5 +208,108 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Neon glow utilities - use sparingly for CTAs and highlights */
+@layer utilities {
+  .glow-sm {
+    box-shadow: 0 0 10px oklch(var(--glow) / 0.3);
+  }
+  
+  .glow-md {
+    box-shadow: 0 0 15px oklch(var(--glow) / 0.4), 0 0 30px oklch(var(--glow) / 0.2);
+  }
+  
+  .glow-lg {
+    box-shadow: 0 0 20px oklch(var(--glow) / 0.5), 0 0 40px oklch(var(--glow) / 0.3), 0 0 60px oklch(var(--glow) / 0.1);
+  }
+  
+  .glow-primary {
+    box-shadow: 0 0 15px oklch(var(--primary) / 0.4), 0 0 30px oklch(var(--primary) / 0.2);
+  }
+  
+  .glow-accent {
+    box-shadow: 0 0 15px oklch(var(--accent) / 0.4), 0 0 30px oklch(var(--accent) / 0.2);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px oklch(var(--glow) / 0.5), 0 0 20px oklch(var(--glow) / 0.3);
+  }
+  
+  .text-glow-primary {
+    text-shadow: 0 0 10px oklch(var(--primary) / 0.5), 0 0 20px oklch(var(--primary) / 0.3);
+  }
+  
+  .text-glow-accent {
+    text-shadow: 0 0 10px oklch(var(--accent) / 0.5), 0 0 20px oklch(var(--accent) / 0.3);
+  }
+  
+  /* Gradient utilities - Verde neón a Azul neón del logo */
+  .bg-gradient-neon {
+    background: linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
+  }
+  
+  .bg-gradient-neon-r {
+    background: linear-gradient(135deg, oklch(var(--gradient-to)) 0%, oklch(var(--gradient-from)) 100%);
+  }
+  
+  .bg-gradient-neon-vertical {
+    background: linear-gradient(to bottom, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
+  }
+  
+  .bg-gradient-neon-horizontal {
+    background: linear-gradient(to right, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
+  }
+  
+  /* Gradient with glow for dark mode */
+  .bg-gradient-neon-glow {
+    background: linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .bg-gradient-neon-glow {
+      box-shadow: 0 0 20px oklch(var(--gradient-from) / 0.3), 0 0 40px oklch(var(--gradient-to) / 0.2);
+    }
+  }
+  
+  .dark .bg-gradient-neon-glow {
+    box-shadow: 0 0 20px oklch(var(--gradient-from) / 0.3), 0 0 40px oklch(var(--gradient-to) / 0.2);
+  }
+  
+  /* Gradient invertido para hover */
+  .hover-gradient-reverse {
+    background-size: 200% 200%;
+    background-image: linear-gradient(135deg, 
+      oklch(var(--gradient-from)) 0%, 
+      oklch(var(--gradient-from)) 25%,
+      oklch(var(--gradient-to)) 50%,
+      oklch(var(--gradient-to)) 75%,
+      oklch(var(--gradient-from)) 100%
+    );
+    transition: background-position 0.6s ease;
+    background-position: 0% 0%;
+  }
+  
+  .hover-gradient-reverse:hover {
+    background-position: 100% 100%;
+  }
+  
+  /* Gradient border for outline buttons */
+  .gradient-border {
+    border-width: 2px;
+    border-style: solid;
+    border-image: linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%) 1;
+  }
+  
+  /* Rounded gradient border (más complejo pero funciona) */
+  .gradient-border-rounded {
+    position: relative;
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image: linear-gradient(var(--background), var(--background)), 
+                      linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
   }
 }

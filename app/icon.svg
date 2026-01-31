@@ -1,47 +1,136 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="grad" x1="90" y1="120" x2="422" y2="420">
+    <style>
+      /* Light mode: white background, dark nodes */
+      @media (prefers-color-scheme: light) {
+        .bg-rect { fill: #ffffff; }
+        .node-fill { fill: #0B1020; }
+      }
+      
+      /* Dark mode: dark background, white nodes */
+      @media (prefers-color-scheme: dark) {
+        .bg-rect { fill: #0B1020; }
+        .node-fill { fill: #ffffff; }
+      }
+    </style>
+    
+    <linearGradient id="nx-grad" x1="90" y1="120" x2="422" y2="420" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#00FF9A"/>
       <stop offset="1" stop-color="#00A3FF"/>
     </linearGradient>
+
+    <!-- Neon glow -->
+    <filter id="nx-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur2"/>
+      <feColorMatrix in="blur2" type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 0.55 0" result="glow2"/>
+      <feMerge>
+        <feMergeNode in="glow2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft inner haze (subtle) -->
+    <radialGradient id="nx-haze" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#00FF9A" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#00A3FF" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  
-  <!-- Brain outline -->
-  <g fill="none" stroke="url(#grad)" stroke-width="12" stroke-linecap="round">
-    <path d="M256 96 C214 78 162 102 144 146 C126 190 156 220 156 252 C156 284 128 306 132 352 C138 420 206 440 236 420 C250 410 252 394 252 372 L252 124 C252 112 254 102 256 96"/>
-    <path d="M256 96 C298 78 350 102 368 146 C386 190 356 220 356 252 C356 284 384 306 380 352 C374 420 306 440 276 420 C262 410 260 394 260 372 L260 124 C260 112 258 102 256 96"/>
-    <path d="M256 128 C248 144 248 168 256 184 C264 200 264 224 256 240 C248 256 248 280 256 296 C264 312 264 336 256 352 C248 372 248 392 256 408"/>
+
+  <!-- Background rect that adapts to theme -->
+  <rect class="bg-rect" width="512" height="512" rx="64"/>
+
+  <!-- Subtle haze fill -->
+  <path d="M256 86
+           C208 72 154 98 132 146
+           C108 198 138 230 140 258
+           C142 286 116 308 118 354
+           C122 424 198 452 236 426
+           C252 414 252 396 252 372
+           L252 96
+           C252 92 254 88 256 86Z"
+        fill="url(#nx-haze)"/>
+
+  <path d="M256 86
+           C304 72 358 98 380 146
+           C404 198 374 230 372 258
+           C370 286 396 308 394 354
+           C390 424 314 452 276 426
+           C260 414 260 396 260 372
+           L260 96
+           C260 92 258 88 256 86Z"
+        fill="url(#nx-haze)"/>
+
+  <!-- Outer brain outline (left + right) -->
+  <g filter="url(#nx-glow)" fill="none" stroke="url(#nx-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left hemisphere -->
+    <path d="M256 96
+             C214 78 162 102 144 146
+             C126 190 156 220 156 252
+             C156 284 128 306 132 352
+             C138 420 206 440 236 420
+             C250 410 252 394 252 372
+             L252 124
+             C252 112 254 102 256 96"/>
+    <!-- Right hemisphere -->
+    <path d="M256 96
+             C298 78 350 102 368 146
+             C386 190 356 220 356 252
+             C356 284 384 306 380 352
+             C374 420 306 440 276 420
+             C262 410 260 394 260 372
+             L260 124
+             C260 112 258 102 256 96"/>
+
+    <!-- Midline / "IA core" -->
+    <path d="M256 128
+             C248 144 248 168 256 184
+             C264 200 264 224 256 240
+             C248 256 248 280 256 296
+             C264 312 264 336 256 352
+             C248 372 248 392 256 408"/>
   </g>
-  
-  <!-- Neural network -->
-  <g stroke="url(#grad)" stroke-width="6" stroke-linecap="round" fill="none">
+
+  <!-- Neural circuitry inside -->
+  <g filter="url(#nx-glow)" stroke="url(#nx-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Left network lines -->
     <path d="M214 180 L186 214 L208 246 L176 288"/>
     <path d="M214 180 L230 224 L208 246"/>
     <path d="M176 288 L206 318 L188 352"/>
+    <!-- Right network lines -->
     <path d="M298 180 L326 214 L304 246 L336 288"/>
     <path d="M298 180 L282 224 L304 246"/>
     <path d="M336 288 L306 318 L324 352"/>
+    <!-- Cross connections near core -->
     <path d="M230 224 L256 240 L282 224"/>
     <path d="M206 318 L256 296 L306 318"/>
   </g>
-  
+
   <!-- Nodes -->
-  <g fill="#0B1020" stroke="url(#grad)" stroke-width="6">
-    <circle cx="214" cy="180" r="8"/>
-    <circle cx="186" cy="214" r="7"/>
-    <circle cx="230" cy="224" r="7"/>
-    <circle cx="208" cy="246" r="8"/>
-    <circle cx="176" cy="288" r="8"/>
-    <circle cx="206" cy="318" r="7"/>
-    <circle cx="188" cy="352" r="7"/>
-    <circle cx="298" cy="180" r="8"/>
-    <circle cx="326" cy="214" r="7"/>
-    <circle cx="282" cy="224" r="7"/>
-    <circle cx="304" cy="246" r="8"/>
-    <circle cx="336" cy="288" r="8"/>
-    <circle cx="306" cy="318" r="7"/>
-    <circle cx="324" cy="352" r="7"/>
-    <circle cx="256" cy="240" r="8"/>
-    <circle cx="256" cy="296" r="8"/>
+  <g filter="url(#nx-glow)" class="node-fill" stroke="url(#nx-grad)" stroke-width="8">
+    <!-- Left nodes -->
+    <circle cx="214" cy="180" r="10"/>
+    <circle cx="186" cy="214" r="9"/>
+    <circle cx="230" cy="224" r="9"/>
+    <circle cx="208" cy="246" r="10"/>
+    <circle cx="176" cy="288" r="10"/>
+    <circle cx="206" cy="318" r="9"/>
+    <circle cx="188" cy="352" r="9"/>
+    <!-- Right nodes -->
+    <circle cx="298" cy="180" r="10"/>
+    <circle cx="326" cy="214" r="9"/>
+    <circle cx="282" cy="224" r="9"/>
+    <circle cx="304" cy="246" r="10"/>
+    <circle cx="336" cy="288" r="10"/>
+    <circle cx="306" cy="318" r="9"/>
+    <circle cx="324" cy="352" r="9"/>
+    <!-- Core nodes -->
+    <circle cx="256" cy="240" r="10"/>
+    <circle cx="256" cy="296" r="10"/>
   </g>
 </svg>

@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-gradient-to-br from-gradient-from to-gradient-to text-primary-foreground transition-all duration-700 ease-in-out hover:from-gradient-to hover:to-gradient-from hover:shadow-lg dark:shadow-[0_0_25px_oklch(var(--gradient-from)/0.4),0_0_50px_oklch(var(--gradient-to)/0.3)] dark:hover:shadow-[0_0_35px_oklch(var(--gradient-to)/0.6),0_0_70px_oklch(var(--gradient-from)/0.5)]",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 transition-colors duration-300",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "relative border-2 border-transparent bg-background bg-clip-padding before:absolute before:inset-0 before:-z-10 before:m-[-2px] before:rounded-[inherit] before:bg-gradient-to-br before:from-gradient-from before:to-gradient-to before:transition-all before:duration-700 before:ease-in-out hover:before:from-gradient-to hover:before:to-gradient-from shadow-xs transition-all duration-700",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors duration-300",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+          "hover:bg-gradient-to/10 hover:text-gradient-to dark:hover:bg-primary/10 dark:hover:text-primary transition-colors duration-300",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

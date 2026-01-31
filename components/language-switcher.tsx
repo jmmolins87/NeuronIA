@@ -17,7 +17,7 @@ export function LanguageSwitcher() {
       variant="ghost"
       size="sm"
       onClick={toggleLanguage}
-      className="h-9 gap-2"
+      className="h-9 gap-2 cursor-pointer"
       aria-label="Change language"
     >
       <Languages className="h-4 w-4" />

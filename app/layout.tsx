@@ -18,10 +18,8 @@ export const metadata: Metadata = {
   description: "Descubre cómo la IA puede transformar tu negocio con soluciones automatizadas personalizadas",
   icons: {
     icon: [
-      { url: "/neuroxia-logo.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/neuroxia-logo.svg",
-    apple: "/neuroxia-logo.svg",
   },
 };
 
