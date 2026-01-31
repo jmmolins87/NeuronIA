@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun, Monitor, ChevronDown } from "lucide-react"
+import { Moon, Sun, Monitor } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import {
@@ -33,19 +33,6 @@ export function ThemeToggle() {
         return <Monitor className="h-4 w-4" />
       default:
         return <Sun className="h-4 w-4" />
-    }
-  }
-
-  const getThemeLabel = () => {
-    switch (theme) {
-      case "light":
-        return t("theme.light")
-      case "dark":
-        return t("theme.dark")
-      case "system":
-        return t("theme.system")
-      default:
-        return t("theme.system")
     }
   }
 

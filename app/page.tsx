@@ -1,13 +1,24 @@
 "use client"
 
+import * as React from "react"
 import { SiteShell } from "@/components/site-shell"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { useTranslation } from "@/components/providers/i18n-provider"
+import { useTheme } from "next-themes"
 
 export default function Home() {
   const { t } = useTranslation()
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Determinar el theme actual (light o dark)
+  const currentTheme = mounted ? (resolvedTheme === "dark" ? "dark" : "light") : "light"
 
   return (
     <SiteShell>
@@ -22,14 +33,30 @@ export default function Home() {
             />
           </div>
 
+          {/* Claim dinámico según theme */}
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            {t("home.hero.title")}{" "}
-            <span className="text-primary dark:text-glow-primary">{t("home.hero.titleHighlight")}</span>
+            <span className="text-gradient-to dark:text-primary">
+              {t(`home.hero.claim.${currentTheme}`)}
+            </span>
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            {t("home.hero.description")}
+
+          {/* Mensaje clave */}
+          <p className="mx-auto max-w-2xl text-xl font-medium text-foreground sm:text-2xl">
+            {t("home.hero.keyMessage")}
           </p>
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+
+          {/* Micro-CTA con link a ROI */}
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            <Link 
+              href="/roi" 
+              className="text-gradient-to dark:text-primary hover:underline transition-colors"
+            >
+              {t("home.hero.microCTA")}
+            </Link>
+          </p>
+
+          {/* CTAs principales */}
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-4">
             <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/reservar">{t("home.hero.cta1")}</Link>
             </Button>

@@ -36,14 +36,18 @@
     "success": "Success"
   },
   "home": {
-    "title": "NeuronIA - Intelligent Automation with AI",
-    "description": "Discover how AI can transform your business with personalized automated solutions",
+    "title": "NeuronIA - Intelligent Care System",
+    "description": "Intelligent Care System that turns conversations into appointments",
+    "serviceName": "Intelligent Care System",
     "hero": {
-      "title": "Intelligent Automation with",
-      "titleHighlight": "AI",
-      "description": "Transform your business with personalized artificial intelligence solutions. Optimize processes, reduce costs, and maximize results.",
-      "cta1": "Book Free Demo",
-      "cta2": "Calculate ROI"
+      "claim": {
+        "light": "Intelligence applied to clinical care.",
+        "dark": "Intelligent care that turns conversations into appointments."
+      },
+      "keyMessage": "Every unanswered message is a lost patient.",
+      "microCTA": "Want to see how many patients slip away?",
+      "cta1": "Book Demo",
+      "cta2": "See ROI"
     }
   },
   "solution": {

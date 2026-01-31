@@ -36,14 +36,18 @@
     "success": "Éxito"
   },
   "home": {
-    "title": "NeuronIA - Automatización Inteligente con IA",
-    "description": "Descubre cómo la IA puede transformar tu negocio con soluciones automatizadas personalizadas",
+    "title": "NeuronIA - Sistema de Atención Inteligente",
+    "description": "Sistema de Atención Inteligente que convierte conversaciones en citas",
+    "serviceName": "Sistema de Atención Inteligente",
     "hero": {
-      "title": "Automatización Inteligente con",
-      "titleHighlight": "IA",
-      "description": "Transforma tu negocio con soluciones de inteligencia artificial personalizadas. Optimiza procesos, reduce costos y maximiza resultados.",
-      "cta1": "Reservar Demo Gratuita",
-      "cta2": "Calcular ROI"
+      "claim": {
+        "light": "Inteligencia aplicada a la atención clínica.",
+        "dark": "Atención inteligente que convierte conversaciones en citas."
+      },
+      "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
+      "microCTA": "¿Quieres saber cuántos pacientes se te escapan?",
+      "cta1": "Reservar Demo",
+      "cta2": "Ver ROI"
     }
   },
   "solution": {
