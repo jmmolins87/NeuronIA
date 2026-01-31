@@ -1,14 +1,37 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
-import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
+
 import { Logo } from "@/components/logo"
 import { useTranslation } from "@/components/providers/i18n-provider"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 export function Footer() {
   const { t } = useTranslation()
   const currentYear = new Date().getFullYear()
+  const footerRef = React.useRef<HTMLElement | null>(null)
+
+  React.useEffect(() => {
+    const element = footerRef.current
+    if (!element) return
+
+    const setFooterHeight = () => {
+      const height = element.getBoundingClientRect().height
+      document.documentElement.style.setProperty(
+        "--footer-height",
+        `${height}px`
+      )
+    }
+
+    setFooterHeight()
+
+    const observer = new ResizeObserver(setFooterHeight)
+    observer.observe(element)
+
+    return () => observer.disconnect()
+  }, [])
 
   const footerLinks = {
     product: [
@@ -25,7 +48,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-border/40 bg-background">
+    <footer ref={footerRef} className="border-t border-border/40 bg-background">
       <div className="container mx-auto max-w-screen-2xl px-4 py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}

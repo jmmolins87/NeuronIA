@@ -27,7 +27,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "relative overflow-hidden",
+        "relative isolate w-full overflow-visible",
         variantClasses[variant],
         className
       )}

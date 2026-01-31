@@ -207,7 +207,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -244,6 +244,59 @@
   
   .text-glow-accent {
     text-shadow: 0 0 10px oklch(var(--accent) / 0.5), 0 0 20px oklch(var(--accent) / 0.3);
+  }
+
+  /* Aurora background layers */
+  .aurora-layer,
+  .aurora-layer-2,
+  .aurora-layer-3 {
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    filter: blur(60px);
+    will-change: transform, opacity;
+  }
+
+  .aurora-layer {
+    background: radial-gradient(
+        45% 45% at 20% 20%,
+        oklch(var(--primary) / 0.45),
+        transparent 70%
+      ),
+      radial-gradient(
+        50% 50% at 80% 30%,
+        oklch(var(--accent) / 0.4),
+        transparent 70%
+      );
+    animation: auroraDrift 18s ease-in-out infinite,
+      auroraPulse 8s ease-in-out infinite;
+  }
+
+  .aurora-layer-2 {
+    background: radial-gradient(
+        40% 40% at 70% 80%,
+        oklch(var(--gradient-to) / 0.35),
+        transparent 65%
+      ),
+      radial-gradient(
+        45% 45% at 25% 75%,
+        oklch(var(--gradient-from) / 0.35),
+        transparent 70%
+      );
+    animation: auroraDriftReverse 22s ease-in-out infinite,
+      auroraPulse 10s ease-in-out infinite;
+  }
+
+  .aurora-layer-3 {
+    background: conic-gradient(
+      from 120deg,
+      oklch(var(--primary) / 0.2),
+      oklch(var(--accent) / 0.25),
+      oklch(var(--gradient-to) / 0.2),
+      oklch(var(--primary) / 0.2)
+    );
+    animation: auroraRotate 26s linear infinite;
   }
   
   /* Gradient utilities - Verde neón a Azul neón del logo */
@@ -411,6 +464,29 @@
     will-change: background-position;
   }
 
+  .gradient-text-alert {
+    color: oklch(var(--destructive));
+    text-shadow: 0 0 12px oklch(var(--destructive) / 0.35);
+  }
+
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    .gradient-text-alert {
+      color: transparent;
+      background: linear-gradient(
+        to right,
+        oklch(var(--destructive)),
+        oklch(var(--chart-5)),
+        oklch(var(--destructive))
+      );
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientSlide 4s ease-in-out infinite;
+      will-change: background-position;
+    }
+  }
+
   /* Dark mode gradients - más vibrantes */
   .dark .gradient-text-slide {
     background: linear-gradient(
@@ -497,6 +573,26 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .dark .gradient-text-alert {
+    color: oklch(var(--destructive));
+    text-shadow: 0 0 16px oklch(var(--destructive) / 0.5);
+  }
+
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    .dark .gradient-text-alert {
+      background: linear-gradient(
+        to right,
+        oklch(var(--destructive)),
+        oklch(var(--chart-5)),
+        oklch(var(--destructive))
+      );
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
   @keyframes gradientSlide {
     0%, 100% {
       background-position: 0% 50%;
@@ -548,6 +644,45 @@
     }
     100% {
       background-position: 500% 50%;
+    }
+  }
+
+  @keyframes auroraDrift {
+    0%,
+    100% {
+      transform: translate3d(-6%, -4%, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(8%, 6%, 0) scale(1.08);
+    }
+  }
+
+  @keyframes auroraDriftReverse {
+    0%,
+    100% {
+      transform: translate3d(6%, 4%, 0) scale(1.02);
+    }
+    50% {
+      transform: translate3d(-8%, -6%, 0) scale(1.1);
+    }
+  }
+
+  @keyframes auroraPulse {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes auroraRotate {
+    0% {
+      transform: rotate(0deg) scale(1.05);
+    }
+    100% {
+      transform: rotate(360deg) scale(1.05);
     }
   }
 
@@ -649,7 +784,10 @@
     .gradient-text-shimmer,
     .animate-blob-float,
     .animate-grid-drift,
-    .animate-circuit-flow {
+    .animate-circuit-flow,
+    .aurora-layer,
+    .aurora-layer-2,
+    .aurora-layer-3 {
       animation: none !important;
       background-position: 50% 50%;
     }

@@ -36,6 +36,20 @@
     "success": "Success",
     "scrollDown": "Discover more"
   },
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "description": "Navigate quickly without leaving the keyboard.",
+    "hint": "Shortcuts pause while you are typing.",
+    "then": "then",
+    "items": {
+      "goRoi": "Go to ROI",
+      "goSolution": "Go to Solution",
+      "openHelp": "Open shortcuts help"
+    }
+  },
+  "lottie": {
+    "appointmentLabel": "Appointment indicator"
+  },
   "home": {
     "title": "NeuronIA - Intelligent Care System",
     "description": "Intelligent Care System that turns conversations into appointments",
@@ -94,6 +108,12 @@
     "benefits": {
       "title": "Operational benefits",
       "description": "Reduces administrative load, improves patient experience and optimizes your schedule.",
+      "support": {
+        "title": "Measurable outcomes",
+        "description": "Less time on repetitive tasks and more focus on patient care.",
+        "secondaryTitle": "Immediate impact",
+        "secondaryDescription": "You feel it from day one: more confirmed appointments and fewer gaps."
+      },
       "items": {
         "availability": {
           "title": "24/7 availability",

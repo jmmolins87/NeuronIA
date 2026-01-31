@@ -36,6 +36,20 @@
     "success": "Éxito",
     "scrollDown": "Descubre más"
   },
+  "shortcuts": {
+    "title": "Atajos de teclado",
+    "description": "Navega rápido sin soltar el teclado.",
+    "hint": "Los atajos se desactivan mientras escribes.",
+    "then": "luego",
+    "items": {
+      "goRoi": "Ir a ROI",
+      "goSolution": "Ir a Solución",
+      "openHelp": "Abrir ayuda de atajos"
+    }
+  },
+  "lottie": {
+    "appointmentLabel": "Indicador de cita"
+  },
   "home": {
     "title": "NeuronIA - Sistema de Atención Inteligente",
     "description": "Sistema de Atención Inteligente que convierte conversaciones en citas",
@@ -79,6 +93,12 @@
         "availability": "Verifica agenda en tiempo real",
         "booking": "Agenda citas automáticamente",
         "followup": "Seguimiento de confirmaciones"
+      },
+      "featureDescriptions": {
+        "understanding": "Detecta intención, urgencia y especialidad en segundos.",
+        "availability": "Consulta huecos reales y evita solapes en la agenda.",
+        "booking": "Propone horarios y confirma sin intervención humana.",
+        "followup": "Reduce no‑show con recordatorios automáticos."
       }
     },
     "flow": {
@@ -89,11 +109,23 @@
         "2": "Sistema verifica disponibilidad",
         "3": "Propone opciones de horario",
         "4": "Confirma y agenda la cita"
+      },
+      "stepDescriptions": {
+        "1": "Captura el contexto y el motivo de la consulta.",
+        "2": "Valida tiempos y profesionales disponibles.",
+        "3": "Sugiere franjas optimizadas para cerrar la cita.",
+        "4": "Registra la cita y envía confirmación."
       }
     },
     "benefits": {
       "title": "Beneficios operativos",
       "description": "Reduce carga administrativa, mejora experiencia del paciente y optimiza tu agenda.",
+      "support": {
+        "title": "Resultados medibles",
+        "description": "Menos tiempo en tareas repetitivas y más foco en atención al paciente.",
+        "secondaryTitle": "Impacto inmediato",
+        "secondaryDescription": "Se nota desde el primer día: más citas confirmadas y menos huecos."
+      },
       "items": {
         "availability": {
           "title": "Disponibilidad 24/7",
