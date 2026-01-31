@@ -41,10 +41,7 @@
     "description": "Intelligent Care System that turns conversations into appointments",
     "serviceName": "Intelligent Care System",
     "hero": {
-      "claim": {
-        "light": "Intelligence applied to clinical care.",
-        "dark": "Intelligent care that turns conversations into appointments."
-      },
+      "claim": "Intelligence applied to clinical care.",
       "keyMessage": "Every unanswered message is a lost patient.",
       "microCTA": "Want to see how many patients slip away?",
       "cta1": "Book Demo",
@@ -76,12 +73,12 @@
     },
     "system": {
       "title": "Intelligent Care System",
-      "description": "It's not a chatbot. It's a system that understands clinical context, verifies real availability, and books appointments directly in your system.",
+      "description": "It's not a chatbot. It's a system that understands clinical context, verifies real availability and schedules appointments directly in your system.",
       "features": {
-        "understanding": "Understands natural language queries",
-        "availability": "Checks real-time calendar",
-        "booking": "Books appointments automatically",
-        "followup": "Confirmation follow-up"
+        "understanding": "Understands natural language inquiries",
+        "availability": "Verifies schedule in real time",
+        "booking": "Schedules appointments automatically",
+        "followup": "Follow-up confirmations"
       }
     },
     "flow": {
@@ -89,22 +86,22 @@
       "description": "From inquiry to confirmed appointment, without manual intervention.",
       "steps": {
         "1": "Patient asks via WhatsApp",
-        "2": "System checks availability",
-        "3": "Proposes time slots",
-        "4": "Confirms and books appointment"
+        "2": "System verifies availability",
+        "3": "Proposes time options",
+        "4": "Confirms and schedules appointment"
       }
     },
     "benefits": {
       "title": "Operational benefits",
-      "description": "Reduce administrative load, improve patient experience, and optimize your schedule.",
+      "description": "Reduces administrative load, improves patient experience and optimizes your schedule.",
       "items": {
         "availability": {
-          "title": "24/7 Availability",
-          "description": "Immediate responses anytime"
+          "title": "24/7 availability",
+          "description": "Immediate responses at any time"
         },
         "efficiency": {
           "title": "Operational efficiency",
-          "description": "Free up your administrative team's time"
+          "description": "Frees up time for your administrative team"
         },
         "experience": {
           "title": "Better experience",
@@ -112,7 +109,7 @@
         },
         "optimization": {
           "title": "Optimized schedule",
-          "description": "Reduce gaps and cancellations"
+          "description": "Reduces gaps and cancellations"
         }
       }
     },
@@ -171,73 +168,65 @@
   },
   "roi": {
     "title": "ROI Calculator",
-    "description": "Calculate the return on investment of implementing AI in your company. Interactive calculator coming soon in Phase 2.",
+    "description": "Calculate return on investment of implementing AI in your company. Interactive calculator coming soon in Phase 2.",
     "content": "ROI calculator content"
   },
   "scenarios": {
-    "title": "Scenarios",
-    "description": "Explore success stories and AI implementation scenarios. Full content coming soon in Phase 2.",
-    "content": "Scenarios content"
+    "title": "Use Cases",
+    "description": "See how different clinics benefit from our intelligent care system. Full content coming soon in Phase 2.",
+    "content": "Use cases content"
   },
   "howItWorks": {
     "title": "How It Works",
-    "description": "Learn about the implementation process of our AI solutions. Full content coming soon in Phase 2.",
+    "description": "Discover the technology behind our intelligent care system. Full content coming soon in Phase 2.",
     "content": "How it works content"
   },
   "methodology": {
     "title": "Methodology",
-    "description": "Our proven methodology for implementing AI in your company. Full content coming soon in Phase 2.",
+    "description": "Our proven approach to AI implementation in healthcare. Full content coming soon in Phase 2.",
     "content": "Methodology content"
   },
   "faqs": {
-    "title": "Frequently Asked Questions",
-    "description": "Get answers to your questions about our AI solutions. Full content coming soon in Phase 2.",
+    "title": "FAQs",
+    "description": "Frequently asked questions about our intelligent care system. Full content coming soon in Phase 2.",
     "content": "FAQs content"
-  },
-  "book": {
-    "title": "Book Demo",
-    "description": "Schedule a personalized demonstration of our AI solutions. Booking form coming soon in Phase 2.",
-    "content": "Book demo content"
   },
   "contact": {
     "title": "Contact",
-    "description": "Get in touch with our team. Contact form coming soon in Phase 2.",
-    "content": "Contact content"
+    "description": "Get in touch with our team. Full content coming soon in Phase 2.",
+    "content": "Contact page content"
+  },
+  "booking": {
+    "title": "Book a Demo",
+    "description": "Schedule your personalized demo. Full content coming soon in Phase 2.",
+    "content": "Booking page content"
   },
   "footer": {
-    "brand": {
-      "description": "Intelligent automation powered by AI to transform your business."
-    },
-    "sections": {
-      "product": "Product",
-      "company": "Company",
-      "resources": "Resources",
-      "legal": "Legal",
-      "getStarted": "Get Started Today"
-    },
-    "links": {
-      "solution": "Solution",
-      "roiCalculator": "ROI Calculator",
-      "useCases": "Use Cases",
-      "howItWorks": "How It Works",
-      "methodology": "Methodology",
-      "faqs": "Frequently Asked Questions",
-      "contact": "Contact",
-      "features": "Features",
-      "pricing": "Pricing",
-      "about": "About",
-      "team": "Team",
-      "blog": "Blog",
-      "documentation": "Documentation",
-      "privacy": "Privacy",
-      "terms": "Terms"
-    },
-    "cta": {
-      "title": "Get Started Today",
-      "description": "Book a personalized demo and discover the potential of AI.",
-      "button": "Book Demo"
-    },
+    "product": "Product",
+    "solution": "Solution",
+    "roiCalculator": "ROI Calculator",
+    "useCases": "Use Cases",
+    "howItWorks": "How It Works",
+    "company": "Company",
+    "methodology": "Methodology",
+    "faqs": "FAQs",
+    "contact": "Contact",
+    "startToday": "Start Today",
+    "bookDemo": "Book a personalized demo and discover the potential of AI.",
+    "button": "Book Demo",
     "copyright": "© {{year}} NeuronIA. All rights reserved."
+  },
+  "privacy": {
+    "title": "Privacy",
+    "description": "Privacy policy content coming soon."
+  },
+  "terms": {
+    "title": "Terms",
+    "description": "Terms of service content coming soon."
+  },
+  "cookies": {
+    "title": "Cookies",
+    "description": "Cookie policy content coming soon."
   },
   "errors": {
     "notFound": "Page not found",

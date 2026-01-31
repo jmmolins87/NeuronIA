@@ -41,17 +41,14 @@
     "description": "Sistema de Atención Inteligente que convierte conversaciones en citas",
     "serviceName": "Sistema de Atención Inteligente",
     "hero": {
-      "claim": {
-        "light": "Inteligencia aplicada a la atención clínica.",
-        "dark": "Atención inteligente que convierte conversaciones en citas."
-      },
+      "claim": "Inteligencia aplicada a la atención clínica.",
       "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
       "microCTA": "¿Quieres saber cuántos pacientes se te escapan?",
       "cta1": "Reservar Demo",
       "cta2": "Ver ROI"
     },
     "problem": {
-      "title": "¿Te suena familiar?",
+      "title": "¿Te resulta familiar?",
       "subtitle": "Cada día pierdes pacientes por problemas que tienen solución",
       "description": "Tu equipo hace lo que puede, pero el teléfono no para y WhatsApp se desborda.",
       "stat": "40% de consultas llegan fuera de horario",

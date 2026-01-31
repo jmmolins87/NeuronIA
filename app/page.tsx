@@ -69,8 +69,8 @@ export default function Home() {
               />
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-slide">
-              {t(`home.hero.claim.${currentTheme}`)}
+            <h1 className="text-4xl font-bold tracking-tight laptop:text-5xl desktop:text-6xl xl:text-7xl gradient-text-slide hero-title">
+              {t("home.hero.claim")}
             </h1>
 
             <p className="mx-auto max-w-2xl text-xl font-medium text-foreground sm:text-2xl">

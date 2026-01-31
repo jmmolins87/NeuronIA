@@ -28,7 +28,7 @@ export function ScrollIndicator({ targetId, className }: ScrollIndicatorProps) {
     <button
       onClick={handleClick}
       className={cn(
-        "group flex flex-col items-center gap-2 transition-all hover:scale-110",
+        "group flex flex-col items-center gap-2 transition-all hover:scale-110 cursor-pointer",
         className
       )}
       aria-label={t("common.scrollDown")}
@@ -37,7 +37,7 @@ export function ScrollIndicator({ targetId, className }: ScrollIndicatorProps) {
         {t("common.scrollDown")}
       </div>
       <div className="relative w-6 h-10 rounded-full border-2 border-muted-foreground group-hover:border-primary transition-colors">
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-muted-foreground group-hover:bg-primary rounded-full animate-scroll-down" />
+        <div className="absolute top-2 left-1/2 w-0.5 h-2 bg-muted-foreground group-hover:bg-primary rounded-full animate-scroll-down" />
       </div>
     </button>
   )

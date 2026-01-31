@@ -20,8 +20,8 @@ interface I18nContextType {
 const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
 
 const translations: Record<Locale, Translations> = {
-  es: esTranslations as Translations,
-  en: enTranslations as Translations,
+  es: esTranslations as unknown as Translations,
+  en: enTranslations as unknown as Translations,
 }
 
 const LOCALE_STORAGE_KEY = "neuronia-locale"
