@@ -312,4 +312,346 @@
     background-image: linear-gradient(var(--background), var(--background)), 
                       linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
   }
+
+  /* Animated gradient text effects - Each one moves differently */
+  .gradient-text-slide {
+    background: linear-gradient(
+      to right, 
+      oklch(0.88 0.33 166), 
+      oklch(0.75 0.30 230), 
+      oklch(0.88 0.33 166)
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientSlide 4s ease-in-out infinite;
+    will-change: background-position;
+  }
+
+  .gradient-text-wave {
+    background: linear-gradient(
+      120deg, 
+      oklch(0.88 0.33 166), 
+      oklch(0.75 0.30 230), 
+      oklch(0.88 0.33 166),
+      oklch(0.75 0.30 230)
+    );
+    background-size: 300% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientWave 5s linear infinite;
+    will-change: background-position;
+  }
+
+  .gradient-text-pulse {
+    background: linear-gradient(
+      45deg, 
+      oklch(0.88 0.33 166), 
+      oklch(0.75 0.30 230),
+      oklch(0.99 0.40 115),
+      oklch(0.75 0.30 230),
+      oklch(0.88 0.33 166)
+    );
+    background-size: 400% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientPulse 6s ease-in-out infinite alternate;
+    will-change: background-position;
+  }
+
+  .gradient-text-flow {
+    background: linear-gradient(
+      to left, 
+      oklch(0.75 0.30 230), 
+      oklch(0.88 0.33 166), 
+      oklch(0.75 0.30 230)
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 3.5s ease-in-out infinite;
+    will-change: background-position;
+  }
+
+  .gradient-text-bounce {
+    background: linear-gradient(
+      to bottom, 
+      oklch(0.88 0.33 166), 
+      oklch(0.75 0.30 230),
+      oklch(0.88 0.33 166),
+      oklch(0.75 0.30 230)
+    );
+    background-size: auto 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientBounce 4.5s ease-in-out infinite;
+    will-change: background-position;
+  }
+
+  .gradient-text-shimmer {
+    background: linear-gradient(
+      to right, 
+      oklch(0.88 0.33 166), 
+      oklch(0.99 0.40 115),
+      oklch(0.75 0.30 230),
+      oklch(0.99 0.40 115),
+      oklch(0.88 0.33 166),
+      oklch(0.75 0.30 230)
+    );
+    background-size: 500% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShimmer 12s linear infinite;
+    will-change: background-position;
+  }
+
+  /* Dark mode gradients - más vibrantes */
+  .dark .gradient-text-slide {
+    background: linear-gradient(
+      to right, 
+      oklch(0.92 0.35 166), 
+      oklch(0.78 0.32 230), 
+      oklch(0.92 0.35 166)
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .gradient-text-wave {
+    background: linear-gradient(
+      120deg, 
+      oklch(0.92 0.35 166), 
+      oklch(0.78 0.32 230), 
+      oklch(0.92 0.35 166),
+      oklch(0.78 0.32 230)
+    );
+    background-size: 300% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .gradient-text-pulse {
+    background: linear-gradient(
+      45deg, 
+      oklch(0.92 0.35 166), 
+      oklch(0.78 0.32 230),
+      oklch(1.0 0.42 115),
+      oklch(0.78 0.32 230),
+      oklch(0.92 0.35 166)
+    );
+    background-size: 400% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .gradient-text-flow {
+    background: linear-gradient(
+      to left, 
+      oklch(0.78 0.32 230), 
+      oklch(0.92 0.35 166), 
+      oklch(0.78 0.32 230)
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .gradient-text-bounce {
+    background: linear-gradient(
+      to bottom, 
+      oklch(0.92 0.35 166), 
+      oklch(0.78 0.32 230),
+      oklch(0.92 0.35 166),
+      oklch(0.78 0.32 230)
+    );
+    background-size: auto 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .gradient-text-shimmer {
+    background: linear-gradient(
+      to right, 
+      oklch(0.92 0.35 166), 
+      oklch(1.0 0.42 115),
+      oklch(0.78 0.32 230),
+      oklch(1.0 0.42 115),
+      oklch(0.92 0.35 166),
+      oklch(0.78 0.32 230)
+    );
+    background-size: 500% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes gradientSlide {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes gradientWave {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 300% 50%;
+    }
+  }
+
+  @keyframes gradientPulse {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes gradientFlow {
+    0%, 100% {
+      background-position: 100% 50%;
+    }
+    50% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradientBounce {
+    0%, 100% {
+      background-position: 50% 0%;
+    }
+    50% {
+      background-position: 50% 100%;
+    }
+  }
+
+  @keyframes gradientShimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 500% 50%;
+    }
+  }
+
+  /* Background shape animations */
+  
+  /* Blob floating animation - slow drift + gentle scale pulse */
+  .animate-blob-float {
+    animation: blobFloat 20s ease-in-out infinite;
+  }
+  
+  @keyframes blobFloat {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    25% {
+      transform: translate(30px, -30px) scale(1.05);
+    }
+    50% {
+      transform: translate(-20px, 20px) scale(0.95);
+    }
+    75% {
+      transform: translate(40px, 10px) scale(1.03);
+    }
+  }
+  
+  /* Grid pattern slow drift with scale pulse */
+  .animate-grid-drift {
+    animation: gridDrift 25s linear infinite, gridPulse 4s ease-in-out infinite alternate;
+  }
+  
+  @keyframes gridDrift {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(32px, 32px);
+    }
+  }
+  
+  @keyframes gridPulse {
+    0% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Circuit lines electric flow */
+  .animate-circuit-flow {
+    animation: circuitPulse 3s ease-in-out infinite;
+  }
+  
+  @keyframes circuitPulse {
+    0%, 100% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+  
+  /* Dash animation for circuit lines */
+  @keyframes dashFlow {
+    0% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: 100;
+    }
+  }
+
+  /* Scroll down indicator animation */
+  .animate-scroll-down {
+    animation: scrollDown 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDown {
+    0%, 20% {
+      transform: translateY(0) translateX(-50%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    80%, 100% {
+      transform: translateY(16px) translateX(-50%);
+      opacity: 0;
+    }
+  }
+
+  /* Respect user preference for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .gradient-text-slide,
+    .gradient-text-wave,
+    .gradient-text-pulse,
+    .gradient-text-flow,
+    .gradient-text-bounce,
+    .gradient-text-shimmer,
+    .animate-blob-float,
+    .animate-grid-drift,
+    .animate-circuit-flow {
+      animation: none !important;
+      background-position: 50% 50%;
+    }
+  }
 }

@@ -33,7 +33,8 @@
     "menu": "Menu",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "scrollDown": "Discover more"
   },
   "home": {
     "title": "NeuronIA - Intelligent Care System",
@@ -48,6 +49,119 @@
       "microCTA": "Want to see how many patients slip away?",
       "cta1": "Book Demo",
       "cta2": "See ROI"
+    },
+    "problem": {
+      "title": "Does this sound familiar?",
+      "subtitle": "Every day you lose patients due to solvable problems",
+      "description": "Your team does what they can, but the phone won't stop and WhatsApp is overwhelming.",
+      "stat": "40% of inquiries arrive outside business hours",
+      "issues": {
+        "unanswered": {
+          "title": "Unanswered messages",
+          "description": "Inquiries arrive at 11 PM, on weekends, during lunch. By the time you respond, they've already booked elsewhere."
+        },
+        "overload": {
+          "title": "Reception overloaded",
+          "description": "Your team handles calls, manages schedules, processes payments, and should also answer WhatsApp. Something always gets left undone."
+        },
+        "missed": {
+          "title": "Appointments slipping away",
+          "description": "A patient asks about availability. You take 2 hours to respond. They don't reply back. Opportunity lost."
+        },
+        "chaos": {
+          "title": "Disorganized schedule",
+          "description": "Unfilled slots, last-minute cancellations, pending confirmations. Your schedule could be much more optimized."
+        }
+      }
+    },
+    "system": {
+      "title": "Intelligent Care System",
+      "description": "It's not a chatbot. It's a system that understands clinical context, verifies real availability, and books appointments directly in your system.",
+      "features": {
+        "understanding": "Understands natural language queries",
+        "availability": "Checks real-time calendar",
+        "booking": "Books appointments automatically",
+        "followup": "Confirmation follow-up"
+      }
+    },
+    "flow": {
+      "title": "Frictionless flow",
+      "description": "From inquiry to confirmed appointment, without manual intervention.",
+      "steps": {
+        "1": "Patient asks via WhatsApp",
+        "2": "System checks availability",
+        "3": "Proposes time slots",
+        "4": "Confirms and books appointment"
+      }
+    },
+    "benefits": {
+      "title": "Operational benefits",
+      "description": "Reduce administrative load, improve patient experience, and optimize your schedule.",
+      "items": {
+        "availability": {
+          "title": "24/7 Availability",
+          "description": "Immediate responses anytime"
+        },
+        "efficiency": {
+          "title": "Operational efficiency",
+          "description": "Free up your administrative team's time"
+        },
+        "experience": {
+          "title": "Better experience",
+          "description": "Satisfied patients with quick responses"
+        },
+        "optimization": {
+          "title": "Optimized schedule",
+          "description": "Reduce gaps and cancellations"
+        }
+      }
+    },
+    "scenarios": {
+      "title": "Real-world use cases",
+      "description": "Different specialties, same problem. Intelligent care adapts to your clinic.",
+      "cta": "View all scenarios",
+      "types": {
+        "dental": {
+          "title": "Dental Clinics",
+          "description": "Orthodontics, emergencies, routine check-ups"
+        },
+        "medical": {
+          "title": "Medical Centers",
+          "description": "General practice, specialties, health check-ups"
+        },
+        "private": {
+          "title": "Private Practices",
+          "description": "Psychology, physiotherapy, nutrition"
+        },
+        "veterinary": {
+          "title": "Veterinary Clinics",
+          "description": "Consultations, vaccinations, emergencies"
+        }
+      }
+    },
+    "roi": {
+      "title": "How many patients are slipping away?",
+      "description": "Every unanswered message is a lost opportunity. The numbers speak:",
+      "cta": "Calculate my ROI",
+      "stats": {
+        "response": {
+          "value": "80%",
+          "label": "of patients expect immediate response"
+        },
+        "lost": {
+          "value": "67%",
+          "label": "abandon after 24h without response"
+        },
+        "revenue": {
+          "value": "+35%",
+          "label": "increase in captured appointments"
+        }
+      }
+    },
+    "finalCTA": {
+      "title": "Start capturing every opportunity",
+      "description": "Schedule a demo and discover how the Intelligent Care System transforms your patient care.",
+      "cta": "Book Free Demo"
     }
   },
   "solution": {

@@ -33,7 +33,8 @@
     "menu": "Menú",
     "loading": "Cargando...",
     "error": "Error",
-    "success": "Éxito"
+    "success": "Éxito",
+    "scrollDown": "Descubre más"
   },
   "home": {
     "title": "NeuronIA - Sistema de Atención Inteligente",
@@ -48,6 +49,119 @@
       "microCTA": "¿Quieres saber cuántos pacientes se te escapan?",
       "cta1": "Reservar Demo",
       "cta2": "Ver ROI"
+    },
+    "problem": {
+      "title": "¿Te suena familiar?",
+      "subtitle": "Cada día pierdes pacientes por problemas que tienen solución",
+      "description": "Tu equipo hace lo que puede, pero el teléfono no para y WhatsApp se desborda.",
+      "stat": "40% de consultas llegan fuera de horario",
+      "issues": {
+        "unanswered": {
+          "title": "Mensajes sin responder",
+          "description": "Llegan consultas a las 23h, los fines de semana, durante las comidas. Cuando respondes, ya reservaron en otro sitio."
+        },
+        "overload": {
+          "title": "Recepción saturada",
+          "description": "Tu equipo atiende llamadas, gestiona agenda, cobra, y también debería contestar WhatsApp. Algo siempre se queda sin hacer."
+        },
+        "missed": {
+          "title": "Citas que se escapan",
+          "description": "Un paciente pregunta disponibilidad. Tardas 2 horas en responder. Ya no contesta. Oportunidad perdida."
+        },
+        "chaos": {
+          "title": "Agenda desorganizada",
+          "description": "Huecos sin llenar, cancelaciones de último minuto, confirmaciones pendientes. Tu agenda podría estar mucho más optimizada."
+        }
+      }
+    },
+    "system": {
+      "title": "Sistema de Atención Inteligente",
+      "description": "No es un chatbot. Es un sistema que entiende el contexto clínico, verifica disponibilidad real y agenda citas directamente en tu sistema.",
+      "features": {
+        "understanding": "Comprende consultas en lenguaje natural",
+        "availability": "Verifica agenda en tiempo real",
+        "booking": "Agenda citas automáticamente",
+        "followup": "Seguimiento de confirmaciones"
+      }
+    },
+    "flow": {
+      "title": "Flujo sin fricción",
+      "description": "Desde la consulta hasta la cita confirmada, sin intervención manual.",
+      "steps": {
+        "1": "Paciente pregunta por WhatsApp",
+        "2": "Sistema verifica disponibilidad",
+        "3": "Propone opciones de horario",
+        "4": "Confirma y agenda la cita"
+      }
+    },
+    "benefits": {
+      "title": "Beneficios operativos",
+      "description": "Reduce carga administrativa, mejora experiencia del paciente y optimiza tu agenda.",
+      "items": {
+        "availability": {
+          "title": "Disponibilidad 24/7",
+          "description": "Respuestas inmediatas en cualquier momento"
+        },
+        "efficiency": {
+          "title": "Eficiencia operativa",
+          "description": "Libera tiempo de tu equipo administrativo"
+        },
+        "experience": {
+          "title": "Mejor experiencia",
+          "description": "Pacientes satisfechos con respuestas rápidas"
+        },
+        "optimization": {
+          "title": "Agenda optimizada",
+          "description": "Reduce huecos y cancelaciones"
+        }
+      }
+    },
+    "scenarios": {
+      "title": "Casos de uso reales",
+      "description": "Diferentes especialidades, mismo problema. La atención inteligente se adapta a tu clínica.",
+      "cta": "Ver todos los escenarios",
+      "types": {
+        "dental": {
+          "title": "Clínicas Dentales",
+          "description": "Ortodoncias, urgencias, revisiones periódicas"
+        },
+        "medical": {
+          "title": "Centros Médicos",
+          "description": "Medicina general, especialidades, check-ups"
+        },
+        "private": {
+          "title": "Consultas Privadas",
+          "description": "Psicología, fisioterapia, nutrición"
+        },
+        "veterinary": {
+          "title": "Clínicas Veterinarias",
+          "description": "Consultas, vacunaciones, urgencias"
+        }
+      }
+    },
+    "roi": {
+      "title": "¿Cuántos pacientes se te escapan?",
+      "description": "Cada mensaje sin responder es una oportunidad perdida. Los números hablan:",
+      "cta": "Calcular mi ROI",
+      "stats": {
+        "response": {
+          "value": "80%",
+          "label": "de pacientes esperan respuesta inmediata"
+        },
+        "lost": {
+          "value": "67%",
+          "label": "abandonan tras 24h sin respuesta"
+        },
+        "revenue": {
+          "value": "+35%",
+          "label": "aumento en citas capturadas"
+        }
+      }
+    },
+    "finalCTA": {
+      "title": "Empieza a capturar cada oportunidad",
+      "description": "Agenda una demo y descubre cómo el Sistema de Atención Inteligente transforma tu atención al paciente.",
+      "cta": "Reservar Demo Gratuita"
     }
   },
   "solution": {
