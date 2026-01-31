@@ -1,24 +1,28 @@
+"use client"
+
 import Link from "next/link"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
-
-const footerLinks = {
-  product: [
-    { href: "/solucion", label: "Solución" },
-    { href: "/roi", label: "Calculadora ROI" },
-    { href: "/escenarios", label: "Casos de Uso" },
-    { href: "/como-funciona", label: "Cómo Funciona" },
-  ],
-  company: [
-    { href: "/metodologia", label: "Metodología" },
-    { href: "/faqs", label: "Preguntas Frecuentes" },
-    { href: "/contacto", label: "Contacto" },
-  ],
-}
+import { useTranslation } from "@/components/providers/i18n-provider"
 
 export function Footer() {
+  const { t } = useTranslation()
   const currentYear = new Date().getFullYear()
+
+  const footerLinks = {
+    product: [
+      { href: "/solucion", label: t("footer.links.solution") },
+      { href: "/roi", label: t("footer.links.roiCalculator") },
+      { href: "/escenarios", label: t("footer.links.useCases") },
+      { href: "/como-funciona", label: t("footer.links.howItWorks") },
+    ],
+    company: [
+      { href: "/metodologia", label: t("footer.links.methodology") },
+      { href: "/faqs", label: t("footer.links.faqs") },
+      { href: "/contacto", label: t("footer.links.contact") },
+    ],
+  }
 
   return (
     <footer className="border-t border-border/40 bg-background">
@@ -30,13 +34,13 @@ export function Footer() {
               <Logo width={200} height={50} className="h-10 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
-              Automatización inteligente impulsada por IA para transformar tu negocio.
+              {t("footer.brand.description")}
             </p>
           </div>
 
           {/* Product Links */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Producto</h3>
+            <h3 className="text-sm font-semibold">{t("footer.sections.product")}</h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.href}>
@@ -53,7 +57,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Empresa</h3>
+            <h3 className="text-sm font-semibold">{t("footer.sections.company")}</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -70,12 +74,12 @@ export function Footer() {
 
           {/* CTA Section */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold">Comienza Hoy</h3>
+            <h3 className="text-sm font-semibold">{t("footer.sections.getStarted")}</h3>
             <p className="text-sm text-muted-foreground">
-              Reserva una demo personalizada y descubre el potencial de la IA.
+              {t("footer.cta.description")}
             </p>
             <Button asChild size="sm">
-              <Link href="/reservar">Reservar Demo</Link>
+              <Link href="/reservar">{t("footer.cta.button")}</Link>
             </Button>
           </div>
         </div>
@@ -84,20 +88,20 @@ export function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} NeuronIA. Todos los derechos reservados.
+            {t("footer.copyright", { year: currentYear.toString() })}
           </p>
           <div className="flex gap-6">
             <Link
               href="/privacidad"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              Privacidad
+              {t("footer.links.privacy")}
             </Link>
             <Link
               href="/terminos"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              Términos
+              {t("footer.links.terms")}
             </Link>
           </div>
         </div>

@@ -9,7 +9,8 @@ This document provides essential information for AI coding agents working on the
 **Language**: TypeScript 5.x (strict mode)  
 **Styling**: Tailwind CSS 4.x + shadcn/ui  
 **Themes**: Health-Tech (Light) + Cyber Clinic (Dark) con paleta NEÓN  
-**Theme System**: next-themes (system default + manual toggle with persistence)
+**Theme System**: next-themes (system default + manual toggle with persistence)  
+**i18n**: Custom implementation with ES/EN support (localStorage persistence)
 
 ## Build & Development Commands
 
@@ -33,7 +34,7 @@ npm run lint         # Run ESLint checks
 ```
 neuronia-app/
 ├── app/                    # Next.js App Router pages
-│   ├── layout.tsx         # Root layout with ThemeProvider
+│   ├── layout.tsx         # Root layout with ThemeProvider + I18nProvider
 │   ├── page.tsx           # Home page
 │   ├── solucion/          # Solution page
 │   ├── roi/               # ROI calculator page
@@ -46,11 +47,16 @@ neuronia-app/
 ├── components/
 │   ├── ui/                # shadcn/ui components
 │   ├── providers/         # React context providers
+│   │   ├── theme-provider.tsx  # Theme context
+│   │   └── i18n-provider.tsx   # i18n context + useTranslation hook
 │   ├── header.tsx         # Site header (sticky, responsive)
 │   ├── footer.tsx         # Site footer
 │   ├── site-shell.tsx     # Layout wrapper (Header + children + Footer)
 │   ├── theme-toggle.tsx   # Dark/light mode toggle
-│   └── language-switcher.tsx  # Language switcher (stub, i18n in Phase 2)
+│   └── language-switcher.tsx  # Language switcher (ES/EN)
+├── locales/               # Translation files
+│   ├── es.json           # Spanish translations
+│   └── en.json           # English translations
 ├── lib/                   # Utility functions
 └── public/                # Static assets (logo, images, etc.)
 ```
@@ -228,9 +234,59 @@ Use sparingly for CTAs and highlights:
 - `@/*` maps to root directory
 - Example: `@/components/ui/button` → `<root>/components/ui/button.tsx`
 
+## Internationalization (i18n)
+
+**CRITICAL**: ALL user-facing text MUST use i18n - NO hardcoded strings allowed.
+
+### Using Translations
+
+```tsx
+"use client"
+
+import { useTranslation } from "@/components/providers/i18n-provider"
+
+export function MyComponent() {
+  const { t, locale, setLocale } = useTranslation()
+
+  return (
+    <div>
+      <h1>{t("page.title")}</h1>
+      <p>{t("footer.copyright", { year: "2024" })}</p>
+      <button onClick={() => setLocale("en")}>English</button>
+    </div>
+  )
+}
+```
+
+### Translation Files
+
+- **Location**: `/locales/es.json` and `/locales/en.json`
+- **Structure**: Nested JSON with dot notation keys
+- **Variables**: Use `{{variableName}}` syntax in JSON, pass object to `t()`
+
+### Rules
+
+- ✅ ALL text must come from translation files
+- ✅ Use `t("key.path")` for all user-facing strings
+- ✅ Include aria-labels and screen reader text
+- ❌ NO hardcoded strings (except internal keys/IDs)
+- ❌ NO mixing languages in same file
+
+### Common Keys
+
+- `nav.*` - Navigation links
+- `common.*` - Shared UI elements (buttons, labels)
+- `aria.*` - Accessibility labels
+- `theme.*` - Theme toggle labels
+- `language.*` - Language switcher labels
+- `errors.*` - Error messages
+- `[page].*` - Page-specific content
+
 ## Environment & Configuration
 
 - **Default language**: Spanish (es)
+- **Supported languages**: Spanish (es), English (en)
+- **Language persistence**: localStorage (`neuronia-locale`)
 - **Theme**: System preference by default, manual toggle available
 - **Target**: ES2017+ browsers
 - **Module system**: ESNext with bundler resolution

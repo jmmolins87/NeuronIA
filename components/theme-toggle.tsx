@@ -1,31 +1,61 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun, Monitor } from "lucide-react"
+import { Moon, Sun, Monitor, ChevronDown } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTranslation } from "@/components/providers/i18n-provider"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
+  const { t } = useTranslation()
   const [mounted, setMounted] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case "light":
+        return <Sun className="h-4 w-4" />
+      case "dark":
+        return <Moon className="h-4 w-4" />
+      case "system":
+        return <Monitor className="h-4 w-4" />
+      default:
+        return <Sun className="h-4 w-4" />
+    }
+  }
+
+  const getThemeLabel = () => {
+    switch (theme) {
+      case "light":
+        return t("theme.light")
+      case "dark":
+        return t("theme.dark")
+      case "system":
+        return t("theme.system")
+      default:
+        return t("theme.system")
+    }
+  }
 
   if (!mounted) {
     return (
       <Button
         variant="ghost"
         size="icon"
-        className="h-9 w-9 cursor-pointer"
-        aria-label="Toggle theme"
+        className="h-9 w-9"
+        disabled
       >
         <Sun className="h-4 w-4" />
       </Button>
@@ -33,40 +63,45 @@ export function ThemeToggle() {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 cursor-pointer"
-          aria-label="Toggle theme"
+          className={`h-9 w-9 cursor-pointer transition-colors ${
+            isOpen ? "bg-gradient-to/10 text-gradient-to dark:bg-primary/10 dark:text-primary" : ""
+          }`}
+          aria-label={t("aria.toggleTheme")}
         >
-          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
+          {getThemeIcon()}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="cursor-pointer">
+      <DropdownMenuContent align="end" className="min-w-[100px]">
         <DropdownMenuItem
           onClick={() => setTheme("light")}
-          className={`cursor-pointer ${theme === "light" ? "text-gradient-to dark:text-primary" : ""}`}
+          className="cursor-pointer flex flex-col items-center justify-center py-3 relative"
         >
-          <Sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
+          <Sun className="h-5 w-5 mb-1" />
+          <span className="text-xs">{t("theme.light")}</span>
+          {theme === "light" && <span className="absolute top-1 right-1 text-gradient-to dark:text-primary text-xs">✓</span>}
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => setTheme("dark")}
-          className={`cursor-pointer ${theme === "dark" ? "text-gradient-to dark:text-primary" : ""}`}
+          className="cursor-pointer flex flex-col items-center justify-center py-3 relative"
         >
-          <Moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
+          <Moon className="h-5 w-5 mb-1" />
+          <span className="text-xs">{t("theme.dark")}</span>
+          {theme === "dark" && <span className="absolute top-1 right-1 text-gradient-to dark:text-primary text-xs">✓</span>}
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => setTheme("system")}
-          className={`cursor-pointer ${theme === "system" ? "text-gradient-to dark:text-primary" : ""}`}
+          className="cursor-pointer flex flex-col items-center justify-center py-3 relative"
         >
-          <Monitor className="mr-2 h-4 w-4" />
-          <span>Sistema</span>
+          <Monitor className="h-5 w-5 mb-1" />
+          <span className="text-xs">{t("theme.system")}</span>
+          {theme === "system" && <span className="absolute top-1 right-1 text-gradient-to dark:text-primary text-xs">✓</span>}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

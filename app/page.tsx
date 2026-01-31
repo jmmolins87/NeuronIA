@@ -1,9 +1,14 @@
+"use client"
+
 import { SiteShell } from "@/components/site-shell"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
+import { useTranslation } from "@/components/providers/i18n-provider"
 
 export default function Home() {
+  const { t } = useTranslation()
+
   return (
     <SiteShell>
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] max-w-screen-2xl flex-col items-center justify-center px-4 py-16 text-center">
@@ -18,20 +23,18 @@ export default function Home() {
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Automatización Inteligente con{" "}
-            <span className="text-primary dark:text-glow-primary">IA</span>
+            {t("home.hero.title")}{" "}
+            <span className="text-primary dark:text-glow-primary">{t("home.hero.titleHighlight")}</span>
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            Transforma tu negocio con soluciones de inteligencia artificial
-            personalizadas. Optimiza procesos, reduce costos y maximiza
-            resultados.
+            {t("home.hero.description")}
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/reservar">Reservar Demo Gratuita</Link>
+              <Link href="/reservar">{t("home.hero.cta1")}</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-              <Link href="/roi">Calcular ROI</Link>
+              <Link href="/roi">{t("home.hero.cta2")}</Link>
             </Button>
           </div>
         </div>

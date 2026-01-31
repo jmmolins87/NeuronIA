@@ -1,27 +1,30 @@
 "use client"
 
 import * as React from "react"
-import { Languages } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Switch } from "@/components/ui/switch"
+import { useTranslation } from "@/components/providers/i18n-provider"
 
-// Temporary stub - will be replaced with i18n in Phase 2
 export function LanguageSwitcher() {
-  const [currentLang, setCurrentLang] = React.useState("ES")
+  const { locale, setLocale, t } = useTranslation()
 
-  const toggleLanguage = () => {
-    setCurrentLang((prev) => (prev === "ES" ? "EN" : "ES"))
+  const handleChange = (checked: boolean) => {
+    setLocale(checked ? "en" : "es")
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={toggleLanguage}
-      className="h-9 gap-2 cursor-pointer"
-      aria-label="Change language"
-    >
-      <Languages className="h-4 w-4" />
-      <span className="text-sm font-medium">{currentLang}</span>
-    </Button>
+    <div className="flex items-center gap-2">
+      <span className={`text-sm font-medium transition-colors ${locale === "es" ? "text-gradient-to dark:text-primary" : "text-muted-foreground"}`}>
+        ES
+      </span>
+      <Switch
+        checked={locale === "en"}
+        onCheckedChange={handleChange}
+        aria-label={t("aria.changeLanguage")}
+        className="cursor-pointer"
+      />
+      <span className={`text-sm font-medium transition-colors ${locale === "en" ? "text-gradient-to dark:text-primary" : "text-muted-foreground"}`}>
+        EN
+      </span>
+    </div>
   )
 }

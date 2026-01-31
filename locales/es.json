@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "solution": "Solución",
+    "roi": "ROI",
+    "scenarios": "Escenarios",
+    "howItWorks": "Cómo Funciona",
+    "methodology": "Metodología",
+    "faqs": "FAQs",
+    "book": "Reservar",
+    "contact": "Contacto"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "toggle": "Cambiar tema"
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "change": "Cambiar idioma"
+  },
+  "common": {
+    "bookDemo": "Reservar Demo",
+    "bookDemoFree": "Reservar Demo Gratuita",
+    "calculateROI": "Calcular ROI",
+    "contactUs": "Contáctanos",
+    "learnMore": "Saber Más",
+    "getStarted": "Comenzar",
+    "send": "Enviar",
+    "close": "Cerrar",
+    "menu": "Menú",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "home": {
+    "title": "NeuronIA - Automatización Inteligente con IA",
+    "description": "Descubre cómo la IA puede transformar tu negocio con soluciones automatizadas personalizadas",
+    "hero": {
+      "title": "Automatización Inteligente con",
+      "titleHighlight": "IA",
+      "description": "Transforma tu negocio con soluciones de inteligencia artificial personalizadas. Optimiza procesos, reduce costos y maximiza resultados.",
+      "cta1": "Reservar Demo Gratuita",
+      "cta2": "Calcular ROI"
+    }
+  },
+  "solution": {
+    "title": "Solución",
+    "description": "Descubre cómo nuestras soluciones de IA pueden transformar tu negocio. Contenido completo próximamente en Phase 2.",
+    "content": "Contenido de la página de solución"
+  },
+  "roi": {
+    "title": "Calculadora ROI",
+    "description": "Calcula el retorno de inversión de implementar IA en tu empresa. Calculadora interactiva próximamente en Phase 2.",
+    "content": "Contenido de la calculadora de ROI"
+  },
+  "scenarios": {
+    "title": "Escenarios",
+    "description": "Explora casos de éxito y escenarios de implementación de IA. Contenido completo próximamente en Phase 2.",
+    "content": "Contenido de escenarios"
+  },
+  "howItWorks": {
+    "title": "Cómo Funciona",
+    "description": "Conoce el proceso de implementación de nuestras soluciones de IA. Contenido completo próximamente en Phase 2.",
+    "content": "Contenido de cómo funciona"
+  },
+  "methodology": {
+    "title": "Metodología",
+    "description": "Nuestra metodología probada para implementar IA en tu empresa. Contenido completo próximamente en Phase 2.",
+    "content": "Contenido de metodología"
+  },
+  "faqs": {
+    "title": "Preguntas Frecuentes",
+    "description": "Resuelve tus dudas sobre nuestras soluciones de IA. Contenido completo próximamente en Phase 2.",
+    "content": "Contenido de FAQs"
+  },
+  "book": {
+    "title": "Reservar Demo",
+    "description": "Agenda una demostración personalizada de nuestras soluciones de IA. Formulario de reserva próximamente en Phase 2.",
+    "content": "Contenido de reservar demo"
+  },
+  "contact": {
+    "title": "Contacto",
+    "description": "Ponte en contacto con nuestro equipo. Formulario de contacto próximamente en Phase 2.",
+    "content": "Contenido de contacto"
+  },
+  "footer": {
+    "brand": {
+      "description": "Automatización inteligente impulsada por IA para transformar tu negocio."
+    },
+    "sections": {
+      "product": "Producto",
+      "company": "Empresa",
+      "resources": "Recursos",
+      "legal": "Legal",
+      "getStarted": "Comienza Hoy"
+    },
+    "links": {
+      "solution": "Solución",
+      "roiCalculator": "Calculadora ROI",
+      "useCases": "Casos de Uso",
+      "howItWorks": "Cómo Funciona",
+      "methodology": "Metodología",
+      "faqs": "Preguntas Frecuentes",
+      "contact": "Contacto",
+      "features": "Características",
+      "pricing": "Precios",
+      "about": "Acerca de",
+      "team": "Equipo",
+      "blog": "Blog",
+      "documentation": "Documentación",
+      "privacy": "Privacidad",
+      "terms": "Términos"
+    },
+    "cta": {
+      "title": "Comienza Hoy",
+      "description": "Reserva una demo personalizada y descubre el potencial de la IA.",
+      "button": "Reservar Demo"
+    },
+    "copyright": "© {{year}} NeuronIA. Todos los derechos reservados."
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "serverError": "Error del servidor",
+    "somethingWentWrong": "Algo salió mal",
+    "tryAgain": "Intentar de nuevo"
+  },
+  "aria": {
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "toggleTheme": "Cambiar tema",
+    "changeLanguage": "Cambiar idioma",
+    "logo": "Logo de NeuronIA"
+  }
+}

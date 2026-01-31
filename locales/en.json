@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "home": "Home",
+    "solution": "Solution",
+    "roi": "ROI",
+    "scenarios": "Scenarios",
+    "howItWorks": "How It Works",
+    "methodology": "Methodology",
+    "faqs": "FAQs",
+    "book": "Book",
+    "contact": "Contact"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle": "Toggle theme"
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "change": "Change language"
+  },
+  "common": {
+    "bookDemo": "Book Demo",
+    "bookDemoFree": "Book Free Demo",
+    "calculateROI": "Calculate ROI",
+    "contactUs": "Contact Us",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "send": "Send",
+    "close": "Close",
+    "menu": "Menu",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "home": {
+    "title": "NeuronIA - Intelligent Automation with AI",
+    "description": "Discover how AI can transform your business with personalized automated solutions",
+    "hero": {
+      "title": "Intelligent Automation with",
+      "titleHighlight": "AI",
+      "description": "Transform your business with personalized artificial intelligence solutions. Optimize processes, reduce costs, and maximize results.",
+      "cta1": "Book Free Demo",
+      "cta2": "Calculate ROI"
+    }
+  },
+  "solution": {
+    "title": "Solution",
+    "description": "Discover how our AI solutions can transform your business. Full content coming soon in Phase 2.",
+    "content": "Solution page content"
+  },
+  "roi": {
+    "title": "ROI Calculator",
+    "description": "Calculate the return on investment of implementing AI in your company. Interactive calculator coming soon in Phase 2.",
+    "content": "ROI calculator content"
+  },
+  "scenarios": {
+    "title": "Scenarios",
+    "description": "Explore success stories and AI implementation scenarios. Full content coming soon in Phase 2.",
+    "content": "Scenarios content"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "description": "Learn about the implementation process of our AI solutions. Full content coming soon in Phase 2.",
+    "content": "How it works content"
+  },
+  "methodology": {
+    "title": "Methodology",
+    "description": "Our proven methodology for implementing AI in your company. Full content coming soon in Phase 2.",
+    "content": "Methodology content"
+  },
+  "faqs": {
+    "title": "Frequently Asked Questions",
+    "description": "Get answers to your questions about our AI solutions. Full content coming soon in Phase 2.",
+    "content": "FAQs content"
+  },
+  "book": {
+    "title": "Book Demo",
+    "description": "Schedule a personalized demonstration of our AI solutions. Booking form coming soon in Phase 2.",
+    "content": "Book demo content"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Get in touch with our team. Contact form coming soon in Phase 2.",
+    "content": "Contact content"
+  },
+  "footer": {
+    "brand": {
+      "description": "Intelligent automation powered by AI to transform your business."
+    },
+    "sections": {
+      "product": "Product",
+      "company": "Company",
+      "resources": "Resources",
+      "legal": "Legal",
+      "getStarted": "Get Started Today"
+    },
+    "links": {
+      "solution": "Solution",
+      "roiCalculator": "ROI Calculator",
+      "useCases": "Use Cases",
+      "howItWorks": "How It Works",
+      "methodology": "Methodology",
+      "faqs": "Frequently Asked Questions",
+      "contact": "Contact",
+      "features": "Features",
+      "pricing": "Pricing",
+      "about": "About",
+      "team": "Team",
+      "blog": "Blog",
+      "documentation": "Documentation",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "cta": {
+      "title": "Get Started Today",
+      "description": "Book a personalized demo and discover the potential of AI.",
+      "button": "Book Demo"
+    },
+    "copyright": "© {{year}} NeuronIA. All rights reserved."
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "serverError": "Server error",
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Try again"
+  },
+  "aria": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleTheme": "Toggle theme",
+    "changeLanguage": "Change language",
+    "logo": "NeuronIA logo"
+  }
+}

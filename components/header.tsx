@@ -15,17 +15,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-
-const navLinks = [
-  { href: "/solucion", label: "Solución" },
-  { href: "/roi", label: "ROI" },
-  { href: "/escenarios", label: "Escenarios" },
-  { href: "/como-funciona", label: "Cómo Funciona" },
-  { href: "/metodologia", label: "Metodología" },
-  { href: "/faqs", label: "FAQs" },
-]
+import { useTranslation } from "@/components/providers/i18n-provider"
 
 export function Header() {
+  const { t, locale } = useTranslation()
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
   const isHomePage = pathname === "/"
@@ -36,7 +29,16 @@ export function Header() {
     opacity: 0,
   })
 
-  // Actualizar posición del underline cuando cambia la ruta
+  const navLinks = [
+    { href: "/solucion", label: t("nav.solution") },
+    { href: "/roi", label: t("nav.roi") },
+    { href: "/escenarios", label: t("nav.scenarios") },
+    { href: "/como-funciona", label: t("nav.howItWorks") },
+    { href: "/metodologia", label: t("nav.methodology") },
+    { href: "/faqs", label: t("nav.faqs") },
+  ]
+
+  // Actualizar posición del underline cuando cambia la ruta o el idioma
   React.useEffect(() => {
     const updateIndicator = () => {
       if (!navRef.current) return
@@ -48,10 +50,12 @@ export function Header() {
       if (activeLink) {
         const navRect = navRef.current.getBoundingClientRect()
         const linkRect = activeLink.getBoundingClientRect()
+        const newLeft = linkRect.left - navRect.left
+        const newWidth = linkRect.width
 
         setIndicatorStyle({
-          left: linkRect.left - navRect.left,
-          width: linkRect.width,
+          left: newLeft,
+          width: newWidth,
           opacity: 1,
         })
       } else {
@@ -59,10 +63,15 @@ export function Header() {
       }
     }
 
-    updateIndicator()
+    // Pequeño delay para permitir que el DOM se actualice
+    const timer = setTimeout(updateIndicator, 50)
+    
     window.addEventListener("resize", updateIndicator)
-    return () => window.removeEventListener("resize", updateIndicator)
-  }, [pathname])
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener("resize", updateIndicator)
+    }
+  }, [pathname, locale])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -83,14 +92,14 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 className="md:hidden"
-                aria-label="Open menu"
+                aria-label={t("aria.openMenu")}
               >
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <SheetHeader>
-                <SheetTitle>Menú</SheetTitle>
+                <SheetTitle>{t("common.menu")}</SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-4">
                 {navLinks.map((link) => {
@@ -112,7 +121,7 @@ export function Header() {
                 })}
                 <Button asChild size="sm" className="mt-4 w-full">
                   <Link href="/reservar" onClick={() => setIsOpen(false)}>
-                    Reservar Demo
+                    {t("common.bookDemo")}
                   </Link>
                 </Button>
               </nav>
@@ -133,7 +142,7 @@ export function Header() {
             
             {/* Animated underline indicator */}
             <span
-              className="absolute bottom-0 h-0.5 bg-gradient-to-r from-gradient-from to-gradient-to transition-all duration-500 ease-out"
+              className="absolute bottom-0 h-0.5 bg-gradient-to-r from-gradient-from to-gradient-to transition-all duration-300 ease-in-out"
               style={{
                 left: `${indicatorStyle.left}px`,
                 width: `${indicatorStyle.width}px`,
@@ -148,7 +157,7 @@ export function Header() {
             <ThemeToggle />
             
             <Button asChild size="sm" className="hidden md:inline-flex">
-              <Link href="/reservar">Reservar Demo</Link>
+              <Link href="/reservar">{t("common.bookDemo")}</Link>
             </Button>
           </div>
         </div>
