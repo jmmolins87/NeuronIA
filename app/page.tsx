@@ -57,27 +57,27 @@ export default function Home() {
   return (
     <SiteShell>
       {/* Hero Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="hero" className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
+      <Section variant="default" id="hero" className="relative min-h-[calc(100svh-4rem)] flex flex-col items-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
         <ThreeBackdrop />
-        <div className="container relative z-10 mx-auto max-w-screen-2xl px-4 py-16 text-center flex-1 flex items-center">
-          <div className="max-w-4xl mx-auto space-y-8 w-full">
-            <div className="flex justify-center">
+        <div className="container relative z-10 mx-auto max-w-screen-2xl px-4 py-4 text-center flex-1 flex items-center sm:py-6 lg:py-8">
+          <div className="max-w-4xl mx-auto w-full min-h-[56svh] space-y-5 sm:min-h-[60svh] sm:space-y-7 lg:min-h-[64svh]">
+            <div className="hidden justify-center sm:flex">
               <Logo 
                 width={800} 
                 height={200} 
-                className="h-32 w-auto sm:h-40 md:h-48 lg:h-56 xl:h-64" 
+                className="h-20 w-auto sm:h-24 md:h-28 lg:h-36 xl:h-48 2xl:h-64" 
               />
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight laptop:text-5xl desktop:text-6xl xl:text-7xl gradient-text-slide hero-title">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl md:whitespace-nowrap xl:text-6xl 2xl:text-7xl gradient-text-slide hero-title">
               {t("home.hero.claim")}
             </h1>
 
-            <p className="mx-auto max-w-2xl text-xl font-medium text-foreground sm:text-2xl">
+            <p className="mx-auto max-w-2xl text-base font-medium text-foreground sm:text-lg md:text-xl xl:text-2xl">
               {t("home.hero.keyMessage")}
             </p>
 
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base md:text-lg xl:text-xl">
               <Link 
                 href="/roi" 
                 className="text-gradient-to dark:text-primary hover:underline transition-colors"
@@ -86,7 +86,7 @@ export default function Home() {
               </Link>
             </p>
 
-            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-4">
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center pt-2 sm:pt-4">
               <Button asChild size="lg" className="w-full sm:w-auto">
                 <Link href="/reservar">{t("home.hero.cta1")}</Link>
               </Button>
@@ -98,13 +98,17 @@ export default function Home() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="relative z-10 pb-8">
+        <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 sm:bottom-6">
           <ScrollIndicator targetId="problem-section" />
         </div>
       </Section>
 
-      {/* Problem Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="card" id="problem-section" className="py-32 bg-gradient-to-b from-card via-muted/50 to-card dark:from-card dark:via-muted/30 dark:to-card">
+      {/* Problem Section - alarma neón en rojo */}
+      <Section
+        variant="card"
+        id="problem-section"
+        className="py-32 bg-gradient-to-b from-destructive/8 via-destructive/5 to-card dark:from-destructive/12 dark:via-destructive/8 dark:to-card"
+      >
         <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px]" />
         <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px]" />
         <GridPattern squares={[[3, 2], [7, 5], [12, 3], [18, 8], [5, 10], [15, 6]]} />
@@ -115,7 +119,7 @@ export default function Home() {
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-wave">
               {t("home.problem.title")}
             </h2>
-            <p className="text-2xl font-semibold text-gradient-to dark:text-primary sm:text-3xl">
+            <p className="text-2xl font-semibold text-destructive sm:text-3xl">
               {t("home.problem.subtitle")}
             </p>
             <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
@@ -126,12 +130,12 @@ export default function Home() {
           {/* Grid de problemas específicos - 2x2 */}
           <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto mb-12">
             {/* Problema 1: Mensajes sin responder */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <MessageCircle className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-destructive/40 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-destructive hover:scale-105 hover:shadow-[0_0_25px_oklch(var(--destructive)/0.35)]">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center shadow-lg transition-all group-hover:scale-110 group-hover:shadow-[0_0_20px_oklch(var(--destructive)/0.45)]">
+                <MessageCircle className="w-7 h-7" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-destructive sm:text-2xl">
                   {t("home.problem.issues.unanswered.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -141,12 +145,12 @@ export default function Home() {
             </div>
 
             {/* Problema 2: Recepción saturada */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <Users className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-destructive/40 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-destructive hover:scale-105 hover:shadow-[0_0_25px_oklch(var(--destructive)/0.35)]">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center shadow-lg transition-all group-hover:scale-110 group-hover:shadow-[0_0_20px_oklch(var(--destructive)/0.45)]">
+                <Users className="w-7 h-7" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-destructive sm:text-2xl">
                   {t("home.problem.issues.overload.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -156,12 +160,12 @@ export default function Home() {
             </div>
 
             {/* Problema 3: Citas que se escapan */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <AlertCircle className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-destructive/40 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-destructive hover:scale-105 hover:shadow-[0_0_25px_oklch(var(--destructive)/0.35)]">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center shadow-lg transition-all group-hover:scale-110 group-hover:shadow-[0_0_20px_oklch(var(--destructive)/0.45)]">
+                <AlertCircle className="w-7 h-7" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-destructive sm:text-2xl">
                   {t("home.problem.issues.missed.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -171,12 +175,12 @@ export default function Home() {
             </div>
 
             {/* Problema 4: Agenda desorganizada */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <Calendar className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-destructive/40 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-destructive hover:scale-105 hover:shadow-[0_0_25px_oklch(var(--destructive)/0.35)]">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center shadow-lg transition-all group-hover:scale-110 group-hover:shadow-[0_0_20px_oklch(var(--destructive)/0.45)]">
+                <Calendar className="w-7 h-7" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-destructive sm:text-2xl">
                   {t("home.problem.issues.chaos.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -189,10 +193,10 @@ export default function Home() {
           {/* Estadística impactante */}
           <div className="max-w-3xl mx-auto">
             <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 text-center backdrop-blur-sm dark:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 rounded-full font-bold text-sm shadow-lg dark:glow-primary">
+              <div className="static mb-4 inline-flex items-center justify-center rounded-full bg-primary px-6 py-2 text-sm font-bold text-primary-foreground shadow-lg sm:absolute sm:-top-4 sm:left-1/2 sm:mb-0 sm:-translate-x-1/2 dark:glow-primary">
                 {t("home.problem.stat")}
               </div>
-              <p className="text-lg text-foreground font-medium pt-4">
+              <p className="text-lg font-medium text-foreground sm:pt-4">
                 {t("home.problem.description")}
               </p>
             </div>
@@ -418,7 +422,7 @@ export default function Home() {
         <BlobShape position="bottom-left" color="primary" className="w-80 h-80" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide">
               {t("home.scenarios.title")}
             </h2>
             <p className="text-lg text-muted-foreground sm:text-xl">
@@ -457,7 +461,7 @@ export default function Home() {
         <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-wave">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide">
               {t("home.roi.title")}
             </h2>
             <p className="text-lg text-muted-foreground sm:text-xl">

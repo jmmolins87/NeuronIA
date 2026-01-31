@@ -18,7 +18,7 @@ import {
 import { useTranslation } from "@/components/providers/i18n-provider"
 
 export function Header() {
-  const { t, locale } = useTranslation()
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
   const isHomePage = pathname === "/"
@@ -38,53 +38,58 @@ export function Header() {
     { href: "/faqs", label: t("nav.faqs") },
   ]
 
-  // Actualizar posición del underline cuando cambia la ruta o el idioma
+  const updateIndicator = React.useCallback((element?: HTMLElement | null) => {
+    if (!navRef.current || !element) {
+      setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
+      return
+    }
+
+    const navRect = navRef.current.getBoundingClientRect()
+    const linkRect = element.getBoundingClientRect()
+
+    setIndicatorStyle({
+      left: linkRect.left - navRect.left,
+      width: linkRect.width,
+      opacity: 1,
+    })
+  }, [])
+
   React.useEffect(() => {
-    const updateIndicator = () => {
-      if (!navRef.current) return
+    if (!navRef.current) return
+    const activeLink = navRef.current.querySelector(
+      `a[href="${pathname}"]`
+    ) as HTMLElement | null
 
-      const activeLink = navRef.current.querySelector(
+    updateIndicator(activeLink)
+
+    const observer = new ResizeObserver(() => {
+      const currentActive = navRef.current?.querySelector(
         `a[href="${pathname}"]`
-      ) as HTMLElement
+      ) as HTMLElement | null
+      updateIndicator(currentActive)
+    })
 
-      if (activeLink) {
-        const navRect = navRef.current.getBoundingClientRect()
-        const linkRect = activeLink.getBoundingClientRect()
-        const newLeft = linkRect.left - navRect.left
-        const newWidth = linkRect.width
+    observer.observe(navRef.current)
+    window.addEventListener("resize", () => updateIndicator(activeLink))
 
-        setIndicatorStyle({
-          left: newLeft,
-          width: newWidth,
-          opacity: 1,
-        })
-      } else {
-        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
-      }
-    }
-
-    // Pequeño delay para permitir que el DOM se actualice
-    const timer = setTimeout(updateIndicator, 50)
-    
-    window.addEventListener("resize", updateIndicator)
     return () => {
-      clearTimeout(timer)
-      window.removeEventListener("resize", updateIndicator)
+      observer.disconnect()
+      window.removeEventListener("resize", () => updateIndicator(activeLink))
     }
-  }, [pathname, locale])
+  }, [pathname, navLinks.length, updateIndicator])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4">
-        {/* Logo - Solo visible fuera de home */}
-        {!isHomePage && (
-          <Link href="/" className="flex items-center">
-            <Logo width={200} height={50} className="h-10 w-auto md:h-12" />
-          </Link>
-        )}
+        <Link
+          href="/"
+          className={`flex items-center ${isHomePage ? "md:hidden" : ""}`}
+        >
+          <Logo width={200} height={50} className="h-10 w-auto md:h-12" />
+        </Link>
 
         {/* Contenedor derecho - siempre alineado a la derecha */}
-        <div className="flex items-center gap-6 ml-auto">
+        <div className="ml-auto flex items-center gap-6">
           {/* Mobile: Menu button */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -129,20 +134,35 @@ export function Header() {
           </Sheet>
 
           {/* Desktop Navigation */}
-          <nav ref={navRef} className="hidden relative items-center gap-6 md:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-foreground transition-colors hover:text-gradient-to dark:hover:text-primary py-1"
-              >
-                {link.label}
-              </Link>
-            ))}
-            
-            {/* Animated underline indicator */}
+          <nav
+            ref={navRef}
+            className="relative hidden items-center gap-6 md:flex"
+            onMouseLeave={() => {
+              const activeLink = navRef.current?.querySelector(
+                `a[href="${pathname}"]`
+              ) as HTMLElement | null
+              updateIndicator(activeLink)
+            }}
+          >
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onMouseEnter={(event) => updateIndicator(event.currentTarget)}
+                  onFocus={(event) => updateIndicator(event.currentTarget)}
+                  className={`relative text-sm font-medium text-foreground transition-colors hover:text-gradient-to dark:hover:text-primary py-1 ${
+                    isActive ? "text-gradient-to dark:text-primary" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+
             <span
-              className="absolute bottom-0 h-0.5 bg-gradient-to-r from-gradient-from to-gradient-to transition-all duration-300 ease-in-out"
+              className="absolute bottom-0 h-0.5 bg-gradient-to-r from-gradient-from to-gradient-to transition-all duration-300 ease-out"
               style={{
                 left: `${indicatorStyle.left}px`,
                 width: `${indicatorStyle.width}px`,
@@ -155,7 +175,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
             <ThemeToggle />
-            
+
             <Button asChild size="sm" className="hidden md:inline-flex">
               <Link href="/reservar">{t("common.bookDemo")}</Link>
             </Button>
