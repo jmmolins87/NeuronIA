@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Separator } from "@/components/ui/separator"
 
 const footerLinks = {
@@ -24,7 +25,14 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/neuroxia-logo.svg"
+                alt="NeuronIA Logo"
+                width={32}
+                height={32}
+                className="h-8 w-auto"
+              />
               <span className="text-lg font-bold">NeuronIA</span>
             </Link>
             <p className="text-sm text-muted-foreground">
