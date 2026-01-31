@@ -75,10 +75,22 @@
       "title": "Sistema de Atención Inteligente",
       "description": "No es un chatbot. Es un sistema que entiende el contexto clínico, verifica disponibilidad real y agenda citas directamente en tu sistema.",
       "features": {
-        "understanding": "Comprende consultas en lenguaje natural",
-        "availability": "Verifica agenda en tiempo real",
-        "booking": "Agenda citas automáticamente",
-        "followup": "Seguimiento de confirmaciones"
+        "understanding": {
+          "title": "Comprende consultas en lenguaje natural",
+          "description": "Interpreta intenciones y contexto médico como lo haría tu equipo"
+        },
+        "availability": {
+          "title": "Verifica agenda en tiempo real",
+          "description": "Consulta huecos disponibles al instante sin intervención manual"
+        },
+        "booking": {
+          "title": "Agenda citas automáticamente",
+          "description": "Reserva directamente en tu sistema de gestión clínica"
+        },
+        "followup": {
+          "title": "Seguimiento de confirmaciones",
+          "description": "Envía recordatorios y gestiona cancelaciones proactivamente"
+        }
       }
     },
     "flow": {
@@ -247,6 +259,27 @@
     "closeMenu": "Cerrar menú",
     "toggleTheme": "Cambiar tema",
     "changeLanguage": "Cambiar idioma",
-    "logo": "Logo de NeuronIA"
+    "logo": "Logo de NeuronIA",
+    "goToTop": "Ir al inicio"
+  },
+  "shortcuts": {
+    "title": "Atajos de Teclado",
+    "description": "Navega más rápido usando estos atajos de teclado",
+    "hint": "Presiona ? en cualquier momento para ver esta ayuda",
+    "categories": {
+      "navigation": "Navegación",
+      "actions": "Acciones"
+    },
+    "navigation": {
+      "home": "Ir a Inicio",
+      "solution": "Ir a Solución",
+      "roi": "Ir a Calculadora ROI",
+      "scenarios": "Ir a Escenarios",
+      "contact": "Ir a Contacto"
+    },
+    "actions": {
+      "help": "Mostrar ayuda de atajos",
+      "closeHelp": "Cerrar ayuda"
+    }
   }
 }

@@ -75,10 +75,22 @@
       "title": "Intelligent Care System",
       "description": "It's not a chatbot. It's a system that understands clinical context, verifies real availability and schedules appointments directly in your system.",
       "features": {
-        "understanding": "Understands natural language inquiries",
-        "availability": "Verifies schedule in real time",
-        "booking": "Schedules appointments automatically",
-        "followup": "Follow-up confirmations"
+        "understanding": {
+          "title": "Understands natural language inquiries",
+          "description": "Interprets intentions and medical context like your team would"
+        },
+        "availability": {
+          "title": "Verifies schedule in real time",
+          "description": "Checks available slots instantly without manual intervention"
+        },
+        "booking": {
+          "title": "Schedules appointments automatically",
+          "description": "Books directly into your clinical management system"
+        },
+        "followup": {
+          "title": "Follow-up confirmations",
+          "description": "Sends reminders and manages cancellations proactively"
+        }
       }
     },
     "flow": {
@@ -239,6 +251,27 @@
     "closeMenu": "Close menu",
     "toggleTheme": "Toggle theme",
     "changeLanguage": "Change language",
-    "logo": "NeuronIA logo"
+    "logo": "NeuronIA logo",
+    "goToTop": "Go to top"
+  },
+  "shortcuts": {
+    "title": "Keyboard Shortcuts",
+    "description": "Navigate faster using these keyboard shortcuts",
+    "hint": "Press ? anytime to see this help",
+    "categories": {
+      "navigation": "Navigation",
+      "actions": "Actions"
+    },
+    "navigation": {
+      "home": "Go to Home",
+      "solution": "Go to Solution",
+      "roi": "Go to ROI Calculator",
+      "scenarios": "Go to Scenarios",
+      "contact": "Go to Contact"
+    },
+    "actions": {
+      "help": "Show shortcuts help",
+      "closeHelp": "Close help"
+    }
   }
 }

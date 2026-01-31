@@ -57,27 +57,27 @@ export default function Home() {
   return (
     <SiteShell>
       {/* Hero Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="hero" className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
+      <Section variant="default" id="hero" className="relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
         <ThreeBackdrop />
-        <div className="container relative z-10 mx-auto max-w-screen-2xl px-4 py-16 text-center flex-1 flex items-center">
-          <div className="max-w-4xl mx-auto space-y-8 w-full">
-            <div className="flex justify-center">
+        <div className="container relative z-10 mx-auto max-w-screen-2xl px-4 py-8 2xl:py-12 3xl:py-16 text-center flex-1 flex items-center">
+          <div className="max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto space-y-6 2xl:space-y-10 3xl:space-y-8 w-full">
+            <div className="hidden md:flex justify-center">
               <Logo 
                 width={800} 
                 height={200} 
-                className="h-32 w-auto sm:h-40 md:h-48 lg:h-56 xl:h-64" 
+                className="h-24 w-auto sm:h-32 md:h-36 lg:h-36 xl:h-40 2xl:h-60 3xl:h-64" 
               />
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight laptop:text-5xl desktop:text-6xl xl:text-7xl gradient-text-slide hero-title">
+            <h1 className="hero-title text-5xl font-bold tracking-tight sm:text-6xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-8xl gradient-text-slide">
               {t("home.hero.claim")}
             </h1>
 
-            <p className="mx-auto max-w-2xl text-xl font-medium text-foreground sm:text-2xl">
+            <p className="hero-subtitle mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-xl font-medium text-foreground sm:text-2xl lg:text-lg xl:text-xl 2xl:text-3xl">
               {t("home.hero.keyMessage")}
             </p>
 
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            <p className="hero-link mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-base text-muted-foreground sm:text-lg lg:text-base xl:text-lg 2xl:text-3xl">
               <Link 
                 href="/roi" 
                 className="text-gradient-to dark:text-primary hover:underline transition-colors"
@@ -86,36 +86,41 @@ export default function Home() {
               </Link>
             </p>
 
-            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-4">
-              <Button asChild size="lg" className="w-full sm:w-auto">
+            <div className="flex flex-col items-center gap-3 2xl:gap-4 sm:flex-row sm:justify-center pt-2 2xl:pt-4">
+              <Button asChild size="lg" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl">
                 <Link href="/reservar">{t("home.hero.cta1")}</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl">
                 <Link href="/roi">{t("home.hero.cta2")}</Link>
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Visible en todas las pantallas */}
         <div className="relative z-10 pb-8">
           <ScrollIndicator targetId="problem-section" />
         </div>
       </Section>
 
-      {/* Problem Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="card" id="problem-section" className="py-32 bg-gradient-to-b from-card via-muted/50 to-card dark:from-card dark:via-muted/30 dark:to-card">
-        <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px]" />
-        <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px]" />
+      {/* Problem Section - Tema de PELIGRO/ALERTA con tonos rojos "INFIERNO" */}
+      <Section variant="card" id="problem-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden">
+        {/* Resplandor rojo de fondo estilo infierno */}
+        <div className="absolute inset-0 bg-gradient-radial from-red-600/20 via-transparent to-transparent dark:from-red-600/30 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-red-500/10 to-transparent dark:from-red-500/20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-orange-600/10 to-transparent dark:from-orange-600/20 pointer-events-none" />
+        
+        <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px] opacity-10" />
+        <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px] opacity-10" />
         <GridPattern squares={[[3, 2], [7, 5], [12, 3], [18, 8], [5, 10], [15, 6]]} />
         
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           {/* Header impactante */}
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-wave">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-danger">
               {t("home.problem.title")}
             </h2>
-            <p className="text-2xl font-semibold text-gradient-to dark:text-primary sm:text-3xl">
+            <p className="text-2xl font-semibold text-red-600 dark:text-red-400 sm:text-3xl">
               {t("home.problem.subtitle")}
             </p>
             <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
@@ -126,12 +131,12 @@ export default function Home() {
           {/* Grid de problemas específicos - 2x2 */}
           <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto mb-12">
             {/* Problema 1: Mensajes sin responder */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <MessageCircle className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+                <MessageCircle className="w-7 h-7 text-white" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
                   {t("home.problem.issues.unanswered.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -141,12 +146,12 @@ export default function Home() {
             </div>
 
             {/* Problema 2: Recepción saturada */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <Users className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+                <Users className="w-7 h-7 text-white" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
                   {t("home.problem.issues.overload.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -156,12 +161,12 @@ export default function Home() {
             </div>
 
             {/* Problema 3: Citas que se escapan */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <AlertCircle className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+                <AlertCircle className="w-7 h-7 text-white" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
                   {t("home.problem.issues.missed.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -171,12 +176,12 @@ export default function Home() {
             </div>
 
             {/* Problema 4: Agenda desorganizada */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-2xl dark:hover:glow-lg">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                <Calendar className="w-7 h-7 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+                <Calendar className="w-7 h-7 text-white" />
               </div>
               <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-gradient-to dark:text-primary sm:text-2xl">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
                   {t("home.problem.issues.chaos.title")}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -185,23 +190,32 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Estadística impactante */}
-          <div className="max-w-3xl mx-auto">
-            <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 text-center backdrop-blur-sm dark:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 rounded-full font-bold text-sm shadow-lg dark:glow-primary">
-                {t("home.problem.stat")}
-              </div>
-              <p className="text-lg text-foreground font-medium pt-4">
-                {t("home.problem.description")}
-              </p>
+        </div>
+        
+        {/* Scroll Indicator ROJO - Oculto en mobile, tema infierno */}
+        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <button
+            onClick={() => {
+              const element = document.getElementById("system-section")
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+            }}
+            className="group flex flex-col items-center gap-2 transition-all hover:scale-110 cursor-pointer"
+            aria-label={t("common.scrollDown")}
+          >
+            <div className="text-sm font-medium text-red-600 dark:text-red-400 group-hover:text-red-500 dark:group-hover:text-red-300 transition-colors">
+              {t("common.scrollDown")}
             </div>
-          </div>
+            <div className="relative w-6 h-10 rounded-full border-2 border-red-600 dark:border-red-400 group-hover:border-red-500 dark:group-hover:border-red-300 transition-colors shadow-lg shadow-red-500/50 group-hover:shadow-red-500/80">
+              <div className="absolute top-2 left-1/2 w-0.5 h-2 bg-red-600 dark:bg-red-400 group-hover:bg-red-500 dark:group-hover:bg-red-300 rounded-full animate-scroll-down" />
+            </div>
+          </button>
         </div>
       </Section>
 
       {/* System Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" className="py-32 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
+      <Section variant="default" id="system-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
         <CircuitLines />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
@@ -213,52 +227,81 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-12">
             {/* Feature 1: Comprensión */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
-                <Brain className="w-8 h-8 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+                <Brain className="w-7 h-7 text-primary-foreground" />
               </div>
-              <p className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                {t("home.system.features.understanding")}
+              <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                {t("home.system.features.understanding.title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("home.system.features.understanding.description")}
               </p>
             </div>
 
             {/* Feature 2: Disponibilidad */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
-                <Clock className="w-8 h-8 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+                <Clock className="w-7 h-7 text-primary-foreground" />
               </div>
-              <p className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                {t("home.system.features.availability")}
+              <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                {t("home.system.features.availability.title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("home.system.features.availability.description")}
               </p>
             </div>
 
             {/* Feature 3: Agenda */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
-                <Calendar className="w-8 h-8 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+                <Calendar className="w-7 h-7 text-primary-foreground" />
               </div>
-              <p className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                {t("home.system.features.booking")}
+              <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                {t("home.system.features.booking.title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("home.system.features.booking.description")}
               </p>
             </div>
 
             {/* Feature 4: Seguimiento */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
-                <BellRing className="w-8 h-8 text-primary-foreground" />
+            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+                <BellRing className="w-7 h-7 text-primary-foreground" />
               </div>
-              <p className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                {t("home.system.features.followup")}
+              <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                {t("home.system.features.followup.title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("home.system.features.followup.description")}
+              </p>
+            </div>
+          </div>
+
+          {/* Estadística impactante - Al final de la sección */}
+          <div className="max-w-3xl mx-auto">
+            <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 text-center backdrop-blur-sm dark:glow-md">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 rounded-full font-bold text-sm shadow-lg dark:glow-primary">
+                {t("home.problem.stat")}
+              </div>
+              <p className="text-lg text-foreground font-medium pt-4">
+                {t("home.problem.description")}
               </p>
             </div>
           </div>
         </div>
+        
+        {/* Scroll Indicator - Oculto en mobile */}
+        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <ScrollIndicator targetId="flow-section" />
+        </div>
       </Section>
 
       {/* Flow Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="muted" className="py-32 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" id="flow-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
         <P5NoiseBlob />
         <BlobShape position="bottom-right" color="accent" className="w-96 h-96" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -325,10 +368,15 @@ export default function Home() {
             </div>
           </div>
         </div>
+        
+        {/* Scroll Indicator - Oculto en mobile */}
+        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <ScrollIndicator targetId="benefits-section" />
+        </div>
       </Section>
 
       {/* Benefits Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" className="py-32 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" id="benefits-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
         <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
@@ -410,10 +458,15 @@ export default function Home() {
             </div>
           </div>
         </div>
+        
+        {/* Scroll Indicator - Oculto en mobile */}
+        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <ScrollIndicator targetId="scenarios-section" />
+        </div>
       </Section>
 
       {/* Scenarios Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="card" className="py-24 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
+      <Section variant="card" id="scenarios-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
         <BlobShape position="top-right" color="gradient" />
         <BlobShape position="bottom-left" color="primary" className="w-80 h-80" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -449,10 +502,15 @@ export default function Home() {
             </Button>
           </div>
         </div>
+        
+        {/* Scroll Indicator - Oculto en mobile */}
+        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <ScrollIndicator targetId="roi-section" />
+        </div>
       </Section>
 
       {/* ROI CTA Section */}
-      <Section variant="muted" className="py-24 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
+      <Section variant="muted" id="roi-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
         <CircuitLines />
         <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -491,10 +549,15 @@ export default function Home() {
             </Button>
           </div>
         </div>
+        
+        {/* Scroll Indicator - Oculto en mobile */}
+        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <ScrollIndicator targetId="final-cta-section" />
+        </div>
       </Section>
 
-      {/* Final CTA Section */}
-      <Section variant="alt" className="py-32 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background">
+      {/* Final CTA Section - Visible with footer */}
+      <Section variant="alt" id="final-cta-section" className="flex flex-col justify-center py-24 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background">
         <BlobShape position="center" color="primary" className="w-[600px] h-[600px]" />
         <BlobShape position="top-left" color="accent" className="w-[400px] h-[400px]" />
         <BlobShape position="bottom-right" color="gradient" className="w-[500px] h-[500px]" />

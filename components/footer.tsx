@@ -30,9 +30,13 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block">
-              <Logo width={200} height={50} className="h-10 w-auto" />
-            </Link>
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-block cursor-pointer"
+              aria-label={t("aria.goToTop")}
+            >
+              <Logo width={200} height={50} className="h-14 w-auto" />
+            </button>
             <p className="text-sm text-muted-foreground">
               {t("footer.brand.description")}
             </p>

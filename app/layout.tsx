@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
+import { KeyboardShortcutsProvider } from "@/components/providers/keyboard-shortcuts-provider";
+import { KeyboardShortcutsDialog } from "@/components/keyboard-shortcuts-dialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +43,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
-            {children}
+            <KeyboardShortcutsProvider>
+              {children}
+              <KeyboardShortcutsDialog />
+            </KeyboardShortcutsProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>

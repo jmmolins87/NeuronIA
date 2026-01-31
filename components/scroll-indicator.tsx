@@ -33,11 +33,11 @@ export function ScrollIndicator({ targetId, className }: ScrollIndicatorProps) {
       )}
       aria-label={t("common.scrollDown")}
     >
-      <div className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+      <div className="text-sm font-medium text-muted-foreground group-hover:text-gradient-to dark:group-hover:text-primary transition-colors">
         {t("common.scrollDown")}
       </div>
-      <div className="relative w-6 h-10 rounded-full border-2 border-muted-foreground group-hover:border-primary transition-colors">
-        <div className="absolute top-2 left-1/2 w-0.5 h-2 bg-muted-foreground group-hover:bg-primary rounded-full animate-scroll-down" />
+      <div className="relative w-6 h-10 rounded-full border-2 border-muted-foreground group-hover:border-gradient-to dark:group-hover:border-primary transition-colors">
+        <div className="absolute top-2 left-1/2 w-0.5 h-2 bg-muted-foreground group-hover:bg-gradient-to dark:group-hover:bg-primary rounded-full animate-scroll-down" />
       </div>
     </button>
   )

@@ -3,11 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Custom breakpoints for Tailwind 4 */
+@custom-media --3xl (width >= 1800px);
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Custom breakpoints */
+  --breakpoint-2xl: 1536px; /* 13-15 inches laptops */
+  --breakpoint-3xl: 1800px; /* 15+ inches / large desktops */
   
   /* Core tokens */
   --color-card: var(--card);
@@ -302,6 +309,11 @@
     border-style: solid;
     border-image: linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%) 1;
   }
+
+  /* Gradiente radial para efecto infierno */
+  .bg-gradient-radial {
+    background-image: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
   
   /* Rounded gradient border (más complejo pero funciona) */
   .gradient-border-rounded {
@@ -327,6 +339,7 @@
     -webkit-text-fill-color: transparent;
     animation: gradientSlide 4s ease-in-out infinite;
     will-change: background-position;
+    padding-bottom: 0.1em;
   }
 
   .gradient-text-wave {
@@ -343,6 +356,26 @@
     -webkit-text-fill-color: transparent;
     animation: gradientWave 5s linear infinite;
     will-change: background-position;
+    padding-bottom: 0.1em;
+  }
+
+  /* Gradient text danger (red/orange) for problem section */
+  .gradient-text-danger {
+    background: linear-gradient(
+      120deg, 
+      oklch(0.65 0.25 25),   /* Red */
+      oklch(0.72 0.24 50),   /* Orange-red */
+      oklch(0.78 0.22 75),   /* Orange */
+      oklch(0.72 0.24 50),   /* Orange-red */
+      oklch(0.65 0.25 25)    /* Red */
+    );
+    background-size: 300% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientWave 5s linear infinite;
+    will-change: background-position;
+    padding-bottom: 0.1em;
   }
 
   .gradient-text-pulse {
@@ -360,6 +393,7 @@
     -webkit-text-fill-color: transparent;
     animation: gradientPulse 6s ease-in-out infinite alternate;
     will-change: background-position;
+    padding-bottom: 0.1em;
   }
 
   .gradient-text-flow {
@@ -375,6 +409,7 @@
     -webkit-text-fill-color: transparent;
     animation: gradientFlow 3.5s ease-in-out infinite;
     will-change: background-position;
+    padding-bottom: 0.1em;
   }
 
   .gradient-text-bounce {
@@ -391,6 +426,7 @@
     -webkit-text-fill-color: transparent;
     animation: gradientBounce 4.5s ease-in-out infinite;
     will-change: background-position;
+    padding-bottom: 0.1em;
   }
 
   .gradient-text-shimmer {
@@ -409,6 +445,7 @@
     -webkit-text-fill-color: transparent;
     animation: gradientShimmer 12s linear infinite;
     will-change: background-position;
+    padding-bottom: 0.1em;
   }
 
   /* Dark mode gradients - más vibrantes */
@@ -653,5 +690,116 @@
       animation: none !important;
       background-position: 50% 50%;
     }
+  }
+
+  /* ============================================
+     PHASE 6: Hover Effects & Micro-Interactions
+     ============================================ */
+
+  /* Shimmer effect for buttons */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(1 0 0 / 0.3),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+  
+  .shimmer:hover::after {
+    left: 100%;
+  }
+
+  /* Glow suave para hover */
+  .hover-glow-soft {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .hover-glow-soft:hover {
+    box-shadow: 0 0 20px oklch(var(--primary) / 0.4),
+                0 0 40px oklch(var(--primary) / 0.2);
+  }
+
+  /* Elevación para cards */
+  .card-elevation {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card-elevation:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px oklch(0 0 0 / 0.15),
+                0 0 20px oklch(var(--primary) / 0.2);
+  }
+
+  /* Subrayado animado para links */
+  .link-underline {
+    position: relative;
+    text-decoration: none;
+  }
+  
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      oklch(var(--gradient-from)),
+      oklch(var(--gradient-to))
+    );
+    transition: width 0.3s ease;
+  }
+  
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Icon pulse micro-animation */
+  @keyframes iconPulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  .icon-pulse:hover {
+    animation: iconPulse 0.6s ease-in-out;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM BREAKPOINT FOR LARGE SCREENS (1800px+)
+   Moderately larger text sizes for 15+ inch displays
+   ═══════════════════════════════════════════════════════════ */
+@media (min-width: 1800px) {
+  .hero-title {
+    font-size: 6.5rem !important;
+    line-height: 1.1 !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 3rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .hero-link {
+    font-size: 2rem !important;
+    line-height: 1.3 !important;
   }
 }

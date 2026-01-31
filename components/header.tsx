@@ -23,6 +23,7 @@ export function Header() {
   const pathname = usePathname()
   const isHomePage = pathname === "/"
   const navRef = React.useRef<HTMLElement>(null)
+  const [showHeaderLogo, setShowHeaderLogo] = React.useState(false)
   const [indicatorStyle, setIndicatorStyle] = React.useState({
     left: 0,
     width: 0,
@@ -40,10 +41,10 @@ export function Header() {
 
   // Actualizar posición del underline cuando cambia la ruta o el idioma
   React.useEffect(() => {
-    const updateIndicator = () => {
+    const updateIndicator = (targetElement?: HTMLElement) => {
       if (!navRef.current) return
 
-      const activeLink = navRef.current.querySelector(
+      const activeLink = targetElement || navRef.current.querySelector(
         `a[href="${pathname}"]`
       ) as HTMLElement
 
@@ -64,22 +65,98 @@ export function Header() {
     }
 
     // Pequeño delay para permitir que el DOM se actualice
-    const timer = setTimeout(updateIndicator, 50)
+    const timer = setTimeout(() => updateIndicator(), 50)
     
-    window.addEventListener("resize", updateIndicator)
+    window.addEventListener("resize", () => updateIndicator())
     return () => {
       clearTimeout(timer)
-      window.removeEventListener("resize", updateIndicator)
+      window.removeEventListener("resize", () => updateIndicator())
     }
   }, [pathname, locale])
+
+  // Manejar hover sobre links
+  const handleLinkHover = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!navRef.current) return
+    const navRect = navRef.current.getBoundingClientRect()
+    const linkRect = event.currentTarget.getBoundingClientRect()
+    const newLeft = linkRect.left - navRect.left
+    const newWidth = linkRect.width
+
+    setIndicatorStyle({
+      left: newLeft,
+      width: newWidth,
+      opacity: 1,
+    })
+  }
+
+  // Volver al link activo cuando sale el hover
+  const handleNavLeave = () => {
+    if (!navRef.current) return
+    const activeLink = navRef.current.querySelector(
+      `a[href="${pathname}"]`
+    ) as HTMLElement
+
+    if (activeLink) {
+      const navRect = navRef.current.getBoundingClientRect()
+      const linkRect = activeLink.getBoundingClientRect()
+      const newLeft = linkRect.left - navRect.left
+      const newWidth = linkRect.width
+
+      setIndicatorStyle({
+        left: newLeft,
+        width: newWidth,
+        opacity: 1,
+      })
+    } else {
+      setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
+    }
+  }
+
+  // Detectar cuando el logo del hero sale del viewport
+  React.useEffect(() => {
+    if (!isHomePage) return
+
+    const handleScroll = () => {
+      // Detectar si hemos scrolleado más allá del hero logo
+      // El logo del hero está aproximadamente a 200-400px del top
+      const scrollThreshold = 300
+      setShowHeaderLogo(window.scrollY > scrollThreshold)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll() // Check initial state
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [isHomePage])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4">
-        {/* Logo - Solo visible fuera de home */}
-        {!isHomePage && (
-          <Link href="/" className="flex items-center">
-            <Logo width={200} height={50} className="h-10 w-auto md:h-12" />
+        {/* Logo - Lógica de visibilidad */}
+        {isHomePage ? (
+          // En homepage: mobile siempre visible, desktop solo cuando scroll > threshold
+          <>
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center cursor-pointer md:hidden"
+              aria-label={t("aria.goToTop")}
+            >
+              <Logo width={200} height={50} className="h-12 w-auto" />
+            </button>
+            {showHeaderLogo && (
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="hidden md:flex items-center cursor-pointer"
+                aria-label={t("aria.goToTop")}
+              >
+                <Logo width={200} height={50} className="h-14 w-auto" />
+              </button>
+            )}
+          </>
+        ) : (
+          // En otras páginas: siempre visible
+          <Link href="/" className="flex items-center cursor-pointer">
+            <Logo width={200} height={50} className="h-12 w-auto md:h-14" />
           </Link>
         )}
 
@@ -129,11 +206,16 @@ export function Header() {
           </Sheet>
 
           {/* Desktop Navigation */}
-          <nav ref={navRef} className="hidden relative items-center gap-6 md:flex">
+          <nav 
+            ref={navRef} 
+            className="hidden relative items-center gap-6 md:flex"
+            onMouseLeave={handleNavLeave}
+          >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                onMouseEnter={handleLinkHover}
                 className="text-sm font-medium text-foreground transition-colors hover:text-gradient-to dark:hover:text-primary py-1"
               >
                 {link.label}
