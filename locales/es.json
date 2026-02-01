@@ -406,6 +406,11 @@
       "bookingSuccessMessage": "Recibirás un email de confirmación pronto"
     }
   },
+  "booking": {
+    "title": "Reservar Demo",
+    "description": "Agenda tu demostración personalizada. Contenido completo próximamente en Fase 2.",
+    "content": "Contenido de reserva"
+  },
   "contact": {
     "title": "Contacto",
     "description": "Comparte tu análisis ROI y descubre cómo podemos ayudarte a recuperar esos ingresos",

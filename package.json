@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "audit:i18n": "node scripts/audit-i18n.mjs",
+    "audit:inline": "node scripts/audit-inline-styles.mjs",
+    "audit": "npm run audit:i18n && npm run audit:inline"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",

@@ -466,32 +466,41 @@
     }
   },
   "footer": {
-    "product": "Product",
-    "solution": "Solution",
-    "roiCalculator": "ROI Calculator",
-    "useCases": "Use Cases",
-    "howItWorks": "How It Works",
-    "company": "Company",
-    "methodology": "Methodology",
-    "faqs": "FAQs",
-    "contact": "Contact",
-    "startToday": "Start Today",
-    "bookDemo": "Book a personalized demo and discover the potential of AI.",
-    "button": "Book Demo",
+    "brand": {
+      "description": "Intelligent automation powered by AI to transform your business."
+    },
+    "sections": {
+      "product": "Product",
+      "company": "Company",
+      "resources": "Resources",
+      "legal": "Legal",
+      "getStarted": "Get Started"
+    },
+    "links": {
+      "solution": "Solution",
+      "roiCalculator": "ROI Calculator",
+      "useCases": "Use Cases",
+      "howItWorks": "How It Works",
+      "methodology": "Methodology",
+      "faqs": "FAQs",
+      "contact": "Contact",
+      "features": "Features",
+      "pricing": "Pricing",
+      "about": "About",
+      "team": "Team",
+      "blog": "Blog",
+      "documentation": "Documentation",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "cta": {
+      "title": "Get Started Today",
+      "description": "Book a personalized demo and discover the potential of AI.",
+      "button": "Book Demo"
+    },
     "copyright": "© {{year}} NeuronIA. All rights reserved."
   },
-  "privacy": {
-    "title": "Privacy",
-    "description": "Privacy policy content coming soon."
-  },
-  "terms": {
-    "title": "Terms",
-    "description": "Terms of service content coming soon."
-  },
-  "cookies": {
-    "title": "Cookies",
-    "description": "Cookie policy content coming soon."
-  },
+
   "errors": {
     "notFound": "Page not found",
     "serverError": "Server error",
