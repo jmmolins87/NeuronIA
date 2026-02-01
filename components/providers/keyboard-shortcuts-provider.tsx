@@ -71,6 +71,12 @@ export function KeyboardShortcutsProvider({
         category: "navigation",
       },
       {
+        keys: ["g b", "g then b"],
+        description: "shortcuts.navigation.book",
+        action: () => router.push("/reservar"),
+        category: "navigation",
+      },
+      {
         keys: "?",
         description: "shortcuts.actions.help",
         action: () => setIsHelpOpen(true),

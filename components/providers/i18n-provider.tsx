@@ -54,11 +54,11 @@ function replaceVariables(
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = React.useState<Locale>("es")
-  const [isClient, setIsClient] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false)
 
   // Initialize from localStorage on mount
   React.useEffect(() => {
-    setIsClient(true)
+    setMounted(true)
     const savedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null
     if (savedLocale && (savedLocale === "es" || savedLocale === "en")) {
       setLocaleState(savedLocale)
@@ -80,19 +80,15 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     [locale]
   )
 
-  const value = React.useMemo(
+  const value: I18nContextType = React.useMemo(
     () => ({
       locale,
       setLocale,
       t,
     }),
-    [locale, setLocale, t]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [locale]
   )
-
-  // Prevent hydration mismatch by rendering with default locale on server
-  if (!isClient) {
-    return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
-  }
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }

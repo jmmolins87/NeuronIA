@@ -37,7 +37,10 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "scrollDown": "Discover more"
+    "scrollDown": "Discover more",
+    "locale": "en-US",
+    "back": "Back",
+    "continue": "Continue"
   },
   "home": {
     "title": "NeuronIA - Intelligent Care System",
@@ -184,7 +187,72 @@
   "roi": {
     "title": "ROI Calculator",
     "description": "Calculate return on investment of implementing AI in your company. Interactive calculator coming soon in Phase 2.",
-    "content": "ROI calculator content"
+    "content": "ROI calculator content",
+    "calculator": {
+      "title": "ROI Calculator",
+      "description": "Estimate how much revenue you're losing and how much you could recover",
+      "whatIsROI": {
+        "title": "What is ROI?",
+        "description": "ROI (Return On Investment) is an indicator that measures the profitability of an investment. It helps you understand how much money you'll recover for each dollar invested."
+      },
+      "whatIsCalculator": {
+        "title": "What is this calculator?",
+        "description": "This tool allows you to estimate how much revenue you're currently losing from unattended inquiries and how much you could recover by implementing an Intelligent Care System in your clinic."
+      },
+      "disclaimer": "This is an indicative estimate based on industry averages. Actual results may vary depending on your specific situation.",
+      "inputs": {
+        "title": "Your clinic data",
+        "monthlyPatients": {
+          "label": "Approximate monthly patients",
+          "help": "Estimated number of patients your clinic sees per month"
+        },
+        "avgTicket": {
+          "label": "Average ticket per appointment ($)",
+          "help": "Average value of an appointment or treatment at your clinic"
+        },
+        "missedRate": {
+          "label": "Estimated % of missed inquiries",
+          "help": "Approximate percentage of inquiries that don't convert to appointments"
+        },
+        "presets": {
+          "title": "Try these examples:",
+          "small": "Clinic of ~150 patients",
+          "medium": "Clinic of ~300 patients",
+          "large": "Clinic of ~500 patients",
+          "clear": "Clear values"
+        }
+      },
+      "results": {
+        "title": "Your recovery potential",
+        "monthlyRevenue": "Recoverable revenue/month",
+        "yearlyRevenue": "Annual projection",
+        "roi": "Estimated ROI",
+        "roiHelp": "Return on monthly investment",
+        "breakEven": "Break-even point",
+        "breakEvenHelp": "Estimated time to recover investment",
+        "days": "days",
+        "breakdown": "Calculation breakdown",
+        "missedPatients": "Missed inquiries/month",
+        "recoveredPatients": "Recovery potential",
+        "recoveryRate": "Estimated conversion rate"
+      },
+      "cta": {
+        "title": "Ready to recover this revenue?",
+        "description": "Share your analysis with us and discover how the Intelligent Care System can transform your clinic",
+        "button": "Contact with My Analysis"
+      }
+    },
+    "dialog": {
+      "title": "Use of your ROI data",
+      "description": "The calculated data will be automatically added to the contact form and sent to NeuronIA to study your case personally and offer you the best solution. Do you accept that we save and send this information?",
+      "accept": "Accept and Continue",
+      "cancel": "Cancel",
+      "incomplete": {
+        "title": "Incomplete calculator",
+        "description": "For better service, you must send us your ROI calculator results so we can help you better in a personalized and exclusive way.",
+        "button": "Understood"
+      }
+    }
   },
   "scenarios": {
     "title": "Real Scenarios",
@@ -234,19 +302,39 @@
       "subtitle": "From manual management to automatic follow-up",
       "situation": {
         "title": "Usual Situation",
-        "description": "Patients in multi-session treatments, manual evolution tracking, forgotten next appointment reminders, and difficulty maintaining treatment continuity."
+        "description": "Patients in multi-session treatments, manual progress tracking, forgotten appointment reminders, and difficulty maintaining treatment continuity."
       },
       "problem": {
         "title": "The Problem",
-        "description": "Patients abandon treatment mid-way because they forget to schedule next session, manual follow-up consumes time, and it's hard to know which patients need personalized reminders."
+        "description": "Patients abandon treatment midway because they forget to schedule the next session, manual follow-up consumes time, and it's hard to know which patients need personalized reminders."
       },
       "action": {
         "title": "System Action",
-        "description": "Sends automatic next session reminders, detects patients who haven't scheduled their continuation, keeps treatment history accessible, and suggests optimal times based on patient patterns."
+        "description": "Sends automatic reminders for next sessions, detects patients who haven't scheduled their continuation, keeps treatment history accessible, and suggests optimal times based on patient patterns."
       },
       "change": {
         "title": "What Changes",
-        "description": "Treatment continuity improves significantly, patients feel accompanied in their recovery, team has complete visibility without extra effort, and schedule remains stable and predictable."
+        "description": "Treatment continuity improves significantly, patients feel accompanied in their recovery, the team has complete visibility without additional effort, and the schedule remains stable and predictable."
+      }
+    },
+    "veterinary": {
+      "title": "Veterinary Clinic",
+      "subtitle": "From missed calls to continuous care",
+      "situation": {
+        "title": "Usual Situation",
+        "description": "Pet owners calling for urgent consultations, missed vaccine and checkup reminders, and difficulty managing multiple service types (consultations, grooming, emergencies)."
+      },
+      "problem": {
+        "title": "The Problem",
+        "description": "After-hours emergencies aren't handled until the next day, vaccine reminders are sent manually, and many owners forget follow-up appointments for their pets' chronic treatments."
+      },
+      "action": {
+        "title": "System Action",
+        "description": "Automatically classifies emergencies vs routine consultations, sends vaccine and preventive checkup reminders, manages appointments for different services, and keeps each pet's medical history accessible."
+      },
+      "change": {
+        "title": "What Changes",
+        "description": "Emergencies are captured 24/7, vaccination programs stay up-to-date automatically, the schedule optimizes space for emergencies, and owners feel more supported in caring for their pets."
       }
     }
   },
@@ -267,13 +355,115 @@
   },
   "contact": {
     "title": "Contact",
-    "description": "Get in touch with our team. Full content coming soon in Phase 2.",
-    "content": "Contact page content"
+    "description": "Share your ROI analysis and discover how we can help you recover that revenue",
+    "form": {
+      "title": "Send us your information",
+      "roiRequired": "Complete the ROI calculator before continuing",
+      "roiNotCalculated": "For better service, you must send us your ROI calculator results so we can help you better in a personalized and exclusive way.",
+      "roiNotAccepted": "For better service, you must send us your ROI calculator results so we can help you better in a personalized and exclusive way.",
+      "dataAcceptance": "You have accepted that NeuronIA can use your ROI data to study your case personally.",
+      "goToROI": "Go to ROI Calculator",
+      "roiSummary": {
+        "title": "Your ROI analysis summary",
+        "monthlyRevenue": "Recoverable revenue/month",
+        "yearlyRevenue": "Annual projection",
+        "roi": "Estimated ROI",
+        "calculated": "Calculated"
+      },
+      "fields": {
+        "name": {
+          "label": "Full name",
+          "placeholder": "Your name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "you@email.com"
+        },
+        "phone": {
+          "label": "Phone",
+          "placeholder": "+1 234 567 8900"
+        },
+        "clinic": {
+          "label": "Clinic name",
+          "placeholder": "Your clinic name"
+        },
+        "message": {
+          "label": "Additional message (optional)",
+          "placeholder": "Tell us more about your situation..."
+        },
+        "wantsDemo": {
+          "label": "Want to schedule a demo?",
+          "description": "Check this option if you want to schedule a personalized demonstration"
+        },
+        "calendly": {
+          "title": "Schedule your Demo",
+          "placeholder": "Booking calendar will be integrated here soon"
+        }
+      },
+      "submit": "Send Request",
+      "success": {
+        "title": "Request sent!",
+        "message": "We've received your information and will contact you soon"
+      }
+    }
   },
   "booking": {
     "title": "Book a Demo",
     "description": "Schedule your personalized demo. Full content coming soon in Phase 2.",
     "content": "Booking page content"
+  },
+  "book": {
+    "title": "Book Demo",
+    "description": "Schedule a personalized demonstration and discover how to transform your patient care",
+    "content": "Book demo content",
+    "calendly": {
+      "title": "Schedule your Demo",
+      "placeholder": "Booking calendar will be integrated here soon"
+    },
+    "info": {
+      "title": "What's included in the demo?",
+      "description": "In our personalized demonstration, we'll show you how the Intelligent Care System can transform your clinic. You'll see real cases, we'll calculate your specific ROI, and answer all your questions."
+    },
+    "form": {
+      "title": "Or send us your details",
+      "name": {
+        "label": "Full name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "clinic": {
+        "label": "Clinic name",
+        "placeholder": "Your clinic name (optional)"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us about your clinic and what you'd like to improve..."
+      },
+      "submit": "Submit Request",
+      "success": {
+        "title": "Request submitted!",
+        "message": "We'll get in touch with you soon"
+      }
+    },
+    "calendar": {
+      "selectDate": "Select a date",
+      "selectTime": "Select a time",
+      "confirmDetails": "Confirm details",
+      "availabilityNote": "Weekdays only (Monday to Friday). Hours: 9:00 AM - 6:00 PM",
+      "noSlotsAvailable": "No time slots available for this date",
+      "name": "Full name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "message": "Message (optional)",
+      "messagePlaceholder": "Tell us about your clinic...",
+      "confirm": "Confirm Booking",
+      "bookingSuccess": "Booking confirmed!",
+      "bookingSuccessMessage": "You'll receive a confirmation email soon"
+    }
   },
   "footer": {
     "product": "Product",

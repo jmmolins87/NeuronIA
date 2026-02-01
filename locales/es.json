@@ -37,7 +37,10 @@
     "loading": "Cargando...",
     "error": "Error",
     "success": "Éxito",
-    "scrollDown": "Descubre más"
+    "scrollDown": "Descubre más",
+    "locale": "es-ES",
+    "back": "Volver",
+    "continue": "Continuar"
   },
   "home": {
     "title": "NeuronIA - Sistema de Atención Inteligente",
@@ -184,7 +187,72 @@
   "roi": {
     "title": "Calculadora ROI",
     "description": "Calcula el retorno de inversión de implementar IA en tu empresa. Calculadora interactiva próximamente en Phase 2.",
-    "content": "Contenido de la calculadora de ROI"
+    "content": "Contenido de la calculadora de ROI",
+    "calculator": {
+      "title": "Calculadora de ROI",
+      "description": "Estima cuántos ingresos estás perdiendo y cuánto podrías recuperar",
+      "whatIsROI": {
+        "title": "¿Qué es el ROI?",
+        "description": "El ROI (Return On Investment o Retorno de Inversión) es un indicador que mide la rentabilidad de una inversión. Te ayuda a entender cuánto dinero recuperarás por cada euro invertido."
+      },
+      "whatIsCalculator": {
+        "title": "¿Qué es esta calculadora?",
+        "description": "Esta herramienta te permite estimar cuántos ingresos estás perdiendo actualmente por consultas no atendidas y cuánto podrías recuperar implementando un Sistema de Atención Inteligente en tu clínica."
+      },
+      "disclaimer": "Esta es una estimación orientativa basada en promedios del sector. Los resultados reales pueden variar según tu situación específica.",
+      "inputs": {
+        "title": "Datos de tu clínica",
+        "monthlyPatients": {
+          "label": "Pacientes mensuales aproximados",
+          "help": "Número estimado de pacientes que atiende tu clínica al mes"
+        },
+        "avgTicket": {
+          "label": "Ticket promedio por cita (€)",
+          "help": "Valor promedio de una cita o tratamiento en tu clínica"
+        },
+        "missedRate": {
+          "label": "% estimado de consultas perdidas",
+          "help": "Porcentaje aproximado de consultas que no se convierten en citas"
+        },
+        "presets": {
+          "title": "Prueba con estos ejemplos:",
+          "small": "Clínica de ~150 clientes",
+          "medium": "Clínica de ~300 clientes",
+          "large": "Clínica de ~500 clientes",
+          "clear": "Limpiar valores"
+        }
+      },
+      "results": {
+        "title": "Tu potencial de recuperación",
+        "monthlyRevenue": "Ingresos recuperables/mes",
+        "yearlyRevenue": "Proyección anual",
+        "roi": "ROI estimado",
+        "roiHelp": "Retorno sobre la inversión mensual",
+        "breakEven": "Punto de equilibrio",
+        "breakEvenHelp": "Tiempo estimado para recuperar la inversión",
+        "days": "días",
+        "breakdown": "Desglose del cálculo",
+        "missedPatients": "Consultas perdidas/mes",
+        "recoveredPatients": "Potencial de recuperación",
+        "recoveryRate": "Tasa de conversión estimada"
+      },
+      "cta": {
+        "title": "¿Listo para recuperar estos ingresos?",
+        "description": "Comparte tu análisis con nosotros y descubre cómo el Sistema de Atención Inteligente puede transformar tu clínica",
+        "button": "Contactar con mi Análisis"
+      }
+    },
+    "dialog": {
+      "title": "Uso de tus datos de ROI",
+      "description": "Los datos calculados se añadirán automáticamente al formulario de contacto y serán enviados a NeuronIA para estudiar tu caso de forma personalizada y ofrecerte la mejor solución. ¿Aceptas que guardemos y enviemos esta información?",
+      "accept": "Aceptar y Continuar",
+      "cancel": "Cancelar",
+      "incomplete": {
+        "title": "Calculadora incompleta",
+        "description": "Para una mejor atención, debes mandarnos tus resultados de la calculadora ROI para poder ayudarte mejor y de forma particular y exclusiva.",
+        "button": "Entendido"
+      }
+    }
   },
   "scenarios": {
     "title": "Escenarios Reales",
@@ -248,6 +316,26 @@
         "title": "Qué Cambia",
         "description": "La continuidad del tratamiento mejora significativamente, los pacientes se sienten acompañados en su recuperación, el equipo tiene visibilidad completa sin esfuerzo adicional, y la agenda se mantiene estable y predecible."
       }
+    },
+    "veterinary": {
+      "title": "Clínica Veterinaria",
+      "subtitle": "De llamadas perdidas a atención continua",
+      "situation": {
+        "title": "Situación Habitual",
+        "description": "Dueños de mascotas llamando para consultas urgentes, recordatorios de vacunas y revisiones que se pierden, y dificultad para gestionar múltiples tipos de servicios (consultas, peluquería, urgencias)."
+      },
+      "problem": {
+        "title": "El Problema",
+        "description": "Las urgencias fuera de horario no se atienden hasta el día siguiente, los recordatorios de vacunas se envían manualmente, y muchos dueños olvidan las citas de seguimiento para tratamientos crónicos de sus mascotas."
+      },
+      "action": {
+        "title": "Acción del Sistema",
+        "description": "Clasifica automáticamente urgencias vs consultas rutinarias, envía recordatorios de vacunas y revisiones preventivas, gestiona citas para diferentes servicios, y mantiene el historial médico de cada mascota accesible."
+      },
+      "change": {
+        "title": "Qué Cambia",
+        "description": "Las urgencias se capturan 24/7, los programas de vacunación se mantienen al día automáticamente, la agenda optimiza espacios para emergencias, y los dueños se sienten más acompañados en el cuidado de sus mascotas."
+      }
     }
   },
   "howItWorks": {
@@ -267,13 +355,110 @@
   },
   "book": {
     "title": "Reservar Demo",
-    "description": "Agenda una demostración personalizada de nuestras soluciones de IA. Formulario de reserva próximamente en Phase 2.",
-    "content": "Contenido de reservar demo"
+    "description": "Agenda una demostración personalizada y descubre cómo transformar tu atención al paciente",
+    "content": "Contenido de reservar demo",
+    "calendly": {
+      "title": "Agenda tu Demostración",
+      "placeholder": "El calendario de reservas se integrará aquí próximamente"
+    },
+    "info": {
+      "title": "¿Qué incluye la demo?",
+      "description": "En nuestra demostración personalizada te mostraremos cómo el Sistema de Atención Inteligente puede transformar tu clínica. Verás casos reales, calculamos tu ROI específico y respondemos todas tus preguntas."
+    },
+    "form": {
+      "title": "O envíanos tus datos",
+      "name": {
+        "label": "Nombre completo",
+        "placeholder": "Tu nombre"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "tu@email.com"
+      },
+      "clinic": {
+        "label": "Nombre de la clínica",
+        "placeholder": "Nombre de tu clínica (opcional)"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Cuéntanos sobre tu clínica y qué te gustaría mejorar..."
+      },
+      "submit": "Enviar Solicitud",
+      "success": {
+        "title": "¡Solicitud enviada!",
+        "message": "Nos pondremos en contacto contigo pronto"
+      }
+    },
+    "calendar": {
+      "selectDate": "Selecciona una fecha",
+      "selectTime": "Selecciona una hora",
+      "confirmDetails": "Confirma los detalles",
+      "availabilityNote": "Solo días laborables (lunes a viernes). Horario: 9:00 - 18:00",
+      "noSlotsAvailable": "No hay horarios disponibles para esta fecha",
+      "name": "Nombre completo",
+      "namePlaceholder": "Tu nombre",
+      "email": "Email",
+      "emailPlaceholder": "tu@email.com",
+      "message": "Mensaje (opcional)",
+      "messagePlaceholder": "Cuéntanos sobre tu clínica...",
+      "confirm": "Confirmar Reserva",
+      "bookingSuccess": "¡Reserva confirmada!",
+      "bookingSuccessMessage": "Recibirás un email de confirmación pronto"
+    }
   },
   "contact": {
     "title": "Contacto",
-    "description": "Ponte en contacto con nuestro equipo. Formulario de contacto próximamente en Phase 2.",
-    "content": "Contenido de contacto"
+    "description": "Comparte tu análisis ROI y descubre cómo podemos ayudarte a recuperar esos ingresos",
+    "form": {
+      "title": "Envíanos tu información",
+      "roiRequired": "Completa la calculadora ROI antes de continuar",
+      "roiNotCalculated": "Para una mejor atención, debes mandarnos tus resultados de la calculadora ROI para poder ayudarte mejor y de forma particular y exclusiva.",
+      "roiNotAccepted": "Para una mejor atención, debes mandarnos tus resultados de la calculadora ROI para poder ayudarte mejor y de forma particular y exclusiva.",
+      "dataAcceptance": "Has aceptado que NeuronIA pueda utilizar tus datos de ROI para estudiar tu caso de forma personalizada.",
+      "goToROI": "Ir a Calculadora ROI",
+      "roiSummary": {
+        "title": "Resumen de tu análisis ROI",
+        "monthlyRevenue": "Ingresos recuperables/mes",
+        "yearlyRevenue": "Proyección anual",
+        "roi": "ROI estimado",
+        "calculated": "Calculado"
+      },
+      "fields": {
+        "name": {
+          "label": "Nombre completo",
+          "placeholder": "Tu nombre"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "tu@email.com"
+        },
+        "phone": {
+          "label": "Teléfono",
+          "placeholder": "+34 600 000 000"
+        },
+        "clinic": {
+          "label": "Nombre de la clínica",
+          "placeholder": "Nombre de tu clínica"
+        },
+        "message": {
+          "label": "Mensaje adicional (opcional)",
+          "placeholder": "Cuéntanos más sobre tu situación..."
+        },
+        "wantsDemo": {
+          "label": "¿Quieres agendar una demo?",
+          "description": "Marca esta opción si quieres programar una demostración personalizada"
+        },
+        "calendly": {
+          "title": "Agenda tu Demo",
+          "placeholder": "El calendario de reservas se integrará aquí próximamente"
+        }
+      },
+      "submit": "Enviar Solicitud",
+      "success": {
+        "title": "¡Solicitud enviada!",
+        "message": "Hemos recibido tu información y nos pondremos en contacto contigo pronto"
+      }
+    }
   },
   "footer": {
     "brand": {

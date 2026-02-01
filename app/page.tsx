@@ -228,8 +228,8 @@ export default function Home() {
 
           <div ref={systemFeaturesRef as React.RefObject<HTMLDivElement>} className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-12">
             {/* Feature 1: Comprensión */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm">
                 <Brain className="w-7 h-7 text-primary-foreground" />
               </div>
               <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
@@ -241,8 +241,8 @@ export default function Home() {
             </div>
 
             {/* Feature 2: Disponibilidad */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm">
                 <Clock className="w-7 h-7 text-primary-foreground" />
               </div>
               <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
@@ -254,8 +254,8 @@ export default function Home() {
             </div>
 
             {/* Feature 3: Agenda */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm">
                 <Calendar className="w-7 h-7 text-primary-foreground" />
               </div>
               <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
@@ -267,8 +267,8 @@ export default function Home() {
             </div>
 
             {/* Feature 4: Seguimiento */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm">
                 <BellRing className="w-7 h-7 text-primary-foreground" />
               </div>
               <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
@@ -333,9 +333,9 @@ export default function Home() {
 
           <div ref={benefitsRef as React.RefObject<HTMLDivElement>} className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
             {/* Benefit 1: Disponibilidad */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
+                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                   <Zap className="w-7 h-7 text-primary-foreground" />
                 </div>
                 <div className="space-y-2">
@@ -350,9 +350,9 @@ export default function Home() {
             </div>
 
             {/* Benefit 2: Eficiencia */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
+                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                   <TrendingUp className="w-7 h-7 text-primary-foreground" />
                 </div>
                 <div className="space-y-2">
@@ -367,9 +367,9 @@ export default function Home() {
             </div>
 
             {/* Benefit 3: Experiencia */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
+                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                   <Heart className="w-7 h-7 text-primary-foreground" />
                 </div>
                 <div className="space-y-2">
@@ -384,9 +384,9 @@ export default function Home() {
             </div>
 
             {/* Benefit 4: Optimización */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
+                <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                   <Target className="w-7 h-7 text-primary-foreground" />
                 </div>
                 <div className="space-y-2">
@@ -422,7 +422,7 @@ export default function Home() {
             {["dental", "medical", "private", "veterinary"].map((type) => (
               <div 
                 key={type} 
-                className="group rounded-lg border border-border bg-background/50 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-lg hover:scale-105 dark:hover:glow-sm"
+                className="group rounded-lg border border-border bg-background/50 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
               >
                 <h3 className="text-lg font-semibold mb-2 text-gradient-to dark:text-primary group-hover:text-primary transition-colors">
                   {t(`home.scenarios.types.${type}.title`)}
@@ -461,7 +461,7 @@ export default function Home() {
             {["response", "lost", "revenue"].map((stat) => (
               <div 
                 key={stat} 
-                className="rounded-lg border-2 border-border bg-card/80 backdrop-blur-sm p-8 text-center transition-all hover:border-primary hover:scale-105 dark:hover:glow-md"
+                className="rounded-lg border-2 border-border bg-card/80 backdrop-blur-sm p-8 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
               >
                 <div className="text-5xl font-bold mb-3 text-gradient-to dark:text-primary sm:text-6xl">
                   <AnimatedNumber 

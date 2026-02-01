@@ -13,8 +13,8 @@ export function Footer() {
   const footerLinks = {
     product: [
       { href: "/solucion", label: t("footer.links.solution") },
-      { href: "/roi", label: t("footer.links.roiCalculator") },
       { href: "/escenarios", label: t("footer.links.useCases") },
+      { href: "/roi", label: t("footer.links.roiCalculator") },
       { href: "/como-funciona", label: t("footer.links.howItWorks") },
     ],
     company: [
@@ -83,7 +83,7 @@ export function Footer() {
               {t("footer.cta.description")}
             </p>
             <Button asChild size="sm">
-              <Link href="/reservar">{t("footer.cta.button")}</Link>
+              <Link href="/contacto">{t("footer.cta.button")}</Link>
             </Button>
           </div>
         </div>

@@ -32,11 +32,11 @@ export function Header() {
 
   const navLinks = [
     { href: "/solucion", label: t("nav.solution") },
-    { href: "/roi", label: t("nav.roi") },
     { href: "/escenarios", label: t("nav.scenarios") },
+    { href: "/roi", label: t("nav.roi") },
     { href: "/como-funciona", label: t("nav.howItWorks") },
     { href: "/metodologia", label: t("nav.methodology") },
-    { href: "/faqs", label: t("nav.faqs") },
+    { href: "/contacto", label: t("nav.contact") },
   ]
 
   // Actualizar posición del underline cuando cambia la ruta o el idioma
