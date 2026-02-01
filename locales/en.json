@@ -1,7 +1,10 @@
 {
   "nav": {
     "home": "Home",
+    "problem": "Problem",
     "solution": "Solution",
+    "flow": "Flow",
+    "benefits": "Benefits",
     "roi": "ROI",
     "scenarios": "Scenarios",
     "howItWorks": "How It Works",
@@ -252,7 +255,8 @@
     "toggleTheme": "Toggle theme",
     "changeLanguage": "Change language",
     "logo": "NeuronIA logo",
-    "goToTop": "Go to top"
+    "goToTop": "Go to top",
+    "sectionNavigation": "Section navigation"
   },
   "shortcuts": {
     "title": "Keyboard Shortcuts",

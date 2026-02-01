@@ -9,9 +9,12 @@ import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useTheme } from "next-themes"
+import { useStagger } from "@/hooks/use-stagger"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { CircuitLines } from "@/components/shapes/circuit-lines"
+import { FrictionlessFlow } from "@/components/frictionless-flow"
+import { Reveal } from "@/components/reveal"
 import { 
   MessageCircle, 
   AlertCircle, 
@@ -47,6 +50,9 @@ export default function Home() {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
+  const { ref: systemFeaturesRef } = useStagger({ stagger: 100, duration: 600, distance: 40 })
+  const { ref: benefitsRef } = useStagger({ stagger: 150, duration: 700, distance: 40 })
+  const { ref: problemCardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
 
   React.useEffect(() => {
     setMounted(true)
@@ -110,28 +116,30 @@ export default function Home() {
         <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-red-500/10 to-transparent dark:from-red-500/20 pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-orange-600/10 to-transparent dark:from-orange-600/20 pointer-events-none" />
         
-        <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px] opacity-10" />
-        <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px] opacity-10" />
+        <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px] opacity-10" parallax parallaxSpeed={0.2} />
+        <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px] opacity-10" parallax parallaxSpeed={0.3} />
         <GridPattern squares={[[3, 2], [7, 5], [12, 3], [18, 8], [5, 10], [15, 6]]} />
         
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           {/* Header impactante */}
-          <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-danger">
-              {t("home.problem.title")}
-            </h2>
-            <p className="text-2xl font-semibold text-red-600 dark:text-red-400 sm:text-3xl">
-              {t("home.problem.subtitle")}
-            </p>
-            <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
-              {t("home.problem.description")}
-            </p>
-          </div>
+          <Reveal delay={100}>
+            <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-danger">
+                {t("home.problem.title")}
+              </h2>
+              <p className="text-2xl font-semibold text-red-600 dark:text-red-400 sm:text-3xl">
+                {t("home.problem.subtitle")}
+              </p>
+              <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
+                {t("home.problem.description")}
+              </p>
+            </div>
+          </Reveal>
 
           {/* Grid de problemas específicos - 2x2 */}
-          <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto mb-12">
+          <div ref={problemCardsRef as React.RefObject<HTMLDivElement>} className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto mb-12">
             {/* Problema 1: Mensajes sin responder */}
-            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
               <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
                 <MessageCircle className="w-7 h-7 text-white" />
               </div>
@@ -146,7 +154,7 @@ export default function Home() {
             </div>
 
             {/* Problema 2: Recepción saturada */}
-            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
               <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
                 <Users className="w-7 h-7 text-white" />
               </div>
@@ -161,7 +169,7 @@ export default function Home() {
             </div>
 
             {/* Problema 3: Citas que se escapan */}
-            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
               <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
                 <AlertCircle className="w-7 h-7 text-white" />
               </div>
@@ -176,7 +184,7 @@ export default function Home() {
             </div>
 
             {/* Problema 4: Agenda desorganizada */}
-            <div className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
               <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
                 <Calendar className="w-7 h-7 text-white" />
               </div>
@@ -191,45 +199,26 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator ROJO - Oculto en mobile, tema infierno */}
-        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <button
-            onClick={() => {
-              const element = document.getElementById("system-section")
-              if (element) {
-                element.scrollIntoView({ behavior: "smooth", block: "start" })
-              }
-            }}
-            className="group flex flex-col items-center gap-2 transition-all hover:scale-110 cursor-pointer"
-            aria-label={t("common.scrollDown")}
-          >
-            <div className="text-sm font-medium text-red-600 dark:text-red-400 group-hover:text-red-500 dark:group-hover:text-red-300 transition-colors">
-              {t("common.scrollDown")}
-            </div>
-            <div className="relative w-6 h-10 rounded-full border-2 border-red-600 dark:border-red-400 group-hover:border-red-500 dark:group-hover:border-red-300 transition-colors shadow-lg shadow-red-500/50 group-hover:shadow-red-500/80">
-              <div className="absolute top-2 left-1/2 w-0.5 h-2 bg-red-600 dark:bg-red-400 group-hover:bg-red-500 dark:group-hover:bg-red-300 rounded-full animate-scroll-down" />
-            </div>
-          </button>
-        </div>
       </Section>
 
       {/* System Section - MUY CLARO en light, MUY OSCURO en dark */}
       <Section variant="default" id="system-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
         <CircuitLines />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-pulse">
-              {t("home.system.title")}
-            </h2>
-            <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
-              {t("home.system.description")}
-            </p>
-          </div>
+          <Reveal>
+            <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-pulse">
+                {t("home.system.title")}
+              </h2>
+              <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
+                {t("home.system.description")}
+              </p>
+            </div>
+          </Reveal>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-12">
+          <div ref={systemFeaturesRef as React.RefObject<HTMLDivElement>} className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-12">
             {/* Feature 1: Comprensión */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
               <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
                 <Brain className="w-7 h-7 text-primary-foreground" />
               </div>
@@ -242,7 +231,7 @@ export default function Home() {
             </div>
 
             {/* Feature 2: Disponibilidad */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
               <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
                 <Clock className="w-7 h-7 text-primary-foreground" />
               </div>
@@ -255,7 +244,7 @@ export default function Home() {
             </div>
 
             {/* Feature 3: Agenda */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
               <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
                 <Calendar className="w-7 h-7 text-primary-foreground" />
               </div>
@@ -268,7 +257,7 @@ export default function Home() {
             </div>
 
             {/* Feature 4: Seguimiento */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
               <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm">
                 <BellRing className="w-7 h-7 text-primary-foreground" />
               </div>
@@ -293,85 +282,25 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator - Oculto en mobile */}
-        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <ScrollIndicator targetId="flow-section" />
-        </div>
       </Section>
 
-      {/* Flow Section - MÁS OSCURO en light, MÁS CLARO en dark */}
+      {/* Flow Section - Flujo sin fricción con línea vertical animada */}
       <Section variant="muted" id="flow-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
         <P5NoiseBlob />
-        <BlobShape position="bottom-right" color="accent" className="w-96 h-96" />
+        <BlobShape position="bottom-right" color="accent" className="w-96 h-96" parallax parallaxSpeed={0.4} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-flow">
-              {t("home.flow.title")}
-            </h2>
-            <p className="text-xl text-muted-foreground sm:text-2xl">
-              {t("home.flow.description")}
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
-            {/* Step 1 */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                1
-              </div>
-              <div className="pt-8 text-center space-y-3">
-                <MessageCircle className="w-10 h-10 mx-auto text-primary" />
-                <p className="text-base font-medium text-foreground">
-                  {t("home.flow.steps.1")}
-                </p>
-              </div>
+          <Reveal delay={100}>
+            <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-flow">
+                {t("home.flow.title")}
+              </h2>
+              <p className="text-xl text-muted-foreground sm:text-2xl">
+                {t("home.flow.description")}
+              </p>
             </div>
+          </Reveal>
 
-            {/* Step 2 */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                2
-              </div>
-              <div className="pt-8 text-center space-y-3">
-                <Clock className="w-10 h-10 mx-auto text-primary" />
-                <p className="text-base font-medium text-foreground">
-                  {t("home.flow.steps.2")}
-                </p>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                3
-              </div>
-              <div className="pt-8 text-center space-y-3">
-                <Target className="w-10 h-10 mx-auto text-primary" />
-                <p className="text-base font-medium text-foreground">
-                  {t("home.flow.steps.3")}
-                </p>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg group-hover:scale-110 transition-transform dark:glow-primary">
-                4
-              </div>
-              <div className="pt-8 text-center space-y-3">
-                <Calendar className="w-10 h-10 mx-auto text-primary" />
-                <p className="text-base font-medium text-foreground">
-                  {t("home.flow.steps.4")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Scroll Indicator - Oculto en mobile */}
-        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <ScrollIndicator targetId="benefits-section" />
+          <FrictionlessFlow />
         </div>
       </Section>
 
@@ -379,18 +308,20 @@ export default function Home() {
       <Section variant="default" id="benefits-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
         <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-bounce">
-              {t("home.benefits.title")}
-            </h2>
-            <p className="text-xl text-muted-foreground sm:text-2xl">
-              {t("home.benefits.description")}
-            </p>
-          </div>
+          <Reveal delay={100}>
+            <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-bounce">
+                {t("home.benefits.title")}
+              </h2>
+              <p className="text-xl text-muted-foreground sm:text-2xl">
+                {t("home.benefits.description")}
+              </p>
+            </div>
+          </Reveal>
 
-          <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+          <div ref={benefitsRef as React.RefObject<HTMLDivElement>} className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
             {/* Benefit 1: Disponibilidad */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
                   <Zap className="w-7 h-7 text-primary-foreground" />
@@ -407,7 +338,7 @@ export default function Home() {
             </div>
 
             {/* Benefit 2: Eficiencia */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
                   <TrendingUp className="w-7 h-7 text-primary-foreground" />
@@ -424,7 +355,7 @@ export default function Home() {
             </div>
 
             {/* Benefit 3: Experiencia */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
                   <Heart className="w-7 h-7 text-primary-foreground" />
@@ -441,7 +372,7 @@ export default function Home() {
             </div>
 
             {/* Benefit 4: Optimización */}
-            <div className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:scale-105 hover:shadow-xl dark:hover:glow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform dark:glow-sm shrink-0">
                   <Target className="w-7 h-7 text-primary-foreground" />
@@ -458,17 +389,12 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator - Oculto en mobile */}
-        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <ScrollIndicator targetId="scenarios-section" />
-        </div>
       </Section>
 
       {/* Scenarios Section - MÁS OSCURO en light, MÁS CLARO en dark */}
       <Section variant="card" id="scenarios-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
-        <BlobShape position="top-right" color="gradient" />
-        <BlobShape position="bottom-left" color="primary" className="w-80 h-80" />
+        <BlobShape position="top-right" color="gradient" parallax parallaxSpeed={0.25} />
+        <BlobShape position="bottom-left" color="primary" className="w-80 h-80" parallax parallaxSpeed={0.35} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
@@ -502,17 +428,12 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        
-        {/* Scroll Indicator - Oculto en mobile */}
-        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <ScrollIndicator targetId="roi-section" />
-        </div>
       </Section>
 
       {/* ROI CTA Section */}
       <Section variant="muted" id="roi-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
         <CircuitLines />
-        <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" />
+        <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.3} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-wave">
@@ -549,18 +470,13 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        
-        {/* Scroll Indicator - Oculto en mobile */}
-        <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <ScrollIndicator targetId="final-cta-section" />
-        </div>
       </Section>
 
       {/* Final CTA Section - Visible with footer */}
       <Section variant="alt" id="final-cta-section" className="flex flex-col justify-center py-24 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background">
-        <BlobShape position="center" color="primary" className="w-[600px] h-[600px]" />
-        <BlobShape position="top-left" color="accent" className="w-[400px] h-[400px]" />
-        <BlobShape position="bottom-right" color="gradient" className="w-[500px] h-[500px]" />
+        <BlobShape position="center" color="primary" className="w-[600px] h-[600px]" parallax parallaxSpeed={0.2} />
+        <BlobShape position="top-left" color="accent" className="w-[400px] h-[400px]" parallax parallaxSpeed={0.35} />
+        <BlobShape position="bottom-right" color="gradient" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.25} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-pulse">

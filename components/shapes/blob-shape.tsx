@@ -1,10 +1,15 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { useParallax } from "@/hooks/use-parallax"
 
 interface BlobShapeProps {
   className?: string
   position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center"
   color?: "primary" | "accent" | "gradient"
+  parallax?: boolean
+  parallaxSpeed?: number
 }
 
 const positionClasses = {
@@ -25,9 +30,17 @@ export function BlobShape({
   className,
   position = "top-right",
   color = "primary",
+  parallax = false,
+  parallaxSpeed = 0.3,
 }: BlobShapeProps) {
+  const { ref } = useParallax({ 
+    speed: parallaxSpeed,
+    direction: position.includes("top") ? "up" : "down"
+  })
+
   return (
     <div
+      ref={parallax ? (ref as React.RefObject<HTMLDivElement>) : undefined}
       className={cn(
         "absolute pointer-events-none opacity-20 dark:opacity-30",
         "w-96 h-96 rounded-full blur-3xl",

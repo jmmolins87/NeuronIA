@@ -171,8 +171,148 @@ public/                # Static assets
 
 ## Available Libraries
 - **UI**: next-themes, shadcn/ui, lucide-react
-- **Animation** (future): animejs, three, p5, lottie-react, lenis
+- **Animation**: animejs, three, p5, lottie-react, lenis
 - **Utilities**: mousetrap, chalk
+
+## Phase 7: Scroll Experiences (Lenis + Anime.js)
+
+Premium scroll experience with smooth animations and accessibility.
+
+### Components & Providers
+
+#### Lenis Smooth Scroll
+- **Provider**: `/components/providers/lenis-provider.tsx`
+- **Hook**: `useLenis()` - Access Lenis instance and enabled state
+- **Features**:
+  - Smooth scroll with customizable easing
+  - Auto-disabled when `prefers-reduced-motion: reduce`
+  - RAF loop with proper cleanup
+  - Dynamic enable/disable on preference change
+
+#### Scroll Progress Bar
+- **Component**: `/components/scroll-progress-bar.tsx`
+- **Location**: Fixed top, full width
+- **Style**: Neon gradient with subtle glow
+- **Fallback**: Uses native scroll if Lenis disabled
+
+#### Active Section Indicator
+- **Component**: `/components/active-section-indicator.tsx`
+- **Location**: Fixed right side (hidden on mobile/tablet)
+- **Features**:
+  - IntersectionObserver-based detection
+  - Smooth scroll to section on click
+  - Neon active state with glow
+  - Accessible navigation
+
+### Hooks
+
+#### useRevealOnView
+```typescript
+const { ref, isVisible } = useRevealOnView({
+  delay: 0,           // ms before animation starts
+  duration: 800,      // animation duration
+  distance: 30,       // translateY distance
+  easing: "easeOutCubic",
+  threshold: 0.1,     // intersection threshold
+  triggerOnce: true   // only animate once
+})
+```
+- Fade + translateY animation on viewport enter
+- Auto-disabled with `prefers-reduced-motion`
+- IntersectionObserver cleanup
+
+#### useStagger
+```typescript
+const { ref, isVisible } = useStagger({
+  delay: 0,
+  stagger: 100,       // ms between each item
+  duration: 600,
+  distance: 30,
+  easing: "easeOutCubic"
+})
+```
+- Animate children with stagger delay
+- Children need `data-stagger-item` attribute
+- Uses Anime.js `stagger()` function
+
+#### useParallax
+```typescript
+const { ref } = useParallax({
+  speed: 0.5,         // parallax intensity
+  direction: "up"     // "up" or "down"
+})
+```
+- Subtle parallax effect on scroll
+- Works with Lenis or native scroll
+- Auto-disabled with `prefers-reduced-motion`
+
+### Specialized Components
+
+#### FrictionlessFlow
+- **Path**: `/components/frictionless-flow.tsx`
+- **Features**:
+  - Vertical animated line (grows with scroll)
+  - Stagger animation on step items
+  - Number badges + icon + text layout
+  - Used in "Flow" section
+
+#### RevealSection
+- **Path**: `/components/reveal-section.tsx`
+- **Usage**: Wrapper for fade-in animations
+```tsx
+<RevealSection delay={200} duration={800}>
+  <h2>Content appears on scroll</h2>
+</RevealSection>
+```
+
+### Parallax Integration
+
+BlobShape and other decorative elements support parallax:
+```tsx
+<BlobShape 
+  position="top-left" 
+  color="primary" 
+  parallax 
+  parallaxSpeed={0.3} 
+/>
+```
+
+### Anime.js Import Pattern
+Use dynamic imports with named exports:
+```typescript
+const { animate } = await import("animejs")
+
+// Usage
+animate(element, {
+  opacity: [0, 1],
+  translateY: [distance, 0],
+  duration: 800,
+  ease: "out-cubic",
+  delay: 0,
+})
+```
+
+### Accessibility Rules
+**CRITICAL**: All animations respect `prefers-reduced-motion`:
+- Lenis: OFF (uses native scroll)
+- Anime.js: Instant transitions or disabled
+- Parallax: No transform applied
+- Lottie: Paused (from Phase 6)
+- Three/P5: Static or minimal animation
+
+### Home Page Integration
+1. ✅ Lenis smooth scroll active
+2. ✅ Scroll progress bar (top)
+3. ✅ Active section indicator (right side)
+4. ✅ Parallax on BlobShapes (subtle speeds: 0.2-0.4)
+5. ✅ Frictionless Flow with vertical line + stagger
+6. ✅ Reveal animations ready (use RevealSection wrapper)
+
+### Performance Notes
+- Anime.js loaded dynamically (code-splitting)
+- IntersectionObserver used (no constant RAF checks)
+- Lenis RAF loop only runs when enabled
+- All animations use GPU-accelerated properties (opacity, transform)
 
 ## Git Workflow
 - Commit messages in English
@@ -194,4 +334,6 @@ public/                # Static assets
 
 ## Development Phases
 - **Phase 1-5**: ✅ Complete (setup, theme, i18n, neon palette, visual WOW)
-- **Phase 6+**: Pending (advanced animations, interactions)
+- **Phase 6**: ✅ Complete (micro-interactions, keyboard shortcuts)
+- **Phase 7**: ✅ Complete (scroll experiences with Lenis + Anime.js)
+- **Phase 8+**: Pending (advanced interactions, data visualization)

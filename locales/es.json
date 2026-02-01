@@ -1,7 +1,10 @@
 {
   "nav": {
     "home": "Inicio",
+    "problem": "Problema",
     "solution": "Solución",
+    "flow": "Flujo",
+    "benefits": "Beneficios",
     "roi": "ROI",
     "scenarios": "Escenarios",
     "howItWorks": "Cómo Funciona",
@@ -260,7 +263,8 @@
     "toggleTheme": "Cambiar tema",
     "changeLanguage": "Cambiar idioma",
     "logo": "Logo de NeuronIA",
-    "goToTop": "Ir al inicio"
+    "goToTop": "Ir al inicio",
+    "sectionNavigation": "Navegación de secciones"
   },
   "shortcuts": {
     "title": "Atajos de Teclado",
