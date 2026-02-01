@@ -187,9 +187,68 @@
     "content": "ROI calculator content"
   },
   "scenarios": {
-    "title": "Use Cases",
-    "description": "See how different clinics benefit from our intelligent care system. Full content coming soon in Phase 2.",
-    "content": "Use cases content"
+    "title": "Real Scenarios",
+    "description": "Discover how the Intelligent Care System transforms daily operations across different specialties",
+    "aesthetic": {
+      "title": "Aesthetic Clinic",
+      "subtitle": "From WhatsApp overload to optimized scheduling",
+      "situation": {
+        "title": "Usual Situation",
+        "description": "Multiple budget inquiries via WhatsApp, patients asking about availability at all hours, and the team spending 2-3 hours daily just responding to messages and managing the schedule."
+      },
+      "problem": {
+        "title": "The Problem",
+        "description": "Messages pile up during treatments, budget inquiries go unanswered until end of day, and many potential patients end up contacting other clinics that respond faster."
+      },
+      "action": {
+        "title": "System Action",
+        "description": "Automatically responds to treatment and budget inquiries, manages real-time availability, sends appointment confirmations and reminders, and only escalates cases requiring personalized attention."
+      },
+      "change": {
+        "title": "What Changes",
+        "description": "Team focuses on treatments without interruptions, patients receive immediate 24/7 responses, schedule is automatically optimized, and more appointments are captured without increasing workload."
+      }
+    },
+    "dental": {
+      "title": "Dental Clinic",
+      "subtitle": "From losing urgent appointments to immediate care",
+      "situation": {
+        "title": "Usual Situation",
+        "description": "Patients with emergencies calling after hours, appointment confirmations by phone interrupting treatments, and last-minute no-shows leaving gaps in the schedule."
+      },
+      "problem": {
+        "title": "The Problem",
+        "description": "Night and weekend emergencies are lost until Monday, confirmation calls consume team time, and cancellation gaps don't get filled in time."
+      },
+      "action": {
+        "title": "System Action",
+        "description": "Manages 24/7 emergencies prioritizing by severity, sends automatic confirmations and detects cancellations, offers available slots when cancellations occur, and keeps team informed only when necessary."
+      },
+      "change": {
+        "title": "What Changes",
+        "description": "Real emergencies are captured immediately, schedule stays full by optimizing gaps, team spends zero time on routine confirmations, and patients feel someone is always available."
+      }
+    },
+    "physiotherapy": {
+      "title": "Physiotherapy Center",
+      "subtitle": "From manual management to automatic follow-up",
+      "situation": {
+        "title": "Usual Situation",
+        "description": "Patients in multi-session treatments, manual evolution tracking, forgotten next appointment reminders, and difficulty maintaining treatment continuity."
+      },
+      "problem": {
+        "title": "The Problem",
+        "description": "Patients abandon treatment mid-way because they forget to schedule next session, manual follow-up consumes time, and it's hard to know which patients need personalized reminders."
+      },
+      "action": {
+        "title": "System Action",
+        "description": "Sends automatic next session reminders, detects patients who haven't scheduled their continuation, keeps treatment history accessible, and suggests optimal times based on patient patterns."
+      },
+      "change": {
+        "title": "What Changes",
+        "description": "Treatment continuity improves significantly, patients feel accompanied in their recovery, team has complete visibility without extra effort, and schedule remains stable and predictable."
+      }
+    }
   },
   "howItWorks": {
     "title": "How It Works",

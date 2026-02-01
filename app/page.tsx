@@ -10,11 +10,13 @@ import { Logo } from "@/components/logo"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useTheme } from "next-themes"
 import { useStagger } from "@/hooks/use-stagger"
+import { useMountAnimation } from "@/hooks/use-mount-animation"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { CircuitLines } from "@/components/shapes/circuit-lines"
 import { FrictionlessFlow } from "@/components/frictionless-flow"
 import { Reveal } from "@/components/reveal"
+import { ActiveSectionIndicator } from "@/components/active-section-indicator"
 import { 
   MessageCircle, 
   AlertCircle, 
@@ -53,6 +55,13 @@ export default function Home() {
   const { ref: systemFeaturesRef } = useStagger({ stagger: 100, duration: 600, distance: 40 })
   const { ref: benefitsRef } = useStagger({ stagger: 150, duration: 700, distance: 40 })
   const { ref: problemCardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
+  
+  // Hero mount animations
+  const { ref: heroLogoRef } = useMountAnimation({ delay: 100, duration: 1000, distance: 40 })
+  const { ref: heroTitleRef } = useMountAnimation({ delay: 300, duration: 1000, distance: 50 })
+  const { ref: heroSubtitleRef } = useMountAnimation({ delay: 500, duration: 900, distance: 40 })
+  const { ref: heroLinkRef } = useMountAnimation({ delay: 700, duration: 900, distance: 40 })
+  const { ref: heroButtonsRef } = useMountAnimation({ delay: 900, duration: 800, distance: 30 })
 
   React.useEffect(() => {
     setMounted(true)
@@ -62,12 +71,13 @@ export default function Home() {
 
   return (
     <SiteShell>
+      <ActiveSectionIndicator />
       {/* Hero Section - MUY CLARO en light, MUY OSCURO en dark */}
       <Section variant="default" id="hero" className="relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
         <ThreeBackdrop />
         <div className="container relative z-10 mx-auto max-w-screen-2xl px-4 py-8 2xl:py-12 3xl:py-16 text-center flex-1 flex items-center">
           <div className="max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto space-y-6 2xl:space-y-10 3xl:space-y-8 w-full">
-            <div className="hidden md:flex justify-center">
+            <div ref={heroLogoRef as React.RefObject<HTMLDivElement>} className="hidden md:flex justify-center">
               <Logo 
                 width={800} 
                 height={200} 
@@ -75,15 +85,15 @@ export default function Home() {
               />
             </div>
 
-            <h1 className="hero-title text-5xl font-bold tracking-tight sm:text-6xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-8xl gradient-text-slide">
+            <h1 ref={heroTitleRef as React.RefObject<HTMLHeadingElement>} className="hero-title text-5xl font-bold tracking-tight sm:text-6xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-8xl gradient-text-slide">
               {t("home.hero.claim")}
             </h1>
 
-            <p className="hero-subtitle mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-xl font-medium text-foreground sm:text-2xl lg:text-lg xl:text-xl 2xl:text-3xl">
+            <p ref={heroSubtitleRef as React.RefObject<HTMLParagraphElement>} className="hero-subtitle mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-xl font-medium text-foreground sm:text-2xl lg:text-lg xl:text-xl 2xl:text-3xl">
               {t("home.hero.keyMessage")}
             </p>
 
-            <p className="hero-link mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-base text-muted-foreground sm:text-lg lg:text-base xl:text-lg 2xl:text-3xl">
+            <p ref={heroLinkRef as React.RefObject<HTMLParagraphElement>} className="hero-link mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-base text-muted-foreground sm:text-lg lg:text-base xl:text-lg 2xl:text-3xl">
               <Link 
                 href="/roi" 
                 className="text-gradient-to dark:text-primary hover:underline transition-colors"
@@ -92,7 +102,7 @@ export default function Home() {
               </Link>
             </p>
 
-            <div className="flex flex-col items-center gap-3 2xl:gap-4 sm:flex-row sm:justify-center pt-2 2xl:pt-4">
+            <div ref={heroButtonsRef as React.RefObject<HTMLDivElement>} className="flex flex-col items-center gap-3 2xl:gap-4 sm:flex-row sm:justify-center pt-2 2xl:pt-4">
               <Button asChild size="lg" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl">
                 <Link href="/reservar">{t("home.hero.cta1")}</Link>
               </Button>
@@ -271,16 +281,18 @@ export default function Home() {
           </div>
 
           {/* Estadística impactante - Al final de la sección */}
-          <div className="max-w-3xl mx-auto">
-            <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 text-center backdrop-blur-sm dark:glow-md">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 rounded-full font-bold text-sm shadow-lg dark:glow-primary">
-                {t("home.problem.stat")}
+          <Reveal delay={200} duration={900}>
+            <div className="max-w-3xl mx-auto">
+              <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 text-center backdrop-blur-sm dark:glow-md">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 rounded-full font-bold text-sm shadow-lg dark:glow-primary">
+                  {t("home.problem.stat")}
+                </div>
+                <p className="text-lg text-foreground font-medium pt-4">
+                  {t("home.problem.description")}
+                </p>
               </div>
-              <p className="text-lg text-foreground font-medium pt-4">
-                {t("home.problem.description")}
-              </p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Section>
 

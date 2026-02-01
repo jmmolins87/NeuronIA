@@ -187,9 +187,68 @@
     "content": "Contenido de la calculadora de ROI"
   },
   "scenarios": {
-    "title": "Escenarios",
-    "description": "Explora casos de éxito y escenarios de implementación de IA. Contenido completo próximamente en Phase 2.",
-    "content": "Contenido de escenarios"
+    "title": "Escenarios Reales",
+    "description": "Descubre cómo el Sistema de Atención Inteligente transforma el día a día en diferentes especialidades",
+    "aesthetic": {
+      "title": "Clínica de Estética",
+      "subtitle": "De la saturación de WhatsApp a una agenda optimizada",
+      "situation": {
+        "title": "Situación Habitual",
+        "description": "Múltiples consultas de presupuesto por WhatsApp, pacientes preguntando por disponibilidad a todas horas, y el equipo dedicando 2-3 horas diarias solo a responder mensajes y gestionar la agenda."
+      },
+      "problem": {
+        "title": "El Problema",
+        "description": "Los mensajes se acumulan durante los tratamientos, las consultas de presupuesto quedan sin responder hasta el final del día, y muchos pacientes potenciales terminan contactando con otras clínicas que responden más rápido."
+      },
+      "action": {
+        "title": "Acción del Sistema",
+        "description": "Responde automáticamente consultas de tratamientos y presupuestos, gestiona la disponibilidad en tiempo real, envía confirmaciones y recordatorios de citas, y deriva solo casos que requieren atención personalizada."
+      },
+      "change": {
+        "title": "Qué Cambia",
+        "description": "El equipo se enfoca en los tratamientos sin interrupciones, los pacientes reciben respuesta inmediata 24/7, la agenda se optimiza automáticamente, y se capturan más citas sin aumentar la carga de trabajo."
+      }
+    },
+    "dental": {
+      "title": "Clínica Dental",
+      "subtitle": "De perder citas urgentes a atención inmediata",
+      "situation": {
+        "title": "Situación Habitual",
+        "description": "Pacientes con urgencias que llaman fuera de horario, confirmaciones de cita por teléfono que interrumpen tratamientos, y ausencias de última hora que dejan huecos en la agenda."
+      },
+      "problem": {
+        "title": "El Problema",
+        "description": "Las urgencias nocturnas y de fin de semana se pierden hasta el lunes, las llamadas de confirmación consumen tiempo del equipo, y los huecos por cancelaciones no se rellenan a tiempo."
+      },
+      "action": {
+        "title": "Acción del Sistema",
+        "description": "Gestiona urgencias 24/7 priorizando según gravedad, envía confirmaciones automáticas y detecta cancelaciones, ofrece huecos disponibles cuando hay cancelaciones, y mantiene al equipo informado solo cuando es necesario."
+      },
+      "change": {
+        "title": "Qué Cambia",
+        "description": "Las urgencias reales se capturan inmediatamente, la agenda se mantiene llena optimizando los huecos, el equipo dedica cero tiempo a confirmaciones rutinarias, y los pacientes sienten que siempre hay alguien disponible."
+      }
+    },
+    "physiotherapy": {
+      "title": "Centro de Fisioterapia",
+      "subtitle": "De gestión manual a seguimiento automático",
+      "situation": {
+        "title": "Situación Habitual",
+        "description": "Pacientes en tratamientos de varias sesiones, seguimiento manual de la evolución, recordatorios de próximas citas que se olvidan, y dificultad para mantener la continuidad del tratamiento."
+      },
+      "problem": {
+        "title": "El Problema",
+        "description": "Los pacientes abandonan el tratamiento a mitad porque olvidan agendar la siguiente sesión, el seguimiento manual consume tiempo, y es difícil saber qué pacientes necesitan recordatorios personalizados."
+      },
+      "action": {
+        "title": "Acción del Sistema",
+        "description": "Envía recordatorios automáticos de siguientes sesiones, detecta pacientes que no han agendado su continuación, mantiene el historial de tratamiento accesible, y sugiere horarios óptimos basándose en el patrón del paciente."
+      },
+      "change": {
+        "title": "Qué Cambia",
+        "description": "La continuidad del tratamiento mejora significativamente, los pacientes se sienten acompañados en su recuperación, el equipo tiene visibilidad completa sin esfuerzo adicional, y la agenda se mantiene estable y predecible."
+      }
+    }
   },
   "howItWorks": {
     "title": "Cómo Funciona",

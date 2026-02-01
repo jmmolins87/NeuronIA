@@ -19,8 +19,8 @@ export function useRevealOnView(
     duration = 800,
     distance = 30,
     easing = "easeOutCubic",
-    threshold = 0.1,
-    triggerOnce = true,
+    threshold = 0.05,
+    triggerOnce = false,
   } = options
 
   const elementRef = React.useRef<HTMLElement>(null)

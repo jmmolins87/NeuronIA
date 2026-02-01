@@ -9,6 +9,7 @@ interface UseStaggerOptions {
   distance?: number
   easing?: string
   threshold?: number
+  triggerOnce?: boolean
 }
 
 export function useStagger(options: UseStaggerOptions = {}) {
@@ -18,7 +19,8 @@ export function useStagger(options: UseStaggerOptions = {}) {
     duration = 600,
     distance = 30,
     easing = "easeOutCubic",
-    threshold = 0.1,
+    threshold = 0.05,
+    triggerOnce = false,
   } = options
 
   const containerRef = React.useRef<HTMLElement>(null)
@@ -58,13 +60,12 @@ export function useStagger(options: UseStaggerOptions = {}) {
     const observer = new IntersectionObserver(
       async (entries) => {
         for (const entry of entries) {
+          const { animate } = await import("animejs")
+          
           if (entry.isIntersecting) {
             setIsVisible(true)
 
-            // Dynamically import anime.js
-            const { animate, utils } = await import("animejs")
-
-            // Animate children with stagger
+            // Animate children with stagger - entering
             children.forEach((child, index) => {
               animate(child, {
                 opacity: [0, 1],
@@ -75,7 +76,22 @@ export function useStagger(options: UseStaggerOptions = {}) {
               })
             })
 
-            observer.unobserve(container)
+            if (triggerOnce) {
+              observer.unobserve(container)
+            }
+          } else if (!triggerOnce) {
+            setIsVisible(false)
+            
+            // Animate children with stagger - leaving
+            children.forEach((child, index) => {
+              animate(child, {
+                opacity: [1, 0],
+                translateY: [0, distance / 2],
+                duration: duration * 0.6,
+                delay: index * (stagger / 2),
+                ease: easing,
+              })
+            })
           }
         }
       },
