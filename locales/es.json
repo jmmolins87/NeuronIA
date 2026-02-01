@@ -40,7 +40,8 @@
     "scrollDown": "Descubre más",
     "locale": "es-ES",
     "back": "Volver",
-    "continue": "Continuar"
+    "continue": "Continuar",
+    "cancel": "Cancelar"
   },
   "home": {
     "title": "NeuronIA - Sistema de Atención Inteligente",
@@ -393,7 +394,7 @@
       "selectDate": "Selecciona una fecha",
       "selectTime": "Selecciona una hora",
       "confirmDetails": "Confirma los detalles",
-      "availabilityNote": "Solo días laborables (lunes a viernes). Horario: 9:00 - 18:00",
+      "availabilityNote": "Solo días laborables (lunes a viernes). Horario: 9:00 - 21:00",
       "noSlotsAvailable": "No hay horarios disponibles para esta fecha",
       "name": "Nombre completo",
       "namePlaceholder": "Tu nombre",
@@ -402,8 +403,28 @@
       "message": "Mensaje (opcional)",
       "messagePlaceholder": "Cuéntanos sobre tu clínica...",
       "confirm": "Confirmar Reserva",
+      "confirmMessage": "Por favor, confirma tu reserva de demo. Luego completarás tus datos en el formulario de contacto.",
       "bookingSuccess": "¡Reserva confirmada!",
-      "bookingSuccessMessage": "Recibirás un email de confirmación pronto"
+      "bookingSuccessMessage": "Recibirás un email de confirmación pronto",
+      "weekdays": {
+        "sun": "Dom",
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb"
+      },
+      "errors": {
+        "name": {
+          "required": "El nombre es obligatorio",
+          "minLength": "El nombre debe tener al menos 5 caracteres"
+        },
+        "email": {
+          "required": "El email es obligatorio",
+          "invalid": "Por favor, introduce un email válido"
+        }
+      }
     }
   },
   "booking": {
@@ -431,31 +452,64 @@
       "fields": {
         "name": {
           "label": "Nombre completo",
-          "placeholder": "Tu nombre"
+          "placeholder": "Tu nombre",
+          "error": {
+            "required": "El nombre es obligatorio",
+            "minLength": "El nombre debe tener al menos 5 caracteres"
+          }
         },
         "email": {
           "label": "Email",
-          "placeholder": "tu@email.com"
+          "placeholder": "tu@email.com",
+          "error": {
+            "required": "El email es obligatorio",
+            "invalid": "Por favor, introduce un email válido"
+          }
         },
         "phone": {
           "label": "Teléfono",
-          "placeholder": "+34 600 000 000"
+          "placeholder": "+34 600 000 000",
+          "error": {
+            "required": "El teléfono es obligatorio",
+            "invalid": "Por favor, introduce un teléfono válido"
+          }
         },
         "clinic": {
           "label": "Nombre de la clínica",
-          "placeholder": "Nombre de tu clínica"
+          "placeholder": "Nombre de tu clínica",
+          "error": {
+            "required": "El nombre de la clínica es obligatorio",
+            "minLength": "El nombre de la clínica debe tener al menos 2 caracteres"
+          }
         },
         "message": {
-          "label": "Mensaje adicional (opcional)",
-          "placeholder": "Cuéntanos más sobre tu situación..."
+          "label": "Mensaje adicional",
+          "placeholder": "Cuéntanos más sobre tu situación...",
+          "error": {
+            "required": "El mensaje es obligatorio",
+            "minLength": "El mensaje debe tener al menos 20 caracteres"
+          }
+        }
+      },
+      "demoStatus": {
+        "label": "Estado de la Demo",
+        "booked": {
+          "title": "✓ Demo reservada",
+          "message": "Has reservado una demo para el {{date}} a las {{time}}. Te enviaremos un recordatorio."
         },
-        "wantsDemo": {
-          "label": "¿Quieres agendar una demo?",
-          "description": "Marca esta opción si quieres programar una demostración personalizada"
+        "notBooked": {
+          "title": "No ha reservado una cita",
+          "message": "No ha reservado una cita y eso podría influir en el resultado de su consulta."
         },
-        "calendly": {
-          "title": "Agenda tu Demo",
-          "placeholder": "El calendario de reservas se integrará aquí próximamente"
+        "bookNow": "Reservar Demo Ahora",
+        "cancelDemo": "Cancelar Demo",
+        "changeDate": "Cambiar Fecha",
+        "changeROI": "Cambiar ROI",
+        "confirmCancel": "¿Estás seguro de que quieres cancelar la demo?",
+        "confirmChangeROI": "¿Estás seguro de que quieres cambiar tu ROI? Esto te redirigirá a la calculadora.",
+        "cancelled": {
+          "title": "Demo cancelada",
+          "message": "Has cancelado tu demo. Puedes reservar una nueva demo cuando lo desees."
         }
       },
       "submit": "Enviar Solicitud",

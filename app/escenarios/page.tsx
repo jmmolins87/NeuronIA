@@ -23,28 +23,28 @@ const SCENARIOS = [
   {
     id: "aesthetic",
     icon: Sparkles,
-    color: "from-blue-500 to-blue-600 dark:from-pink-500 dark:to-purple-500",
+    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-pink-500 dark:via-purple-500 dark:to-purple-600",
     hoverBorder: "hover:border-pink-500",
     hoverShadow: "hover:shadow-pink-500/30 dark:hover:shadow-pink-500/20"
   },
   {
     id: "dental",
     icon: Smile,
-    color: "from-blue-500 to-blue-600 dark:from-blue-500 dark:to-cyan-500",
+    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500",
     hoverBorder: "hover:border-blue-500",
     hoverShadow: "hover:shadow-blue-500/30 dark:hover:shadow-blue-500/20"
   },
   {
     id: "physiotherapy",
     icon: Activity,
-    color: "from-blue-500 to-blue-600 dark:from-green-500 dark:to-emerald-500",
+    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-green-500 dark:via-emerald-600 dark:to-emerald-500",
     hoverBorder: "hover:border-green-500",
     hoverShadow: "hover:shadow-green-500/30 dark:hover:shadow-green-500/20"
   },
   {
     id: "veterinary",
     icon: Heart,
-    color: "from-blue-500 to-blue-600 dark:from-orange-500 dark:to-amber-500",
+    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-orange-500 dark:via-amber-600 dark:to-amber-500",
     hoverBorder: "hover:border-orange-500",
     hoverShadow: "hover:shadow-orange-500/30 dark:hover:shadow-orange-500/20"
   }

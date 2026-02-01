@@ -2,11 +2,8 @@
 
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { useTranslation } from "@/components/providers/i18n-provider"
-import { Calendar, Clock, Check, ChevronLeft, ChevronRight, User, Mail, MessageSquare } from "lucide-react"
+import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface BookingCalendarProps {
@@ -23,11 +20,22 @@ export interface BookingData {
   message?: string
 }
 
-const AVAILABLE_TIMES = [
+const ALL_TIMES = [
   "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "12:00", "12:30", "14:00", "14:30", "15:00", "15:30",
-  "16:00", "16:30", "17:00", "17:30", "18:00"
+  "12:00", "12:30", 
+  // 13:00 - 16:00 descanso para comer (no hay horario)
+  "16:00", "16:30", "17:00", "17:30", 
+  "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"
 ]
+
+// Horarios ocupados (9:00 - 16:30)
+const OCCUPIED_TIMES = [
+  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+  "12:00", "12:30", "16:00", "16:30"
+]
+
+// Horarios disponibles (17:00 - 21:00)
+const AVAILABLE_TIMES = ALL_TIMES.filter(time => !OCCUPIED_TIMES.includes(time))
 
 export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEmail = "" }: BookingCalendarProps) {
   const { t } = useTranslation()
@@ -35,20 +43,6 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = React.useState<string | null>(null)
-  const [formData, setFormData] = React.useState({
-    name: prefillName,
-    email: prefillEmail,
-    message: ""
-  })
-
-  // Update form when prefill changes
-  React.useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      name: prefillName || prev.name,
-      email: prefillEmail || prev.email,
-    }))
-  }, [prefillName, prefillEmail])
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear()
@@ -95,15 +89,14 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
     setSelectedTime(time)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (selectedDate && selectedTime && formData.name && formData.email) {
+  const handleSubmit = () => {
+    if (selectedDate && selectedTime) {
       const bookingData: BookingData = {
         date: selectedDate,
         time: selectedTime,
-        name: formData.name,
-        email: formData.email,
-        message: formData.message
+        name: "",
+        email: "",
+        message: ""
       }
       onBookingComplete?.(bookingData)
     }
@@ -118,7 +111,8 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
   }
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString(t("common.locale") === "es" ? "es-ES" : "en-US", {
+    const locale = t("common.locale")
+    return date.toLocaleDateString(locale, {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -163,7 +157,22 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-6">
+      {/* Info Box - What's included */}
+      <div className="rounded-lg border border-border bg-card/80 backdrop-blur-sm p-6">
+        <div className="flex items-start gap-3">
+          <Info className="w-10 h-10 text-blue-500 dark:text-primary flex-shrink-0" />
+          <div>
+            <h3 className="font-semibold mb-2 text-foreground text-base">
+              {t("book.info.title")}
+            </h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              {t("book.info.description")}
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Step 1: Select Date */}
       {step === 1 && (
         <div className="space-y-6">
@@ -185,7 +194,7 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <h4 className="text-lg font-semibold">
-              {currentMonth.toLocaleDateString(t("common.locale") === "es" ? "es-ES" : "en-US", {
+              {currentMonth.toLocaleDateString(t("common.locale"), {
                 month: "long",
                 year: "numeric"
               })}
@@ -202,9 +211,9 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
 
           {/* Weekday Headers */}
           <div className="grid grid-cols-7 gap-2 mb-2">
-            {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((day) => (
+            {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day) => (
               <div key={day} className="text-center text-xs font-medium text-muted-foreground">
-                {day}
+                {t(`book.calendar.weekdays.${day}`)}
               </div>
             ))}
           </div>
@@ -214,11 +223,6 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
             {days}
           </div>
 
-          <div className="mt-4 p-4 rounded-lg bg-muted/30 border border-border">
-            <p className="text-sm text-muted-foreground">
-              {t("book.calendar.availabilityNote")}
-            </p>
-          </div>
         </div>
       )}
 
@@ -248,31 +252,39 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
           </div>
 
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-            {AVAILABLE_TIMES.map((time) => (
-              <button
-                key={time}
-                type="button"
-                onClick={() => handleTimeSelect(time)}
-                className={cn(
-                  "p-3 rounded-lg text-sm font-medium transition-all border",
-                  selectedTime === time
-                    ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
-                    : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
-                )}
-              >
-                {time}
-              </button>
-            ))}
+            {ALL_TIMES.map((time) => {
+              const isOccupied = OCCUPIED_TIMES.includes(time)
+              return (
+                <button
+                  key={time}
+                  type="button"
+                  onClick={() => !isOccupied && handleTimeSelect(time)}
+                  disabled={isOccupied}
+                  className={cn(
+                    "p-3 rounded-lg text-sm font-medium transition-all border",
+                    isOccupied
+                      ? "opacity-40 cursor-not-allowed bg-muted border-border line-through"
+                      : selectedTime === time
+                      ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
+                      : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
+                  )}
+                >
+                  {time}
+                </button>
+              )
+            })}
           </div>
 
-          <Button
-            onClick={() => setStep(3)}
-            disabled={!selectedTime}
-            className="w-full cursor-pointer dark:glow-primary"
-            size="lg"
-          >
-            {t("common.continue")}
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              onClick={() => setStep(3)}
+              disabled={!selectedTime}
+              className="w-auto cursor-pointer dark:glow-primary"
+              size="lg"
+            >
+              {t("common.continue")}
+            </Button>
+          </div>
         </div>
       )}
 
@@ -308,61 +320,20 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="booking-name">{t("book.calendar.name")}</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  id="booking-name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder={t("book.calendar.namePlaceholder")}
-                  className="pl-10"
-                  required
-                />
-              </div>
-            </div>
+          <p className="text-base text-muted-foreground">
+            {t("book.calendar.confirmMessage")}
+          </p>
 
-            <div className="space-y-2">
-              <Label htmlFor="booking-email">{t("book.calendar.email")}</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  id="booking-email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder={t("book.calendar.emailPlaceholder")}
-                  className="pl-10"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="booking-message">{t("book.calendar.message")}</Label>
-              <div className="relative">
-                <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                <Textarea
-                  id="booking-message"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder={t("book.calendar.messagePlaceholder")}
-                  className="pl-10 min-h-[100px]"
-                />
-              </div>
-            </div>
-
+          <div className="flex justify-end">
             <Button
-              type="submit"
-              className="w-full cursor-pointer dark:glow-primary"
+              onClick={handleSubmit}
+              className="w-auto cursor-pointer dark:glow-primary"
               size="lg"
             >
               <Check className="w-5 h-5 mr-2" />
               {t("book.calendar.confirm")}
             </Button>
-          </form>
+          </div>
         </div>
       )}
     </div>

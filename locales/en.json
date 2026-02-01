@@ -40,7 +40,8 @@
     "scrollDown": "Discover more",
     "locale": "en-US",
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "cancel": "Cancel"
   },
   "home": {
     "title": "NeuronIA - Intelligent Care System",
@@ -373,31 +374,64 @@
       "fields": {
         "name": {
           "label": "Full name",
-          "placeholder": "Your name"
+          "placeholder": "Your name",
+          "error": {
+            "required": "Name is required",
+            "minLength": "Name must be at least 5 characters"
+          }
         },
         "email": {
           "label": "Email",
-          "placeholder": "you@email.com"
+          "placeholder": "you@email.com",
+          "error": {
+            "required": "Email is required",
+            "invalid": "Please enter a valid email"
+          }
         },
         "phone": {
           "label": "Phone",
-          "placeholder": "+1 234 567 8900"
+          "placeholder": "+1 234 567 8900",
+          "error": {
+            "required": "Phone is required",
+            "invalid": "Please enter a valid phone number"
+          }
         },
         "clinic": {
           "label": "Clinic name",
-          "placeholder": "Your clinic name"
+          "placeholder": "Your clinic name",
+          "error": {
+            "required": "Clinic name is required",
+            "minLength": "Clinic name must be at least 2 characters"
+          }
         },
         "message": {
-          "label": "Additional message (optional)",
-          "placeholder": "Tell us more about your situation..."
+          "label": "Additional message",
+          "placeholder": "Tell us more about your situation...",
+          "error": {
+            "required": "Message is required",
+            "minLength": "Message must be at least 20 characters"
+          }
+        }
+      },
+      "demoStatus": {
+        "label": "Demo Status",
+        "booked": {
+          "title": "✓ Demo booked",
+          "message": "You have booked a demo for {{date}} at {{time}}. We'll send you a reminder."
         },
-        "wantsDemo": {
-          "label": "Want to schedule a demo?",
-          "description": "Check this option if you want to schedule a personalized demonstration"
+        "notBooked": {
+          "title": "No appointment booked",
+          "message": "You have not booked an appointment and this could affect the outcome of your inquiry."
         },
-        "calendly": {
-          "title": "Schedule your Demo",
-          "placeholder": "Booking calendar will be integrated here soon"
+        "bookNow": "Book Demo Now",
+        "cancelDemo": "Cancel Demo",
+        "changeDate": "Change Date",
+        "changeROI": "Change ROI",
+        "confirmCancel": "Are you sure you want to cancel the demo?",
+        "confirmChangeROI": "Are you sure you want to change your ROI? This will redirect you to the calculator.",
+        "cancelled": {
+          "title": "Demo cancelled",
+          "message": "You have cancelled your demo. You can book a new demo whenever you wish."
         }
       },
       "submit": "Send Request",
@@ -452,7 +486,7 @@
       "selectDate": "Select a date",
       "selectTime": "Select a time",
       "confirmDetails": "Confirm details",
-      "availabilityNote": "Weekdays only (Monday to Friday). Hours: 9:00 AM - 6:00 PM",
+      "availabilityNote": "Weekdays only (Monday to Friday). Hours: 9:00 AM - 9:00 PM",
       "noSlotsAvailable": "No time slots available for this date",
       "name": "Full name",
       "namePlaceholder": "Your name",
@@ -461,8 +495,28 @@
       "message": "Message (optional)",
       "messagePlaceholder": "Tell us about your clinic...",
       "confirm": "Confirm Booking",
+      "confirmMessage": "Please confirm your demo booking. You will complete your details in the contact form afterwards.",
       "bookingSuccess": "Booking confirmed!",
-      "bookingSuccessMessage": "You'll receive a confirmation email soon"
+      "bookingSuccessMessage": "You'll receive a confirmation email soon",
+      "weekdays": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      },
+      "errors": {
+        "name": {
+          "required": "Name is required",
+          "minLength": "Name must be at least 5 characters"
+        },
+        "email": {
+          "required": "Email is required",
+          "invalid": "Please enter a valid email"
+        }
+      }
     }
   },
   "footer": {

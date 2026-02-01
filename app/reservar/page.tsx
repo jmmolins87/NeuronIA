@@ -58,7 +58,7 @@ export default function ReservarPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 dark:from-primary dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Calendar className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
@@ -86,32 +86,7 @@ export default function ReservarPage() {
               </div>
             </Reveal>
 
-            {/* Info Box */}
-            <Reveal delay={400}>
-              <div className="rounded-lg border border-border bg-card/80 backdrop-blur-sm p-6">
-                <div className="flex items-start gap-3">
-                  <Info className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-foreground">
-                      {t("book.info.title")}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {t("book.info.description")}
-                    </p>
-                    {hasCalendlyData && (
-                      <div className="mt-4">
-                        <Button asChild variant="outline">
-                          <Link href="/contacto" className="flex items-center gap-2">
-                            {t("common.continue")}
-                            <ArrowRight className="w-4 h-4" />
-                          </Link>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
+
           </div>
         </div>
       </Section>

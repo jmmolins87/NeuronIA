@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
@@ -14,8 +15,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { BookingCalendar } from "@/components/booking-calendar"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import Link from "next/link"
 import { 
   Send,
@@ -29,14 +38,32 @@ import {
   Calculator,
   Check,
   AlertCircle,
-  Calendar
+  Calendar,
+  Info,
+  X,
+  Edit
 } from "lucide-react"
 
 export default function ContactoPage() {
-  const { t } = useTranslation()
-  const { roiData, hasROIData, hasAcceptedROIData } = useROIData()
-  const { calendlyData, hasCalendlyData, saveCalendlyData } = useCalendlyData()
+  const router = useRouter()
+  const { t, locale } = useTranslation()
+  const { roiData, hasROIData, hasAcceptedROIData, clearROIData } = useROIData()
+  const { calendlyData, hasCalendlyData, saveCalendlyData, clearCalendlyData } = useCalendlyData()
   const mounted = useMounted()
+  const [demoCancelled, setDemoCancelled] = React.useState(false)
+  const [showCancelModal, setShowCancelModal] = React.useState(false)
+  const [showChangeROIModal, setShowChangeROIModal] = React.useState(false)
+
+  const handleCancelDemo = () => {
+    clearCalendlyData()
+    setDemoCancelled(true)
+    setShowCancelModal(false)
+  }
+
+  const handleChangeROI = () => {
+    setShowChangeROIModal(false)
+    router.push('/roi')
+  }
   
   const [formData, setFormData] = React.useState({
     name: "",
@@ -46,21 +73,21 @@ export default function ContactoPage() {
     message: "",
     calendlyUrl: ""
   })
+  const [touched, setTouched] = React.useState({
+    name: false,
+    email: false,
+    phone: false,
+    clinic: false,
+    message: false
+  })
   const [errors, setErrors] = React.useState({
     name: "",
     email: "",
     phone: "",
-    clinic: ""
+    clinic: "",
+    message: ""
   })
   const [isSubmitted, setIsSubmitted] = React.useState(false)
-  const [wantsCalendly, setWantsCalendly] = React.useState(() => {
-    // Inicializar el checkbox marcado si ya hay datos de Calendly
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('neuronia-calendly-data')
-      return !!stored
-    }
-    return false
-  })
 
   const { ref: formRef } = useMountAnimation({ delay: 300, duration: 1000 })
 
@@ -82,23 +109,43 @@ export default function ContactoPage() {
       name: "",
       email: "",
       phone: "",
-      clinic: ""
+      clinic: "",
+      message: ""
     }
 
-    if (formData.name.trim().length < 2) {
-      newErrors.name = "El nombre debe tener al menos 2 caracteres"
+    // Validar nombre (mínimo 5 caracteres)
+    if (formData.name.trim().length === 0) {
+      newErrors.name = t("contact.form.fields.name.error.required")
+    } else if (formData.name.trim().length < 5) {
+      newErrors.name = t("contact.form.fields.name.error.minLength")
     }
 
-    if (!validateEmail(formData.email)) {
-      newErrors.email = "Por favor, introduce un email válido"
+    // Validar email
+    if (formData.email.trim().length === 0) {
+      newErrors.email = t("contact.form.fields.email.error.required")
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = t("contact.form.fields.email.error.invalid")
     }
 
-    if (!validatePhone(formData.phone)) {
-      newErrors.phone = "Por favor, introduce un teléfono válido"
+    // Validar teléfono
+    if (formData.phone.trim().length === 0) {
+      newErrors.phone = t("contact.form.fields.phone.error.required")
+    } else if (!validatePhone(formData.phone)) {
+      newErrors.phone = t("contact.form.fields.phone.error.invalid")
     }
 
-    if (formData.clinic.trim().length < 2) {
-      newErrors.clinic = "El nombre de la clínica debe tener al menos 2 caracteres"
+    // Validar clínica
+    if (formData.clinic.trim().length === 0) {
+      newErrors.clinic = t("contact.form.fields.clinic.error.required")
+    } else if (formData.clinic.trim().length < 2) {
+      newErrors.clinic = t("contact.form.fields.clinic.error.minLength")
+    }
+
+    // Validar mensaje (mínimo 20 caracteres)
+    if (formData.message.trim().length === 0) {
+      newErrors.message = t("contact.form.fields.message.error.required")
+    } else if (formData.message.trim().length < 20) {
+      newErrors.message = t("contact.form.fields.message.error.minLength")
     }
 
     setErrors(newErrors)
@@ -133,9 +180,16 @@ export default function ContactoPage() {
         name: "",
         email: "",
         phone: "",
-        clinic: ""
+        clinic: "",
+        message: ""
       })
-      setWantsCalendly(false)
+      setTouched({
+        name: false,
+        email: false,
+        phone: false,
+        clinic: false,
+        message: false
+      })
     }, 3000)
   }
 
@@ -146,43 +200,82 @@ export default function ContactoPage() {
       [name]: value
     }))
     
-    // Limpiar error al escribir
-    if (errors[name as keyof typeof errors]) {
+    // Si el campo ya fue tocado, validar en tiempo real
+    if (touched[name as keyof typeof touched]) {
+      const error = validateField(name, value)
       setErrors(prev => ({
         ...prev,
-        [name]: ""
+        [name]: error
       }))
     }
   }
 
-  // Manejar cuando el usuario completa la reserva
-  const handleBookingComplete = React.useCallback((bookingData: {
-    date: Date
-    time: string
-    name: string
-    email: string
-    message?: string
-  }) => {
-    // Guardar datos de la reserva
-    saveCalendlyData({
-      eventUri: `booking-${Date.now()}`,
-      inviteeUri: `invitee-${Date.now()}`,
-      eventType: "Demo",
-      inviteeName: bookingData.name,
-      inviteeEmail: bookingData.email,
-      timestamp: Date.now(),
-      scheduledDate: bookingData.date.toISOString(),
-      scheduledTime: bookingData.time,
-      message: bookingData.message,
-    })
+  const validateField = (name: string, value: string): string => {
+    let error = ""
+
+    switch (name) {
+      case "name":
+        if (value.trim().length === 0) {
+          error = t("contact.form.fields.name.error.required")
+        } else if (value.trim().length < 5) {
+          error = t("contact.form.fields.name.error.minLength")
+        }
+        break
+      
+      case "email":
+        if (value.trim().length === 0) {
+          error = t("contact.form.fields.email.error.required")
+        } else if (!validateEmail(value)) {
+          error = t("contact.form.fields.email.error.invalid")
+        }
+        break
+      
+      case "phone":
+        if (value.trim().length === 0) {
+          error = t("contact.form.fields.phone.error.required")
+        } else if (!validatePhone(value)) {
+          error = t("contact.form.fields.phone.error.invalid")
+        }
+        break
+      
+      case "clinic":
+        if (value.trim().length === 0) {
+          error = t("contact.form.fields.clinic.error.required")
+        } else if (value.trim().length < 2) {
+          error = t("contact.form.fields.clinic.error.minLength")
+        }
+        break
+      
+      case "message":
+        if (value.trim().length === 0) {
+          error = t("contact.form.fields.message.error.required")
+        } else if (value.trim().length < 20) {
+          error = t("contact.form.fields.message.error.minLength")
+        }
+        break
+    }
+
+    return error
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
     
-    // Pre-fill form with booking data
-    setFormData(prev => ({
+    // Marcar el campo como tocado
+    setTouched(prev => ({
       ...prev,
-      name: bookingData.name,
-      email: bookingData.email,
+      [name]: true
     }))
-  }, [saveCalendlyData])
+
+    // Validar y establecer error
+    const error = validateField(name, value)
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }))
+  }
+
+
 
   return (
     <SiteShell>
@@ -193,7 +286,7 @@ export default function ContactoPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 dark:from-primary dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Send className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
@@ -227,7 +320,7 @@ export default function ContactoPage() {
                   <div className="mb-6 p-4 rounded-lg bg-orange-500/10 dark:bg-orange-500/20 border border-orange-500/30">
                     <div className="flex items-start gap-3">
                       <AlertCircle className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-orange-700 dark:text-orange-300 text-left">
+                      <p className="text-base text-orange-700 dark:text-orange-300 text-left">
                         {hasROIData && !roiData?.accepted 
                           ? t("contact.form.roiNotAccepted")
                           : t("contact.form.roiNotCalculated")}
@@ -246,108 +339,200 @@ export default function ContactoPage() {
             </Reveal>
           ) : roiData && (
             /* Has ROI Data - Show Form */
-            <div className="max-w-6xl mx-auto space-y-8">
-              {/* Custom Booking Calendar - Arriba, fuera de las cajas */}
-              {wantsCalendly && (
-                <Reveal delay={200}>
-                  <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm overflow-hidden transition-all">
-                    <div className="p-4 border-b border-border bg-muted/30">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="w-5 h-5 text-primary" />
-                        <h3 className="text-lg font-bold text-foreground">
-                          {t("contact.form.fields.calendly.title")}
-                        </h3>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-start">
+              {/* First Box: ROI Summary + Demo Status */}
+              <Reveal delay={200}>
+                <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
+                  {/* ROI Summary Section */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                        <TrendingUp className="w-6 h-6 text-white dark:text-black" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-foreground">
+                        {t("contact.form.roiSummary.title")}
+                      </h2>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-3">
+                      {/* Monthly Revenue */}
+                      <div className="p-4 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-base text-muted-foreground">
+                            {t("contact.form.roiSummary.monthlyRevenue")}
+                          </span>
+                          <Euro className="w-5 h-5 text-primary" />
+                        </div>
+                        <p className="text-2xl font-bold text-primary">
+                          {mounted ? `${roiData.monthlyRevenue.toLocaleString()}€` : `${roiData.monthlyRevenue}€`}
+                        </p>
+                      </div>
+
+                      {/* Yearly Revenue */}
+                      <div className="p-4 rounded-lg border-2 border-border bg-muted/50">
+                        <p className="text-base text-muted-foreground mb-1">
+                          {t("contact.form.roiSummary.yearlyRevenue")}
+                        </p>
+                        <p className="text-2xl font-bold text-foreground">
+                          {mounted ? `${roiData.yearlyRevenue.toLocaleString()}€` : `${roiData.yearlyRevenue}€`}
+                        </p>
+                      </div>
+
+                      {/* ROI */}
+                      <div className="p-4 rounded-lg border-2 border-border bg-muted/50">
+                        <p className="text-base text-muted-foreground mb-1">
+                          {t("contact.form.roiSummary.roi")}
+                        </p>
+                        <p className="text-2xl font-bold text-foreground">
+                          {roiData.roi > 0 ? '+' : ''}{roiData.roi}%
+                        </p>
                       </div>
                     </div>
-                    <div className="p-6">
-                      <BookingCalendar 
-                        onBookingComplete={handleBookingComplete}
-                        prefillName={formData.name}
-                        prefillEmail={formData.email}
-                      />
+
+                    {/* Timestamp */}
+                    <div className="mt-4">
+                      <p className="text-base text-muted-foreground">
+                        {t("contact.form.roiSummary.calculated")}: {mounted ? new Date(roiData.timestamp).toLocaleString() : new Date(roiData.timestamp).toString()}
+                      </p>
+                    </div>
+
+                    {/* Data Acceptance Notice */}
+                    <div className="mt-4 rounded-lg border border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
+                      <div className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                        <p className="text-base text-foreground">
+                          {t("contact.form.dataAcceptance")}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Change ROI Button */}
+                    <div className="mt-4 flex justify-end">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setShowChangeROIModal(true)}
+                        className="w-full sm:w-auto cursor-pointer"
+                      >
+                        <Edit className="w-4 h-4 mr-2" />
+                        {t("contact.form.demoStatus.changeROI")}
+                      </Button>
                     </div>
                   </div>
-                </Reveal>
-              )}
 
-              {/* Grid de 2 columnas: ROI Summary + Formulario */}
-              <div className="grid gap-8 lg:grid-cols-2">
-                {/* Left Column: ROI Summary */}
-                <div className="space-y-6">
-                  {/* ROI Summary */}
-                  <Reveal delay={300}>
-                    <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-gradient-to flex items-center justify-center">
-                          <TrendingUp className="w-6 h-6 text-white" />
-                        </div>
-                        <h2 className="text-2xl font-bold text-foreground">
-                          {t("contact.form.roiSummary.title")}
-                        </h2>
+                  {/* Demo Status Section */}
+                  <div className="pt-8 border-t border-border">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                        <Calendar className="w-6 h-6 text-white dark:text-black" />
                       </div>
-
-                      <div className="space-y-4 flex-1">
-                        {/* Monthly Revenue */}
-                        <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm text-muted-foreground">
-                              {t("contact.form.roiSummary.monthlyRevenue")}
-                            </span>
-                            <Euro className="w-4 h-4 text-primary" />
-                          </div>
-                          <p className="text-3xl font-bold text-primary">
-                            {mounted ? `${roiData.monthlyRevenue.toLocaleString()}€` : `${roiData.monthlyRevenue}€`}
-                          </p>
-                        </div>
-
-                        {/* Yearly Revenue */}
-                        <div className="p-4 rounded-lg bg-muted/50">
-                          <p className="text-sm text-muted-foreground mb-1">
-                            {t("contact.form.roiSummary.yearlyRevenue")}
-                          </p>
-                          <p className="text-2xl font-bold text-foreground">
-                            {mounted ? `${roiData.yearlyRevenue.toLocaleString()}€` : `${roiData.yearlyRevenue}€`}
-                          </p>
-                        </div>
-
-                        {/* ROI */}
-                        <div className="p-4 rounded-lg bg-muted/50">
-                          <p className="text-sm text-muted-foreground mb-1">
-                            {t("contact.form.roiSummary.roi")}
-                          </p>
-                          <p className="text-2xl font-bold text-foreground">
-                            {roiData.roi > 0 ? '+' : ''}{roiData.roi}%
-                          </p>
-                        </div>
-
-                        {/* Timestamp */}
-                        <div className="pt-4 border-t border-border">
-                          <p className="text-xs text-muted-foreground">
-                            {t("contact.form.roiSummary.calculated")}: {mounted ? new Date(roiData.timestamp).toLocaleString() : new Date(roiData.timestamp).toString()}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Data Acceptance Notice */}
-                      <div className="mt-6 rounded-lg border border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
-                        <div className="flex items-start gap-3">
-                          <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                          <p className="text-sm text-foreground">
-                            {t("contact.form.dataAcceptance")}
-                          </p>
-                        </div>
-                      </div>
+                      <h2 className="text-2xl font-bold text-foreground">
+                        {t("contact.form.demoStatus.label")}
+                      </h2>
                     </div>
-                  </Reveal>
-                </div>
 
-                {/* Right Column: Contact Form */}
+                    {demoCancelled ? (
+                      /* Demo Cancelled - Red Box */
+                      <div className="rounded-lg border-2 border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
+                        <div className="flex items-start gap-3">
+                          <Info className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1">
+                            <p className="text-base font-medium text-red-700 dark:text-red-300 mb-1">
+                              {t("contact.form.demoStatus.cancelled.title")}
+                            </p>
+                            <p className="text-base text-red-600/80 dark:text-red-400/80">
+                              {t("contact.form.demoStatus.cancelled.message")}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
+                      /* Demo Booked - Green Box */
+                      <div className="rounded-lg border-2 border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
+                        <div>
+                          <p className="text-base font-medium text-green-700 dark:text-green-300 mb-1">
+                            {t("contact.form.demoStatus.booked.title")}
+                          </p>
+                          <p className="text-base text-green-600/80 dark:text-green-400/80">
+                            {mounted 
+                              ? new Date(calendlyData.scheduledDate).toLocaleDateString(locale === "es" ? "es-ES" : "en-US", {
+                                  weekday: "long",
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric"
+                                })
+                              : new Date(calendlyData.scheduledDate).toLocaleDateString()}
+                            {" a las "}
+                            {calendlyData.scheduledTime}
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Demo Not Booked - Red Box */
+                      <div className="rounded-lg border-2 border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
+                        <div className="flex items-start gap-3">
+                          <Info className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1">
+                            <p className="text-base font-medium text-red-700 dark:text-red-300 mb-1">
+                              {t("contact.form.demoStatus.notBooked.title")}
+                            </p>
+                            <p className="text-base text-red-600/80 dark:text-red-400/80">
+                              {t("contact.form.demoStatus.notBooked.message")}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Action Buttons - Below the status box */}
+                    <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-end">
+                      {hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
+                        /* When demo is booked - Show Cancel and Change Date */
+                        <>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => router.push('/reservar')}
+                            className="w-full sm:w-auto cursor-pointer"
+                          >
+                            <Calendar className="w-4 h-4 mr-2" />
+                            {t("contact.form.demoStatus.changeDate")}
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => setShowCancelModal(true)}
+                            className="w-full sm:w-auto border-red-500 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 dark:text-red-400 dark:border-red-400 cursor-pointer"
+                          >
+                            <X className="w-4 h-4 mr-2" />
+                            {t("contact.form.demoStatus.cancelDemo")}
+                          </Button>
+                        </>
+                      ) : (
+                        /* When no demo - Show Book Now */
+                        <Button 
+                          size="sm" 
+                          variant="default" 
+                          className="w-full sm:w-auto cursor-pointer"
+                          onClick={() => router.push('/reservar')}
+                        >
+                          <Calendar className="w-4 h-4 mr-2" />
+                          {t("contact.form.demoStatus.bookNow")}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Second Box: Contact Form */}
+              <Reveal delay={300}>
                 <div ref={formRef as React.RefObject<HTMLDivElement>}>
                   {isSubmitted ? (
-                    <div className="rounded-xl border-2 border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center dark:glow-primary">
-                      <Check className="w-8 h-8 text-white" />
-                    </div>
+                    <div className="rounded-xl border-2 border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center flex flex-col items-center justify-center">
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                        <Check className="w-8 h-8 text-white dark:text-black" />
+                      </div>
                       <h3 className="text-2xl font-bold mb-2 text-foreground">
                         {t("contact.form.success.title")}
                       </h3>
@@ -361,64 +546,68 @@ export default function ContactoPage() {
                         {t("contact.form.title")}
                       </h2>
 
-                      <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col" autoComplete="off">
-                        <div className="space-y-6 flex-1">
-                        {/* Name */}
-                        <div className="space-y-2">
-                        <Label htmlFor="name" className="text-base font-medium">
-                          {t("contact.form.fields.name.label")}
-                        </Label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <Input
-                            id="name"
-                            name="name"
-                            type="text"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder={t("contact.form.fields.name.placeholder")}
-                            className={`pl-10 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-                            required
-                            autoComplete="off"
-                          />
-                        </div>
-                        {errors.name && (
-                          <p className="text-sm text-red-500 flex items-center gap-1">
-                            <AlertCircle className="w-4 h-4" />
-                            {errors.name}
-                          </p>
-                        )}
-                      </div>
+                      <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
+                        {/* Campos en líneas separadas */}
+                        <div className="space-y-6">
+                          {/* Name */}
+                          <div className="space-y-2">
+                            <Label htmlFor="name" className="text-base font-medium">
+                              {t("contact.form.fields.name.label")}
+                            </Label>
+                            <div className="relative">
+                              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                              <Input
+                                id="name"
+                                name="name"
+                                type="text"
+                                value={formData.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={t("contact.form.fields.name.placeholder")}
+                                className={`pl-10 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                                autoComplete="off"
+                              />
+                            </div>
+                            {errors.name && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <span>{errors.name}</span>
+                              </p>
+                            )}
+                          </div>
 
-                      {/* Email */}
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className="text-base font-medium">
-                          {t("contact.form.fields.email.label")}
-                        </Label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder={t("contact.form.fields.email.placeholder")}
-                            className={`pl-10 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-                            required
-                            autoComplete="off"
-                          />
+                          {/* Email */}
+                          <div className="space-y-2">
+                            <Label htmlFor="email" className="text-base font-medium">
+                              {t("contact.form.fields.email.label")}
+                            </Label>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                              <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={t("contact.form.fields.email.placeholder")}
+                                className={`pl-10 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                                autoComplete="off"
+                              />
+                            </div>
+                            {errors.email && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <span>{errors.email}</span>
+                              </p>
+                            )}
+                          </div>
                         </div>
-                        {errors.email && (
-                          <p className="text-sm text-red-500 flex items-center gap-1">
-                            <AlertCircle className="w-4 h-4" />
-                            {errors.email}
-                          </p>
-                        )}
-                      </div>
 
-                      {/* Phone */}
-                      <div className="space-y-2">
+                        {/* Teléfono y Clínica en la misma fila */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                          {/* Phone */}
+                          <div className="space-y-2">
                         <Label htmlFor="phone" className="text-base font-medium">
                           {t("contact.form.fields.phone.label")}
                         </Label>
@@ -430,22 +619,22 @@ export default function ContactoPage() {
                             type="tel"
                             value={formData.phone}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder={t("contact.form.fields.phone.placeholder")}
                             className={`pl-10 ${errors.phone ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-                            required
                             autoComplete="off"
                           />
                         </div>
-                        {errors.phone && (
-                          <p className="text-sm text-red-500 flex items-center gap-1">
-                            <AlertCircle className="w-4 h-4" />
-                            {errors.phone}
-                          </p>
-                        )}
-                      </div>
+                            {errors.phone && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <span>{errors.phone}</span>
+                              </p>
+                            )}
+                          </div>
 
-                      {/* Clinic */}
-                      <div className="space-y-2">
+                          {/* Clinic */}
+                          <div className="space-y-2">
                         <Label htmlFor="clinic" className="text-base font-medium">
                           {t("contact.form.fields.clinic.label")}
                         </Label>
@@ -457,22 +646,23 @@ export default function ContactoPage() {
                             type="text"
                             value={formData.clinic}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder={t("contact.form.fields.clinic.placeholder")}
                             className={`pl-10 ${errors.clinic ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-                            required
                             autoComplete="off"
                           />
                         </div>
-                        {errors.clinic && (
-                          <p className="text-sm text-red-500 flex items-center gap-1">
-                            <AlertCircle className="w-4 h-4" />
-                            {errors.clinic}
-                          </p>
-                        )}
-                      </div>
+                            {errors.clinic && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <span>{errors.clinic}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
 
-                      {/* Message */}
-                      <div className="space-y-2">
+                        {/* Mensaje */}
+                        <div className="space-y-2">
                         <Label htmlFor="message" className="text-base font-medium">
                           {t("contact.form.fields.message.label")}
                         </Label>
@@ -484,50 +674,82 @@ export default function ContactoPage() {
                             value={formData.message}
                             autoComplete="off"
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder={t("contact.form.fields.message.placeholder")}
-                            className="pl-10 min-h-[100px]"
+                            className={`pl-10 min-h-[200px] ${errors.message ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                           />
                         </div>
-                      </div>
-
-                      {/* Checkbox para Demo */}
-                      <div 
-                        onClick={() => setWantsCalendly(!wantsCalendly)}
-                        className="flex items-start space-x-3 rounded-lg border border-border p-4 bg-muted/30 cursor-pointer hover:bg-muted/50 hover:border-primary transition-colors"
-                      >
-                        <Checkbox
-                          id="wantsDemo"
-                          checked={wantsCalendly}
-                          onCheckedChange={(checked) => setWantsCalendly(checked as boolean)}
-                          className="pointer-events-none"
-                        />
-                        <div className="grid gap-1.5 leading-none pointer-events-none">
-                          <Label
-                            htmlFor="wantsDemo"
-                            className="text-sm font-medium leading-none"
-                          >
-                            {t("contact.form.fields.wantsDemo.label")}
-                          </Label>
-                          <p className="text-sm text-muted-foreground">
-                            {t("contact.form.fields.wantsDemo.description")}
-                          </p>
+                          {errors.message && (
+                            <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                              <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                              <span>{errors.message}</span>
+                            </p>
+                          )}
                         </div>
-                      </div>
-                      </div>
 
-                      <Button type="submit" size="lg" className="w-full cursor-pointer dark:glow-primary mt-auto">
-                          <Send className="w-5 h-5 mr-2" />
-                          {t("contact.form.submit")}
-                        </Button>
+                        <div className="flex justify-start md:justify-end">
+                          <Button 
+                            type="submit" 
+                            size="lg" 
+                            className="w-full md:w-auto cursor-pointer dark:glow-primary"
+                            disabled={
+                              !formData.name.trim() || 
+                              !formData.email.trim() || 
+                              !formData.phone.trim() || 
+                              !formData.clinic.trim() || 
+                              !formData.message.trim() ||
+                              Object.values(errors).some(error => error !== "")
+                            }
+                          >
+                            <Send className="w-5 h-5 mr-2" />
+                            {t("contact.form.submit")}
+                          </Button>
+                        </div>
                       </form>
                     </div>
                   )}
                 </div>
-              </div>
+              </Reveal>
             </div>
           )}
         </div>
       </Section>
+
+      {/* Cancel Demo Modal */}
+      <AlertDialog open={showCancelModal} onOpenChange={setShowCancelModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("contact.form.demoStatus.confirmCancel")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción cancelará tu demo reservada. Podrás reservar una nueva demo en cualquier momento.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+            <AlertDialogAction variant="destructive" onClick={handleCancelDemo}>
+              {t("contact.form.demoStatus.cancelDemo")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Change ROI Modal */}
+      <AlertDialog open={showChangeROIModal} onOpenChange={setShowChangeROIModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("contact.form.demoStatus.changeROI")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("contact.form.demoStatus.confirmChangeROI")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleChangeROI}>
+              {t("common.continue")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </SiteShell>
   )
 }

@@ -209,7 +209,7 @@ export default function ROIPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 dark:from-primary dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Calculator className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function ROIPage() {
               </div>
 
               {/* Disclaimer */}
-              <div className="mt-6 p-4 rounded-lg bg-muted/30 border border-border/50">
+              <div className="mt-6 pt-6 border-t border-border">
                 <p className="text-sm text-foreground/70">
                   <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
                   {t("roi.calculator.disclaimer")}

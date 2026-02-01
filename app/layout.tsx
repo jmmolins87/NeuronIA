@@ -6,6 +6,8 @@ import { I18nProvider } from "@/components/providers/i18n-provider";
 import { LenisProvider } from "@/components/providers/lenis-provider";
 import { KeyboardShortcutsProvider } from "@/components/providers/keyboard-shortcuts-provider";
 import { KeyboardShortcutsDialog } from "@/components/keyboard-shortcuts-dialog";
+import { ScrollToTop } from "@/components/scroll-to-top";
+import { PageLoaderProvider } from "@/components/providers/page-loader-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,8 +49,11 @@ export default function RootLayout({
           <I18nProvider>
             <LenisProvider>
               <KeyboardShortcutsProvider>
-                {children}
-                <KeyboardShortcutsDialog />
+                <PageLoaderProvider>
+                  <ScrollToTop />
+                  {children}
+                  <KeyboardShortcutsDialog />
+                </PageLoaderProvider>
               </KeyboardShortcutsProvider>
             </LenisProvider>
           </I18nProvider>

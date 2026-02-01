@@ -40,6 +40,7 @@
   --color-section-alt: var(--section-alt);
   --color-gradient-from: var(--gradient-from);
   --color-gradient-to: var(--gradient-to);
+  --color-gradient-purple: var(--gradient-purple);
   
   /* Chart colors */
   --color-chart-1: var(--chart-1);
@@ -118,9 +119,10 @@
   --glow: oklch(0.88 0.33 166);               /* MAXIMUM neon green for glows */
   --section-alt: oklch(0.97 0.01 180);        /* Alternate section background */
   
-  /* Gradient colors - Verde neón a Azul neón MÁXIMA VIBRACIÓN */
+  /* Gradient colors - Verde neón a Azul neón con Purple MÁXIMA VIBRACIÓN */
   --gradient-from: oklch(0.88 0.33 166);      /* MAXIMUM neon green start */
   --gradient-to: oklch(0.75 0.30 230);        /* MAXIMUM neon blue end */
+  --gradient-purple: oklch(0.65 0.28 290);    /* Vibrant purple for gradients */
 
   /* Chart colors - ULTRA NEON palette */
   --chart-1: oklch(0.88 0.33 166);            /* ULTRA neon green */
@@ -190,6 +192,7 @@
   /* Gradient colors - ABSOLUTE MAXIMUM neon vibrancy for dark mode */
   --gradient-from: oklch(0.92 0.35 166);      /* ABSOLUTE MAXIMUM neon green */
   --gradient-to: oklch(0.78 0.32 230);        /* ABSOLUTE MAXIMUM neon blue */
+  --gradient-purple: oklch(0.75 0.32 290);    /* MAXIMUM neon purple for gradients */
 
   /* Chart colors - MAXIMUM neon vibrancy for dark */
   --chart-1: oklch(0.92 0.35 166);            /* MAXIMUM neon green */
