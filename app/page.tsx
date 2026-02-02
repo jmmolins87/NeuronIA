@@ -123,7 +123,7 @@ export default function Home() {
       </Section>
 
       {/* Problem Section - Tema de PELIGRO/ALERTA con tonos rojos "INFIERNO" */}
-      <Section variant="card" id="problem-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden">
+      <Section variant="card" id="problem-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden">
         {/* Resplandor rojo de fondo estilo infierno */}
         <div className="absolute inset-0 bg-gradient-radial from-red-600/20 via-transparent to-transparent dark:from-red-600/30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-red-500/10 to-transparent dark:from-red-500/20 pointer-events-none" />
@@ -152,60 +152,60 @@ export default function Home() {
           {/* Grid de problemas específicos - 2x2 */}
           <div ref={problemCardsRef as React.RefObject<HTMLDivElement>} className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto mb-12">
             {/* Problema 1: Mensajes sin responder */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-6 md:p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+              <div className="mb-4 md:mb-0 md:absolute md:-top-5 md:-left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
                 <MessageCircle className="w-7 h-7 text-white" />
               </div>
-              <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
+              <div className="space-y-3 md:pt-4">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl text-center md:text-left">
                   {t("home.problem.issues.unanswered.title")}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed text-center md:text-left">
                   {t("home.problem.issues.unanswered.description")}
                 </p>
               </div>
             </div>
 
             {/* Problema 2: Recepción saturada */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-6 md:p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+              <div className="mb-4 md:mb-0 md:absolute md:-top-5 md:-left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
                 <Users className="w-7 h-7 text-white" />
               </div>
-              <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
+              <div className="space-y-3 md:pt-4">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl text-center md:text-left">
                   {t("home.problem.issues.overload.title")}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed text-center md:text-left">
                   {t("home.problem.issues.overload.description")}
                 </p>
               </div>
             </div>
 
             {/* Problema 3: Citas que se escapan */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-6 md:p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+              <div className="mb-4 md:mb-0 md:absolute md:-top-5 md:-left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
                 <AlertCircle className="w-7 h-7 text-white" />
               </div>
-              <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
+              <div className="space-y-3 md:pt-4">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl text-center md:text-left">
                   {t("home.problem.issues.missed.title")}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed text-center md:text-left">
                   {t("home.problem.issues.missed.description")}
                 </p>
               </div>
             </div>
 
             {/* Problema 4: Agenda desorganizada */}
-            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow">
+            <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-6 md:p-8 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+              <div className="mb-4 md:mb-0 md:absolute md:-top-5 md:-left-5 w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
                 <Calendar className="w-7 h-7 text-white" />
               </div>
-              <div className="space-y-3 pt-4">
-                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl">
+              <div className="space-y-3 md:pt-4">
+                <h3 className="text-xl font-bold text-red-600 dark:text-red-400 sm:text-2xl text-center md:text-left">
                   {t("home.problem.issues.chaos.title")}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed text-center md:text-left">
                   {t("home.problem.issues.chaos.description")}
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function Home() {
       </Section>
 
       {/* System Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="system-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
+      <Section variant="default" id="system-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
         <CircuitLines />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -285,12 +285,12 @@ export default function Home() {
 
           {/* Estadística impactante - Al final de la sección */}
           <Reveal delay={200} duration={900}>
-            <div className="max-w-3xl mx-auto">
-              <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 text-center backdrop-blur-sm dark:glow-md">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-2 rounded-full font-bold text-sm shadow-lg dark:glow-primary">
+            <div className="max-w-3xl mx-auto px-4">
+              <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-8 md:p-8 text-center backdrop-blur-sm dark:glow-md pt-12 md:pt-8">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-full font-bold text-xs md:text-sm shadow-lg dark:glow-primary whitespace-nowrap max-w-[90%] overflow-hidden text-ellipsis">
                   {t("home.problem.stat")}
                 </div>
-                <p className="text-lg text-foreground font-medium pt-4">
+                <p className="text-base md:text-lg text-foreground font-medium">
                   {t("home.problem.description")}
                 </p>
               </div>
@@ -300,7 +300,7 @@ export default function Home() {
       </Section>
 
       {/* Flow Section - Flujo sin fricción con línea vertical animada */}
-      <Section variant="muted" id="flow-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" id="flow-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
         <P5NoiseBlob />
         <BlobShape position="bottom-right" color="accent" className="w-96 h-96" parallax parallaxSpeed={0.4} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -320,7 +320,7 @@ export default function Home() {
       </Section>
 
       {/* Benefits Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="benefits-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" id="benefits-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
         <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
@@ -407,7 +407,7 @@ export default function Home() {
       </Section>
 
       {/* Scenarios Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="card" id="scenarios-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
+      <Section variant="card" id="scenarios-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
         <BlobShape position="top-right" color="gradient" parallax parallaxSpeed={0.25} />
         <BlobShape position="bottom-left" color="primary" className="w-80 h-80" parallax parallaxSpeed={0.35} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -456,7 +456,7 @@ export default function Home() {
       </Section>
 
       {/* ROI CTA Section */}
-      <Section variant="muted" id="roi-section" className="h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
+      <Section variant="muted" id="roi-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
         <CircuitLines />
         <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.3} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
