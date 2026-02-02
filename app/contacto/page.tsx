@@ -280,7 +280,7 @@ export default function ContactoPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="h-screen flex flex-col justify-center py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" className="flex flex-col justify-center py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>

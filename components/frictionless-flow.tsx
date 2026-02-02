@@ -96,7 +96,7 @@ export function FrictionlessFlow() {
             <li
               key={index}
               data-stagger-item
-              className="flex items-start gap-4 lg:gap-5 relative lg:h-full"
+              className="flex items-start gap-4 lg:gap-5 relative"
             >
               {/* Number badge */}
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-gradient-to flex items-center justify-center text-primary-foreground font-bold text-2xl shadow-lg dark:glow-primary z-10">
@@ -104,8 +104,8 @@ export function FrictionlessFlow() {
               </div>
 
               {/* Content card */}
-              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md lg:h-full lg:flex lg:flex-col">
-                <div className="flex items-start gap-4 lg:flex-1">
+              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
+                <div className="flex items-start gap-4">
                   <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-primary flex-shrink-0 mt-1" />
                   <div className="flex-1 space-y-2">
                     <p className="text-base lg:text-lg font-semibold text-foreground leading-tight">

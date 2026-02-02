@@ -82,9 +82,14 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">
               {t("footer.cta.description")}
             </p>
-            <Button asChild size="sm">
-              <Link href="/contacto">{t("footer.cta.button")}</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button asChild size="sm" variant="outline" className="cursor-pointer">
+                <Link href="/reservar">{t("nav.bookDemo")}</Link>
+              </Button>
+              <Button asChild size="sm" className="cursor-pointer dark:glow-primary">
+                <Link href="/roi">{t("nav.roi")}</Link>
+              </Button>
+            </div>
           </div>
         </div>
 

@@ -45,10 +45,10 @@ export function FinalCTA({ showMicroCta = true, noteKey }: FinalCTAProps) {
       </p>
 
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-4">
-        <Button asChild size="lg" className="w-full sm:w-auto dark:glow-primary">
+        <Button asChild size="lg" variant="outline" className="w-full sm:w-auto cursor-pointer">
           <Link href="/reservar">{t("home.finalCTA.cta")}</Link>
         </Button>
-        <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+        <Button asChild size="lg" className="w-full sm:w-auto cursor-pointer dark:glow-primary">
           <Link href="/roi" className="flex items-center gap-2">
             <Calculator className="w-5 h-5" />
             {t("solution.cta.secondary")}

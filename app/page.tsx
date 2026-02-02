@@ -23,14 +23,12 @@ import { RotatingRings } from "@/components/animations/rotating-rings"
 import { PulsingGrid } from "@/components/animations/pulsing-grid"
 import { SpiralDots } from "@/components/animations/spiral-dots"
 import { MeteorShower } from "@/components/animations/meteor-shower"
-import { 
-  ArrowRight,
+import {
   Calendar,
   Zap,
   TrendingUp,
   Heart,
   Target,
-  CheckCircle,
   Euro,
   Smile,
   Stethoscope,
@@ -83,7 +81,7 @@ export default function Home() {
     <SiteShell>
       <ActiveSectionIndicator />
       {/* Hero Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="hero" className="relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
+      <Section variant="default" id="hero" className="relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30 pb-0">
         {/* Animación: Partículas flotantes sutiles */}
         <FloatingParticles count={30} color="primary" size="sm" />
         <ThreeBackdrop />
@@ -115,10 +113,10 @@ export default function Home() {
             </p>
 
             <div ref={heroButtonsRef as React.RefObject<HTMLDivElement>} className="flex flex-col items-center gap-3 2xl:gap-4 sm:flex-row sm:justify-center pt-2 2xl:pt-4">
-              <Button asChild size="lg" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl">
+              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl cursor-pointer">
                 <Link href="/reservar">{t("home.hero.cta1")}</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl">
+              <Button asChild size="lg" className="w-full sm:w-auto 2xl:text-lg 3xl:text-xl cursor-pointer dark:glow-primary">
                 <Link href="/roi">{t("home.hero.cta2")}</Link>
               </Button>
             </div>
@@ -132,7 +130,7 @@ export default function Home() {
       </Section>
 
       {/* Problem Section - Tema de PELIGRO/ALERTA con tonos rojos "INFIERNO" */}
-      <Section variant="card" id="problem-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden">
+      <Section variant="card" id="problem-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden pb-0">
         {/* Animación: Partículas flotantes rojas - AGRESIVA */}
         <FloatingParticles count={60} color="red" size="lg" />
         
@@ -227,7 +225,7 @@ export default function Home() {
       </Section>
 
       {/* System Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="system-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
+      <Section variant="default" id="system-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background pb-0">
         {/* Animación: Anillos rotatorios - AGRESIVA */}
         <RotatingRings count={6} />
         <CircuitLines />
@@ -314,7 +312,7 @@ export default function Home() {
       </Section>
 
       {/* Flow Section - Flujo sin fricción con línea vertical animada */}
-      <Section variant="muted" id="flow-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" id="flow-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted pb-0">
         {/* Animación: Ondas fluidas - AGRESIVA */}
         <WaveLines count={12} />
         <P5NoiseBlob />
@@ -336,7 +334,7 @@ export default function Home() {
       </Section>
 
       {/* Benefits Section - MUY CLARO en light, MUY OSCURO en dark */}
-      <Section variant="default" id="benefits-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" id="benefits-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20 pb-0">
         {/* Animación: Grid pulsante */}
         <PulsingGrid />
         <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
@@ -425,7 +423,7 @@ export default function Home() {
       </Section>
 
       {/* Scenarios Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="card" id="scenarios-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
+      <Section variant="card" id="scenarios-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted pb-0">
         {/* Animación: Espiral de puntos - VISIBLE */}
         <SpiralDots />
         <BlobShape position="top-right" color="gradient" parallax parallaxSpeed={0.25} />
@@ -476,13 +474,13 @@ export default function Home() {
       </Section>
 
       {/* ROI CTA Section */}
-      <Section variant="muted" id="roi-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
+      <Section variant="muted" id="roi-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted pb-0">
         {/* Animación: Lluvia de meteoros */}
         <MeteorShower />
         <CircuitLines />
         <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.3} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
+          <div className="max-w-3xl mx-auto text-center space-y-6 xl:mb-6 2xl:mb-10">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-wave">
               {t("home.roi.title")}
             </h2>
@@ -512,7 +510,7 @@ export default function Home() {
           </div>
 
           {/* Impact Cards */}
-          <div className="max-w-4xl mx-auto mb-12">
+          <div className="max-w-4xl mx-auto xl:mb-6 2xl:mb-12">
             <div className="grid gap-6 md:grid-cols-2">
               {/* Economic Impact */}
               <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-6 backdrop-blur-sm">
@@ -555,7 +553,7 @@ export default function Home() {
             <p className="text-base text-foreground/80 dark:text-foreground/90 sm:text-lg">
               {t("home.roi.ctaDescription")}
             </p>
-            <Button asChild size="lg" className="dark:glow-primary text-base sm:text-lg px-8">
+            <Button asChild size="lg" className="cursor-pointer dark:glow-primary text-base sm:text-lg px-8">
               <Link href="/roi">{t("home.roi.cta")}</Link>
             </Button>
           </div>
@@ -563,7 +561,7 @@ export default function Home() {
       </Section>
 
       {/* Final CTA Section - Visible with footer */}
-      <Section variant="alt" id="final-cta-section" className="min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background">
+      <Section variant="alt" id="final-cta-section" className="min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background pb-0">
         <BlobShape position="center" color="primary" className="w-[500px] h-[500px] opacity-20" parallax parallaxSpeed={0.1} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <FinalCTA showMicroCta={true} />
