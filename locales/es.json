@@ -171,6 +171,7 @@
       "title": "¿Cuántos pacientes se te escapan?",
       "description": "Cada mensaje sin responder es una oportunidad perdida. Los números hablan:",
       "cta": "Calcular mi ROI",
+      "ctaDescription": "Descubre exactamente cuánto podrías estar ganando con un sistema que nunca duerme.",
       "stats": {
         "response": {
           "value": "80%",
@@ -184,6 +185,16 @@
           "value": "+35%",
           "label": "aumento en citas capturadas"
         }
+      },
+      "impact": {
+        "economic": {
+          "title": "Impacto Económico Directo",
+          "description": "Aumenta tus ingresos mensuales capturando citas que antes se perdían. El sistema se paga solo en semanas."
+        },
+        "time": {
+          "title": "Ahorro de Tiempo Inmediato",
+          "description": "Tu equipo dedica menos tiempo a responder consultas repetitivas y más a atender pacientes presenciales."
+        }
       }
     },
     "finalCTA": {
@@ -194,8 +205,94 @@
   },
   "solution": {
     "title": "Solución",
-    "description": "Descubre cómo nuestras soluciones de IA pueden transformar tu negocio. Contenido completo próximamente en Phase 2.",
-    "content": "Contenido de la página de solución"
+    "description": "Descubre cómo el Sistema de Atención Inteligente transforma la atención clínica.",
+    "hero": {
+      "title": "Solución",
+      "heading": "Sistema de Atención Inteligente",
+      "subheading": "Responde con criterio, guía al paciente y deja lista la siguiente cita sin fricción.",
+      "claimLight": "Inteligencia aplicada a la atención clínica.",
+      "claimDark": "Atención inteligente que convierte conversaciones en citas."
+    },
+    "what": {
+      "title": "Qué es",
+      "p1": "Un sistema que atiende conversaciones con lenguaje natural y mantiene el tono clínico, ayudando a convertir preguntas en citas y seguimiento.",
+      "p2": "Diseñado para clínicas privadas con una sede, donde cada conversación cuenta."
+    },
+    "day": {
+      "title": "Qué hace en el día a día",
+      "items": [
+        "Da respuesta inicial y ordena la conversación.",
+        "Recoge datos necesarios para avanzar (motivo, disponibilidad, preferencias).",
+        "Propone el siguiente paso: cita, seguimiento o derivación.",
+        "Mantiene consistencia en el tono y la información.",
+        "Reduce interrupciones al equipo sin perder control."
+      ]
+    },
+    "how": {
+      "title": "Cómo funciona",
+      "steps": [
+        "Define tu estilo de atención y preguntas clave.",
+        "Configura el flujo: información → intención → propuesta de cita.",
+        "Activa supervisión y reglas de seguridad.",
+        "Empieza a atender conversaciones y revisa lo importante."
+      ]
+    },
+    "flow": {
+      "title": "Flujo sin fricción",
+      "items": [
+        "Pregunta clara",
+        "Respuesta útil",
+        "Propuesta de cita",
+        "Cierre y seguimiento"
+      ]
+    },
+    "guardrails": {
+      "title": "Control, seguridad y tono clínico",
+      "items": [
+        "Siempre prioriza claridad y consentimiento.",
+        "Evita suposiciones: confirma antes de cerrar una cita.",
+        "Deriva cuando el caso requiere atención humana inmediata.",
+        "Mantiene respuestas breves y profesionales."
+      ]
+    },
+    "fit": {
+      "title": "Encaje por tipo de clínica",
+      "description": "Cada clínica tiene su ritmo. El sistema se adapta al tuyo.",
+      "cards": {
+        "aesthetics": {
+          "title": "Estética",
+          "situation": "Consultas repetidas por tratamientos y disponibilidad.",
+          "problem": "Mensajes acumulados y pérdida de ritmo.",
+          "change": "Conversaciones ordenadas y siguiente paso claro."
+        },
+        "dental": {
+          "title": "Dental",
+          "situation": "Preguntas sobre primera visita, urgencias y horarios.",
+          "problem": "Interrupciones constantes al equipo.",
+          "change": "Triado y guía sin perder el tono clínico."
+        },
+        "physio": {
+          "title": "Fisioterapia",
+          "situation": "Pacientes preguntan por sesiones, dolor, y compatibilidad horaria.",
+          "problem": "Seguimiento irregular y conversaciones largas.",
+          "change": "Información estructurada y propuesta de cita más rápida."
+        },
+        "veterinary": {
+          "title": "Veterinaria",
+          "situation": "Consultas por síntomas, vacunación y urgencias.",
+          "problem": "Mensajes fuera de horario y dudas recurrentes.",
+          "change": "Atención inmediata y orientación sin saturar la recepción."
+        }
+      },
+      "linkText": "Ver más escenarios"
+    },
+    "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
+    "microCta": "¿Quieres saber cuántos pacientes se te escapan?",
+    "cta": {
+      "primary": "Reservar una demo",
+      "secondary": "Ver calculadora ROI",
+      "note": "Sin compromiso. Te mostramos el flujo y lo adaptamos a tu clínica."
+    }
   },
   "roi": {
     "title": "Calculadora ROI",
@@ -355,6 +452,119 @@
     "title": "Cómo Funciona",
     "description": "Conoce el proceso de implementación de nuestras soluciones de IA. Contenido completo próximamente en Phase 2.",
     "content": "Contenido de cómo funciona"
+  },
+  "howItWorks": {
+    "title": "Cómo funciona",
+    "description": "De conversación a cita, con criterio clínico.",
+    "hero": {
+      "title": "Cómo funciona",
+      "heading": "De conversación a cita, con criterio clínico",
+      "subheading": "Un flujo claro para atender, ordenar y proponer el siguiente paso sin sobrecargar al equipo.",
+      "claimLight": "Inteligencia aplicada a la atención clínica.",
+      "claimDark": "Atención inteligente que convierte conversaciones en citas."
+    },
+    "steps": {
+      "title": "El flujo en 4 pasos",
+      "items": [
+        {
+          "title": "Atender y ordenar",
+          "text": "Responde con claridad, identifica la intención y mantiene la conversación enfocada."
+        },
+        {
+          "title": "Recoger lo esencial",
+          "text": "Pregunta lo justo para avanzar: motivo, preferencias y disponibilidad."
+        },
+        {
+          "title": "Proponer el siguiente paso",
+          "text": "Sugiere cita, seguimiento o derivación, siempre con confirmación."
+        },
+        {
+          "title": "Cierre y continuidad",
+          "text": "Deja el hilo listo: resumen breve y qué toca después."
+        }
+      ]
+    },
+    "data": {
+      "title": "Qué recoge y por qué",
+      "lead": "Solo lo necesario para avanzar sin fricción.",
+      "items": [
+        {
+          "title": "Motivo de la consulta",
+          "text": "Para orientar la respuesta y evitar idas y vueltas."
+        },
+        {
+          "title": "Preferencias y dudas",
+          "text": "Para ajustar el mensaje al caso y al tono esperado."
+        },
+        {
+          "title": "Disponibilidad",
+          "text": "Para acercar la conversación a una propuesta de cita."
+        },
+        {
+          "title": "Confirmaciones",
+          "text": "Para evitar suposiciones antes de cerrar un paso."
+        }
+      ]
+    },
+    "supervision": {
+      "title": "Control y supervisión",
+      "items": [
+        "El equipo decide cuándo revisar y cuándo intervenir.",
+        "Los casos sensibles se derivan a atención humana.",
+        "El sistema evita cerrar pasos importantes sin confirmación.",
+        "El tono se mantiene profesional y coherente."
+      ]
+    },
+    "messaging": {
+      "title": "Mensajería y agenda, sin fricción",
+      "p1": "El flujo está pensado para conversaciones reales por WhatsApp y para encajar con tu forma de organizar la agenda.",
+      "p2": "El objetivo es que el siguiente paso sea evidente, sin perder control."
+    },
+    "patient": {
+      "title": "Experiencia del paciente",
+      "items": [
+        "Respuestas breves y útiles.",
+        "Lenguaje claro, sin tecnicismos innecesarios.",
+        "Confirmaciones antes de avanzar.",
+        "Sensación de atención constante, sin saturar al equipo."
+      ]
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": [
+        {
+          "q": "¿Esto sustituye al equipo?",
+          "a": "No. El sistema ayuda a ordenar y avanzar conversaciones, y el equipo mantiene el control y la supervisión."
+        },
+        {
+          "q": "¿Qué pasa si el caso requiere atención humana?",
+          "a": "Se deriva a atención humana cuando corresponde, priorizando seguridad y criterio clínico."
+        },
+        {
+          "q": "¿Se puede adaptar al tono de mi clínica?",
+          "a": "Sí. Se define un estilo de atención y un flujo de preguntas clave para que la experiencia sea coherente."
+        },
+        {
+          "q": "¿Cuándo propone una cita?",
+          "a": "Cuando tiene la información mínima y siempre con confirmación antes de cerrar el siguiente paso."
+        },
+        {
+          "q": "¿Tengo visibilidad de lo que se responde?",
+          "a": "Sí. Se mantiene un enfoque de supervisión para revisar lo importante y ajustar el flujo."
+        },
+        {
+          "q": "¿Sirve para una clínica con una sola sede?",
+          "a": "Sí. Está diseñado para equipos pequeños donde cada conversación cuenta."
+        }
+      ]
+    },
+    "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
+    "microCta": "¿Quieres saber cuántos pacientes se te escapan?",
+    "cta": {
+      "primary": "Reservar una demo",
+      "secondary": "Ver calculadora ROI",
+      "note": "Te mostramos el flujo y lo adaptamos a tu forma de trabajar."
+    }
   },
   "methodology": {
     "title": "Metodología",

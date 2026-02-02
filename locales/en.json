@@ -171,6 +171,7 @@
       "title": "How many patients are slipping away?",
       "description": "Every unanswered message is a lost opportunity. The numbers speak:",
       "cta": "Calculate my ROI",
+      "ctaDescription": "Discover exactly how much you could be earning with a system that never sleeps.",
       "stats": {
         "response": {
           "value": "80%",
@@ -184,6 +185,16 @@
           "value": "+35%",
           "label": "increase in captured appointments"
         }
+      },
+      "impact": {
+        "economic": {
+          "title": "Direct Economic Impact",
+          "description": "Increase your monthly revenue by capturing appointments that were previously lost. The system pays for itself in weeks."
+        },
+        "time": {
+          "title": "Immediate Time Savings",
+          "description": "Your team spends less time answering repetitive queries and more time attending to in-person patients."
+        }
       }
     },
     "finalCTA": {
@@ -194,8 +205,94 @@
   },
   "solution": {
     "title": "Solution",
-    "description": "Discover how our AI solutions can transform your business. Full content coming soon in Phase 2.",
-    "content": "Solution page content"
+    "description": "Discover how the Intelligent Care System transforms clinical care.",
+    "hero": {
+      "title": "Solution",
+      "heading": "Intelligent Care System",
+      "subheading": "Respond with clinical criteria, guide the patient, and move toward the next appointment—frictionless.",
+      "claimLight": "Intelligence applied to clinical care.",
+      "claimDark": "Intelligent care that turns conversations into appointments."
+    },
+    "what": {
+      "title": "What it is",
+      "p1": "A system that handles conversations in natural language while keeping a clinical tone—helping turn questions into appointments and follow-ups.",
+      "p2": "Built for single-location private clinics where every conversation matters."
+    },
+    "day": {
+      "title": "What it does day to day",
+      "items": [
+        "Provides a first response and organizes the conversation.",
+        "Collects the essentials to move forward (reason, availability, preferences).",
+        "Suggests the next step: appointment, follow-up, or handoff.",
+        "Keeps tone and information consistent.",
+        "Reduces team interruptions without losing control."
+      ]
+    },
+    "how": {
+      "title": "How it works",
+      "steps": [
+        "Define your care style and key questions.",
+        "Set the flow: information → intent → appointment proposal.",
+        "Enable supervision and safety rules.",
+        "Start handling conversations and review what matters."
+      ]
+    },
+    "flow": {
+      "title": "Frictionless flow",
+      "items": [
+        "Clear question",
+        "Useful answer",
+        "Appointment proposal",
+        "Close and follow-up"
+      ]
+    },
+    "guardrails": {
+      "title": "Control, safety, and clinical tone",
+      "items": [
+        "Prioritizes clarity and consent.",
+        "Avoids assumptions: confirms before closing an appointment.",
+        "Hands off when immediate human care is needed.",
+        "Keeps responses short and professional."
+      ]
+    },
+    "fit": {
+      "title": "Fit by clinic type",
+      "description": "Every clinic has its rhythm. The system adapts to yours.",
+      "cards": {
+        "aesthetics": {
+          "title": "Aesthetics",
+          "situation": "Repeated questions about treatments and availability.",
+          "problem": "Message backlog and lost momentum.",
+          "change": "Organized conversations with a clear next step."
+        },
+        "dental": {
+          "title": "Dental",
+          "situation": "Questions about first visits, urgency, and hours.",
+          "problem": "Constant interruptions for the team.",
+          "change": "Triage and guidance without losing clinical tone."
+        },
+        "physio": {
+          "title": "Physiotherapy",
+          "situation": "Patients ask about sessions, pain, and scheduling fit.",
+          "problem": "Inconsistent follow-up and long threads.",
+          "change": "Structured info and faster appointment proposals."
+        },
+        "veterinary": {
+          "title": "Veterinary",
+          "situation": "Questions about symptoms, vaccination, and emergencies.",
+          "problem": "Messages outside hours and recurring doubts.",
+          "change": "Immediate care and guidance without overwhelming reception."
+        }
+      },
+      "linkText": "See more scenarios"
+    },
+    "keyMessage": "Every unanswered message is a lost patient.",
+    "microCta": "Want to see how many patients slip away?",
+    "cta": {
+      "primary": "Book a demo",
+      "secondary": "See ROI calculator",
+      "note": "No commitment. We'll show the flow and adapt it to your clinic."
+    }
   },
   "roi": {
     "title": "ROI Calculator",
@@ -356,9 +453,122 @@
     "description": "Discover the technology behind our intelligent care system. Full content coming soon in Phase 2.",
     "content": "How it works content"
   },
+  "howItWorks": {
+    "title": "How it works",
+    "description": "From conversation to appointment—with clinical criteria.",
+    "hero": {
+      "title": "How it works",
+      "heading": "From conversation to appointment—with clinical criteria",
+      "subheading": "A clear flow to handle, organize, and propose the next step without overloading your team.",
+      "claimLight": "Intelligence applied to clinical care.",
+      "claimDark": "Intelligent care that turns conversations into appointments."
+    },
+    "steps": {
+      "title": "The 4-step flow",
+      "items": [
+        {
+          "title": "Handle and organize",
+          "text": "Responds clearly, identifies intent, and keeps the conversation focused."
+        },
+        {
+          "title": "Collect the essentials",
+          "text": "Asks only what's needed to move forward: reason, preferences, and availability."
+        },
+        {
+          "title": "Propose the next step",
+          "text": "Suggests an appointment, follow-up, or handoff—always with confirmation."
+        },
+        {
+          "title": "Close and continue",
+          "text": "Leaves the thread ready: a brief summary and what happens next."
+        }
+      ]
+    },
+    "data": {
+      "title": "What it collects—and why",
+      "lead": "Only what's needed to move forward frictionlessly.",
+      "items": [
+        {
+          "title": "Reason for the visit",
+          "text": "To orient the response and reduce back-and-forth."
+        },
+        {
+          "title": "Preferences and questions",
+          "text": "To match the message to the case and expected tone."
+        },
+        {
+          "title": "Availability",
+          "text": "To move the conversation toward an appointment proposal."
+        },
+        {
+          "title": "Confirmations",
+          "text": "To avoid assumptions before closing a step."
+        }
+      ]
+    },
+    "supervision": {
+      "title": "Control and supervision",
+      "items": [
+        "Your team decides when to review and when to step in.",
+        "Sensitive cases are handed off to human care.",
+        "The system avoids closing important steps without confirmation.",
+        "Tone stays professional and consistent."
+      ]
+    },
+    "messaging": {
+      "title": "Messaging and scheduling—frictionless",
+      "p1": "The flow is built for real WhatsApp conversations and to fit how you manage your schedule.",
+      "p2": "The goal is a clear next step—without losing control."
+    },
+    "patient": {
+      "title": "Patient experience",
+      "items": [
+        "Short, useful replies.",
+        "Clear language, no unnecessary jargon.",
+        "Confirmations before moving forward.",
+        "A sense of continuous care—without saturating the team."
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "items": [
+        {
+          "q": "Does this replace my team?",
+          "a": "No. The system helps organize and move conversations forward, while your team keeps control and supervision."
+        },
+        {
+          "q": "What if a case needs human care?",
+          "a": "It's handed off when appropriate, prioritizing safety and clinical criteria."
+        },
+        {
+          "q": "Can it match my clinic's tone?",
+          "a": "Yes. You define a care style and key questions so the experience stays consistent."
+        },
+        {
+          "q": "When does it propose an appointment?",
+          "a": "When it has the minimum essentials—and always with confirmation before closing the next step."
+        },
+        {
+          "q": "Do I have visibility into responses?",
+          "a": "Yes. A supervision approach lets you review what matters and refine the flow."
+        },
+        {
+          "q": "Is it suitable for a single-location clinic?",
+          "a": "Yes. It's designed for small teams where every conversation counts."
+        }
+      ]
+    },
+    "keyMessage": "Every unanswered message is a lost patient.",
+    "microCta": "Want to see how many patients slip away?",
+    "cta": {
+      "primary": "Book a demo",
+      "secondary": "See ROI calculator",
+      "note": "We'll show the flow and adapt it to how you work."
+    }
+  },
   "methodology": {
     "title": "Methodology",
-    "description": "Our proven approach to AI implementation in healthcare. Full content coming soon in Phase 2.",
+    "description": "Our proven methodology for implementing AI in your company. Full content coming soon in Phase 2.",
     "content": "Methodology content"
   },
   "faqs": {

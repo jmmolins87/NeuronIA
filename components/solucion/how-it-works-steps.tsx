@@ -2,10 +2,12 @@
 
 import * as React from "react"
 import { useStagger } from "@/hooks/use-stagger"
-import { MessageCircle, Clock, Target, Calendar } from "lucide-react"
+import { Settings, Workflow, Shield, Play } from "lucide-react"
 import { useTranslation } from "@/components/providers/i18n-provider"
 
-export function FrictionlessFlow() {
+const icons = [Settings, Workflow, Shield, Play]
+
+export function HowItWorksSteps() {
   const { t } = useTranslation()
   const { ref: staggerRef } = useStagger({
     stagger: 150,
@@ -13,19 +15,16 @@ export function FrictionlessFlow() {
     distance: 40,
   })
   const lineRef = React.useRef<HTMLDivElement>(null)
-  const [lineHeight, setLineHeight] = React.useState(0)
 
   React.useEffect(() => {
     const line = lineRef.current
     if (!line) return
 
-    // Check for reduced motion
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches
 
     if (prefersReducedMotion) {
-      setLineHeight(100)
       return
     }
 
@@ -33,7 +32,6 @@ export function FrictionlessFlow() {
       async (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            // Dynamically import anime.js
             const { animate } = await import("animejs")
 
             animate(line, {
@@ -55,31 +53,15 @@ export function FrictionlessFlow() {
   }, [])
 
   const steps = [
-    { 
-      icon: MessageCircle, 
-      title: t("home.flow.steps.1.title"),
-      description: t("home.flow.steps.1.description")
-    },
-    { 
-      icon: Clock, 
-      title: t("home.flow.steps.2.title"),
-      description: t("home.flow.steps.2.description")
-    },
-    { 
-      icon: Target, 
-      title: t("home.flow.steps.3.title"),
-      description: t("home.flow.steps.3.description")
-    },
-    { 
-      icon: Calendar, 
-      title: t("home.flow.steps.4.title"),
-      description: t("home.flow.steps.4.description")
-    },
+    t("solution.how.steps.0"),
+    t("solution.how.steps.1"),
+    t("solution.how.steps.2"),
+    t("solution.how.steps.3"),
   ]
 
   return (
-    <div className="max-w-2xl lg:max-w-6xl mx-auto relative">
-      {/* Vertical animated line - Hidden in desktop */}
+    <div className="max-w-2xl lg:max-w-5xl mx-auto relative">
+      {/* Vertical animated line - Mobile/Tablet only */}
       <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-border overflow-hidden lg:hidden">
         <div
           ref={lineRef}
@@ -88,15 +70,18 @@ export function FrictionlessFlow() {
         />
       </div>
 
-      {/* Steps with stagger - Grid 2x2 on desktop */}
-      <ul ref={staggerRef as React.RefObject<HTMLUListElement>} className="space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-stretch relative">
+      {/* Steps with stagger */}
+      <ul
+        ref={staggerRef as React.RefObject<HTMLUListElement>}
+        className="space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0 relative"
+      >
         {steps.map((step, index) => {
-          const Icon = step.icon
+          const Icon = icons[index]
           return (
             <li
               key={index}
               data-stagger-item
-              className="flex items-start gap-4 lg:gap-5 relative lg:h-full"
+              className="flex items-start gap-4 lg:gap-5 relative"
             >
               {/* Number badge */}
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-gradient-to flex items-center justify-center text-primary-foreground font-bold text-2xl shadow-lg dark:glow-primary z-10">
@@ -104,15 +89,12 @@ export function FrictionlessFlow() {
               </div>
 
               {/* Content card */}
-              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md lg:h-full lg:flex lg:flex-col">
-                <div className="flex items-start gap-4 lg:flex-1">
+              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
+                <div className="flex items-start gap-4">
                   <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-primary flex-shrink-0 mt-1" />
-                  <div className="flex-1 space-y-2">
-                    <p className="text-base lg:text-lg font-semibold text-foreground leading-tight">
-                      {step.title}
-                    </p>
-                    <p className="text-sm lg:text-base text-foreground/70 dark:text-foreground/80 leading-relaxed">
-                      {step.description}
+                  <div className="flex-1">
+                    <p className="text-base lg:text-lg font-medium text-foreground/90 dark:text-foreground/95 leading-relaxed">
+                      {step}
                     </p>
                   </div>
                 </div>

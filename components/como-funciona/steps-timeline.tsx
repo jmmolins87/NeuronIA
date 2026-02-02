@@ -2,10 +2,12 @@
 
 import * as React from "react"
 import { useStagger } from "@/hooks/use-stagger"
-import { MessageCircle, Clock, Target, Calendar } from "lucide-react"
+import { MessageSquare, Database, CheckCircle, FileText } from "lucide-react"
 import { useTranslation } from "@/components/providers/i18n-provider"
 
-export function FrictionlessFlow() {
+const icons = [MessageSquare, Database, CheckCircle, FileText]
+
+export function StepsTimeline() {
   const { t } = useTranslation()
   const { ref: staggerRef } = useStagger({
     stagger: 150,
@@ -13,19 +15,16 @@ export function FrictionlessFlow() {
     distance: 40,
   })
   const lineRef = React.useRef<HTMLDivElement>(null)
-  const [lineHeight, setLineHeight] = React.useState(0)
 
   React.useEffect(() => {
     const line = lineRef.current
     if (!line) return
 
-    // Check for reduced motion
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches
 
     if (prefersReducedMotion) {
-      setLineHeight(100)
       return
     }
 
@@ -33,12 +32,11 @@ export function FrictionlessFlow() {
       async (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            // Dynamically import anime.js
             const { animate } = await import("animejs")
 
             animate(line, {
               scaleY: [0, 1],
-              duration: 1500,
+              duration: 1800,
               ease: "out-cubic",
               delay: 400,
             })
@@ -55,31 +53,27 @@ export function FrictionlessFlow() {
   }, [])
 
   const steps = [
-    { 
-      icon: MessageCircle, 
-      title: t("home.flow.steps.1.title"),
-      description: t("home.flow.steps.1.description")
+    {
+      title: t("howItWorks.steps.items.0.title"),
+      text: t("howItWorks.steps.items.0.text"),
     },
-    { 
-      icon: Clock, 
-      title: t("home.flow.steps.2.title"),
-      description: t("home.flow.steps.2.description")
+    {
+      title: t("howItWorks.steps.items.1.title"),
+      text: t("howItWorks.steps.items.1.text"),
     },
-    { 
-      icon: Target, 
-      title: t("home.flow.steps.3.title"),
-      description: t("home.flow.steps.3.description")
+    {
+      title: t("howItWorks.steps.items.2.title"),
+      text: t("howItWorks.steps.items.2.text"),
     },
-    { 
-      icon: Calendar, 
-      title: t("home.flow.steps.4.title"),
-      description: t("home.flow.steps.4.description")
+    {
+      title: t("howItWorks.steps.items.3.title"),
+      text: t("howItWorks.steps.items.3.text"),
     },
   ]
 
   return (
-    <div className="max-w-2xl lg:max-w-6xl mx-auto relative">
-      {/* Vertical animated line - Hidden in desktop */}
+    <div className="max-w-2xl lg:max-w-5xl mx-auto relative">
+      {/* Vertical animated line - Mobile/Tablet only */}
       <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-border overflow-hidden lg:hidden">
         <div
           ref={lineRef}
@@ -88,10 +82,13 @@ export function FrictionlessFlow() {
         />
       </div>
 
-      {/* Steps with stagger - Grid 2x2 on desktop */}
-      <ul ref={staggerRef as React.RefObject<HTMLUListElement>} className="space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-stretch relative">
+      {/* Steps with stagger */}
+      <ul
+        ref={staggerRef as React.RefObject<HTMLUListElement>}
+        className="space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0 lg:items-stretch relative"
+      >
         {steps.map((step, index) => {
-          const Icon = step.icon
+          const Icon = icons[index]
           return (
             <li
               key={index}
@@ -108,11 +105,11 @@ export function FrictionlessFlow() {
                 <div className="flex items-start gap-4 lg:flex-1">
                   <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-primary flex-shrink-0 mt-1" />
                   <div className="flex-1 space-y-2">
-                    <p className="text-base lg:text-lg font-semibold text-foreground leading-tight">
+                    <h3 className="text-lg lg:text-xl font-bold text-foreground">
                       {step.title}
-                    </p>
-                    <p className="text-sm lg:text-base text-foreground/70 dark:text-foreground/80 leading-relaxed">
-                      {step.description}
+                    </h3>
+                    <p className="text-base text-foreground/70 dark:text-foreground/80 leading-relaxed">
+                      {step.text}
                     </p>
                   </div>
                 </div>

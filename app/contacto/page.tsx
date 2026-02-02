@@ -280,7 +280,7 @@ export default function ContactoPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" className="h-screen flex flex-col justify-center py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -293,7 +293,7 @@ export default function ContactoPage() {
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
                 {t("contact.title")}
               </h1>
-              <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
+              <p className="text-xl text-foreground/80 dark:text-foreground/90 sm:text-2xl max-w-3xl mx-auto">
                 {t("contact.description")}
               </p>
             </div>
@@ -302,7 +302,7 @@ export default function ContactoPage() {
       </Section>
 
       {/* Contact Form Section */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" className="flex flex-col justify-center py-16 md:py-20 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           {!hasAcceptedROIData ? (
             /* No ROI Data - Redirect to Calculator */

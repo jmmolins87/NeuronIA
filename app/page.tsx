@@ -17,6 +17,12 @@ import { CircuitLines } from "@/components/shapes/circuit-lines"
 import { FrictionlessFlow } from "@/components/frictionless-flow"
 import { Reveal } from "@/components/reveal"
 import { ActiveSectionIndicator } from "@/components/active-section-indicator"
+import { FloatingParticles } from "@/components/animations/floating-particles"
+import { WaveLines } from "@/components/animations/wave-lines"
+import { RotatingRings } from "@/components/animations/rotating-rings"
+import { PulsingGrid } from "@/components/animations/pulsing-grid"
+import { SpiralDots } from "@/components/animations/spiral-dots"
+import { MeteorShower } from "@/components/animations/meteor-shower"
 import { 
   ArrowRight,
   Calendar,
@@ -39,6 +45,7 @@ import {
 } from "lucide-react"
 import { ScrollIndicator } from "@/components/scroll-indicator"
 import { AnimatedNumber } from "@/components/animated-number"
+import { FinalCTA } from "@/components/final-cta"
 
 // Lazy load canvas components
 const ThreeBackdrop = dynamic(
@@ -77,6 +84,8 @@ export default function Home() {
       <ActiveSectionIndicator />
       {/* Hero Section - MUY CLARO en light, MUY OSCURO en dark */}
       <Section variant="default" id="hero" className="relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30">
+        {/* Animación: Partículas flotantes sutiles */}
+        <FloatingParticles count={30} color="primary" size="sm" />
         <ThreeBackdrop />
         <div className="container relative z-10 mx-auto max-w-screen-2xl px-4 py-8 2xl:py-12 3xl:py-16 text-center flex-1 flex items-center">
           <div className="max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto space-y-6 2xl:space-y-10 3xl:space-y-8 w-full">
@@ -92,7 +101,7 @@ export default function Home() {
               {t("home.hero.claim")}
             </h1>
 
-            <p ref={heroSubtitleRef as React.RefObject<HTMLParagraphElement>} className="hero-subtitle mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-xl font-medium text-foreground sm:text-2xl lg:text-lg xl:text-xl 2xl:text-3xl">
+            <p ref={heroSubtitleRef as React.RefObject<HTMLParagraphElement>} className="hero-subtitle mx-auto max-w-2xl 2xl:max-w-4xl 3xl:max-w-6xl text-xl font-medium text-foreground/90 dark:text-foreground/95 sm:text-2xl lg:text-lg xl:text-xl 2xl:text-3xl">
               {t("home.hero.keyMessage")}
             </p>
 
@@ -124,6 +133,9 @@ export default function Home() {
 
       {/* Problem Section - Tema de PELIGRO/ALERTA con tonos rojos "INFIERNO" */}
       <Section variant="card" id="problem-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden">
+        {/* Animación: Partículas flotantes rojas - AGRESIVA */}
+        <FloatingParticles count={60} color="red" size="lg" />
+        
         {/* Resplandor rojo de fondo estilo infierno */}
         <div className="absolute inset-0 bg-gradient-radial from-red-600/20 via-transparent to-transparent dark:from-red-600/30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-red-500/10 to-transparent dark:from-red-500/20 pointer-events-none" />
@@ -143,7 +155,7 @@ export default function Home() {
               <p className="text-2xl font-semibold text-red-600 dark:text-red-400 sm:text-3xl">
                 {t("home.problem.subtitle")}
               </p>
-              <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
+              <p className="text-lg text-foreground/80 dark:text-foreground/90 sm:text-xl max-w-2xl mx-auto">
                 {t("home.problem.description")}
               </p>
             </div>
@@ -216,6 +228,8 @@ export default function Home() {
 
       {/* System Section - MUY CLARO en light, MUY OSCURO en dark */}
       <Section variant="default" id="system-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background">
+        {/* Animación: Anillos rotatorios - AGRESIVA */}
+        <RotatingRings count={6} />
         <CircuitLines />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -223,7 +237,7 @@ export default function Home() {
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-pulse">
                 {t("home.system.title")}
               </h2>
-              <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
+              <p className="text-xl text-foreground/80 dark:text-foreground/90 sm:text-2xl max-w-3xl mx-auto">
                 {t("home.system.description")}
               </p>
             </div>
@@ -301,6 +315,8 @@ export default function Home() {
 
       {/* Flow Section - Flujo sin fricción con línea vertical animada */}
       <Section variant="muted" id="flow-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+        {/* Animación: Ondas fluidas - AGRESIVA */}
+        <WaveLines count={12} />
         <P5NoiseBlob />
         <BlobShape position="bottom-right" color="accent" className="w-96 h-96" parallax parallaxSpeed={0.4} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -309,7 +325,7 @@ export default function Home() {
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-flow">
                 {t("home.flow.title")}
               </h2>
-              <p className="text-xl text-muted-foreground sm:text-2xl">
+              <p className="text-xl text-foreground/80 dark:text-foreground/90 sm:text-2xl">
                 {t("home.flow.description")}
               </p>
             </div>
@@ -321,6 +337,8 @@ export default function Home() {
 
       {/* Benefits Section - MUY CLARO en light, MUY OSCURO en dark */}
       <Section variant="default" id="benefits-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+        {/* Animación: Grid pulsante */}
+        <PulsingGrid />
         <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
@@ -328,7 +346,7 @@ export default function Home() {
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-bounce">
                 {t("home.benefits.title")}
               </h2>
-              <p className="text-xl text-muted-foreground sm:text-2xl">
+              <p className="text-xl text-foreground/80 dark:text-foreground/90 sm:text-2xl">
                 {t("home.benefits.description")}
               </p>
             </div>
@@ -407,7 +425,9 @@ export default function Home() {
       </Section>
 
       {/* Scenarios Section - MÁS OSCURO en light, MÁS CLARO en dark */}
-      <Section variant="card" id="scenarios-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
+      <Section variant="card" id="scenarios-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
+        {/* Animación: Espiral de puntos - VISIBLE */}
+        <SpiralDots />
         <BlobShape position="top-right" color="gradient" parallax parallaxSpeed={0.25} />
         <BlobShape position="bottom-left" color="primary" className="w-80 h-80" parallax parallaxSpeed={0.35} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -415,7 +435,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
               {t("home.scenarios.title")}
             </h2>
-            <p className="text-lg text-muted-foreground sm:text-xl">
+            <p className="text-lg text-foreground/80 dark:text-foreground/90 sm:text-xl">
               {t("home.scenarios.description")}
             </p>
           </div>
@@ -457,6 +477,8 @@ export default function Home() {
 
       {/* ROI CTA Section */}
       <Section variant="muted" id="roi-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
+        {/* Animación: Lluvia de meteoros */}
+        <MeteorShower />
         <CircuitLines />
         <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.3} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -464,13 +486,13 @@ export default function Home() {
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-wave">
               {t("home.roi.title")}
             </h2>
-            <p className="text-lg text-muted-foreground sm:text-xl">
+            <p className="text-lg text-foreground/80 dark:text-foreground/90 sm:text-xl">
               {t("home.roi.description")}
             </p>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto mb-10">
+          <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto mb-12">
             {["response", "lost", "revenue"].map((stat) => (
               <div 
                 key={stat} 
@@ -482,15 +504,58 @@ export default function Home() {
                     duration={2500}
                   />
                 </div>
-                <p className="text-sm text-muted-foreground sm:text-base">
+                <p className="text-sm text-foreground/70 dark:text-foreground/80 sm:text-base">
                   {t(`home.roi.stats.${stat}.label`)}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="text-center">
-            <Button asChild size="lg" className="dark:glow-primary">
+          {/* Impact Cards */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="grid gap-6 md:grid-cols-2">
+              {/* Economic Impact */}
+              <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-6 backdrop-blur-sm">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
+                    <Euro className="w-6 h-6 text-white dark:text-black" />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <h3 className="text-lg font-bold text-foreground sm:text-xl">
+                      {t("home.roi.impact.economic.title")}
+                    </h3>
+                    <p className="text-sm text-foreground/70 dark:text-foreground/80 leading-relaxed sm:text-base">
+                      {t("home.roi.impact.economic.description")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Time Impact */}
+              <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-6 backdrop-blur-sm">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
+                    <Clock className="w-6 h-6 text-white dark:text-black" />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <h3 className="text-lg font-bold text-foreground sm:text-xl">
+                      {t("home.roi.impact.time.title")}
+                    </h3>
+                    <p className="text-sm text-foreground/70 dark:text-foreground/80 leading-relaxed sm:text-base">
+                      {t("home.roi.impact.time.description")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA with description */}
+          <div className="text-center max-w-2xl mx-auto space-y-6">
+            <p className="text-base text-foreground/80 dark:text-foreground/90 sm:text-lg">
+              {t("home.roi.ctaDescription")}
+            </p>
+            <Button asChild size="lg" className="dark:glow-primary text-base sm:text-lg px-8">
               <Link href="/roi">{t("home.roi.cta")}</Link>
             </Button>
           </div>
@@ -498,24 +563,10 @@ export default function Home() {
       </Section>
 
       {/* Final CTA Section - Visible with footer */}
-      <Section variant="alt" id="final-cta-section" className="flex flex-col justify-center py-24 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background">
-        <BlobShape position="center" color="primary" className="w-[600px] h-[600px]" parallax parallaxSpeed={0.2} />
-        <BlobShape position="top-left" color="accent" className="w-[400px] h-[400px]" parallax parallaxSpeed={0.35} />
-        <BlobShape position="bottom-right" color="gradient" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.25} />
+      <Section variant="alt" id="final-cta-section" className="min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background">
+        <BlobShape position="center" color="primary" className="w-[500px] h-[500px] opacity-20" parallax parallaxSpeed={0.1} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-pulse">
-              {t("home.finalCTA.title")}
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              {t("home.finalCTA.description")}
-            </p>
-            <div className="pt-4">
-              <Button asChild size="lg" className="text-lg px-8 py-6">
-                <Link href="/reservar">{t("home.finalCTA.cta")}</Link>
-              </Button>
-            </div>
-          </div>
+          <FinalCTA showMicroCta={true} />
         </div>
       </Section>
     </SiteShell>
