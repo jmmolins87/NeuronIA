@@ -18,21 +18,24 @@ import { FrictionlessFlow } from "@/components/frictionless-flow"
 import { Reveal } from "@/components/reveal"
 import { ActiveSectionIndicator } from "@/components/active-section-indicator"
 import { 
-  MessageCircle, 
-  AlertCircle, 
-  Brain, 
-  Clock, 
-  Calendar, 
-  BellRing,
+  ArrowRight,
+  Calendar,
   Zap,
-  Users,
-  Target,
   TrendingUp,
+  Heart,
+  Target,
+  CheckCircle,
+  Euro,
+  Smile,
   Stethoscope,
   Building2,
-  UserSquare2,
-  Heart,
-  ArrowRight
+  PawPrint,
+  MessageCircle,
+  Users,
+  AlertCircle,
+  Brain,
+  Clock,
+  BellRing
 } from "lucide-react"
 import { ScrollIndicator } from "@/components/scroll-indicator"
 import { AnimatedNumber } from "@/components/animated-number"
@@ -302,7 +305,7 @@ export default function Home() {
         <BlobShape position="bottom-right" color="accent" className="w-96 h-96" parallax parallaxSpeed={0.4} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
-            <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
+            <div className="max-w-4xl mx-auto text-center space-y-6 mb-16 lg:mb-12">
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-flow">
                 {t("home.flow.title")}
               </h2>
@@ -419,15 +422,25 @@ export default function Home() {
 
           {/* Scenarios Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-10">
-            {["dental", "medical", "private", "veterinary"].map((type) => (
+            {[
+              { type: "dental", icon: Smile, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500" },
+              { type: "medical", icon: Stethoscope, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-green-500 dark:via-emerald-600 dark:to-emerald-500" },
+              { type: "private", icon: Building2, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-pink-500 dark:via-purple-500 dark:to-purple-600" },
+              { type: "veterinary", icon: PawPrint, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-orange-500 dark:via-amber-600 dark:to-amber-500" }
+            ].map(({ type, icon: Icon, color }) => (
               <div 
                 key={type} 
-                className="group rounded-lg border border-border bg-background/50 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
+                className="group rounded-lg border-2 border-border bg-background/50 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
               >
-                <h3 className="text-lg font-semibold mb-2 text-gradient-to dark:text-primary group-hover:text-primary transition-colors">
+                <div className="flex justify-center mb-4">
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${color} flex items-center justify-center shadow-lg dark:glow-sm`}>
+                    <Icon className="w-7 h-7 text-white dark:text-black" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-gradient-to dark:text-primary group-hover:text-primary transition-colors">
                   {t(`home.scenarios.types.${type}.title`)}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-base text-muted-foreground leading-relaxed">
                   {t(`home.scenarios.types.${type}.description`)}
                 </p>
               </div>

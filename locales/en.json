@@ -104,10 +104,22 @@
       "title": "Frictionless flow",
       "description": "From inquiry to confirmed appointment, without manual intervention.",
       "steps": {
-        "1": "Patient asks via WhatsApp",
-        "2": "System verifies availability",
-        "3": "Proposes time options",
-        "4": "Confirms and schedules appointment"
+        "1": {
+          "title": "Patient asks via WhatsApp",
+          "description": "Patient sends their inquiry at any time of day, without time restrictions. AI is available 24/7 to respond immediately."
+        },
+        "2": {
+          "title": "System verifies availability",
+          "description": "Checks schedule in real-time automatically, consulting all available slots and applying predefined business rules."
+        },
+        "3": {
+          "title": "Proposes time options",
+          "description": "Offers best available slots based on patient preferences, type of service requested and professional availability."
+        },
+        "4": {
+          "title": "Confirms and schedules appointment",
+          "description": "Books directly in the system, blocks the time slot and sends automatic confirmation with all details to patient."
+        }
       }
     },
     "benefits": {

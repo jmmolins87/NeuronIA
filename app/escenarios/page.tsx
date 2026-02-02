@@ -146,15 +146,15 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
                 data-stagger-item
                 className={`group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all ${scenario.hoverBorder} hover:shadow-2xl ${scenario.hoverShadow}`}
               >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${scenario.color} flex items-center justify-center shadow-lg flex-shrink-0`}>
-                    <SectionIcon className="w-6 h-6 text-white dark:text-black" />
+                <div className="flex flex-col items-center text-center mb-6">
+                  <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${scenario.color} flex items-center justify-center shadow-lg mb-4 dark:glow-sm`}>
+                    <SectionIcon className="w-8 h-8 text-white dark:text-black" />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground pt-2">
+                  <h3 className="text-xl font-bold text-foreground">
                     {t(`scenarios.${scenario.id}.${section.id}.title`)}
                   </h3>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed text-center">
                   {t(`scenarios.${scenario.id}.${section.id}.description`)}
                 </p>
               </div>

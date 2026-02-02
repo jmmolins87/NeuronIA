@@ -55,16 +55,32 @@ export function FrictionlessFlow() {
   }, [])
 
   const steps = [
-    { icon: MessageCircle, text: t("home.flow.steps.1") },
-    { icon: Clock, text: t("home.flow.steps.2") },
-    { icon: Target, text: t("home.flow.steps.3") },
-    { icon: Calendar, text: t("home.flow.steps.4") },
+    { 
+      icon: MessageCircle, 
+      title: t("home.flow.steps.1.title"),
+      description: t("home.flow.steps.1.description")
+    },
+    { 
+      icon: Clock, 
+      title: t("home.flow.steps.2.title"),
+      description: t("home.flow.steps.2.description")
+    },
+    { 
+      icon: Target, 
+      title: t("home.flow.steps.3.title"),
+      description: t("home.flow.steps.3.description")
+    },
+    { 
+      icon: Calendar, 
+      title: t("home.flow.steps.4.title"),
+      description: t("home.flow.steps.4.description")
+    },
   ]
 
   return (
-    <div className="max-w-2xl mx-auto relative">
-      {/* Vertical animated line */}
-      <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-border overflow-hidden">
+    <div className="max-w-2xl lg:max-w-6xl mx-auto relative">
+      {/* Vertical animated line - Hidden in desktop */}
+      <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-border overflow-hidden lg:hidden">
         <div
           ref={lineRef}
           className="w-full h-full bg-gradient-to-b from-primary via-accent to-gradient-to origin-top scale-y-0"
@@ -72,15 +88,15 @@ export function FrictionlessFlow() {
         />
       </div>
 
-      {/* Steps with stagger */}
-      <ul ref={staggerRef as React.RefObject<HTMLUListElement>} className="space-y-12 relative">
+      {/* Steps with stagger - Grid 2x2 on desktop */}
+      <ul ref={staggerRef as React.RefObject<HTMLUListElement>} className="space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 relative">
         {steps.map((step, index) => {
           const Icon = step.icon
           return (
             <li
               key={index}
               data-stagger-item
-              className="flex items-start gap-6 relative"
+              className="flex items-start gap-4 lg:gap-5 relative"
             >
               {/* Number badge */}
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-gradient-to flex items-center justify-center text-primary-foreground font-bold text-2xl shadow-lg dark:glow-primary z-10">
@@ -89,11 +105,16 @@ export function FrictionlessFlow() {
 
               {/* Content card */}
               <div className="flex-1 rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
-                <div className="flex items-center gap-4 mb-3">
-                  <Icon className="w-6 h-6 text-primary flex-shrink-0" />
-                  <p className="text-base font-medium text-foreground leading-relaxed">
-                    {step.text}
-                  </p>
+                <div className="flex items-start gap-4">
+                  <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-primary flex-shrink-0 mt-1" />
+                  <div className="flex-1 space-y-2">
+                    <p className="text-base lg:text-lg font-semibold text-foreground leading-tight">
+                      {step.title}
+                    </p>
+                    <p className="text-sm lg:text-base text-muted-foreground leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
               </div>
             </li>

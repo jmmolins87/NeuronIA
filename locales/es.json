@@ -104,10 +104,22 @@
       "title": "Flujo sin fricción",
       "description": "Desde la consulta hasta la cita confirmada, sin intervención manual.",
       "steps": {
-        "1": "Paciente pregunta por WhatsApp",
-        "2": "Sistema verifica disponibilidad",
-        "3": "Propone opciones de horario",
-        "4": "Confirma y agenda la cita"
+        "1": {
+          "title": "Paciente pregunta por WhatsApp",
+          "description": "El paciente envía su consulta en cualquier momento del día, sin limitaciones horarias. La IA está disponible 24/7 para responder de inmediato."
+        },
+        "2": {
+          "title": "Sistema verifica disponibilidad",
+          "description": "Comprueba la agenda en tiempo real de forma automática, consultando todos los huecos disponibles y aplicando reglas de negocio predefinidas."
+        },
+        "3": {
+          "title": "Propone opciones de horario",
+          "description": "Ofrece las mejores franjas disponibles según preferencias del paciente, tipo de servicio solicitado y disponibilidad del profesional."
+        },
+        "4": {
+          "title": "Confirma y agenda la cita",
+          "description": "Reserva directamente en el sistema, bloquea el horario y envía confirmación automática con todos los detalles al paciente."
+        }
       }
     },
     "benefits": {
