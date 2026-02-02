@@ -79,7 +79,7 @@ export default function ReservarPage() {
           <div className="max-w-4xl mx-auto">
             {/* Custom Booking Calendar */}
             <Reveal delay={200}>
-              <div className="border-primary/20 bg-card/80 backdrop-blur-sm overflow-hidden mb-8 p-6">
+              <div className="backdrop-blur-sm overflow-hidden mb-8 p-6">
                 <BookingCalendar 
                   onBookingComplete={handleBookingComplete}
                 />
