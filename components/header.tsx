@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { Logo } from "@/components/logo"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -33,7 +33,6 @@ export function Header() {
   const navLinks = [
     { href: "/solucion", label: t("nav.solution") },
     { href: "/escenarios", label: t("nav.scenarios") },
-    { href: "/roi", label: t("nav.roi") },
     { href: "/como-funciona", label: t("nav.howItWorks") },
     { href: "/metodologia", label: t("nav.methodology") },
     { href: "/contacto", label: t("nav.contact") },
@@ -162,49 +161,6 @@ export function Header() {
 
         {/* Contenedor derecho - siempre alineado a la derecha */}
         <div className="flex items-center gap-6 ml-auto">
-          {/* Mobile: Menu button */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label={t("aria.openMenu")}
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-              <SheetHeader>
-                <SheetTitle>{t("common.menu")}</SheetTitle>
-              </SheetHeader>
-              <nav className="mt-8 flex flex-col gap-4">
-                {navLinks.map((link) => {
-                  const isActive = pathname === link.href
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`text-base font-medium transition-colors ${
-                        isActive
-                          ? "text-gradient-to dark:text-primary"
-                          : "text-foreground hover:text-gradient-to dark:hover:text-primary"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  )
-                })}
-                <Button asChild size="sm" className="mt-4 w-full">
-                  <Link href="/reservar" onClick={() => setIsOpen(false)}>
-                    {t("common.bookDemo")}
-                  </Link>
-                </Button>
-              </nav>
-            </SheetContent>
-          </Sheet>
-
           {/* Desktop Navigation */}
           <nav 
             ref={navRef} 
@@ -233,15 +189,94 @@ export function Header() {
             />
           </nav>
 
-          {/* Actions */}
+          {/* Actions - Desktop only shows Language/Theme, Mobile hides them */}
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
-            <ThemeToggle />
+            <div className="hidden md:flex items-center gap-2">
+              <LanguageSwitcher />
+              <ThemeToggle />
+            </div>
             
-            <Button asChild size="sm" className="hidden md:inline-flex">
+            <Button asChild size="sm" variant="outline" className="hidden md:inline-flex cursor-pointer">
               <Link href="/reservar">{t("common.bookDemo")}</Link>
             </Button>
+            
+            <Button asChild size="sm" className="hidden md:inline-flex cursor-pointer dark:glow-primary">
+              <Link href="/roi">{t("nav.roi")}</Link>
+            </Button>
           </div>
+
+          {/* Mobile: Menu button - Al final de todo */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                aria-label={t("aria.openMenu")}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="top" showCloseButton={false} className="w-full h-screen p-0 flex flex-col bg-background/95 backdrop-blur-md overflow-hidden">
+              <div className="flex-1 flex flex-col justify-center p-6">
+                <SheetHeader className="mb-6 flex items-center justify-center">
+                  <Logo width={220} height={55} className="h-14 w-auto" />
+                </SheetHeader>
+                <nav className="flex flex-col items-center gap-5">
+                  {navLinks.map((link) => {
+                    const isActive = pathname === link.href
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`text-xl font-medium transition-colors text-center ${
+                          isActive
+                            ? "text-gradient-to dark:text-primary"
+                            : "text-foreground hover:text-gradient-to dark:hover:text-primary"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    )
+                  })}
+                  
+                  {/* Language and Theme switches - Centered with screen, one below the other */}
+                  <div className="mx-auto mt-4 relative left-1/2 -translate-x-1/2 w-screen flex flex-col items-center justify-center gap-3">
+                    <LanguageSwitcher />
+                    <ThemeToggle size="large" />
+                  </div>
+
+                  <div className="mt-3 flex flex-col gap-3 w-full max-w-sm">
+                    <Button asChild size="default" variant="outline" className="w-full cursor-pointer">
+                      <Link href="/reservar" onClick={() => setIsOpen(false)}>
+                        {t("common.bookDemo")}
+                      </Link>
+                    </Button>
+                    <Button asChild size="default" className="w-full cursor-pointer">
+                      <Link href="/roi" onClick={() => setIsOpen(false)}>
+                        {t("nav.roi")}
+                      </Link>
+                    </Button>
+                  </div>
+                </nav>
+              </div>
+              
+              {/* Close button at bottom */}
+              <div className="p-6 border-t border-border/50 backdrop-blur-sm">
+                <Button
+                  variant="ghost"
+                  size="default"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full cursor-pointer flex items-center justify-center gap-2 text-lg font-medium hover:bg-primary/10"
+                  aria-label={t("aria.closeMenu")}
+                >
+                  <X className="h-6 w-6" />
+                  {t("common.close")}
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

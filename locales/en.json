@@ -420,7 +420,7 @@
           "message": "You have booked a demo for {{date}} at {{time}}. We'll send you a reminder."
         },
         "notBooked": {
-          "title": "No appointment booked",
+          "title": "No Demo Appointment",
           "message": "You have not booked an appointment and this could affect the outcome of your inquiry."
         },
         "bookNow": "Book Demo Now",

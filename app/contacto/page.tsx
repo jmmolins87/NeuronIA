@@ -339,7 +339,7 @@ export default function ContactoPage() {
             </Reveal>
           ) : roiData && (
             /* Has ROI Data - Show Form */
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-start">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-stretch">
               {/* First Box: ROI Summary + Demo Status */}
               <Reveal delay={200}>
                 <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
@@ -604,8 +604,8 @@ export default function ContactoPage() {
                           </div>
                         </div>
 
-                        {/* Teléfono y Clínica en la misma fila */}
-                        <div className="grid gap-6 md:grid-cols-2">
+                        {/* Teléfono y Clínica uno debajo del otro */}
+                        <div className="space-y-6">
                           {/* Phone */}
                           <div className="space-y-2">
                         <Label htmlFor="phone" className="text-base font-medium">
@@ -676,7 +676,7 @@ export default function ContactoPage() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             placeholder={t("contact.form.fields.message.placeholder")}
-                            className={`pl-10 min-h-[200px] ${errors.message ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                            className={`pl-10 min-h-[120px] ${errors.message ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                           />
                         </div>
                           {errors.message && (

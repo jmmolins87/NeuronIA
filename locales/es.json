@@ -498,7 +498,7 @@
           "message": "Has reservado una demo para el {{date}} a las {{time}}. Te enviaremos un recordatorio."
         },
         "notBooked": {
-          "title": "No ha reservado una cita",
+          "title": "Sin cita para la Demo",
           "message": "No ha reservado una cita y eso podría influir en el resultado de su consulta."
         },
         "bookNow": "Reservar Demo Ahora",

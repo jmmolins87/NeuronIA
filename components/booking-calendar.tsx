@@ -261,9 +261,9 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
                   onClick={() => !isOccupied && handleTimeSelect(time)}
                   disabled={isOccupied}
                   className={cn(
-                    "p-3 rounded-lg text-sm font-medium transition-all border",
+                    "p-3 rounded-lg text-sm font-medium transition-all border-2",
                     isOccupied
-                      ? "opacity-40 cursor-not-allowed bg-muted border-border line-through"
+                      ? "opacity-40 cursor-not-allowed bg-muted border-red-500 line-through"
                       : selectedTime === time
                       ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
                       : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"

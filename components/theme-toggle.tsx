@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useTranslation } from "@/components/providers/i18n-provider"
 
-export function ThemeToggle() {
+export function ThemeToggle({ size = "default" }: { size?: "default" | "large" }) {
   const { theme, setTheme } = useTheme()
   const { t } = useTranslation()
   const [mounted, setMounted] = React.useState(false)
@@ -23,29 +23,86 @@ export function ThemeToggle() {
     setMounted(true)
   }, [])
 
+  const iconSize = size === "large" ? "w-8 h-8" : "h-6 w-6"
+
   const getThemeIcon = () => {
     switch (theme) {
       case "light":
-        return <Sun className="h-4 w-4" />
+        return <Sun className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
       case "dark":
-        return <Moon className="h-4 w-4" />
+        return <Moon className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
       case "system":
-        return <Monitor className="h-4 w-4" />
+        return <Monitor className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
       default:
-        return <Sun className="h-4 w-4" />
+        return <Sun className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
     }
   }
 
   if (!mounted) {
+    if (size === "large") {
+      return (
+        <div className="flex items-center justify-center p-2 rounded-lg bg-transparent opacity-50">
+          <Sun className={iconSize} style={{ width: '32px', height: '32px' }} />
+        </div>
+      )
+    }
     return (
       <Button
         variant="ghost"
-        size="icon"
-        className="h-9 w-9"
+        className="h-12 w-12 flex items-center justify-center"
         disabled
       >
-        <Sun className="h-4 w-4" />
+        <Sun className={iconSize} />
       </Button>
+    )
+  }
+
+  if (size === "large") {
+    return (
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenuTrigger asChild>
+          <button
+            className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition-colors hover:bg-accent ${
+              isOpen ? "bg-gradient-to/10 text-gradient-to dark:bg-primary/10 dark:text-primary" : ""
+            }`}
+            aria-label={t("aria.toggleTheme")}
+          >
+            {getThemeIcon()}
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent 
+          side="top" 
+          align="center" 
+          className="min-w-[120px] origin-bottom fan-open"
+        >
+          <DropdownMenuItem
+            onClick={() => setTheme("light")}
+            className="cursor-pointer flex flex-col items-center justify-center py-4 relative"
+          >
+            <Sun className="h-7 w-7 mb-2" />
+            <span className="text-sm font-medium">{t("theme.light")}</span>
+            {theme === "light" && <span className="absolute top-2 right-2 text-gradient-to dark:text-primary text-sm">✓</span>}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => setTheme("dark")}
+            className="cursor-pointer flex flex-col items-center justify-center py-4 relative"
+          >
+            <Moon className="h-7 w-7 mb-2" />
+            <span className="text-sm font-medium">{t("theme.dark")}</span>
+            {theme === "dark" && <span className="absolute top-2 right-2 text-gradient-to dark:text-primary text-sm">✓</span>}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => setTheme("system")}
+            className="cursor-pointer flex flex-col items-center justify-center py-4 relative"
+          >
+            <Monitor className="h-7 w-7 mb-2" />
+            <span className="text-sm font-medium">{t("theme.system")}</span>
+            {theme === "system" && <span className="absolute top-2 right-2 text-gradient-to dark:text-primary text-sm">✓</span>}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     )
   }
 
@@ -54,41 +111,42 @@ export function ThemeToggle() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          size="icon"
-          className={`h-9 w-9 cursor-pointer transition-colors ${
-            isOpen ? "bg-gradient-to/10 text-gradient-to dark:bg-primary/10 dark:text-primary" : ""
-          }`}
+          className="h-12 w-12 flex items-center justify-center cursor-pointer transition-colors"
           aria-label={t("aria.toggleTheme")}
         >
           {getThemeIcon()}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[100px]">
+      <DropdownMenuContent 
+        side="top" 
+        align="center" 
+        className="min-w-[120px] origin-bottom fan-open"
+      >
         <DropdownMenuItem
           onClick={() => setTheme("light")}
-          className="cursor-pointer flex flex-col items-center justify-center py-3 relative"
+          className="cursor-pointer flex flex-col items-center justify-center py-4 relative"
         >
-          <Sun className="h-5 w-5 mb-1" />
-          <span className="text-xs">{t("theme.light")}</span>
-          {theme === "light" && <span className="absolute top-1 right-1 text-gradient-to dark:text-primary text-xs">✓</span>}
+          <Sun className="h-7 w-7 mb-2" />
+          <span className="text-sm font-medium">{t("theme.light")}</span>
+          {theme === "light" && <span className="absolute top-2 right-2 text-gradient-to dark:text-primary text-sm">✓</span>}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => setTheme("dark")}
-          className="cursor-pointer flex flex-col items-center justify-center py-3 relative"
+          className="cursor-pointer flex flex-col items-center justify-center py-4 relative"
         >
-          <Moon className="h-5 w-5 mb-1" />
-          <span className="text-xs">{t("theme.dark")}</span>
-          {theme === "dark" && <span className="absolute top-1 right-1 text-gradient-to dark:text-primary text-xs">✓</span>}
+          <Moon className="h-7 w-7 mb-2" />
+          <span className="text-sm font-medium">{t("theme.dark")}</span>
+          {theme === "dark" && <span className="absolute top-2 right-2 text-gradient-to dark:text-primary text-sm">✓</span>}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => setTheme("system")}
-          className="cursor-pointer flex flex-col items-center justify-center py-3 relative"
+          className="cursor-pointer flex flex-col items-center justify-center py-4 relative"
         >
-          <Monitor className="h-5 w-5 mb-1" />
-          <span className="text-xs">{t("theme.system")}</span>
-          {theme === "system" && <span className="absolute top-1 right-1 text-gradient-to dark:text-primary text-xs">✓</span>}
+          <Monitor className="h-7 w-7 mb-2" />
+          <span className="text-sm font-medium">{t("theme.system")}</span>
+          {theme === "system" && <span className="absolute top-2 right-2 text-gradient-to dark:text-primary text-sm">✓</span>}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
