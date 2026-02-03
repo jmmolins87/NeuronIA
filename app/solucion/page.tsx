@@ -17,7 +17,7 @@ import { HowItWorksSteps } from "@/components/solucion/how-it-works-steps"
 import { Guardrails } from "@/components/solucion/guardrails"
 import { ClinicFit } from "@/components/solucion/clinic-fit"
 import { FrictionlessFlowMini } from "@/components/solucion/frictionless-flow-mini"
-import { FinalCTA } from "@/components/final-cta"
+import { FinalCtaSection } from "@/components/cta/final-cta-section"
 import { Sparkles, AlertCircle } from "lucide-react"
 
 export default function SolucionPage() {
@@ -218,24 +218,7 @@ export default function SolucionPage() {
         </div>
       </Section>
 
-      {/* Final CTA Section */}
-      <Section
-        variant="default"
-        className="py-20 md:py-24 bg-gradient-to-br from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
-      >
-        <BlobShape
-          position="center"
-          color="primary"
-          className="w-[500px] h-[500px] opacity-20"
-          parallax
-          parallaxSpeed={0.1}
-        />
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <Reveal delay={100}>
-            <FinalCTA showMicroCta={true} noteKey="solution.cta.note" />
-          </Reveal>
-        </div>
-      </Section>
+      <FinalCtaSection showMicroCta={true} descriptionKey="solution.cta.note" />
     </SiteShell>
   )
 }

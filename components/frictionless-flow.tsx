@@ -84,7 +84,6 @@ export function FrictionlessFlow() {
         <div
           ref={lineRef}
           className="w-full h-full bg-gradient-to-b from-primary via-accent to-gradient-to origin-top scale-y-0"
-          style={{ transformOrigin: "top" }}
         />
       </div>
 

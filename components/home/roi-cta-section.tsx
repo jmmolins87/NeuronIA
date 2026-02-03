@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { Section } from "@/components/section"
-import { Button } from "@/components/ui/button"
+import { RoiButton } from "@/components/cta/roi-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { CircuitLines } from "@/components/shapes/circuit-lines"
@@ -85,9 +85,9 @@ export function RoiCtaSection() {
         </div>
 
         <div className="text-center max-w-2xl mx-auto">
-          <Button asChild size="lg" className="cursor-pointer dark:glow-primary text-base md:text-lg px-6 md:px-8">
+          <RoiButton asChild size="lg" className="text-base md:text-lg px-6 md:px-8">
             <Link href="/roi">{t("home.roi.cta")}</Link>
-          </Button>
+          </RoiButton>
         </div>
       </div>
     </Section>

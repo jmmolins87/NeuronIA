@@ -8,6 +8,8 @@ interface FloatingParticlesProps {
   size?: "sm" | "md" | "lg"
 }
 
+type ParticleSize = NonNullable<FloatingParticlesProps["size"]>
+
 export function FloatingParticles({ 
   count = 60, 
   color = "primary",
@@ -19,31 +21,13 @@ export function FloatingParticles({
     lg: "w-6 h-6"
   }
 
-  const sizeConfig = {
-    sm: {
-      blur: 0.5,
-      shadow: 5,
-      movement: 50,
-      speed: [3, 6],
-      scale: [0.8, 1.2]
-    },
-    md: {
-      blur: 1.5,
-      shadow: 15,
-      movement: 100,
-      speed: [2.5, 4.5],
-      scale: [0.7, 1.5]
-    },
-    lg: {
-      blur: 2.5,
-      shadow: 25,
-      movement: 200,
-      speed: [2, 5],
-      scale: [0.5, 2.5]
-    }
+  const speedRange: Record<ParticleSize, readonly [number, number]> = {
+    sm: [3, 6],
+    md: [2.5, 4.5],
+    lg: [2, 5],
   }
 
-  const config = sizeConfig[size]
+  const [minSpeed, maxSpeed] = speedRange[size]
 
   const colorClasses = {
     primary: "bg-primary",
@@ -56,39 +40,41 @@ export function FloatingParticles({
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: count }).map((_, i) => (
-        <div
-          key={i}
-          className={`absolute rounded-full ${sizeClasses[size]} ${colorClasses[color as keyof typeof colorClasses] || colorClasses.primary}`}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animation: `float ${config.speed[0] + Math.random() * (config.speed[1] - config.speed[0])}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 3}s`,
-            filter: `blur(${config.blur + Math.random() * config.blur}px)`,
-            boxShadow: `0 0 ${config.shadow + Math.random() * config.shadow}px currentColor`
-          }}
-        />
-      ))}
+      {Array.from({ length: count }).map((_, i) => {
+        const left = (i * 37) % 100
+        const top = (i * 53) % 100
+        const duration = minSpeed + ((maxSpeed - minSpeed) * ((i % 10) + 1)) / 11
+        const delay = ((i % 7) * 0.35) % 3
+
+        const blurClass =
+          size === "sm" ? "blur-0" : size === "md" ? "blur-[1px]" : "blur-sm"
+        const opacityClass = size === "sm" ? "opacity-40" : "opacity-70"
+        const animationClass = `animate-[floatSoft_${duration.toFixed(2)}s_ease-in-out_${delay.toFixed(2)}s_infinite]`
+
+        return (
+          <div
+            key={i}
+            className={`absolute rounded-full left-[${left}%] top-[${top}%] ${sizeClasses[size]} ${opacityClass} ${blurClass} ${animationClass} ${
+              colorClasses[color as keyof typeof colorClasses] || colorClasses.primary
+            }`}
+          />
+        )
+      })}
       <style jsx>{`
-        @keyframes float {
+        @keyframes floatSoft {
           0%, 100% {
-            transform: translate(0, 0) scale(${config.scale[0]}) rotate(0deg);
+            transform: translate3d(0, 0, 0) scale(1);
             opacity: 0;
           }
           10% {
-            opacity: ${size === 'sm' ? 0.3 : 0.8};
+            opacity: 0.65;
           }
           50% {
-            transform: translate(${Math.random() * config.movement - config.movement/2}px, ${Math.random() * config.movement - config.movement/2}px) scale(${config.scale[1]}) rotate(${Math.random() * 360}deg);
-            opacity: ${size === 'sm' ? 0.5 : 1};
+            transform: translate3d(24px, -18px, 0) scale(1.35) rotate(12deg);
+            opacity: 1;
           }
           90% {
-            opacity: ${size === 'sm' ? 0.3 : 0.8};
-          }
-          100% {
-            transform: translate(0, 0) scale(${config.scale[0]}) rotate(360deg);
-            opacity: 0;
+            opacity: 0.65;
           }
         }
       `}</style>

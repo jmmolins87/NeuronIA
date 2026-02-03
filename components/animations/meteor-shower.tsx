@@ -7,24 +7,22 @@ export function MeteorShower() {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: meteors }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute bg-gradient-to-b from-primary via-primary to-transparent"
-          style={{
-            width: `${1.5 + Math.random() * 2}px`,
-            height: `${50 + Math.random() * 80}px`,
-            left: `${Math.random() * 120 - 10}%`,
-            top: `-150px`,
-            transform: 'rotate(45deg)',
-            animation: `meteor ${2.5 + Math.random() * 3}s linear infinite`,
-            animationDelay: `${Math.random() * 5}s`,
-            opacity: 0.4,
-            filter: 'blur(1px)',
-            boxShadow: `0 0 ${8 + Math.random() * 12}px var(--primary)`
-          }}
-        />
-      ))}
+      {Array.from({ length: meteors }).map((_, i) => {
+        const widthPx = 2 + (i % 2)
+        const heightPx = 60 + (i % 5) * 20
+        const left = ((i * 19) % 120) - 10
+        const duration = 2.6 + (i % 7) * 0.42
+        const delay = (i % 10) * 0.5
+
+        const animationClass = `animate-[meteor_${duration.toFixed(2)}s_linear_${delay.toFixed(2)}s_infinite]`
+
+        return (
+          <div
+            key={i}
+            className={`absolute top-[-150px] rotate-45 opacity-40 blur-[1px] left-[${left}%] w-[${widthPx}px] h-[${heightPx}px] bg-gradient-to-b from-primary via-primary to-transparent shadow-[0_0_18px_oklch(var(--primary)/0.35)] ${animationClass}`}
+          />
+        )
+      })}
       <style jsx>{`
         @keyframes meteor {
           0% {

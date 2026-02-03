@@ -1,15 +1,16 @@
 "use client"
 
 import * as React from "react"
+import { createPortal } from "react-dom"
+
 import { Button } from "@/components/ui/button"
+import { Loader } from "@/components/loader"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface BookingCalendarProps {
   onBookingComplete?: (data: BookingData) => void
-  prefillName?: string
-  prefillEmail?: string
 }
 
 export interface BookingData {
@@ -34,15 +35,43 @@ const OCCUPIED_TIMES = [
   "12:00", "12:30", "16:00", "16:30"
 ]
 
-// Horarios disponibles (17:00 - 21:00)
-const AVAILABLE_TIMES = ALL_TIMES.filter(time => !OCCUPIED_TIMES.includes(time))
-
-export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEmail = "" }: BookingCalendarProps) {
+export function BookingCalendar({ onBookingComplete }: BookingCalendarProps) {
   const { t } = useTranslation()
   const [step, setStep] = React.useState<1 | 2 | 3>(1)
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = React.useState<string | null>(null)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const timeStepRef = React.useRef<HTMLDivElement | null>(null)
+  const loaderTimeoutRef = React.useRef<number | null>(null)
+  const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null)
+
+  React.useEffect(() => {
+    setPortalTarget(document.body)
+  }, [])
+
+  React.useEffect(() => {
+    if (step !== 2 || !selectedDate || isLoading) return
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+
+    window.requestAnimationFrame(() => {
+      timeStepRef.current?.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "center",
+      })
+    })
+  }, [isLoading, selectedDate, step])
+
+  React.useEffect(() => {
+    return () => {
+      if (loaderTimeoutRef.current) {
+        window.clearTimeout(loaderTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear()
@@ -81,7 +110,17 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
     const date = new Date(year, month, day)
     if (isDateAvailable(date)) {
       setSelectedDate(date)
-      setStep(2)
+      setSelectedTime(null)
+      setIsLoading(true)
+
+      if (loaderTimeoutRef.current) {
+        window.clearTimeout(loaderTimeoutRef.current)
+      }
+
+      loaderTimeoutRef.current = window.setTimeout(() => {
+        setIsLoading(false)
+        setStep(2)
+      }, 500)
     }
   }
 
@@ -158,6 +197,7 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
 
   return (
     <div className="w-full space-y-6">
+      {isLoading && portalTarget ? createPortal(<Loader />, portalTarget) : null}
       {/* Info Box - What's included */}
       <div className="rounded-lg border border-border bg-card/80 backdrop-blur-sm p-6">
         <div className="flex items-start gap-3">
@@ -172,6 +212,7 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
           </div>
         </div>
       </div>
+
 
       {/* Step 1: Select Date */}
       {step === 1 && (
@@ -196,7 +237,7 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
             <h4 className="text-lg font-semibold">
               {currentMonth.toLocaleDateString(t("common.locale"), {
                 month: "long",
-                year: "numeric"
+                year: "numeric",
               })}
             </h4>
             <Button
@@ -219,16 +260,13 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
           </div>
 
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2">
-            {days}
-          </div>
-
+          <div className="grid grid-cols-7 gap-2">{days}</div>
         </div>
       )}
 
       {/* Step 2: Select Time */}
       {step === 2 && selectedDate && (
-        <div className="space-y-6">
+        <div ref={timeStepRef} className="space-y-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
@@ -246,9 +284,7 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
           </div>
 
           <div className="p-4 rounded-lg bg-primary/10 dark:bg-primary/20 border border-primary/30">
-            <p className="text-sm font-medium text-foreground">
-              {formatDate(selectedDate)}
-            </p>
+            <p className="text-sm font-medium text-foreground">{formatDate(selectedDate)}</p>
           </div>
 
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
@@ -265,8 +301,8 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
                     isOccupied
                       ? "opacity-40 cursor-not-allowed bg-muted border-red-500 line-through"
                       : selectedTime === time
-                      ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
-                      : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
+                        ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
+                        : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
                   )}
                 >
                   {time}
@@ -320,9 +356,7 @@ export function BookingCalendar({ onBookingComplete, prefillName = "", prefillEm
             </div>
           </div>
 
-          <p className="text-base text-muted-foreground">
-            {t("book.calendar.confirmMessage")}
-          </p>
+          <p className="text-base text-muted-foreground">{t("book.calendar.confirmMessage")}</p>
 
           <div className="flex justify-end">
             <Button

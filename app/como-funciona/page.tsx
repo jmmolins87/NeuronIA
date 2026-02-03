@@ -13,7 +13,7 @@ import { DataNeeded } from "@/components/como-funciona/data-needed"
 import { Supervision } from "@/components/como-funciona/supervision"
 import { PatientExperience } from "@/components/como-funciona/patient-experience"
 import { HowFaq } from "@/components/como-funciona/how-faq"
-import { FinalCTA } from "@/components/final-cta"
+import { FinalCtaSection } from "@/components/cta/final-cta-section"
 import { Workflow, AlertCircle } from "lucide-react"
 
 export default function ComoFuncionaPage() {
@@ -211,24 +211,7 @@ export default function ComoFuncionaPage() {
         </div>
       </Section>
 
-      {/* Final CTA Section */}
-      <Section
-        variant="default"
-        className="py-20 md:py-24 bg-gradient-to-br from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
-      >
-        <BlobShape
-          position="center"
-          color="primary"
-          className="w-[500px] h-[500px] opacity-20"
-          parallax
-          parallaxSpeed={0.1}
-        />
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <Reveal delay={100}>
-            <FinalCTA showMicroCta={true} noteKey="howItWorks.cta.note" />
-          </Reveal>
-        </div>
-      </Section>
+      <FinalCtaSection showMicroCta={true} descriptionKey="howItWorks.cta.note" />
     </SiteShell>
   )
 }

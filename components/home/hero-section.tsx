@@ -3,7 +3,8 @@
 import * as React from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
+import { RoiButton } from "@/components/cta/roi-button"
 import { Logo } from "@/components/logo"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
@@ -30,7 +31,10 @@ export function HeroSection() {
       <ThreeBackdrop />
       <div className="container relative z-10 mx-auto max-w-screen-2xl px-fluid py-8 md:py-0 text-center flex-1 flex items-center">
         <div className="max-w-7xl mx-auto space-fluid-lg w-full">
-          <div ref={heroLogoRef as React.RefObject<HTMLDivElement>} className="hidden md:flex justify-center" style={{ height: 'clamp(9rem, 12vh, 15rem)' }}>
+          <div
+            ref={heroLogoRef as React.RefObject<HTMLDivElement>}
+            className="hidden h-[clamp(9rem,12vh,15rem)] md:flex justify-center"
+          >
             <Logo 
               width={800} 
               height={200} 
@@ -47,12 +51,20 @@ export function HeroSection() {
           </p>
 
           <div ref={heroButtonsRef as React.RefObject<HTMLDivElement>} className="flex flex-col items-center gap-fluid-sm sm:flex-row sm:justify-center pt-4">
-            <Button asChild size="lg" variant="outline" style={{ fontSize: 'clamp(1rem, 1.2vw, 1.25rem)', padding: 'clamp(0.75rem, 1.5vh, 1.5rem) clamp(1.5rem, 3vw, 2rem)' }} className="w-full sm:w-auto cursor-pointer">
+            <DemoButton
+              asChild
+              size="lg"
+              className="w-full sm:w-auto text-[clamp(1rem,1.2vw,1.25rem)] px-[clamp(1.5rem,3vw,2rem)] py-[clamp(0.75rem,1.5vh,1.5rem)]"
+            >
               <Link href="/reservar">{t("home.hero.cta1")}</Link>
-            </Button>
-            <Button asChild size="lg" style={{ fontSize: 'clamp(1rem, 1.2vw, 1.25rem)', padding: 'clamp(0.75rem, 1.5vh, 1.5rem) clamp(1.5rem, 3vw, 2rem)' }} className="w-full sm:w-auto cursor-pointer dark:glow-primary">
+            </DemoButton>
+            <RoiButton
+              asChild
+              size="lg"
+              className="w-full sm:w-auto text-[clamp(1rem,1.2vw,1.25rem)] px-[clamp(1.5rem,3vw,2rem)] py-[clamp(0.75rem,1.5vh,1.5rem)]"
+            >
               <Link href="/roi">{t("home.hero.cta2")}</Link>
-            </Button>
+            </RoiButton>
           </div>
         </div>
       </div>

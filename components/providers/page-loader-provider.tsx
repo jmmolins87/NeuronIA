@@ -7,36 +7,71 @@ import { Loader } from "@/components/loader"
 export function PageLoaderProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [isLoading, setIsLoading] = React.useState(true)
-  const [prevPathname, setPrevPathname] = React.useState(pathname)
+  const rafRef = React.useRef<number | null>(null)
+  const timerRef = React.useRef<number | null>(null)
+
+  const clearPending = React.useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+  }, [])
 
   React.useEffect(() => {
-    // When pathname changes, show loader
-    if (pathname !== prevPathname) {
-      setIsLoading(true)
-      setPrevPathname(pathname)
+    clearPending()
+
+    const MIN_MS = 600
+    const MAX_HASH_WAIT_MS = 900
+    const startedAt = performance.now()
+
+    setIsLoading(true)
+
+    const hash = window.location.hash
+    const targetId = hash.startsWith("#") ? hash.slice(1) : ""
+
+    const tryScrollToHash = () => {
+      if (!targetId) return true
+
+      const el = document.getElementById(targetId)
+      if (!el) return false
+
+      // Do not animate scroll while loader is visible
+      el.scrollIntoView({ behavior: "auto", block: "start" })
+      return true
     }
 
-    // Hide loader after a delay to allow content to be ready
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 600) // 600ms gives time for data to load
+    const waitForHashThenHide = () => {
+      const hashDone = tryScrollToHash()
+      const elapsed = performance.now() - startedAt
 
-    return () => clearTimeout(timer)
-  }, [pathname, prevPathname])
+      if (hashDone || elapsed >= MAX_HASH_WAIT_MS) {
+        const remaining = Math.max(0, MIN_MS - elapsed)
+        timerRef.current = window.setTimeout(() => {
+          setIsLoading(false)
+        }, remaining)
+        return
+      }
 
-  // Also check on initial mount
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 600)
+      rafRef.current = requestAnimationFrame(waitForHashThenHide)
+    }
 
-    return () => clearTimeout(timer)
-  }, [])
+    rafRef.current = requestAnimationFrame(waitForHashThenHide)
+
+    return () => {
+      clearPending()
+    }
+  }, [pathname, clearPending])
 
   return (
     <>
       {isLoading && <Loader />}
-      <div style={{ opacity: isLoading ? 0 : 1, transition: "opacity 300ms ease-in-out" }}>
+      <div
+        className={`transition-opacity duration-300 ease-in-out ${isLoading ? "opacity-0" : "opacity-100"}`}
+      >
         {children}
       </div>
     </>

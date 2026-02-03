@@ -25,57 +25,43 @@ export function Loader({ className }: LoaderProps) {
           
           {/* Neuronas effect - orbiting and pulsing dots */}
           <div className="absolute inset-0 flex items-center justify-center">
-            {[...Array(12)].map((_, i) => {
-              const angle = (i * Math.PI * 2) / 12
-              const radius = 60
+            {Array.from({ length: 12 }).map((_, i) => {
+              const deg = i * 30
+              const delay = i * 0.15
+              const rotateClass = `rotate-[${deg}deg]`
+              const pulseClass = `animate-[neuronPulse_2s_ease-in-out_${delay.toFixed(2)}s_infinite]`
+
               return (
                 <div
                   key={i}
-                  className="absolute"
-                  style={{
-                    top: `50%`,
-                    left: `50%`,
-                    transform: `translate(-50%, -50%)`,
-                  }}
+                  className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${rotateClass}`}
                 >
-                  <div
-                    className="w-1.5 h-1.5 rounded-full bg-primary/60 dark:bg-primary"
-                    style={{
-                      animation: `neuronPulse 2s ease-in-out infinite`,
-                      animationDelay: `${i * 0.15}s`,
-                      transform: `translate(${radius * Math.cos(angle)}px, ${radius * Math.sin(angle)}px)`,
-                    }}
-                  />
+                  <div className="translate-x-[60px]">
+                    <div className={`w-1.5 h-1.5 rounded-full bg-primary/60 dark:bg-primary ${pulseClass}`} />
+                  </div>
                 </div>
               )
             })}
           </div>
 
           {/* Connection lines effect */}
-          <svg className="absolute inset-0 w-full h-full" style={{ transform: 'scale(1.2)' }}>
-            {[...Array(12)].map((_, i) => {
-              if (i % 3 === 0) {
-                const angle1 = (i * Math.PI * 2) / 12
-                const angle2 = ((i + 4) * Math.PI * 2) / 12
-                const radius = 60
-                return (
-                  <line
-                    key={i}
-                    x1="50%"
-                    y1="50%"
-                    x2={`calc(50% + ${radius * Math.cos(angle1)}px)`}
-                    y2={`calc(50% + ${radius * Math.sin(angle1)}px)`}
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                    className="text-primary/20 dark:text-primary/30"
-                    style={{
-                      animation: `lineOpacity 2s ease-in-out infinite`,
-                      animationDelay: `${i * 0.15}s`,
-                    }}
-                  />
-                )
-              }
-              return null
+          <svg className="absolute inset-0 w-full h-full scale-110" aria-hidden="true">
+            {Array.from({ length: 4 }).map((_, i) => {
+              const delay = i * 0.25
+              const animationClass = `animate-[lineOpacity_2s_ease-in-out_${delay.toFixed(2)}s_infinite]`
+
+              return (
+                <line
+                  key={i}
+                  x1="50%"
+                  y1="50%"
+                  x2={i % 2 === 0 ? "15%" : "85%"}
+                  y2={i < 2 ? "25%" : "75%"}
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  className={`text-primary/20 dark:text-primary/30 ${animationClass}`}
+                />
+              )
             })}
           </svg>
         </div>
@@ -83,8 +69,7 @@ export function Loader({ className }: LoaderProps) {
         {/* Spinner */}
         <div className="relative w-10 h-10">
           <div className="absolute inset-0 rounded-full border-2 border-muted/30"></div>
-          <div className="absolute inset-0 rounded-full border-2 border-primary border-t-transparent animate-spin" 
-               style={{ animationDuration: '0.8s' }}></div>
+          <div className="absolute inset-0 rounded-full border-2 border-primary border-t-transparent animate-[spin_0.8s_linear_infinite]"></div>
         </div>
       </div>
 

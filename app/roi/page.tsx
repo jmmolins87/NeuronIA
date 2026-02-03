@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
@@ -25,13 +24,11 @@ import {
   AlertDialogTitle,
   AlertDialogMedia,
 } from "@/components/ui/alert-dialog"
-import Link from "next/link"
 import { 
   TrendingUp, 
   Euro, 
   Clock, 
   Calculator,
-  ArrowRight,
   Info,
   Send,
   ShieldCheck,
@@ -53,7 +50,6 @@ const CLINIC_TYPES: { id: ClinicType; icon: typeof Building2; color: string }[] 
 
 export default function ROIPage() {
   const { t } = useTranslation()
-  const router = useRouter()
   const { saveROIData, acceptROIData, clearROIData, roiData } = useROIData()
   const mounted = useMounted()
   const [showDialog, setShowDialog] = React.useState(false)
@@ -133,6 +129,17 @@ export default function ROIPage() {
   const { ref: calculatorRef } = useMountAnimation({ delay: 300, duration: 1000 })
   const { ref: resultsRef } = useMountAnimation({ delay: 600, duration: 1000 })
 
+  // If arriving via hash from Contact, jump to calculator before paint (avoid visible scroll)
+  React.useLayoutEffect(() => {
+    if (typeof window === "undefined") return
+    if (window.location.hash !== "#roi-calculator") return
+
+    document.getElementById("roi-calculator")?.scrollIntoView({
+      behavior: "auto",
+      block: "start",
+    })
+  }, [])
+
   // Verificar si los datos están completos
   const isDataComplete = React.useCallback(() => {
     return clinicType && monthlyPatients > 0 && avgTicket > 0 && missedRate > 0
@@ -189,9 +196,10 @@ export default function ROIPage() {
 
   // Handle navigation with confirmation
   const handleNavigateWithConfirmation = (href: string) => {
-    // Si no ha interactuado, navegar directamente
+    // Si no ha rellenado la calculadora, no permitir navegar al formulario
     if (!hasUserInteracted) {
-      router.push(href)
+      setPendingNavigation(href)
+      setShowIncompleteDialog(true)
       return
     }
     
@@ -231,13 +239,6 @@ export default function ROIPage() {
     if (monthlyPatients === 0) setMonthlyPatients(config.defaultPatients)
     if (avgTicket === 0) setAvgTicket(config.defaultTicket)
     if (missedRate === 0) setMissedRate(config.defaultMissedRate)
-  }
-
-  const handlePresetClick = (patients: number, ticket: number, missed: number) => {
-    setHasUserInteracted(true)
-    setMonthlyPatients(patients)
-    setAvgTicket(ticket)
-    setMissedRate(missed)
   }
 
   const handleAccept = () => {
@@ -326,10 +327,13 @@ export default function ROIPage() {
       {/* Calculator Section */}
       <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
         <BlobShape position="bottom-right" color="accent" parallax parallaxSpeed={0.3} />
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <div className="grid gap-8 lg:grid-cols-2 max-w-6xl mx-auto items-start">
+        <div id="roi-calculator" className="container relative z-10 mx-auto max-w-screen-xl px-4 scroll-mt-24">
+          <div className="grid gap-8 lg:grid-cols-2 max-w-6xl mx-auto items-stretch">
             {/* Inputs */}
-            <div ref={calculatorRef as React.RefObject<HTMLDivElement>} className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
+            <div
+              ref={calculatorRef as React.RefObject<HTMLDivElement>}
+              className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col"
+            >
               <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
                 <Info className="w-6 h-6 text-primary" />
                 {t("roi.calculator.inputs.title")}
@@ -557,7 +561,7 @@ export default function ROIPage() {
           </div>
 
           {/* Disclaimer - Desktop: debajo de ambas cajas */}
-          <div className="hidden lg:block max-w-6xl mx-auto mt-6">
+          <div className="hidden lg:block max-w-4xl mx-auto mt-6">
             <div className="rounded-xl border-2 border-border bg-card/50 backdrop-blur-sm p-4">
               <p className="text-sm text-foreground/70 text-center">
                 <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
@@ -576,9 +580,9 @@ export default function ROIPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   {t("roi.calculator.cta.description")}
                 </p>
-                <Button 
+                <Button
                   onClick={() => handleNavigateWithConfirmation("/contacto")}
-                  size="lg" 
+                  size="lg"
                   className="dark:glow-primary cursor-pointer"
                 >
                   {t("roi.calculator.cta.button")}
@@ -587,6 +591,7 @@ export default function ROIPage() {
               </div>
             </div>
           </Reveal>
+
         </div>
       </Section>
 
@@ -640,7 +645,8 @@ export default function ROIPage() {
                 setShowIncompleteDialog(false)
                 setPendingNavigation(null)
               }}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              variant="outline"
+              className="bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90"
             >
               {t("roi.dialog.incomplete.button")}
             </AlertDialogAction>

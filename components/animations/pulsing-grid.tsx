@@ -5,37 +5,26 @@ import * as React from "react"
 export function PulsingGrid() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 opacity-20" style={{
-        backgroundImage: `
-          linear-gradient(to right, var(--primary) 1px, transparent 1px),
-          linear-gradient(to bottom, var(--primary) 1px, transparent 1px)
-        `,
-        backgroundSize: '50px 50px',
-        animation: 'gridPulse 3s ease-in-out infinite',
-        filter: 'drop-shadow(0 0 5px var(--primary))'
-      }} />
-      <div className="absolute inset-0 opacity-15" style={{
-        backgroundImage: `
-          linear-gradient(45deg, var(--primary) 1px, transparent 1px),
-          linear-gradient(-45deg, var(--primary) 1px, transparent 1px)
-        `,
-        backgroundSize: '50px 50px',
-        animation: 'gridPulse 3s ease-in-out infinite reverse',
-        filter: 'drop-shadow(0 0 5px var(--primary))'
-      }} />
-      {Array.from({ length: 10 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute w-2 h-2 bg-primary rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animation: `gridPulse ${1 + Math.random() * 2}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 2}s`,
-            boxShadow: '0 0 20px var(--primary)'
-          }}
-        />
-      ))}
+      <div
+        className="absolute inset-0 opacity-20 [background-image:linear-gradient(to_right,oklch(var(--primary))_1px,transparent_1px),linear-gradient(to_bottom,oklch(var(--primary))_1px,transparent_1px)] [background-size:50px_50px] animate-[gridPulse_3s_ease-in-out_infinite]"
+      />
+      <div
+        className="absolute inset-0 opacity-15 [background-image:linear-gradient(45deg,oklch(var(--primary))_1px,transparent_1px),linear-gradient(-45deg,oklch(var(--primary))_1px,transparent_1px)] [background-size:50px_50px] animate-[gridPulse_3s_ease-in-out_infinite_reverse]"
+      />
+      {Array.from({ length: 10 }).map((_, i) => {
+        const left = (i * 31) % 100
+        const top = (i * 47) % 100
+        const duration = 1.2 + (i % 5) * 0.35
+        const delay = (i % 6) * 0.25
+        const animationClass = `animate-[gridPulse_${duration.toFixed(2)}s_ease-in-out_${delay.toFixed(2)}s_infinite]`
+
+        return (
+          <div
+            key={i}
+            className={`absolute left-[${left}%] top-[${top}%] w-2 h-2 bg-primary rounded-full shadow-[0_0_20px_oklch(var(--primary)/0.35)] ${animationClass}`}
+          />
+        )
+      })}
       <style jsx>{`
         @keyframes gridPulse {
           0%, 100% {

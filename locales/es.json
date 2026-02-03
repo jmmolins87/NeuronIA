@@ -396,6 +396,12 @@
   "scenarios": {
     "title": "Escenarios Reales",
     "description": "Descubre cómo el Sistema de Atención Inteligente transforma el día a día en diferentes especialidades",
+    "cta": {
+      "title": "¿Quieres que esto no vuelva a pasar?",
+      "description": "En una demo te mostramos cómo responder en segundos, clasificar urgencias y convertir conversaciones en citas sin saturar a tu equipo.",
+      "demo": "Reservar Demo",
+      "roi": "Ver ROI"
+    },
     "aesthetic": {
       "title": "Clínica de Estética",
       "subtitle": "De la saturación de WhatsApp a una agenda optimizada",
@@ -474,6 +480,47 @@
       "change": {
         "title": "Qué Cambia",
         "description": "Las urgencias se capturan 24/7, los programas de vacunación se mantienen al día automáticamente, la agenda optimiza espacios para emergencias, y los dueños se sienten más acompañados en el cuidado de sus mascotas."
+      },
+      "cases": {
+        "title": "Historias que pasan cada semana",
+        "description": "No son \"casos de marketing\". Son mensajes que cualquier dueño ha escrito alguna vez cuando su mascota le preocupa de verdad.",
+        "ownerMessageLabel": "Mensaje del dueño",
+        "systemDoesLabel": "Lo que hace el sistema",
+        "outcomeLabel": "El resultado",
+        "items": {
+          "midnight": {
+            "badge": "23:47 - Un domingo",
+            "title": "El vómito de madrugada",
+            "story": "Tu clínica está cerrada y el móvil vibra. Un perro lleva horas con vómitos y el dueño no sabe si es grave o si puede esperar. Si no hay respuesta rápida, busca la primera urgencia que le coja el teléfono.",
+            "ownerMessage": "Perdona la hora... lleva 3 vómitos seguidos, está decaído y tiembla un poco. ¿Es urgencia?",
+            "system": "Hace preguntas clave de triaje, detecta señales de alarma, propone una cita de urgencias si procede y da instrucciones seguras mientras se confirma la visita.",
+            "outcome": "El dueño siente que hay alguien al otro lado y la urgencia llega a tu agenda, no a la competencia."
+          },
+          "postSurgery": {
+            "badge": "Primeras 24h",
+            "title": "Después de la cirugía, el miedo",
+            "story": "La mascota salió hoy de una cirugía. En casa todo se amplifica: un gemido, un vendaje húmedo, una mirada rara. El dueño escribe con ansiedad porque no quiere \"hacer algo mal\".",
+            "ownerMessage": "Le han operado esta mañana y ahora no quiere moverse... ¿es normal? ¿Le doy la medicación ya?",
+            "system": "Responde con el protocolo postoperatorio, verifica dosis/horarios según el caso y, si hay signos de complicación, agenda una revisión prioritaria.",
+            "outcome": "Menos llamadas de pánico, mejor seguimiento y más revisiones que se agendan sin fricción."
+          },
+          "chronic": {
+            "badge": "Semana tras semana",
+            "title": "El picor que no se va",
+            "story": "Una dermatitis crónica no suele ser una sola consulta. Son fotos, dudas, cambios de champú y \"hoy está peor\". Si no hay seguimiento, el dueño se frustra y abandona.",
+            "ownerMessage": "Otra vez se rasca y se ha hecho herida... te mando foto. ¿Hay que cambiar tratamiento?",
+            "system": "Recoge síntomas, solicita información estructurada, propone cita de control y mantiene el hilo del caso para que el veterinario llegue con contexto.",
+            "outcome": "Más continuidad, menos idas y venidas y una experiencia de cuidado que se nota."
+          },
+          "vaccines": {
+            "badge": "Recordatorio a tiempo",
+            "title": "Vacunas y revisiones olvidadas",
+            "story": "Entre trabajo, niños y rutinas, muchas familias se acuerdan \"tarde\". La mascota llega sin la vacuna al día y la clínica pierde una cita fácil que sostenía la agenda.",
+            "ownerMessage": "Creo que le toca la vacuna, pero no sé cuál ni cuándo... ¿tenéis hueco esta semana?",
+            "system": "Revisa el historial, explica qué toca y por qué, ofrece huecos compatibles y confirma la cita con recordatorio.",
+            "outcome": "Programas preventivos más estables y menos huecos por falta de seguimiento."
+          }
+        }
       }
     }
   },

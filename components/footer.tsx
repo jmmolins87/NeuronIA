@@ -1,9 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { Calendar } from "lucide-react"
+import { Calendar, Calculator } from "lucide-react"
+import { DemoButton } from "@/components/cta/demo-button"
+import { RoiButton } from "@/components/cta/roi-button"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { useTranslation } from "@/components/providers/i18n-provider"
 
@@ -32,7 +33,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="inline-block cursor-pointer"
               aria-label={t("aria.goToTop")}
             >
@@ -84,15 +85,22 @@ export function Footer() {
               {t("footer.cta.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-2">
-              <Button asChild size="sm" className="cursor-pointer dark:glow-primary">
+              <DemoButton asChild size="sm">
                 <Link href="/reservar">
-                  <Calendar className="w-4 h-4" />
-                  {t("common.bookDemo")}
+                  <span className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    {t("common.bookDemo")}
+                  </span>
                 </Link>
-              </Button>
-              <Button asChild size="sm" variant="outline" className="cursor-pointer">
-                <Link href="/roi">{t("nav.roi")}</Link>
-              </Button>
+              </DemoButton>
+              <RoiButton asChild size="sm">
+                <Link href="/roi">
+                  <span className="flex items-center gap-2">
+                    <Calculator className="w-4 h-4" />
+                    {t("nav.roi")}
+                  </span>
+                </Link>
+              </RoiButton>
             </div>
           </div>
         </div>

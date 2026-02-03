@@ -28,13 +28,13 @@ export function ThemeToggle({ size = "default" }: { size?: "default" | "large" }
   const getThemeIcon = () => {
     switch (theme) {
       case "light":
-        return <Sun className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
+        return <Sun className={iconSize} />
       case "dark":
-        return <Moon className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
+        return <Moon className={iconSize} />
       case "system":
-        return <Monitor className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
+        return <Monitor className={iconSize} />
       default:
-        return <Sun className={iconSize} style={size === "large" ? { width: '32px', height: '32px' } : {}} />
+        return <Sun className={iconSize} />
     }
   }
 
@@ -42,7 +42,7 @@ export function ThemeToggle({ size = "default" }: { size?: "default" | "large" }
     if (size === "large") {
       return (
         <div className="flex items-center justify-center p-2 rounded-lg bg-transparent opacity-50">
-          <Sun className={iconSize} style={{ width: '32px', height: '32px' }} />
+          <Sun className={iconSize} />
         </div>
       )
     }

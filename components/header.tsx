@@ -8,107 +8,106 @@ import { Logo } from "@/components/logo"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
+import { RoiButton } from "@/components/cta/roi-button"
 import {
   Sheet,
   SheetContent,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useTranslation } from "@/components/providers/i18n-provider"
 
 export function Header() {
-  const { t, locale } = useTranslation()
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
   const isHomePage = pathname === "/"
-  const navRef = React.useRef<HTMLElement>(null)
   const [showHeaderLogo, setShowHeaderLogo] = React.useState(false)
-  const [indicatorStyle, setIndicatorStyle] = React.useState({
+
+  const navRef = React.useRef<HTMLElement | null>(null)
+  const linkRefs = React.useRef<Record<string, HTMLAnchorElement | null>>({})
+  const [indicator, setIndicator] = React.useState<{ left: number; width: number; opacity: number }>({
     left: 0,
     width: 0,
     opacity: 0,
   })
 
-  const navLinks = [
-    { href: "/solucion", label: t("nav.solution") },
-    { href: "/escenarios", label: t("nav.scenarios") },
-    { href: "/como-funciona", label: t("nav.howItWorks") },
-    { href: "/metodologia", label: t("nav.methodology") },
-    { href: "/contacto", label: t("nav.contact") },
-  ]
+  const navLinks = React.useMemo(
+    () => [
+      { href: "/solucion", label: t("nav.solution") },
+      { href: "/escenarios", label: t("nav.scenarios") },
+      { href: "/como-funciona", label: t("nav.howItWorks") },
+      { href: "/metodologia", label: t("nav.methodology") },
+      { href: "/contacto", label: t("nav.contact") },
+    ],
+    [t]
+  )
 
-  // Actualizar posición del underline cuando cambia la ruta o el idioma
+  const activeHref = React.useMemo(() => {
+    const activeLink = navLinks.find((l) => l.href === pathname)
+    return activeLink?.href ?? null
+  }, [navLinks, pathname])
+
+  const setIndicatorToHref = React.useCallback((href: string) => {
+    const navEl = navRef.current
+    const linkEl = linkRefs.current[href]
+
+    if (!navEl || !linkEl) {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }))
+      return
+    }
+
+    const navRect = navEl.getBoundingClientRect()
+    const linkRect = linkEl.getBoundingClientRect()
+    const left = linkRect.left - navRect.left
+    const width = linkRect.width
+
+    setIndicator({ left, width, opacity: 1 })
+  }, [])
+
+  React.useLayoutEffect(() => {
+    if (!activeHref) {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }))
+      return
+    }
+
+    setIndicatorToHref(activeHref)
+  }, [activeHref, setIndicatorToHref])
+
   React.useEffect(() => {
-    const updateIndicator = (targetElement?: HTMLElement) => {
-      if (!navRef.current) return
+    if (!activeHref) return
 
-      const activeLink = targetElement || navRef.current.querySelector(
-        `a[href="${pathname}"]`
-      ) as HTMLElement
+    const handleResize = () => setIndicatorToHref(activeHref)
+    window.addEventListener("resize", handleResize, { passive: true })
+    return () => window.removeEventListener("resize", handleResize)
+  }, [activeHref, setIndicatorToHref])
 
-      if (activeLink) {
-        const navRect = navRef.current.getBoundingClientRect()
-        const linkRect = activeLink.getBoundingClientRect()
-        const newLeft = linkRect.left - navRect.left
-        const newWidth = linkRect.width
-
-        setIndicatorStyle({
-          left: newLeft,
-          width: newWidth,
-          opacity: 1,
-        })
-      } else {
-        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
-      }
+  const handleNavMouseLeave = () => {
+    if (!activeHref) {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }))
+      return
     }
 
-    // Pequeño delay para permitir que el DOM se actualice
-    const timer = setTimeout(() => updateIndicator(), 50)
-    
-    window.addEventListener("resize", () => updateIndicator())
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener("resize", () => updateIndicator())
-    }
-  }, [pathname, locale])
-
-  // Manejar hover sobre links
-  const handleLinkHover = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!navRef.current) return
-    const navRect = navRef.current.getBoundingClientRect()
-    const linkRect = event.currentTarget.getBoundingClientRect()
-    const newLeft = linkRect.left - navRect.left
-    const newWidth = linkRect.width
-
-    setIndicatorStyle({
-      left: newLeft,
-      width: newWidth,
-      opacity: 1,
-    })
+    setIndicatorToHref(activeHref)
   }
 
-  // Volver al link activo cuando sale el hover
-  const handleNavLeave = () => {
-    if (!navRef.current) return
-    const activeLink = navRef.current.querySelector(
-      `a[href="${pathname}"]`
-    ) as HTMLElement
-
-    if (activeLink) {
-      const navRect = navRef.current.getBoundingClientRect()
-      const linkRect = activeLink.getBoundingClientRect()
-      const newLeft = linkRect.left - navRect.left
-      const newWidth = linkRect.width
-
-      setIndicatorStyle({
-        left: newLeft,
-        width: newWidth,
-        opacity: 1,
-      })
-    } else {
-      setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
+  const handleNavBlurCapture = (event: React.FocusEvent<HTMLElement>) => {
+    if (!activeHref) {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }))
+      return
     }
+
+    const next = event.relatedTarget as Node | null
+    if (next && navRef.current?.contains(next)) return
+    setIndicatorToHref(activeHref)
+  }
+
+  const indicatorStyle: React.CSSProperties = {
+    left: 0,
+    width: indicator.width,
+    opacity: indicator.opacity,
+    transform: `translateX(${indicator.left}px)`,
   }
 
   // Detectar cuando el logo del hero sale del viewport
@@ -162,31 +161,36 @@ export function Header() {
         {/* Contenedor derecho - siempre alineado a la derecha */}
         <div className="flex items-center gap-6 ml-auto">
           {/* Desktop Navigation */}
-          <nav 
-            ref={navRef} 
+          <nav
+            ref={navRef}
             className="hidden relative items-center gap-6 md:flex"
-            onMouseLeave={handleNavLeave}
+            onMouseLeave={handleNavMouseLeave}
+            onBlurCapture={handleNavBlurCapture}
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onMouseEnter={handleLinkHover}
-                className="text-sm font-medium text-foreground transition-colors hover:text-gradient-to dark:hover:text-primary py-1"
-              >
-                {link.label}
-              </Link>
-            ))}
-            
-            {/* Animated underline indicator */}
             <span
-              className="absolute bottom-0 h-0.5 bg-gradient-to-r from-gradient-from to-gradient-to transition-all duration-300 ease-in-out"
-              style={{
-                left: `${indicatorStyle.left}px`,
-                width: `${indicatorStyle.width}px`,
-                opacity: indicatorStyle.opacity,
-              }}
+              aria-hidden
+              className="pointer-events-none absolute -bottom-1 h-0.5 rounded-full bg-gradient-to-r from-gradient-from to-gradient-to dark:from-primary dark:to-primary transition-[transform,width,opacity] duration-300 ease-out motion-reduce:transition-none"
+              style={indicatorStyle}
             />
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  ref={(el) => {
+                    linkRefs.current[link.href] = el
+                  }}
+                  onMouseEnter={() => setIndicatorToHref(link.href)}
+                  onFocus={() => setIndicatorToHref(link.href)}
+                  className={`relative z-10 py-1 text-sm font-medium transition-colors hover:text-gradient-to dark:hover:text-primary focus-visible:outline-none ${
+                    isActive ? "text-gradient-to dark:text-primary" : "text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Actions - Desktop only shows Language/Theme, Mobile hides them */}
@@ -196,13 +200,13 @@ export function Header() {
               <ThemeToggle />
             </div>
             
-            <Button asChild size="sm" variant="outline" className="hidden md:inline-flex cursor-pointer">
+            <DemoButton asChild size="sm" className="hidden md:inline-flex">
               <Link href="/reservar">{t("common.bookDemo")}</Link>
-            </Button>
+            </DemoButton>
             
-            <Button asChild size="sm" className="hidden md:inline-flex cursor-pointer dark:glow-primary">
+            <RoiButton asChild size="sm" className="hidden md:inline-flex">
               <Link href="/roi">{t("nav.roi")}</Link>
-            </Button>
+            </RoiButton>
           </div>
 
           {/* Mobile: Menu button - Al final de todo */}
@@ -248,16 +252,16 @@ export function Header() {
                   </div>
 
                   <div className="mt-3 flex flex-col gap-3 w-full max-w-sm">
-                    <Button asChild size="default" variant="outline" className="w-full cursor-pointer">
+                    <DemoButton asChild size="default" className="w-full">
                       <Link href="/reservar" onClick={() => setIsOpen(false)}>
                         {t("common.bookDemo")}
                       </Link>
-                    </Button>
-                    <Button asChild size="default" className="w-full cursor-pointer">
+                    </DemoButton>
+                    <RoiButton asChild size="default" className="w-full">
                       <Link href="/roi" onClick={() => setIsOpen(false)}>
                         {t("nav.roi")}
                       </Link>
-                    </Button>
+                    </RoiButton>
                   </div>
                 </nav>
               </div>

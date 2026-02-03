@@ -44,11 +44,7 @@ export function GridPattern({ className, squares = [] }: GridPatternProps) {
             y={y * 32}
             fill="currentColor"
             fillOpacity="0.15"
-            className="text-primary animate-pulse"
-            style={{ 
-              animationDelay: `${index * 0.3}s`,
-              animationDuration: `${2 + index * 0.5}s`
-            }}
+            className={`text-primary animate-[pulse_${(2 + index * 0.5).toFixed(2)}s_ease-in-out_${(index * 0.3).toFixed(2)}s_infinite]`}
           />
         ))}
       </svg>

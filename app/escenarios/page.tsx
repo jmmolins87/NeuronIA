@@ -1,17 +1,19 @@
 "use client"
 
 import * as React from "react"
+import { 
+  Activity,
+  Heart,
+  Smile,
+  Sparkles,
+} from "lucide-react"
+
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
+import { FinalCtaSection } from "@/components/cta/final-cta-section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Reveal } from "@/components/reveal"
 import { GridPattern } from "@/components/shapes/grid-pattern"
-import { 
-  Sparkles,
-  Smile,
-  Activity,
-  Heart
-} from "lucide-react"
 
 const SCENARIOS = [
   {
@@ -74,6 +76,14 @@ export default function EscenariosPage() {
           index={scenarioIndex}
         />
       ))}
+
+      <FinalCtaSection
+        showMicroCta={true}
+        titleKey="scenarios.cta.title"
+        descriptionKey="scenarios.cta.description"
+        primaryCtaKey="scenarios.cta.demo"
+        secondaryCtaKey="scenarios.cta.roi"
+      />
     </SiteShell>
   )
 }
@@ -125,29 +135,68 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
         {/* Bloque ampliado solo para Clínica Veterinaria */}
         {scenario.id === "veterinary" && (
           <Reveal delay={200}>
-            <div className="max-w-6xl mx-auto mb-12">
-              <p className="text-lg text-muted-foreground sm:text-xl text-center mb-8">{t("solution.fit.description")}</p>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                {['aesthetics', 'dental', 'physio', 'veterinary'].map((cardType) => (
-                  <div key={cardType} className="p-6 rounded-xl bg-card/80 border-2 border-border hover:border-primary/50 transition-all hover:shadow-lg">
-                    <h3 className="text-lg font-bold text-foreground mb-4">{t(`solution.fit.cards.${cardType}.title`)}</h3>
-                    <div className="space-y-3 text-sm">
-                      <div>
-                        <p className="font-semibold text-muted-foreground mb-1">Situación:</p>
-                        <p className="text-foreground/90">{t(`solution.fit.cards.${cardType}.situation`)}</p>
+            <div className="max-w-6xl mx-auto">
+              <div className="max-w-3xl mx-auto text-center space-y-3 mb-10">
+                <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                  {t("scenarios.veterinary.cases.title")}
+                </h3>
+                <p className="text-base md:text-lg text-muted-foreground">
+                  {t("scenarios.veterinary.cases.description")}
+                </p>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                {(["midnight", "postSurgery", "chronic", "vaccines"] as const).map((caseId) => (
+                  <div
+                    key={caseId}
+                    className="rounded-2xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 md:p-7 transition-all hover:border-primary/40 hover:shadow-xl dark:hover:shadow-primary/15"
+                  >
+                    <div className="space-y-4">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gradient-to dark:text-primary">
+                          {t(`scenarios.veterinary.cases.items.${caseId}.badge`)}
+                        </p>
+                        <h4 className="text-xl md:text-2xl font-bold text-foreground">
+                          {t(`scenarios.veterinary.cases.items.${caseId}.title`)}
+                        </h4>
                       </div>
-                      <div>
-                        <p className="font-semibold text-muted-foreground mb-1">Problema:</p>
-                        <p className="text-foreground/90">{t(`solution.fit.cards.${cardType}.problem`)}</p>
+
+                      <p className="text-base text-foreground/80 dark:text-foreground/85 leading-relaxed">
+                        {t(`scenarios.veterinary.cases.items.${caseId}.story`)}
+                      </p>
+
+                      <div className="rounded-xl border border-border/60 bg-background/40 p-4">
+                        <p className="text-sm font-semibold text-muted-foreground mb-2">
+                          {t("scenarios.veterinary.cases.ownerMessageLabel")}
+                        </p>
+                        <p className="text-base text-foreground leading-relaxed">
+                          &quot;{t(`scenarios.veterinary.cases.items.${caseId}.ownerMessage`)}&quot;
+                        </p>
                       </div>
-                      <div>
-                        <p className="font-semibold text-primary mb-1">Qué cambia:</p>
-                        <p className="text-foreground font-medium">{t(`solution.fit.cards.${cardType}.change`)}</p>
+
+                      <div className="grid gap-3 md:grid-cols-2">
+                        <div className="rounded-xl border border-border/60 bg-background/30 p-4">
+                          <p className="text-sm font-semibold text-muted-foreground mb-2">
+                            {t("scenarios.veterinary.cases.systemDoesLabel")}
+                          </p>
+                          <p className="text-sm text-foreground/80 leading-relaxed">
+                            {t(`scenarios.veterinary.cases.items.${caseId}.system`)}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border border-border/60 bg-background/30 p-4">
+                          <p className="text-sm font-semibold text-muted-foreground mb-2">
+                            {t("scenarios.veterinary.cases.outcomeLabel")}
+                          </p>
+                          <p className="text-sm text-foreground/80 leading-relaxed">
+                            {t(`scenarios.veterinary.cases.items.${caseId}.outcome`)}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
+
             </div>
           </Reveal>
         )}

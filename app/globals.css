@@ -660,6 +660,45 @@
     }
   }
 
+  /* Scroll progress bar (no inline styles) */
+  .scroll-progress {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+  }
+
+  .scroll-progress::-webkit-progress-bar {
+    background: transparent;
+  }
+
+  .scroll-progress::-webkit-progress-value {
+    background: linear-gradient(
+      to right,
+      oklch(var(--primary)),
+      oklch(var(--accent)),
+      oklch(var(--gradient-to))
+    );
+    box-shadow: 0 0 14px oklch(var(--primary) / 0.35);
+  }
+
+  .scroll-progress::-moz-progress-bar {
+    background: linear-gradient(
+      to right,
+      oklch(var(--primary)),
+      oklch(var(--accent)),
+      oklch(var(--gradient-to))
+    );
+    box-shadow: 0 0 14px oklch(var(--primary) / 0.35);
+  }
+
+  /* sonner Toaster CSS vars (no inline styles) */
+  .toaster {
+    --normal-bg: var(--popover);
+    --normal-text: var(--popover-foreground);
+    --normal-border: var(--border);
+    --border-radius: var(--radius);
+  }
+
   /* Scroll down indicator animation */
   .animate-scroll-down {
     animation: scrollDown 2s ease-in-out infinite;

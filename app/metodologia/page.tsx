@@ -7,7 +7,7 @@ import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Reveal } from "@/components/reveal"
-import { Button } from "@/components/ui/button"
+import { RoiButton } from "@/components/cta/roi-button"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { CircuitLines } from "@/components/shapes/circuit-lines"
@@ -16,7 +16,7 @@ import { MethodTimeline } from "@/components/metodologia/method-timeline"
 import { ConfigChecklist } from "@/components/metodologia/config-checklist"
 import { GuardrailsBlock } from "@/components/metodologia/guardrails-block"
 import { WhatWeDontDo } from "@/components/metodologia/what-we-dont-do"
-import { FinalCTA } from "@/components/final-cta"
+import { FinalCtaSection } from "@/components/cta/final-cta-section"
 import { useTheme } from "next-themes"
 
 export default function MetodologiaPage() {
@@ -54,12 +54,12 @@ export default function MetodologiaPage() {
               
               {/* Micro CTA */}
               <div className="pt-4">
-                <Button asChild variant="outline" size="sm" className="cursor-pointer">
+                <RoiButton asChild size="sm">
                   <Link href="/roi">
                     <Calculator className="w-4 h-4" />
                     {t("methodology.microCta")}
                   </Link>
-                </Button>
+                </RoiButton>
               </div>
             </div>
           </Reveal>
@@ -146,24 +146,7 @@ export default function MetodologiaPage() {
         </div>
       </Section>
 
-      {/* Final CTA Section */}
-      <Section
-        variant="default"
-        className="py-20 md:py-24 bg-gradient-to-br from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
-      >
-        <BlobShape
-          position="center"
-          color="primary"
-          className="w-[500px] h-[500px] opacity-20"
-          parallax
-          parallaxSpeed={0.1}
-        />
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <Reveal delay={100}>
-            <FinalCTA showMicroCta={true} noteKey="methodology.cta.note" />
-          </Reveal>
-        </div>
-      </Section>
+      <FinalCtaSection showMicroCta={true} descriptionKey="methodology.cta.note" />
     </SiteShell>
   )
 }

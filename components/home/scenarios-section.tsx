@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { Section } from "@/components/section"
-import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { SpiralDots } from "@/components/animations/spiral-dots"
@@ -54,9 +54,9 @@ export function ScenariosSection() {
         </div>
 
         <div className="text-center">
-          <Button asChild variant="outline" size="lg">
+          <DemoButton asChild size="lg">
             <Link href="/escenarios">{t("home.scenarios.cta")}</Link>
-          </Button>
+          </DemoButton>
         </div>
       </div>
     </Section>

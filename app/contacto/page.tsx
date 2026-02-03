@@ -12,6 +12,8 @@ import { useCalendlyData } from "@/hooks/use-calendly-data"
 import { useMounted } from "@/hooks/use-mounted"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
+import { RoiButton } from "@/components/cta/roi-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -47,8 +49,8 @@ import {
 export default function ContactoPage() {
   const router = useRouter()
   const { t, locale } = useTranslation()
-  const { roiData, hasROIData, hasAcceptedROIData, clearROIData } = useROIData()
-  const { calendlyData, hasCalendlyData, saveCalendlyData, clearCalendlyData } = useCalendlyData()
+  const { roiData, hasROIData, hasAcceptedROIData } = useROIData()
+  const { calendlyData, hasCalendlyData, clearCalendlyData } = useCalendlyData()
   const mounted = useMounted()
   const [demoCancelled, setDemoCancelled] = React.useState(false)
   const [showCancelModal, setShowCancelModal] = React.useState(false)
@@ -62,7 +64,7 @@ export default function ContactoPage() {
 
   const handleChangeROI = () => {
     setShowChangeROIModal(false)
-    router.push('/roi')
+    router.push("/roi#roi-calculator")
   }
   
   const [formData, setFormData] = React.useState({
@@ -328,12 +330,12 @@ export default function ContactoPage() {
                     </div>
                   </div>
                   
-                  <Button asChild size="lg">
-                    <Link href="/roi" className="flex items-center gap-2">
+                  <RoiButton asChild size="lg">
+                    <Link href="/roi#roi-calculator" className="flex items-center gap-2">
                       <Calculator className="w-5 h-5" />
                       {t("contact.form.goToROI")}
                     </Link>
-                  </Button>
+                  </RoiButton>
                 </div>
               </div>
             </Reveal>
@@ -489,15 +491,14 @@ export default function ContactoPage() {
                       {hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
                         /* When demo is booked - Show Cancel and Change Date */
                         <>
-                          <Button 
-                            variant="outline" 
+                          <DemoButton
                             size="sm"
-                            onClick={() => router.push('/reservar')}
-                            className="w-full sm:w-auto cursor-pointer"
+                            onClick={() => router.push("/reservar")}
+                            className="w-full sm:w-auto"
                           >
                             <Calendar className="w-4 h-4 mr-2" />
                             {t("contact.form.demoStatus.changeDate")}
-                          </Button>
+                          </DemoButton>
                           <Button 
                             variant="outline" 
                             size="sm"
@@ -510,15 +511,14 @@ export default function ContactoPage() {
                         </>
                       ) : (
                         /* When no demo - Show Book Now */
-                        <Button 
-                          size="sm" 
-                          variant="default" 
-                          className="w-full sm:w-auto cursor-pointer"
-                          onClick={() => router.push('/reservar')}
+                        <DemoButton
+                          size="sm"
+                          className="w-full sm:w-auto"
+                          onClick={() => router.push("/reservar")}
                         >
                           <Calendar className="w-4 h-4 mr-2" />
                           {t("contact.form.demoStatus.bookNow")}
-                        </Button>
+                        </DemoButton>
                       )}
                     </div>
                   </div>
@@ -570,7 +570,7 @@ export default function ContactoPage() {
                             </div>
                             {errors.name && (
                               <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
-                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
                                 <span>{errors.name}</span>
                               </p>
                             )}
@@ -597,7 +597,7 @@ export default function ContactoPage() {
                             </div>
                             {errors.email && (
                               <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
-                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
                                 <span>{errors.email}</span>
                               </p>
                             )}
@@ -627,7 +627,7 @@ export default function ContactoPage() {
                         </div>
                             {errors.phone && (
                               <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
-                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
                                 <span>{errors.phone}</span>
                               </p>
                             )}
@@ -654,7 +654,7 @@ export default function ContactoPage() {
                         </div>
                             {errors.clinic && (
                               <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
-                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
                                 <span>{errors.clinic}</span>
                               </p>
                             )}
@@ -681,7 +681,7 @@ export default function ContactoPage() {
                         </div>
                           {errors.message && (
                             <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
-                              <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgb(239 68 68 / 0.5))' }} />
+                              <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
                               <span>{errors.message}</span>
                             </p>
                           )}

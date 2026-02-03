@@ -24,24 +24,24 @@ export function CircuitLines({ className }: CircuitLinesProps) {
           <path 
             d="M0 50 L200 50 L200 100 L400 100" 
             strokeDasharray="8 8"
-            style={{ animation: 'dashFlow 4s linear infinite' }}
+            className="animate-[dashFlow_4s_linear_infinite]"
           />
           <path 
             d="M800 150 L600 150 L600 200 L400 200" 
             strokeDasharray="8 8"
-            style={{ animation: 'dashFlow 5s linear infinite reverse' }}
+            className="animate-[dashFlow_5s_linear_infinite_reverse]"
           />
           
           {/* Vertical lines with animated dash */}
           <path 
             d="M300 0 L300 200 L350 200 L350 400" 
             strokeDasharray="8 8"
-            style={{ animation: 'dashFlow 6s linear infinite' }}
+            className="animate-[dashFlow_6s_linear_infinite]"
           />
           <path 
             d="M700 600 L700 400 L650 400 L650 200" 
             strokeDasharray="8 8"
-            style={{ animation: 'dashFlow 4.5s linear infinite reverse' }}
+            className="animate-[dashFlow_4.5s_linear_infinite_reverse]"
           />
           
           {/* Circuit nodes with subtle pulse */}

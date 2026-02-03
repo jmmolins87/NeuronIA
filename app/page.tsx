@@ -2,10 +2,8 @@
 
 import * as React from "react"
 import { SiteShell } from "@/components/site-shell"
-import { Section } from "@/components/section"
-import { BlobShape } from "@/components/shapes/blob-shape"
 import { ActiveSectionIndicator } from "@/components/active-section-indicator"
-import { FinalCTA } from "@/components/final-cta"
+import { FinalCtaSection } from "@/components/cta/final-cta-section"
 import { HeroSection } from "@/components/home/hero-section"
 import { ProblemSection } from "@/components/home/problem-section"
 import { SystemSection } from "@/components/home/system-section"
@@ -25,13 +23,8 @@ export default function Home() {
       <BenefitsSection />
       <ScenariosSection />
       <RoiCtaSection />
-      
-      <Section variant="alt" id="final-cta-section" className="min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background pb-12 md:pb-0">
-        <BlobShape position="center" color="primary" className="w-[500px] h-[500px] opacity-20" parallax parallaxSpeed={0.1} />
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <FinalCTA showMicroCta={true} />
-        </div>
-      </Section>
+
+      <FinalCtaSection id="final-cta-section" showMicroCta={true} />
     </SiteShell>
   )
 }

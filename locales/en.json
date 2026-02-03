@@ -388,6 +388,12 @@
   "scenarios": {
     "title": "Real Scenarios",
     "description": "Discover how the Intelligent Care System transforms daily operations across different specialties",
+    "cta": {
+      "title": "Want this to never happen again?",
+      "description": "In a demo we show you how to reply in seconds, triage urgent cases, and turn conversations into appointments without overwhelming your team.",
+      "demo": "Book Demo",
+      "roi": "See ROI"
+    },
     "aesthetic": {
       "title": "Aesthetic Clinic",
       "subtitle": "From WhatsApp overload to optimized scheduling",
@@ -466,6 +472,47 @@
       "change": {
         "title": "What Changes",
         "description": "Emergencies are captured 24/7, vaccination programs stay up-to-date automatically, the schedule optimizes space for emergencies, and owners feel more supported in caring for their pets."
+      },
+      "cases": {
+        "title": "Stories that happen every week",
+        "description": "These aren't \"marketing cases\". They're messages almost every pet owner has sent at some point when they were truly worried.",
+        "ownerMessageLabel": "Owner message",
+        "systemDoesLabel": "What the system does",
+        "outcomeLabel": "Outcome",
+        "items": {
+          "midnight": {
+            "badge": "11:47 PM - Sunday",
+            "title": "Midnight vomiting",
+            "story": "Your clinic is closed and the phone buzzes. A dog has been vomiting for hours and the owner doesn't know if it's serious or if it can wait. Without a fast response, they'll call the first emergency clinic that answers.",
+            "ownerMessage": "Sorry for the time... 3 vomits in a row, he's lethargic and trembling a bit. Is this an emergency?",
+            "system": "Asks key triage questions, flags red signs, proposes an urgent appointment when appropriate, and provides safe instructions while the visit gets confirmed.",
+            "outcome": "The owner feels supported and the emergency ends up on your schedule, not at a competitor."
+          },
+          "postSurgery": {
+            "badge": "First 24 hours",
+            "title": "After surgery, the fear",
+            "story": "The pet had surgery today. At home everything feels bigger: a whimper, a damp bandage, a strange look. The owner texts anxious because they don't want to \"do something wrong\".",
+            "ownerMessage": "He had surgery this morning and now he won't move... is that normal? Do I give the meds now?",
+            "system": "Responds with the post-op protocol, checks dosing/timing based on the case, and if there are warning signs, schedules a prioritized recheck.",
+            "outcome": "Fewer panic calls, better follow-up, and more rechecks scheduled without friction."
+          },
+          "chronic": {
+            "badge": "Week after week",
+            "title": "The itch that won't stop",
+            "story": "Chronic dermatitis is rarely one visit. It's photos, questions, shampoo changes and \"today it's worse\". Without follow-up, owners get frustrated and drop off.",
+            "ownerMessage": "He's scratching again and made a sore... I'll send a photo. Should we change treatment?",
+            "system": "Collects structured symptoms, requests the right info, proposes a control visit, and preserves case context so the vet can step in fully informed.",
+            "outcome": "More continuity, less back-and-forth, and a care experience owners can feel."
+          },
+          "vaccines": {
+            "badge": "A reminder in time",
+            "title": "Vaccines and missed checkups",
+            "story": "Between work, kids and routines, many families remember \"late\". Pets fall behind and the clinic loses an easy appointment that keeps the schedule healthy.",
+            "ownerMessage": "I think it's time for a vaccine but I'm not sure which one or when... do you have a slot this week?",
+            "system": "Checks the record, explains what's due and why, offers suitable slots, confirms the appointment and sends reminders.",
+            "outcome": "More stable preventive programs and fewer gaps caused by missed follow-up."
+          }
+        }
       }
     }
   },

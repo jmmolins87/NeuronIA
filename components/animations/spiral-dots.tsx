@@ -13,16 +13,11 @@ export function SpiralDots() {
           {Array.from({ length: dotsPerSpiral }).map((_, i) => (
             <div
               key={`${spiralIndex}-${i}`}
-              className="absolute w-4 h-4 bg-primary rounded-full"
-              style={{
-                left: '50%',
-                top: '50%',
-                transform: `translate(-50%, -50%)`,
-                animation: `spiral ${12 - spiralIndex * 2}s linear infinite`,
-                animationDelay: `${i * 0.08 + spiralIndex * 0.5}s`,
-                filter: `blur(${Math.random() * 2}px)`,
-                boxShadow: '0 0 20px var(--primary)'
-              }}
+              className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-[0_0_20px_oklch(var(--primary)/0.35)] ${
+                i % 3 === 0 ? "blur-0" : i % 3 === 1 ? "blur-[1px]" : "blur-sm"
+              } animate-[spiral_${(12 - spiralIndex * 2).toFixed(2)}s_linear_${(
+                i * 0.08 + spiralIndex * 0.5
+              ).toFixed(2)}s_infinite]`}
             />
           ))}
         </React.Fragment>
