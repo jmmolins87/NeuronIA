@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { SpiralDots } from "@/components/animations/spiral-dots"
-import { Smile, Stethoscope, Building2, PawPrint } from "lucide-react"
+import { AlertCircle, Syringe, Activity, Scissors } from "lucide-react"
 
 export function ScenariosSection() {
   const { t } = useTranslation()
@@ -29,10 +29,10 @@ export function ScenariosSection() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-10">
           {[
-            { type: "dental", icon: Smile, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500" },
-            { type: "medical", icon: Stethoscope, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-green-500 dark:via-emerald-600 dark:to-emerald-500" },
-            { type: "private", icon: Building2, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-pink-500 dark:via-purple-500 dark:to-purple-600" },
-            { type: "veterinary", icon: PawPrint, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-orange-500 dark:via-amber-600 dark:to-amber-500" }
+            { type: "emergency", icon: AlertCircle, color: "from-red-500 via-orange-600 to-red-600 dark:from-red-500 dark:via-orange-500 dark:to-red-500" },
+            { type: "preventive", icon: Syringe, color: "from-blue-500 via-cyan-600 to-blue-600 dark:from-blue-500 dark:via-cyan-500 dark:to-blue-500" },
+            { type: "chronic", icon: Activity, color: "from-purple-500 via-pink-600 to-purple-600 dark:from-purple-500 dark:via-pink-500 dark:to-purple-500" },
+            { type: "multiservice", icon: Scissors, color: "from-green-500 via-emerald-600 to-green-600 dark:from-green-500 dark:via-emerald-500 dark:to-green-500" }
           ].map(({ type, icon: Icon, color }) => (
             <div 
               key={type} 

@@ -23,7 +23,7 @@ export function FinalCTA({ showMicroCta = true, noteKey }: FinalCTAProps) {
   const { t } = useTranslation()
 
   return (
-    <div className="max-w-3xl mx-auto text-center space-y-8">
+    <div className="max-w-3xl mx-auto text-center space-y-8 pb-5">
       {/* Micro CTA to ROI */}
       {showMicroCta && (
         <div className="inline-block rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 px-6 py-3 backdrop-blur-sm">
@@ -44,7 +44,7 @@ export function FinalCTA({ showMicroCta = true, noteKey }: FinalCTAProps) {
         {noteKey ? t(noteKey) : t("home.finalCTA.description")}
       </p>
 
-      <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-4">
+      <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-2">
         <Button asChild size="lg" variant="outline" className="w-full sm:w-auto cursor-pointer">
           <Link href="/reservar" className="flex items-center gap-2">
             <Calendar className="w-5 h-5" />

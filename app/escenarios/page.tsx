@@ -4,15 +4,9 @@ import * as React from "react"
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
-import { useStagger } from "@/hooks/use-stagger"
 import { Reveal } from "@/components/reveal"
-import { BlobShape } from "@/components/shapes/blob-shape"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { 
-  Calendar,
-  MessageCircle,
-  Clock,
-  CheckCircle,
   Sparkles,
   Smile,
   Activity,
@@ -50,13 +44,6 @@ const SCENARIOS = [
   }
 ]
 
-const SCENARIO_SECTIONS = [
-  { id: "situation", icon: Calendar },
-  { id: "problem", icon: MessageCircle },
-  { id: "action", icon: Clock },
-  { id: "change", icon: CheckCircle }
-]
-
 export default function EscenariosPage() {
   const { t } = useTranslation()
 
@@ -79,8 +66,8 @@ export default function EscenariosPage() {
         </div>
       </Section>
 
-      {/* Scenarios */}
-      {SCENARIOS.map((scenario, scenarioIndex) => (
+      {/* Mostrar solo Clínica Veterinaria */}
+      {SCENARIOS.filter((s) => s.id === "veterinary").map((scenario, scenarioIndex) => (
         <ScenarioSection 
           key={scenario.id}
           scenario={scenario}
@@ -98,7 +85,6 @@ interface ScenarioSectionProps {
 
 function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
   const { t } = useTranslation()
-  const { ref: cardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
   const Icon = scenario.icon
   
   // Fondos distintivos para cada escenario
@@ -136,31 +122,35 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
           </div>
         </Reveal>
 
-        {/* Scenario Cards */}
-        <div ref={cardsRef as React.RefObject<HTMLDivElement>} className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
-          {SCENARIO_SECTIONS.map((section) => {
-            const SectionIcon = section.icon
-            return (
-              <div 
-                key={section.id}
-                data-stagger-item
-                className={`group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all ${scenario.hoverBorder} hover:shadow-2xl ${scenario.hoverShadow}`}
-              >
-                <div className="flex flex-col items-center text-center mb-6">
-                  <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${scenario.color} flex items-center justify-center shadow-lg mb-4 dark:glow-sm`}>
-                    <SectionIcon className="w-8 h-8 text-white dark:text-black" />
+        {/* Bloque ampliado solo para Clínica Veterinaria */}
+        {scenario.id === "veterinary" && (
+          <Reveal delay={200}>
+            <div className="max-w-6xl mx-auto mb-12">
+              <p className="text-lg text-muted-foreground sm:text-xl text-center mb-8">{t("solution.fit.description")}</p>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                {['aesthetics', 'dental', 'physio', 'veterinary'].map((cardType) => (
+                  <div key={cardType} className="p-6 rounded-xl bg-card/80 border-2 border-border hover:border-primary/50 transition-all hover:shadow-lg">
+                    <h3 className="text-lg font-bold text-foreground mb-4">{t(`solution.fit.cards.${cardType}.title`)}</h3>
+                    <div className="space-y-3 text-sm">
+                      <div>
+                        <p className="font-semibold text-muted-foreground mb-1">Situación:</p>
+                        <p className="text-foreground/90">{t(`solution.fit.cards.${cardType}.situation`)}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-muted-foreground mb-1">Problema:</p>
+                        <p className="text-foreground/90">{t(`solution.fit.cards.${cardType}.problem`)}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-primary mb-1">Qué cambia:</p>
+                        <p className="text-foreground font-medium">{t(`solution.fit.cards.${cardType}.change`)}</p>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-foreground">
-                    {t(`scenarios.${scenario.id}.${section.id}.title`)}
-                  </h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed text-center">
-                  {t(`scenarios.${scenario.id}.${section.id}.description`)}
-                </p>
+                ))}
               </div>
-            )
-          })}
-        </div>
+            </div>
+          </Reveal>
+        )}
       </div>
     </Section>
   )

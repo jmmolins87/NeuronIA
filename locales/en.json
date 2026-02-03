@@ -44,59 +44,59 @@
     "cancel": "Cancel"
   },
   "home": {
-    "title": "NeuronIA - Intelligent Care System",
-    "description": "Intelligent Care System that turns conversations into appointments",
+    "title": "NeuronIA - Intelligent Care System for Veterinary Clinics",
+    "description": "Intelligent Care System that turns pet owner inquiries into veterinary appointments",
     "serviceName": "Intelligent Care System",
     "hero": {
-      "claim": "Intelligence applied to clinical care.",
-      "keyMessage": "Every unanswered message is a lost patient.",
-      "microCTA": "Want to see how many patients slip away?",
+      "claim": "Intelligence applied to veterinary care.",
+      "keyMessage": "Every unanswered inquiry is a client going to another clinic.",
+      "microCTA": "How many clients do you lose each month?",
       "cta1": "Book Demo",
       "cta2": "See ROI"
     },
     "problem": {
       "title": "Does this sound familiar?",
-      "subtitle": "Every day you lose patients due to solvable problems",
-      "description": "Your team does what they can, but the phone won't stop and WhatsApp is overwhelming.",
+      "subtitle": "Every day you lose clients due to solvable problems",
+      "description": "Your team does what they can, but the phone won't stop and WhatsApp overflows with pet inquiries.",
       "stat": "40% of inquiries arrive outside business hours",
       "issues": {
         "unanswered": {
-          "title": "Unanswered messages",
-          "description": "Inquiries arrive at 11 PM, on weekends, during lunch. By the time you respond, they've already booked elsewhere."
+          "title": "Missed night emergencies",
+          "description": "An owner writes at 11 PM: their dog is vomiting. You reply in the morning. They already went to another emergency clinic."
         },
         "overload": {
-          "title": "Reception overloaded",
-          "description": "Your team handles calls, manages schedules, processes payments, and should also answer WhatsApp. Something always gets left undone."
+          "title": "Overwhelmed reception",
+          "description": "Your team handles consultations, manages schedule, processes payments, and should also answer questions about vaccines and symptoms. Something always gets left pending."
         },
         "missed": {
           "title": "Appointments slipping away",
-          "description": "A patient asks about availability. You take 2 hours to respond. They don't reply back. Opportunity lost."
+          "description": "They ask about vaccination appointment. You take 2 hours to respond. The owner doesn't reply back. Client lost."
         },
         "chaos": {
-          "title": "Disorganized schedule",
-          "description": "Unfilled slots, last-minute cancellations, pending confirmations. Your schedule could be much more optimized."
+          "title": "Manual reminders",
+          "description": "Pending vaccines, forgotten checkups, chronic treatment follow-ups. Everything requires manual calls or messages."
         }
       }
     },
     "system": {
       "title": "Intelligent Care System",
-      "description": "It's not a chatbot. It's a system that understands clinical context, verifies real availability and schedules appointments directly in your system.",
+      "description": "It's not a chatbot. It's a system that understands pet inquiries, classifies emergencies, verifies availability and schedules veterinary appointments.",
       "features": {
         "understanding": {
-          "title": "Understands natural language inquiries",
-          "description": "Interprets intentions and medical context like your team would"
+          "title": "Understands veterinary inquiries",
+          "description": "Interprets symptoms, distinguishes emergencies from routine consultations, and responds with veterinary criteria"
         },
         "availability": {
           "title": "Verifies schedule in real time",
-          "description": "Checks available slots instantly without manual intervention"
+          "description": "Checks available slots for consultations, emergencies, vaccinations or surgeries instantly"
         },
         "booking": {
           "title": "Schedules appointments automatically",
-          "description": "Books directly into your clinical management system"
+          "description": "Books directly into your veterinary management system"
         },
         "followup": {
-          "title": "Follow-up confirmations",
-          "description": "Sends reminders and manages cancellations proactively"
+          "title": "Automatic reminders",
+          "description": "Sends vaccine alerts, checkup reminders and treatment follow-ups"
         }
       }
     },
@@ -124,31 +124,47 @@
     },
     "benefits": {
       "title": "Operational benefits",
-      "description": "Reduces administrative load, improves patient experience and optimizes your schedule.",
+      "description": "Reduces administrative load, captures 24/7 emergencies and optimizes your veterinary schedule.",
       "items": {
         "availability": {
-          "title": "24/7 availability",
-          "description": "Immediate responses at any time"
+          "title": "24/7 emergencies",
+          "description": "Captures and classifies night and weekend emergencies"
         },
         "efficiency": {
-          "title": "Operational efficiency",
-          "description": "Frees up time for your administrative team"
+          "title": "Fewer repetitive calls",
+          "description": "Frees up your team's time to care for pets"
         },
         "experience": {
-          "title": "Better experience",
-          "description": "Satisfied patients with quick responses"
+          "title": "Calm pet owners",
+          "description": "Immediate responses about vaccines, symptoms and appointments"
         },
         "optimization": {
-          "title": "Optimized schedule",
-          "description": "Reduces gaps and cancellations"
+          "title": "Automatic reminders",
+          "description": "Vaccines, deworming and checkups up to date"
         }
       }
     },
     "scenarios": {
       "title": "Real-world use cases",
-      "description": "Different specialties, same problem. Intelligent care adapts to your clinic.",
+      "description": "Daily situations at your veterinary clinic, solved with intelligent care.",
       "cta": "View all scenarios",
       "types": {
+        "emergency": {
+          "title": "Night Emergencies",
+          "description": "Severe symptoms, accidents, after-hours consultations"
+        },
+        "preventive": {
+          "title": "Preventive Medicine",
+          "description": "Vaccines, deworming, annual checkups"
+        },
+        "chronic": {
+          "title": "Chronic Treatments",
+          "description": "Monitoring diabetes, kidney, cardiac conditions"
+        },
+        "multiservice": {
+          "title": "Multiple Services",
+          "description": "Consultations, grooming, lab work, surgeries"
+        },
         "dental": {
           "title": "Dental Clinics",
           "description": "Orthodontics, emergencies, routine check-ups"
@@ -260,28 +276,28 @@
       "description": "Every clinic has its rhythm. The system adapts to yours.",
       "cards": {
         "aesthetics": {
-          "title": "Aesthetics",
-          "situation": "Repeated questions about treatments and availability.",
-          "problem": "Message backlog and lost momentum.",
-          "change": "Organized conversations with a clear next step."
+          "title": "Park Accident",
+          "situation": "Owner writes on Sunday: 'My dog cut her paw on glass at the park'.",
+          "problem": "No response until Monday. Went to another emergency clinic.",
+          "change": "Immediate response, severity assessment and same-day urgent appointment."
         },
         "dental": {
-          "title": "Dental",
-          "situation": "Questions about first visits, urgency, and hours.",
-          "problem": "Constant interruptions for the team.",
-          "change": "Triage and guidance without losing clinical tone."
+          "title": "Cat Vaccination",
+          "situation": "Client asks: 'When is the next vaccine due for my two cats?'.",
+          "problem": "Reception must search history, consult vet, calculate dates.",
+          "change": "System checks history and automatically proposes dates."
         },
         "physio": {
-          "title": "Physiotherapy",
-          "situation": "Patients ask about sessions, pain, and scheduling fit.",
-          "problem": "Inconsistent follow-up and long threads.",
-          "change": "Structured info and faster appointment proposals."
+          "title": "Senior Checkup",
+          "situation": "12-year-old dog needs annual blood work and checkup.",
+          "problem": "Owner forgets to schedule, problems detected late.",
+          "change": "Automatic reminder with proposed appointment based on age and protocol."
         },
         "veterinary": {
-          "title": "Veterinary",
-          "situation": "Questions about symptoms, vaccination, and emergencies.",
-          "problem": "Messages outside hours and recurring doubts.",
-          "change": "Immediate care and guidance without overwhelming reception."
+          "title": "Deworming",
+          "situation": "3-month-old puppy needs second deworming dose.",
+          "problem": "First-time owners don't know when it's due or which product to use.",
+          "change": "Automatic protocol guidance and appointment for clinic application."
         }
       },
       "linkText": "See more scenarios"
@@ -333,6 +349,7 @@
           "small": "Small clinic",
           "medium": "Medium clinic",
           "large": "Large clinic",
+          "specialized": "Specialized clinic",
           "clear": "Clear values"
         }
       },

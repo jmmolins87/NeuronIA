@@ -44,295 +44,320 @@
     "cancel": "Cancelar"
   },
   "home": {
-    "title": "NeuronIA - Sistema de Atención Inteligente",
-    "description": "Sistema de Atención Inteligente que convierte conversaciones en citas",
+    "title": "NeuronIA - Sistema de Atención Inteligente para Veterinarias",
+    "description": "Sistema de Atención Inteligente que convierte consultas de dueños en citas veterinarias",
     "serviceName": "Sistema de Atención Inteligente",
     "hero": {
-      "claim": "Inteligencia aplicada a la atención clínica.",
-      "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
-      "microCTA": "¿Quieres saber cuántos pacientes se te escapan?",
+      "claim": "Inteligencia aplicada a la atención veterinaria.",
+      "keyMessage": "Cada consulta sin responder es un cliente que se va a otra clínica.",
+      "microCTA": "¿Cuántos clientes pierdes cada mes?",
       "cta1": "Reservar Demo",
       "cta2": "Ver ROI"
     },
     "problem": {
       "title": "¿Te resulta familiar?",
-      "subtitle": "Cada día pierdes pacientes por problemas que tienen solución",
-      "description": "Tu equipo hace lo que puede, pero el teléfono no para y WhatsApp se desborda.",
+      "subtitle": "Cada día pierdes clientes por problemas que tienen solución",
+      "description": "Tu equipo hace lo que puede, pero el teléfono no para y WhatsApp se desborda con consultas sobre mascotas.",
       "stat": "40% de consultas llegan fuera de horario",
       "issues": {
         "unanswered": {
-          "title": "Mensajes sin responder",
-          "description": "Llegan consultas a las 23h, los fines de semana, durante las comidas. Cuando respondes, ya reservaron en otro sitio."
+          "title": "Urgencias nocturnas perdidas",
+          "description": "Un dueño escribe a las 23h porque su perro vomita. Respondes por la mañana. Ya fue a otra clínica de urgencias."
         },
         "overload": {
-          "title": "Recepción saturada",
-          "description": "Tu equipo atiende llamadas, gestiona agenda, cobra, y también debería contestar WhatsApp. Algo siempre se queda sin hacer."
+          "title": "Recepción desbordada",
+          "description": "Tu equipo atiende consultas, gestiona agenda, cobra, y también debería responder dudas sobre vacunas y síntomas. Algo siempre queda pendiente."
         },
         "missed": {
           "title": "Citas que se escapan",
-          "description": "Un paciente pregunta disponibilidad. Tardas 2 horas en responder. Ya no contesta. Oportunidad perdida."
+          "description": "Preguntan por cita para vacunación. Tardas 2 horas en responder. El dueño ya no contesta. Cliente perdido."
         },
         "chaos": {
-          "title": "Agenda desorganizada",
-          "description": "Huecos sin llenar, cancelaciones de último minuto, confirmaciones pendientes. Tu agenda podría estar mucho más optimizada."
+          "title": "Recordatorios manuales",
+          "description": "Vacunas pendientes, revisiones olvidadas, seguimientos de tratamientos crónicos. Todo requiere llamadas o mensajes manuales."
         }
       }
     },
     "system": {
       "title": "Sistema de Atención Inteligente",
-      "description": "No es un chatbot. Es un sistema que entiende el contexto clínico, verifica disponibilidad real y agenda citas directamente en tu sistema.",
+      "description": "No es un chatbot. Es un sistema que entiende consultas sobre mascotas, clasifica urgencias, verifica disponibilidad y agenda citas veterinarias.",
       "features": {
         "understanding": {
-          "title": "Comprende consultas en lenguaje natural",
-          "description": "Interpreta intenciones y contexto médico como lo haría tu equipo"
+          "title": "Comprende consultas veterinarias",
+          "description": "Interpreta síntomas, distingue urgencias de consultas rutinarias, y responde con criterio veterinario"
         },
         "availability": {
           "title": "Verifica agenda en tiempo real",
-          "description": "Consulta huecos disponibles al instante sin intervención manual"
+          "description": "Consulta huecos para consultas, urgencias, vacunación o cirugías al instante"
         },
         "booking": {
           "title": "Agenda citas automáticamente",
-          "description": "Reserva directamente en tu sistema de gestión clínica"
+          "description": "Reserva directamente en tu sistema de gestión veterinaria"
         },
         "followup": {
-          "title": "Seguimiento de confirmaciones",
-          "description": "Envía recordatorios y gestiona cancelaciones proactivamente"
+          "title": "Recordatorios automáticos",
+          "description": "Envía avisos de vacunas, revisiones y seguimiento de tratamientos"
         }
       }
     },
     "flow": {
-      "title": "Flujo sin fricción",
-      "description": "Desde la consulta hasta la cita confirmada, sin intervención manual.",
+      "title": "Flujo sin fricciones",
+      "description": "Desde la consulta del dueño hasta la cita confirmada, sin intervención manual.",
       "steps": {
         "1": {
-          "title": "Paciente pregunta por WhatsApp",
-          "description": "El paciente envía su consulta en cualquier momento del día, sin limitaciones horarias. La IA está disponible 24/7 para responder de inmediato."
+          "title": "Dueño consulta por WhatsApp",
+          "description": "El dueño escribe sobre su mascota en cualquier momento: síntomas, vacunas, urgencias. El sistema está disponible 24/7 para responder."
         },
         "2": {
-          "title": "Sistema verifica disponibilidad",
-          "description": "Comprueba la agenda en tiempo real de forma automática, consultando todos los huecos disponibles y aplicando reglas de negocio predefinidas."
+          "title": "Sistema clasifica y verifica",
+          "description": "Identifica si es urgencia o consulta rutinaria, comprueba la agenda en tiempo real y aplica protocolos de triaje veterinario."
         },
         "3": {
-          "title": "Propone opciones de horario",
-          "description": "Ofrece las mejores franjas disponibles según preferencias del paciente, tipo de servicio solicitado y disponibilidad del profesional."
+          "title": "Propone opciones de cita",
+          "description": "Ofrece huecos según tipo de consulta (urgencia, vacunación, revisión, cirugía) y disponibilidad del veterinario."
         },
         "4": {
-          "title": "Confirma y agenda la cita",
-          "description": "Reserva directamente en el sistema, bloquea el horario y envía confirmación automática con todos los detalles al paciente."
+          "title": "Confirma y envía recordatorio",
+          "description": "Reserva la cita, bloquea el hueco y envía confirmación con detalles: qué traer, ayuno previo si aplica, y recordatorio 24h antes."
         }
       }
     },
     "benefits": {
       "title": "Beneficios operativos",
-      "description": "Reduce carga administrativa, mejora experiencia del paciente y optimiza tu agenda.",
+      "description": "Reduce la carga administrativa, captura urgencias 24/7 y optimiza tu agenda veterinaria.",
       "items": {
         "availability": {
-          "title": "Disponibilidad 24/7",
-          "description": "Respuestas inmediatas en cualquier momento"
+          "title": "Urgencias 24/7",
+          "description": "Captura y clasifica urgencias nocturnas y de fin de semana"
         },
         "efficiency": {
-          "title": "Eficiencia operativa",
-          "description": "Libera tiempo de tu equipo administrativo"
+          "title": "Menos llamadas repetitivas",
+          "description": "Libera tiempo de tu equipo para atender a las mascotas"
         },
         "experience": {
-          "title": "Mejor experiencia",
-          "description": "Pacientes satisfechos con respuestas rápidas"
+          "title": "Dueños tranquilos",
+          "description": "Respuestas inmediatas sobre vacunas, síntomas y citas"
         },
         "optimization": {
-          "title": "Agenda optimizada",
-          "description": "Reduce huecos y cancelaciones"
+          "title": "Recordatorios automáticos",
+          "description": "Vacunas, desparasitaciones y revisiones al día"
         }
       }
     },
     "scenarios": {
-      "title": "Casos de uso reales",
-      "description": "Diferentes especialidades, mismo problema. La atención inteligente se adapta a tu clínica.",
-      "cta": "Ver todos los escenarios",
+      "title": "Casos veterinarios reales",
+      "description": "Situaciones del día a día en tu clínica veterinaria, resueltas con atención inteligente.",
+      "cta": "Ver casos de uso",
       "types": {
-        "dental": {
-          "title": "Clínicas Dentales",
-          "description": "Ortodoncias, urgencias, revisiones periódicas"
+        "emergency": {
+          "title": "Urgencias Nocturnas",
+          "description": "Síntomas graves, accidentes, consultas fuera de horario"
         },
-        "medical": {
-          "title": "Centros Médicos",
-          "description": "Medicina general, especialidades, check-ups"
+        "preventive": {
+          "title": "Medicina Preventiva",
+          "description": "Vacunas, desparasitaciones, revisiones anuales"
         },
-        "private": {
-          "title": "Consultas Privadas",
-          "description": "Psicología, fisioterapia, nutrición"
+        "chronic": {
+          "title": "Tratamientos Crónicos",
+          "description": "Seguimiento de diabetes, renales, cardiacos"
         },
-        "veterinary": {
-          "title": "Clínicas Veterinarias",
-          "description": "Consultas, vacunaciones, urgencias"
+        "multiservice": {
+          "title": "Múltiples Servicios",
+          "description": "Consulta, peluquería, análisis, cirugías"
         }
       }
     },
     "roi": {
-      "title": "¿Cuántos pacientes se te escapan?",
-      "description": "Cada mensaje sin responder es una oportunidad perdida. Los números hablan:",
+      "title": "¿Cuántos clientes pierdes cada mes?",
+      "description": "Cada consulta sin responder es un dueño que se va a otra clínica. El impacto es real:",
       "cta": "Calcular mi ROI",
-      "ctaDescription": "Descubre exactamente cuánto podrías estar ganando con un sistema que nunca duerme.",
+      "ctaDescription": "Descubre cuántas consultas veterinarias podrías estar capturando con atención 24/7.",
       "stats": {
         "response": {
           "value": "80%",
-          "label": "de pacientes esperan respuesta inmediata"
+          "label": "de dueños esperan respuesta inmediata sobre su mascota"
         },
         "lost": {
           "value": "67%",
-          "label": "abandonan tras 24h sin respuesta"
+          "label": "se van a otra clínica tras 24h sin respuesta"
         },
         "revenue": {
           "value": "+35%",
-          "label": "aumento en citas capturadas"
+          "label": "aumento en consultas capturadas"
         }
       },
       "impact": {
         "economic": {
-          "title": "Impacto Económico Directo",
-          "description": "Aumenta tus ingresos mensuales capturando citas que antes se perdían. El sistema se paga solo en semanas."
+          "title": "Más consultas, menos huecos vacíos",
+          "description": "Captura urgencias nocturnas, recordatorios de vacunas y citas de seguimiento que antes se perdían."
         },
         "time": {
-          "title": "Ahorro de Tiempo Inmediato",
-          "description": "Tu equipo dedica menos tiempo a responder consultas repetitivas y más a atender pacientes presenciales."
+          "title": "Tu equipo se enfoca en las mascotas",
+          "description": "Menos tiempo respondiendo '¿Cuándo toca la vacuna?' y más tiempo atendiendo consultas presenciales."
         }
       }
     },
     "finalCTA": {
-      "title": "Empieza a capturar cada oportunidad",
-      "description": "Agenda una demo y descubre cómo el Sistema de Atención Inteligente transforma tu atención al paciente.",
+      "title": "Empieza a capturar cada consulta",
+      "description": "Agenda una demo y descubre cómo el Sistema de Atención Inteligente transforma tu clínica veterinaria.",
       "cta": "Reservar Demo Gratuita"
     }
   },
   "solution": {
     "title": "Solución",
-    "description": "Descubre cómo el Sistema de Atención Inteligente transforma la atención clínica.",
+    "description": "Descubre cómo el Sistema de Atención Inteligente transforma tu clínica veterinaria.",
     "hero": {
       "title": "Solución",
-      "heading": "Sistema de Atención Inteligente",
-      "subheading": "Responde con criterio, guía al paciente y deja lista la siguiente cita sin fricción.",
-      "claimLight": "Inteligencia aplicada a la atención clínica.",
-      "claimDark": "Atención inteligente que convierte conversaciones en citas."
+      "heading": "Sistema de Atención Inteligente para Veterinarias",
+      "subheading": "Atiende consultas sobre mascotas con criterio veterinario, clasifica urgencias y agenda citas sin fricción.",
+      "claimLight": "Inteligencia aplicada a la atención veterinaria.",
+      "claimDark": "Atención inteligente que convierte consultas en citas veterinarias."
     },
     "what": {
       "title": "Qué es",
-      "p1": "Un sistema que atiende conversaciones con lenguaje natural y mantiene el tono clínico, ayudando a convertir preguntas en citas y seguimiento.",
-      "p2": "Diseñado para clínicas privadas con una sede, donde cada conversación cuenta."
+      "p1": "Un sistema que atiende consultas de dueños sobre sus mascotas en lenguaje natural, con tono profesional veterinario, ayudando a convertir dudas en citas y seguimiento.",
+      "p2": "Diseñado para clínicas veterinarias independientes donde cada consulta cuenta: urgencias, vacunas, revisiones y tratamientos crónicos."
     },
     "day": {
       "title": "Qué hace en el día a día",
       "items": [
-        "Da respuesta inicial y ordena la conversación.",
-        "Recoge datos necesarios para avanzar (motivo, disponibilidad, preferencias).",
-        "Propone el siguiente paso: cita, seguimiento o derivación.",
-        "Mantiene consistencia en el tono y la información.",
-        "Reduce interrupciones al equipo sin perder control."
+        "Responde consultas sobre síntomas, vacunas y disponibilidad 24/7.",
+        "Clasifica urgencias (vómitos, accidentes) de consultas rutinarias (baño, vacunas).",
+        "Recoge datos clave: mascota, síntomas, historial de vacunas, preferencias de horario.",
+        "Propone la siguiente cita: urgencia inmediata, vacunación, revisión o cirugía.",
+        "Envía recordatorios automáticos de vacunas y seguimientos de tratamientos crónicos."
       ]
     },
     "how": {
       "title": "Cómo funciona",
       "steps": [
-        "Define tu estilo de atención y preguntas clave.",
-        "Configura el flujo: información → intención → propuesta de cita.",
-        "Activa supervisión y reglas de seguridad.",
-        "Empieza a atender conversaciones y revisa lo importante."
+        "Define tu protocolo de triaje y preguntas clave para cada tipo de consulta.",
+        "Configura el flujo: síntomas → urgencia/rutina → propuesta de cita.",
+        "Activa reglas de derivación para casos complejos o urgencias graves.",
+        "Empieza a atender consultas y revisa los casos que requieren atención humana."
       ]
     },
     "flow": {
-      "title": "Flujo sin fricción",
+      "title": "Flujo sin fricciones",
       "items": [
-        "Pregunta clara",
-        "Respuesta útil",
-        "Propuesta de cita",
-        "Cierre y seguimiento"
+        "Consulta del dueño",
+        "Clasificación (urgencia/rutina)",
+        "Propuesta de cita veterinaria",
+        "Confirmación y recordatorio"
       ]
     },
     "guardrails": {
-      "title": "Control, seguridad y tono clínico",
+      "title": "Control, seguridad y criterio veterinario",
       "items": [
-        "Siempre prioriza claridad y consentimiento.",
-        "Evita suposiciones: confirma antes de cerrar una cita.",
-        "Deriva cuando el caso requiere atención humana inmediata.",
-        "Mantiene respuestas breves y profesionales."
+        "Identifica síntomas graves y deriva urgencias reales.",
+        "No diagnostica: guía y propone cita con el veterinario.",
+        "Confirma datos antes de agendar (mascota, vacunas, alergias).",
+        "Mantiene tono profesional adaptado a dueños preocupados."
       ]
     },
     "fit": {
-      "title": "Encaje por tipo de clínica",
-      "description": "Cada clínica tiene su ritmo. El sistema se adapta al tuyo.",
+      "title": "Situaciones veterinarias reales",
+      "description": "El sistema se adapta al ritmo de tu clínica veterinaria.",
       "cards": {
         "aesthetics": {
-          "title": "Estética",
-          "situation": "Consultas repetidas por tratamientos y disponibilidad.",
-          "problem": "Mensajes acumulados y pérdida de ritmo.",
-          "change": "Conversaciones ordenadas y siguiente paso claro."
+          "title": "Accidente en el parque",
+          "situation": "Dueña escribe el domingo: 'Mi perra se cortó la pata con un cristal en el parque'.",
+          "problem": "Sin respuesta hasta el lunes. Fue a otra clínica de urgencias.",
+          "change": "Respuesta inmediata, evaluación de gravedad y cita urgente el mismo día."
         },
         "dental": {
-          "title": "Dental",
-          "situation": "Preguntas sobre primera visita, urgencias y horarios.",
-          "problem": "Interrupciones constantes al equipo.",
-          "change": "Triado y guía sin perder el tono clínico."
+          "title": "Vacunación de gatos",
+          "situation": "Cliente pregunta: '¿Cuándo le toca la siguiente vacuna a mis dos gatos?'.",
+          "problem": "Recepción debe buscar historial, consultar veterinario, calcular fechas.",
+          "change": "Sistema consulta historial y propone fechas automáticamente."
         },
         "physio": {
-          "title": "Fisioterapia",
-          "situation": "Pacientes preguntan por sesiones, dolor, y compatibilidad horaria.",
-          "problem": "Seguimiento irregular y conversaciones largas.",
-          "change": "Información estructurada y propuesta de cita más rápida."
+          "title": "Revisión geriátrica",
+          "situation": "Perro mayor de 12 años necesita analítica y revisión anual.",
+          "problem": "Dueño olvida programar la cita, se detectan problemas tarde.",
+          "change": "Recordatorio automático con cita propuesta según edad y protocolo."
         },
         "veterinary": {
-          "title": "Veterinaria",
-          "situation": "Consultas por síntomas, vacunación y urgencias.",
-          "problem": "Mensajes fuera de horario y dudas recurrentes.",
-          "change": "Atención inmediata y orientación sin saturar la recepción."
+          "title": "Desparasitación",
+          "situation": "Cachorro de 3 meses necesita segunda dosis de desparasitante.",
+          "problem": "Dueños primerizos no saben cuándo toca ni qué producto usar.",
+          "change": "Guía automática del protocolo y cita para aplicación en clínica."
+        },
+        "emergency": {
+          "title": "Urgencias nocturnas",
+          "situation": "Dueño escribe a medianoche: 'Mi perro vomita sangre'.",
+          "problem": "Sin respuesta hasta la mañana. Cliente fue a urgencias 24h.",
+          "change": "Respuesta inmediata, clasificación de urgencia, cita prioritaria."
+        },
+        "vaccines": {
+          "title": "Recordatorios de vacunas",
+          "situation": "Toca refuerzo anual pero el dueño no se acuerda.",
+          "problem": "Llamadas manuales que consumen tiempo del equipo.",
+          "change": "Mensajes automáticos con propuesta de cita para vacunación."
+        },
+        "chronic": {
+          "title": "Seguimiento de crónicos",
+          "situation": "Gato diabético necesita controles mensuales de glucosa.",
+          "problem": "Dueños olvidan la cita de seguimiento.",
+          "change": "Recordatorios automáticos y reprogramación fácil vía WhatsApp."
+        },
+        "multiservice": {
+          "title": "Múltiples servicios",
+          "situation": "Consultas mezcladas: consulta, peluquería, análisis, cirugías.",
+          "problem": "Confusión en agenda y tiempos mal calculados.",
+          "change": "Clasificación automática por tipo de servicio y duración."
         }
       },
-      "linkText": "Ver más escenarios"
+      "linkText": "Ver más casos de uso"
     },
-    "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
-    "microCta": "¿Quieres saber cuántos pacientes se te escapan?",
+    "keyMessage": "Cada consulta sin responder es un cliente que se va a otra clínica.",
+    "microCta": "¿Cuántos clientes pierdes cada mes?",
     "cta": {
       "primary": "Reservar una demo",
       "secondary": "Ver calculadora ROI",
-      "note": "Sin compromiso. Te mostramos el flujo y lo adaptamos a tu clínica."
+      "note": "Sin compromiso. Te mostramos el flujo y lo adaptamos a tu clínica veterinaria."
     }
   },
   "roi": {
     "title": "Calculadora ROI",
-    "description": "Calcula el retorno de inversión de implementar IA en tu empresa. Calculadora interactiva próximamente en Phase 2.",
+    "description": "Calcula cuántas consultas veterinarias pierdes y cuánto podrías recuperar con atención 24/7.",
     "content": "Contenido de la calculadora de ROI",
     "calculator": {
       "title": "Calculadora de ROI",
-      "description": "Estima cuántos ingresos estás perdiendo y cuánto podrías recuperar",
+      "description": "Estima cuántas consultas pierdes y cuánto podrías recuperar",
       "whatIsROI": {
         "title": "¿Qué es el ROI?",
-        "description": "El ROI (Return On Investment o Retorno de Inversión) es un indicador que mide la rentabilidad de una inversión. Te ayuda a entender cuánto dinero recuperarás por cada euro invertido."
+        "description": "El ROI (Return On Investment o Retorno de Inversión) mide cuánto recuperas por cada euro invertido. En tu clínica veterinaria, representa las consultas capturadas vs. el coste del sistema."
       },
       "whatIsCalculator": {
         "title": "¿Qué es esta calculadora?",
-        "description": "Esta herramienta te permite estimar cuántos ingresos estás perdiendo actualmente por consultas no atendidas y cuánto podrías recuperar implementando un Sistema de Atención Inteligente en tu clínica."
+        "description": "Esta herramienta estima cuántas consultas veterinarias pierdes por no responder a tiempo (urgencias nocturnas, vacunas olvidadas, seguimientos) y cuánto podrías recuperar con atención 24/7."
       },
-      "disclaimer": "Esta es una estimación orientativa basada en promedios del sector. Los resultados reales pueden variar según tu situación específica.",
+      "disclaimer": "Estimación orientativa basada en promedios de clínicas veterinarias. Los resultados reales varían según tu situación específica.",
       "inputs": {
-        "title": "Datos de tu clínica",
+        "title": "Datos de tu clínica veterinaria",
         "clinicType": {
-          "label": "Tipo de clínica",
-          "help": "Selecciona el tipo de clínica que mejor se ajuste a tu negocio"
+          "label": "Tipo de clínica veterinaria",
+          "help": "Clínica general, especializada o urgencias 24h"
         },
         "monthlyPatients": {
-          "label": "Pacientes mensuales aproximados",
-          "help": "Número estimado de pacientes que atiende tu clínica al mes"
+          "label": "Consultas mensuales aproximadas",
+          "help": "Número estimado de consultas que atiende tu veterinaria al mes"
         },
         "avgTicket": {
-          "label": "Ticket promedio por cita (€)",
-          "help": "Valor promedio de una cita o tratamiento en tu clínica"
+          "label": "Ticket promedio por consulta (€)",
+          "help": "Valor promedio de una consulta veterinaria (incluye consulta + tratamientos básicos)"
         },
         "missedRate": {
           "label": "% estimado de consultas perdidas",
-          "help": "Porcentaje aproximado de consultas que no se convierten en citas"
+          "help": "Consultas que no respondes a tiempo (urgencias nocturnas, vacunas, etc.)"
         },
         "presets": {
           "title": "Prueba con estos ejemplos:",
           "small": "Clínica pequeña",
           "medium": "Clínica mediana",
           "large": "Clínica grande",
+          "specialized": "Clínica especializada",
           "clear": "Limpiar valores"
         }
       },
@@ -351,8 +376,8 @@
         "recoveryRate": "Tasa de conversión estimada"
       },
       "cta": {
-        "title": "¿Listo para recuperar estos ingresos?",
-        "description": "Comparte tu análisis con nosotros y descubre cómo el Sistema de Atención Inteligente puede transformar tu clínica",
+        "title": "¿Listo para capturar estas consultas?",
+        "description": "Comparte tu análisis y descubre cómo el Sistema de Atención Inteligente puede transformar tu clínica veterinaria",
         "button": "Contactar con mi Análisis"
       }
     },
@@ -453,161 +478,156 @@
     }
   },
   "howItWorks": {
-    "title": "Cómo Funciona",
-    "description": "Conoce el proceso de implementación de nuestras soluciones de IA. Contenido completo próximamente en Phase 2.",
-    "content": "Contenido de cómo funciona"
-  },
-  "howItWorks": {
     "title": "Cómo funciona",
-    "description": "De conversación a cita, con criterio clínico.",
+    "description": "De consulta veterinaria a cita confirmada, con criterio profesional.",
     "hero": {
       "title": "Cómo funciona",
-      "heading": "De conversación a cita, con criterio clínico",
-      "subheading": "Un flujo claro para atender, ordenar y proponer el siguiente paso sin sobrecargar al equipo.",
-      "claimLight": "Inteligencia aplicada a la atención clínica.",
-      "claimDark": "Atención inteligente que convierte conversaciones en citas."
+      "heading": "De consulta a cita, con criterio veterinario",
+      "subheading": "Un flujo claro para atender consultas sobre mascotas, clasificar urgencias y agendar citas sin sobrecargar al equipo.",
+      "claimLight": "Inteligencia aplicada a la atención veterinaria.",
+      "claimDark": "Atención inteligente que convierte consultas en citas veterinarias."
     },
     "steps": {
       "title": "El flujo en 4 pasos",
       "items": [
         {
-          "title": "Atender y ordenar",
-          "text": "Responde con claridad, identifica la intención y mantiene la conversación enfocada."
+          "title": "Atender y clasificar",
+          "text": "Responde consultas sobre mascotas, identifica si es urgencia o rutina, y mantiene el tono profesional veterinario."
         },
         {
-          "title": "Recoger lo esencial",
-          "text": "Pregunta lo justo para avanzar: motivo, preferencias y disponibilidad."
+          "title": "Recoger información clave",
+          "text": "Pregunta lo esencial: síntomas, mascota (especie, edad), historial de vacunas, y disponibilidad del dueño."
         },
         {
-          "title": "Proponer el siguiente paso",
-          "text": "Sugiere cita, seguimiento o derivación, siempre con confirmación."
+          "title": "Proponer cita veterinaria",
+          "text": "Sugiere cita urgente, vacunación, revisión o cirugía según el caso, siempre con confirmación."
         },
         {
-          "title": "Cierre y continuidad",
-          "text": "Deja el hilo listo: resumen breve y qué toca después."
+          "title": "Confirmar y recordar",
+          "text": "Envía confirmación con detalles (ayuno si aplica, qué traer) y programa recordatorio 24h antes."
         }
       ]
     },
     "data": {
-      "title": "Qué recoge y por qué",
-      "lead": "Solo lo necesario para avanzar sin fricción.",
+      "title": "Qué información recoge y por qué",
+      "lead": "Solo lo necesario para atender bien a la mascota.",
       "items": [
         {
-          "title": "Motivo de la consulta",
-          "text": "Para orientar la respuesta y evitar idas y vueltas."
+          "title": "Síntomas y motivo",
+          "text": "Para clasificar urgencia (vómitos, accidentes) vs. rutina (vacunas, baño)."
         },
         {
-          "title": "Preferencias y dudas",
-          "text": "Para ajustar el mensaje al caso y al tono esperado."
+          "title": "Datos de la mascota",
+          "text": "Especie, raza, edad, peso, alergias conocidas y historial de vacunas."
         },
         {
-          "title": "Disponibilidad",
-          "text": "Para acercar la conversación a una propuesta de cita."
+          "title": "Disponibilidad del dueño",
+          "text": "Para proponer horarios compatibles con el tipo de consulta."
         },
         {
-          "title": "Confirmaciones",
-          "text": "Para evitar suposiciones antes de cerrar un paso."
+          "title": "Confirmaciones previas",
+          "text": "Ayuno, medicación actual, comportamiento de la mascota antes de agendar cirugía."
         }
       ]
     },
     "supervision": {
-      "title": "Control y supervisión",
+      "title": "Control veterinario y supervisión",
       "items": [
-        "El equipo decide cuándo revisar y cuándo intervenir.",
-        "Los casos sensibles se derivan a atención humana.",
-        "El sistema evita cerrar pasos importantes sin confirmación.",
-        "El tono se mantiene profesional y coherente."
+        "El veterinario decide qué casos revisar y cuándo intervenir directamente.",
+        "Síntomas graves o casos complejos se derivan inmediatamente.",
+        "El sistema no diagnostica: guía al dueño y agenda con el profesional.",
+        "El tono se adapta a dueños preocupados, con empatía y profesionalidad."
       ]
     },
     "messaging": {
-      "title": "Mensajería y agenda, sin fricción",
-      "p1": "El flujo está pensado para conversaciones reales por WhatsApp y para encajar con tu forma de organizar la agenda.",
-      "p2": "El objetivo es que el siguiente paso sea evidente, sin perder control."
+      "title": "WhatsApp y agenda veterinaria, sin fricción",
+      "p1": "El flujo está diseñado para conversaciones reales con dueños de mascotas y para encajar con tu forma de organizar consultas, urgencias, cirugías y servicios adicionales.",
+      "p2": "El objetivo: que cada consulta tenga un siguiente paso claro, sin perder el control veterinario."
     },
     "patient": {
-      "title": "Experiencia del paciente",
+      "title": "Experiencia del dueño",
       "items": [
-        "Respuestas breves y útiles.",
-        "Lenguaje claro, sin tecnicismos innecesarios.",
-        "Confirmaciones antes de avanzar.",
-        "Sensación de atención constante, sin saturar al equipo."
+        "Respuestas inmediatas sobre su mascota, 24/7.",
+        "Lenguaje claro adaptado a dueños (sin jerga veterinaria compleja).",
+        "Orientación sobre qué hacer: urgencia inmediata o cita programada.",
+        "Tranquilidad de que su mascota será atendida por un profesional."
       ]
     },
     "faq": {
       "title": "Preguntas frecuentes",
       "items": [
         {
-          "q": "¿Esto sustituye al equipo?",
-          "a": "No. El sistema ayuda a ordenar y avanzar conversaciones, y el equipo mantiene el control y la supervisión."
+          "q": "¿El sistema diagnostica a las mascotas?",
+          "a": "No. El sistema recoge síntomas, clasifica urgencias y agenda cita con el veterinario. No sustituye el diagnóstico profesional."
         },
         {
-          "q": "¿Qué pasa si el caso requiere atención humana?",
-          "a": "Se deriva a atención humana cuando corresponde, priorizando seguridad y criterio clínico."
+          "q": "¿Qué pasa con urgencias reales?",
+          "a": "Las urgencias graves se priorizan y derivan inmediatamente. El sistema identifica síntomas críticos y propone cita urgente o deriva a atención 24h."
         },
         {
-          "q": "¿Se puede adaptar al tono de mi clínica?",
-          "a": "Sí. Se define un estilo de atención y un flujo de preguntas clave para que la experiencia sea coherente."
+          "q": "¿Se adapta al protocolo de mi clínica?",
+          "a": "Sí. Defines tu protocolo de triaje, preguntas clave por tipo de consulta (urgencia, vacuna, cirugía) y tono de comunicación."
         },
         {
-          "q": "¿Cuándo propone una cita?",
-          "a": "Cuando tiene la información mínima y siempre con confirmación antes de cerrar el siguiente paso."
+          "q": "¿Funciona para recordatorios de vacunas?",
+          "a": "Sí. Envía recordatorios automáticos basados en el calendario de vacunación y desparasitación de cada mascota."
         },
         {
-          "q": "¿Tengo visibilidad de lo que se responde?",
-          "a": "Sí. Se mantiene un enfoque de supervisión para revisar lo importante y ajustar el flujo."
+          "q": "¿Puedo revisar las conversaciones?",
+          "a": "Sí. Tienes visibilidad completa y puedes intervenir en cualquier momento, especialmente en casos sensibles."
         },
         {
-          "q": "¿Sirve para una clínica con una sola sede?",
-          "a": "Sí. Está diseñado para equipos pequeños donde cada conversación cuenta."
+          "q": "¿Sirve para clínicas pequeñas?",
+          "a": "Sí. Está diseñado para veterinarias independientes donde cada consulta cuenta y el equipo está saturado."
         }
       ]
     },
-    "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
-    "microCta": "¿Quieres saber cuántos pacientes se te escapan?",
+    "keyMessage": "Cada consulta sin responder es un cliente que se va a otra clínica.",
+    "microCta": "¿Cuántos clientes pierdes cada mes?",
     "cta": {
       "primary": "Reservar una demo",
       "secondary": "Ver calculadora ROI",
-      "note": "Te mostramos el flujo y lo adaptamos a tu forma de trabajar."
+      "note": "Te mostramos el flujo y lo adaptamos a tu clínica veterinaria."
     }
   },
   "methodology": {
     "title": "Metodología",
-    "description": "Un flujo claro, con supervisión y tono clínico",
+    "description": "Un flujo claro, con supervisión y criterio veterinario",
     "hero": {
       "title": "Metodología",
-      "heading": "Un flujo claro, con supervisión y tono clínico",
-      "subheading": "Implantamos el Sistema de Atención Inteligente de forma ordenada para que cada conversación tenga un siguiente paso.",
-      "claimLight": "Cada mensaje sin responder es un paciente perdido.",
-      "claimDark": "Cada conversación tiene un siguiente paso claro."
+      "heading": "Un flujo claro, con supervisión y criterio veterinario",
+      "subheading": "Implantamos el Sistema de Atención Inteligente de forma ordenada en tu clínica veterinaria para que cada consulta tenga un siguiente paso.",
+      "claimLight": "Cada consulta sin responder es un cliente perdido.",
+      "claimDark": "Cada consulta tiene un siguiente paso claro."
     },
-    "microCta": "¿Quieres saber cuántos pacientes se te escapan?",
-    "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
+    "microCta": "¿Cuántos clientes pierdes cada mes?",
+    "keyMessage": "Cada consulta sin responder es un cliente que se va a otra clínica.",
     "principles": {
       "title": "Principios",
       "items": [
         {
           "title": "Claridad",
-          "text": "Respuestas breves y útiles para avanzar sin confusión."
+          "text": "Respuestas inmediatas y útiles a dueños preocupados por sus mascotas."
         },
         {
-          "title": "Criterio clínico",
-          "text": "La conversación se guía con prudencia y enfoque profesional."
+          "title": "Criterio veterinario",
+          "text": "Clasifica urgencias reales y guía con enfoque profesional veterinario."
         },
         {
           "title": "Control",
-          "text": "La clínica decide cuándo revisar, intervenir y ajustar el flujo."
+          "text": "El veterinario decide qué casos revisar, cuándo intervenir y ajustar protocolos."
         },
         {
           "title": "Continuidad",
-          "text": "Cada hilo queda listo: resumen, confirmación y siguiente paso."
+          "text": "Cada consulta queda cerrada: cita agendada, recordatorio programado y siguiente paso claro."
         },
         {
           "title": "Consistencia",
-          "text": "El tono y la información se mantienen coherentes."
+          "text": "El tono profesional y la información veterinaria se mantienen coherentes."
         },
         {
           "title": "Supervisión",
-          "text": "Lo importante se revisa. Lo sensible se deriva."
+          "text": "Urgencias y casos complejos se revisan. Síntomas graves se derivan inmediatamente."
         }
       ]
     },
@@ -615,69 +635,69 @@
       "title": "Implementación en 4 fases",
       "items": [
         {
-          "title": "1) Diagnóstico",
-          "text": "Revisamos cómo llegan las consultas y dónde se pierde tiempo: dudas repetidas, idas y vueltas y cierres poco claros."
+          "title": "1) Diagnóstico veterinario",
+          "text": "Revisamos cómo llegan las consultas (urgencias nocturnas, vacunas, síntomas) y dónde se pierden clientes: dudas sobre mascotas sin responder, recordatorios manuales."
         },
         {
-          "title": "2) Diseño del flujo",
-          "text": "Definimos preguntas clave, orden de conversación y cómo llegar a una propuesta de cita sin fricción."
+          "title": "2) Diseño del protocolo",
+          "text": "Definimos protocolo de triaje (síntomas graves vs. rutina), preguntas clave por tipo de consulta y cómo llegar a cita sin alargar al dueño preocupado."
         },
         {
-          "title": "3) Puesta en marcha con supervisión",
-          "text": "Activamos reglas, confirmaciones y derivaciones para mantener control y seguridad."
+          "title": "3) Puesta en marcha con supervisión veterinaria",
+          "text": "Activamos reglas de derivación, confirmaciones previas (ayuno, alergias) y supervisión de casos complejos."
         },
         {
-          "title": "4) Ajuste y mejora",
-          "text": "Afinamos tono, claridad y cierres para que el siguiente paso sea cada vez más natural."
+          "title": "4) Ajuste y mejora continua",
+          "text": "Afinamos clasificación de urgencias, tono con dueños y recordatorios de vacunas para optimizar captura de consultas."
         }
       ]
     },
     "config": {
       "title": "Qué configuramos contigo",
-      "lead": "Lo adaptamos a tu forma de atender y organizar la agenda.",
+      "lead": "Lo adaptamos a tu protocolo veterinario y forma de organizar consultas.",
       "items": [
-        "Estilo de atención y tono (corto, claro, profesional).",
-        "Preguntas clave para avanzar sin alargar la conversación.",
-        "Reglas de confirmación antes de cerrar pasos importantes.",
-        "Cuándo derivar a atención humana.",
-        "Mensajes de cierre y seguimiento (qué toca después).",
-        "Rangos de horario y disponibilidad (sin prometer integraciones)."
+        "Protocolo de triaje por síntomas (urgencia grave, moderada, consulta rutina).",
+        "Preguntas clave por tipo de consulta (vacuna, urgencia, cirugía, seguimiento).",
+        "Reglas de confirmación antes de agendar (ayuno previo, alergias, comportamiento mascota).",
+        "Cuándo derivar al veterinario (síntomas críticos, casos complejos).",
+        "Recordatorios automáticos de vacunas, desparasitación y revisiones anuales.",
+        "Horarios diferenciados para consultas, urgencias y cirugías."
       ]
     },
     "guardrails": {
-      "title": "Control y seguridad",
+      "title": "Control y seguridad veterinaria",
       "items": [
-        "Confirma antes de cerrar una cita o un paso importante.",
-        "Evita suposiciones: pregunta lo justo y ordena la información.",
-        "Deriva cuando el caso requiere atención humana inmediata.",
-        "Mantiene un tono clínico y profesional en todo momento.",
-        "Permite revisar y ajustar el flujo para mejorar la experiencia."
+        "No diagnostica: recoge síntomas y agenda con el veterinario profesional.",
+        "Identifica señales de alarma (vómitos con sangre, dificultad respiratoria, accidentes) y prioriza.",
+        "Confirma datos críticos antes de cirugía (ayuno, medicación actual, alergias).",
+        "Deriva casos complejos o dueños muy alterados a atención humana inmediata.",
+        "Permite revisar conversaciones y ajustar protocolo de triaje."
       ]
     },
     "not": {
       "title": "Qué NO hacemos",
       "items": [
         {
-          "title": "No prometemos resultados",
-          "text": "Cada clínica es distinta; hablamos de flujo y control, no de cifras."
+          "title": "No diagnosticamos",
+          "text": "El sistema no diagnostica ni prescribe. Recoge síntomas y agenda con el veterinario profesional."
         },
         {
           "title": "No inventamos métricas",
           "text": "Evitamos claims artificiales. Preferimos claridad y transparencia."
         },
         {
-          "title": "No sustituimos al equipo",
-          "text": "El sistema ayuda a ordenar y avanzar, con supervisión."
+          "title": "No sustituimos al veterinario",
+          "text": "El sistema ordena consultas y agenda citas. El diagnóstico y tratamiento siempre son del profesional."
         },
         {
           "title": "No hay magia",
-          "text": "Un buen flujo, buen tono y confirmaciones claras: eso es lo que funciona."
+          "text": "Protocolo claro de triaje, tono empático con dueños y confirmaciones: eso es lo que funciona."
         }
       ]
     },
     "cta": {
-      "title": "¿Lo vemos en tu caso?",
-      "note": "Te enseñamos el flujo y lo adaptamos a tu clínica.",
+      "title": "¿Lo vemos en tu clínica?",
+      "note": "Te enseñamos el flujo y lo adaptamos a tu clínica veterinaria.",
       "primary": "Reservar una demo",
       "secondary": "Ver solución",
       "tertiary": "Cómo funciona"
@@ -685,12 +705,12 @@
   },
   "faqs": {
     "title": "Preguntas Frecuentes",
-    "description": "Encuentra respuestas claras y detalladas sobre nuestro Sistema de Atención Inteligente. Descubre cómo funciona la tecnología de IA conversacional, qué información necesitamos para personalizar el sistema a tu clínica, cómo se integra de forma fluida con tu software de gestión actual, las opciones de personalización disponibles para adaptar el tono y estilo a tu marca, nuestras políticas de seguridad y protección de datos sanitarios, los diferentes planes y precios disponibles, y mucho más. Si tienes alguna pregunta que no encuentras aquí, no dudes en contactarnos directamente.",
+    "description": "Respuestas claras sobre el Sistema de Atención Inteligente para clínicas veterinarias. Cómo clasifica urgencias, qué información recoge sobre las mascotas, cómo se adapta a tu protocolo veterinario, qué pasa con casos complejos, y cómo mantiene la seguridad de los datos de tus clientes. Si tienes dudas, contáctanos.",
     "content": "Contenido de FAQs"
   },
   "book": {
     "title": "Reservar Demo",
-    "description": "Agenda una demostración personalizada y descubre cómo transformar tu atención al paciente",
+    "description": "Agenda una demostración personalizada y descubre cómo transformar tu clínica veterinaria",
     "content": "Contenido de reservar demo",
     "calendly": {
       "title": "Agenda tu Demostración",
@@ -698,7 +718,7 @@
     },
     "info": {
       "title": "¿Qué incluye la demo?",
-      "description": "En nuestra demostración personalizada te mostraremos cómo el Sistema de Atención Inteligente puede transformar tu clínica. Verás casos reales, calculamos tu ROI específico y respondemos todas tus preguntas."
+      "description": "Te mostramos cómo el Sistema clasifica urgencias veterinarias, gestiona recordatorios de vacunas y captura consultas 24/7. Calculamos tu ROI específico y adaptamos el flujo a tu clínica."
     },
     "form": {
       "title": "O envíanos tus datos",
@@ -711,12 +731,12 @@
         "placeholder": "tu@email.com"
       },
       "clinic": {
-        "label": "Nombre de la clínica",
+        "label": "Nombre de la clínica veterinaria",
         "placeholder": "Nombre de tu clínica (opcional)"
       },
       "message": {
         "label": "Mensaje",
-        "placeholder": "Cuéntanos sobre tu clínica y qué te gustaría mejorar..."
+        "placeholder": "Cuéntanos sobre tu clínica: urgencias nocturnas, recordatorios de vacunas, etc..."
       },
       "submit": "Enviar Solicitud",
       "success": {

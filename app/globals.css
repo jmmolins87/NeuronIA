@@ -827,3 +827,90 @@
     line-height: 1.3 !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   VIEWPORT-ADAPTIVE SCALING
+   Auto-scale content to fit screen without looking small
+   ═══════════════════════════════════════════════════════════ */
+
+/* Fluid typography using clamp() - scales with viewport */
+.text-fluid-xs {
+  font-size: clamp(0.75rem, 1vw, 1rem);
+}
+
+.text-fluid-sm {
+  font-size: clamp(0.875rem, 1.2vw, 1.125rem);
+}
+
+.text-fluid-base {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+}
+
+.text-fluid-lg {
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+}
+
+.text-fluid-xl {
+  font-size: clamp(1.25rem, 2vw, 1.875rem);
+}
+
+.text-fluid-2xl {
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+.text-fluid-3xl {
+  font-size: clamp(1.875rem, 3vw, 3rem);
+}
+
+.text-fluid-4xl {
+  font-size: clamp(2.25rem, 4vw, 4rem);
+}
+
+.text-fluid-5xl {
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+.text-fluid-6xl {
+  font-size: clamp(3.75rem, 6vw, 6.5rem);
+}
+
+/* Fluid spacing - adapts to screen size */
+.space-fluid-sm > * + * {
+  margin-top: clamp(0.5rem, 1vh, 1rem);
+}
+
+.space-fluid-md > * + * {
+  margin-top: clamp(1rem, 2vh, 2rem);
+}
+
+.space-fluid-lg > * + * {
+  margin-top: clamp(1.5rem, 3vh, 3rem);
+}
+
+/* Container padding that scales */
+.p-fluid {
+  padding: clamp(1rem, 3vw, 3rem);
+}
+
+.px-fluid {
+  padding-left: clamp(1rem, 3vw, 3rem);
+  padding-right: clamp(1rem, 3vw, 3rem);
+}
+
+.py-fluid {
+  padding-top: clamp(1rem, 3vh, 3rem);
+  padding-bottom: clamp(1rem, 3vh, 3rem);
+}
+
+/* Gap that scales */
+.gap-fluid-sm {
+  gap: clamp(0.5rem, 1vw, 1rem);
+}
+
+.gap-fluid-md {
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.gap-fluid-lg {
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
