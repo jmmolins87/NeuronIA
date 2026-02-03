@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Calculator } from "lucide-react"
+import { Calculator, Calendar } from "lucide-react"
 import { useTranslation } from "@/components/providers/i18n-provider"
 
 interface FinalCTAProps {
@@ -46,7 +46,10 @@ export function FinalCTA({ showMicroCta = true, noteKey }: FinalCTAProps) {
 
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center pt-4">
         <Button asChild size="lg" variant="outline" className="w-full sm:w-auto cursor-pointer">
-          <Link href="/reservar">{t("home.finalCTA.cta")}</Link>
+          <Link href="/reservar" className="flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            {t("home.finalCTA.cta")}
+          </Link>
         </Button>
         <Button asChild size="lg" className="w-full sm:w-auto cursor-pointer dark:glow-primary">
           <Link href="/roi" className="flex items-center gap-2">

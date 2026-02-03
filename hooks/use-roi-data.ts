@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 
 export interface ROIData {
+  clinicType?: string
   monthlyPatients: number
   avgTicket: number
   missedRate: number

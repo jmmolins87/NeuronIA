@@ -312,6 +312,10 @@
       "disclaimer": "Esta es una estimación orientativa basada en promedios del sector. Los resultados reales pueden variar según tu situación específica.",
       "inputs": {
         "title": "Datos de tu clínica",
+        "clinicType": {
+          "label": "Tipo de clínica",
+          "help": "Selecciona el tipo de clínica que mejor se ajuste a tu negocio"
+        },
         "monthlyPatients": {
           "label": "Pacientes mensuales aproximados",
           "help": "Número estimado de pacientes que atiende tu clínica al mes"
@@ -326,9 +330,9 @@
         },
         "presets": {
           "title": "Prueba con estos ejemplos:",
-          "small": "Clínica de ~150 clientes",
-          "medium": "Clínica de ~300 clientes",
-          "large": "Clínica de ~500 clientes",
+          "small": "Clínica pequeña",
+          "medium": "Clínica mediana",
+          "large": "Clínica grande",
           "clear": "Limpiar valores"
         }
       },
@@ -568,8 +572,116 @@
   },
   "methodology": {
     "title": "Metodología",
-    "description": "Nuestra metodología probada para implementar IA en tu empresa. Contenido completo próximamente en Phase 2.",
-    "content": "Contenido de metodología"
+    "description": "Un flujo claro, con supervisión y tono clínico",
+    "hero": {
+      "title": "Metodología",
+      "heading": "Un flujo claro, con supervisión y tono clínico",
+      "subheading": "Implantamos el Sistema de Atención Inteligente de forma ordenada para que cada conversación tenga un siguiente paso.",
+      "claimLight": "Cada mensaje sin responder es un paciente perdido.",
+      "claimDark": "Cada conversación tiene un siguiente paso claro."
+    },
+    "microCta": "¿Quieres saber cuántos pacientes se te escapan?",
+    "keyMessage": "Cada mensaje sin responder es un paciente perdido.",
+    "principles": {
+      "title": "Principios",
+      "items": [
+        {
+          "title": "Claridad",
+          "text": "Respuestas breves y útiles para avanzar sin confusión."
+        },
+        {
+          "title": "Criterio clínico",
+          "text": "La conversación se guía con prudencia y enfoque profesional."
+        },
+        {
+          "title": "Control",
+          "text": "La clínica decide cuándo revisar, intervenir y ajustar el flujo."
+        },
+        {
+          "title": "Continuidad",
+          "text": "Cada hilo queda listo: resumen, confirmación y siguiente paso."
+        },
+        {
+          "title": "Consistencia",
+          "text": "El tono y la información se mantienen coherentes."
+        },
+        {
+          "title": "Supervisión",
+          "text": "Lo importante se revisa. Lo sensible se deriva."
+        }
+      ]
+    },
+    "timeline": {
+      "title": "Implementación en 4 fases",
+      "items": [
+        {
+          "title": "1) Diagnóstico",
+          "text": "Revisamos cómo llegan las consultas y dónde se pierde tiempo: dudas repetidas, idas y vueltas y cierres poco claros."
+        },
+        {
+          "title": "2) Diseño del flujo",
+          "text": "Definimos preguntas clave, orden de conversación y cómo llegar a una propuesta de cita sin fricción."
+        },
+        {
+          "title": "3) Puesta en marcha con supervisión",
+          "text": "Activamos reglas, confirmaciones y derivaciones para mantener control y seguridad."
+        },
+        {
+          "title": "4) Ajuste y mejora",
+          "text": "Afinamos tono, claridad y cierres para que el siguiente paso sea cada vez más natural."
+        }
+      ]
+    },
+    "config": {
+      "title": "Qué configuramos contigo",
+      "lead": "Lo adaptamos a tu forma de atender y organizar la agenda.",
+      "items": [
+        "Estilo de atención y tono (corto, claro, profesional).",
+        "Preguntas clave para avanzar sin alargar la conversación.",
+        "Reglas de confirmación antes de cerrar pasos importantes.",
+        "Cuándo derivar a atención humana.",
+        "Mensajes de cierre y seguimiento (qué toca después).",
+        "Rangos de horario y disponibilidad (sin prometer integraciones)."
+      ]
+    },
+    "guardrails": {
+      "title": "Control y seguridad",
+      "items": [
+        "Confirma antes de cerrar una cita o un paso importante.",
+        "Evita suposiciones: pregunta lo justo y ordena la información.",
+        "Deriva cuando el caso requiere atención humana inmediata.",
+        "Mantiene un tono clínico y profesional en todo momento.",
+        "Permite revisar y ajustar el flujo para mejorar la experiencia."
+      ]
+    },
+    "not": {
+      "title": "Qué NO hacemos",
+      "items": [
+        {
+          "title": "No prometemos resultados",
+          "text": "Cada clínica es distinta; hablamos de flujo y control, no de cifras."
+        },
+        {
+          "title": "No inventamos métricas",
+          "text": "Evitamos claims artificiales. Preferimos claridad y transparencia."
+        },
+        {
+          "title": "No sustituimos al equipo",
+          "text": "El sistema ayuda a ordenar y avanzar, con supervisión."
+        },
+        {
+          "title": "No hay magia",
+          "text": "Un buen flujo, buen tono y confirmaciones claras: eso es lo que funciona."
+        }
+      ]
+    },
+    "cta": {
+      "title": "¿Lo vemos en tu caso?",
+      "note": "Te enseñamos el flujo y lo adaptamos a tu clínica.",
+      "primary": "Reservar una demo",
+      "secondary": "Ver solución",
+      "tertiary": "Cómo funciona"
+    }
   },
   "faqs": {
     "title": "Preguntas Frecuentes",

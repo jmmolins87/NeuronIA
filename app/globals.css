@@ -90,56 +90,56 @@
   --popover: oklch(1 0 0);                    /* Pure white */
   --popover-foreground: oklch(0.18 0.015 250);
 
-  /* Primary - ULTRA NEON GREEN (máxima vibración) */
-  --primary: oklch(0.88 0.33 166);            /* MAXIMUM vibrant neon green */
-  --primary-foreground: oklch(0.08 0.02 250); /* Super dark blue text on green */
+  /* Primary - VIBRANT BLUE (azul vibrante para light mode) */
+  --primary: oklch(0.55 0.25 250);            /* Vibrant blue */
+  --primary-foreground: oklch(0.99 0.01 250); /* White text on blue */
 
-  /* Secondary - NEON Teal/Cyan */
-  --secondary: oklch(0.75 0.20 200);          /* Bright neon teal */
-  --secondary-foreground: oklch(0.12 0.02 200); /* Dark text */
+  /* Secondary - Purple accent */
+  --secondary: oklch(0.65 0.20 280);          /* Vibrant purple */
+  --secondary-foreground: oklch(0.99 0.01 280); /* White text */
 
-  /* Muted - Subtle but with neon hint */
+  /* Muted - Subtle gray */
   --muted: oklch(0.94 0.01 250);              /* Light gray-blue */
   --muted-foreground: oklch(0.48 0.03 250);   /* Medium gray with hint */
 
-  /* Accent - ABSOLUTE MAXIMUM NEON YELLOW (fluorescencia total) */
-  --accent: oklch(0.99 0.40 115);             /* ABSOLUTE MAXIMUM fluorescent yellow-lime */
-  --accent-foreground: oklch(0.03 0.01 250);  /* Almost black text for contrast */
+  /* Accent - VIBRANT PURPLE-BLUE */
+  --accent: oklch(0.60 0.22 270);             /* Purple-blue accent */
+  --accent-foreground: oklch(0.99 0.01 270);  /* White text */
 
   /* Destructive - Red for errors */
   --destructive: oklch(0.60 0.24 25);         /* Vibrant red */
   --destructive-foreground: oklch(0.98 0.01 25); /* Light text on red */
 
-  /* Border and input - Subtle with neon hint */
-  --border: oklch(0.88 0.01 200);             /* Light border with cyan hint */
-  --input: oklch(0.90 0.01 200);              /* Slightly darker input border */
-  --ring: oklch(0.82 0.21 166);               /* Neon green focus ring */
+  /* Border and input - Subtle with blue hint */
+  --border: oklch(0.88 0.01 250);             /* Light border with blue hint */
+  --input: oklch(0.90 0.01 250);              /* Slightly darker input border */
+  --ring: oklch(0.55 0.25 250);               /* Blue focus ring */
 
-  /* Extra neon tokens */
-  --glow: oklch(0.88 0.33 166);               /* MAXIMUM neon green for glows */
-  --section-alt: oklch(0.97 0.01 180);        /* Alternate section background */
+  /* Extra tokens */
+  --glow: oklch(0.55 0.25 250);               /* Blue for glows in light mode */
+  --section-alt: oklch(0.97 0.01 250);        /* Alternate section background */
   
-  /* Gradient colors - Verde neón a Azul neón con Purple MÁXIMA VIBRACIÓN */
-  --gradient-from: oklch(0.88 0.33 166);      /* MAXIMUM neon green start */
-  --gradient-to: oklch(0.75 0.30 230);        /* MAXIMUM neon blue end */
+  /* Gradient colors - Azul a Purple VIBRANTE */
+  --gradient-from: oklch(0.55 0.25 250);      /* Vibrant blue start */
+  --gradient-to: oklch(0.60 0.22 280);        /* Vibrant purple end */
   --gradient-purple: oklch(0.65 0.28 290);    /* Vibrant purple for gradients */
 
-  /* Chart colors - ULTRA NEON palette */
-  --chart-1: oklch(0.88 0.33 166);            /* ULTRA neon green */
-  --chart-2: oklch(0.75 0.30 230);            /* ULTRA neon blue */
-  --chart-3: oklch(0.99 0.40 115);            /* ABSOLUTE MAXIMUM neon yellow */
-  --chart-4: oklch(0.78 0.26 320);            /* ULTRA neon magenta */
-  --chart-5: oklch(0.82 0.26 40);             /* ULTRA neon orange */
+  /* Chart colors - Blue/Purple palette for light mode */
+  --chart-1: oklch(0.55 0.25 250);            /* Vibrant blue */
+  --chart-2: oklch(0.60 0.22 280);            /* Vibrant purple */
+  --chart-3: oklch(0.65 0.20 270);            /* Purple-blue */
+  --chart-4: oklch(0.50 0.28 240);            /* Deep blue */
+  --chart-5: oklch(0.58 0.24 260);            /* Blue-purple */
 
   /* Sidebar colors */
-  --sidebar: oklch(0.98 0.005 200);
+  --sidebar: oklch(0.98 0.005 250);
   --sidebar-foreground: oklch(0.20 0.015 250);
-  --sidebar-primary: oklch(0.82 0.21 166);
-  --sidebar-primary-foreground: oklch(0.12 0.02 250);
-  --sidebar-accent: oklch(0.92 0.04 200);
-  --sidebar-accent-foreground: oklch(0.25 0.08 200);
-  --sidebar-border: oklch(0.88 0.01 200);
-  --sidebar-ring: oklch(0.82 0.21 166);
+  --sidebar-primary: oklch(0.55 0.25 250);
+  --sidebar-primary-foreground: oklch(0.99 0.01 250);
+  --sidebar-accent: oklch(0.92 0.04 250);
+  --sidebar-accent-foreground: oklch(0.25 0.08 250);
+  --sidebar-border: oklch(0.88 0.01 250);
+  --sidebar-ring: oklch(0.55 0.25 250);
 }
 
 .dark {

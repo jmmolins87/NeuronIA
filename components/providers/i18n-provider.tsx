@@ -14,7 +14,7 @@ type Translations = Record<string, TranslationValue>
 interface I18nContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: (key: string, variables?: Record<string, string | number>) => string
+  t: (key: string, variables?: Record<string, string | number>) => any
 }
 
 const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
@@ -26,19 +26,19 @@ const translations: Record<Locale, Translations> = {
 
 const LOCALE_STORAGE_KEY = "neuronia-locale"
 
-function getNestedValue(obj: Translations, path: string): string {
+function getNestedValue(obj: Translations, path: string): any {
   const keys = path.split(".")
-  let current: TranslationValue = obj
+  let current: any = obj
 
   for (const key of keys) {
     if (current && typeof current === "object" && key in current) {
-      current = current[key] as TranslationValue
+      current = current[key]
     } else {
       return path // Return key if not found
     }
   }
 
-  return typeof current === "string" ? current : path
+  return current
 }
 
 function replaceVariables(
@@ -73,9 +73,14 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const t = React.useCallback(
-    (key: string, variables?: Record<string, string | number>): string => {
+    (key: string, variables?: Record<string, string | number>): any => {
       const translation = getNestedValue(translations[locale], key)
-      return replaceVariables(translation, variables)
+      // If translation is a string and variables are provided, replace them
+      if (typeof translation === "string" && variables) {
+        return replaceVariables(translation, variables)
+      }
+      // Otherwise return the translation as-is (could be string, array, or object)
+      return translation
     },
     [locale]
   )

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { Calendar } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
@@ -83,10 +84,13 @@ export function Footer() {
               {t("footer.cta.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-2">
-              <Button asChild size="sm" variant="outline" className="cursor-pointer">
-                <Link href="/reservar">{t("nav.bookDemo")}</Link>
-              </Button>
               <Button asChild size="sm" className="cursor-pointer dark:glow-primary">
+                <Link href="/reservar">
+                  <Calendar className="w-4 h-4" />
+                  {t("common.bookDemo")}
+                </Link>
+              </Button>
+              <Button asChild size="sm" variant="outline" className="cursor-pointer">
                 <Link href="/roi">{t("nav.roi")}</Link>
               </Button>
             </div>

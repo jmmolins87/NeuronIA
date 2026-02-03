@@ -35,8 +35,21 @@ import {
   Info,
   Send,
   ShieldCheck,
-  AlertTriangle
+  AlertTriangle,
+  Sparkles,
+  Smile,
+  Activity,
+  Heart
 } from "lucide-react"
+
+type ClinicType = "aesthetic" | "dental" | "physiotherapy" | "veterinary"
+
+const CLINIC_TYPES: { id: ClinicType; icon: typeof Sparkles; color: string }[] = [
+  { id: "aesthetic", icon: Sparkles, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-pink-500 dark:via-purple-500 dark:to-purple-600" },
+  { id: "dental", icon: Smile, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500" },
+  { id: "physiotherapy", icon: Activity, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-green-500 dark:via-emerald-600 dark:to-emerald-500" },
+  { id: "veterinary", icon: Heart, color: "from-blue-500 via-purple-600 to-blue-600 dark:from-orange-500 dark:via-amber-600 dark:to-amber-500" },
+]
 
 export default function ROIPage() {
   const { t } = useTranslation()
@@ -51,6 +64,7 @@ export default function ROIPage() {
   const [isInitialized, setIsInitialized] = React.useState(false)
   
   // Inputs - Inicializados vacíos
+  const [clinicType, setClinicType] = React.useState<ClinicType>("aesthetic")
   const [monthlyPatients, setMonthlyPatients] = React.useState(0)
   const [avgTicket, setAvgTicket] = React.useState(0)
   const [missedRate, setMissedRate] = React.useState(0)
@@ -58,6 +72,7 @@ export default function ROIPage() {
   // Cargar datos existentes de ROI al montar el componente
   React.useEffect(() => {
     if (!isInitialized && roiData) {
+      setClinicType((roiData.clinicType as ClinicType) || "aesthetic")
       setMonthlyPatients(roiData.monthlyPatients)
       setAvgTicket(roiData.avgTicket)
       setMissedRate(roiData.missedRate)
@@ -66,22 +81,62 @@ export default function ROIPage() {
     }
   }, [roiData, isInitialized])
   
-  // Outputs calculados
+  // Configuración por tipo de clínica
+  const getClinicConfig = (type: ClinicType) => {
+    switch (type) {
+      case "aesthetic":
+        return {
+          recoveryRate: 0.65, // 65% de recuperación
+          systemCost: 199,
+          defaultPatients: 150,
+          defaultTicket: 120,
+          defaultMissedRate: 30
+        }
+      case "dental":
+        return {
+          recoveryRate: 0.70, // 70% de recuperación
+          systemCost: 199,
+          defaultPatients: 200,
+          defaultTicket: 85,
+          defaultMissedRate: 25
+        }
+      case "physiotherapy":
+        return {
+          recoveryRate: 0.75, // 75% de recuperación (mayor adherencia)
+          systemCost: 179,
+          defaultPatients: 180,
+          defaultTicket: 45,
+          defaultMissedRate: 20
+        }
+      case "veterinary":
+        return {
+          recoveryRate: 0.60, // 60% de recuperación
+          systemCost: 189,
+          defaultPatients: 250,
+          defaultTicket: 65,
+          defaultMissedRate: 35
+        }
+    }
+  }
+  
+  const config = getClinicConfig(clinicType)
+  
+  // Outputs calculados según el tipo de clínica
   const missedPatients = Math.round((monthlyPatients * missedRate) / 100)
-  const recoveredPatients = Math.round(missedPatients * 0.70) // 70% de recuperación estimada
+  const recoveredPatients = Math.round(missedPatients * config.recoveryRate)
   const monthlyRevenue = recoveredPatients * avgTicket
   const yearlyRevenue = monthlyRevenue * 12
-  const systemCost = 199 // Costo mensual estimado del sistema
+  const systemCost = config.systemCost
   const roi = Math.round(((monthlyRevenue - systemCost) / systemCost) * 100)
-  const breakEvenDays = systemCost > 0 ? Math.round((systemCost / (monthlyRevenue / 30))) : 0
+  const breakEvenDays = systemCost > 0 && monthlyRevenue > 0 ? Math.round((systemCost / (monthlyRevenue / 30))) : 0
 
   const { ref: calculatorRef } = useMountAnimation({ delay: 300, duration: 1000 })
   const { ref: resultsRef } = useMountAnimation({ delay: 600, duration: 1000 })
 
   // Verificar si los datos están completos
   const isDataComplete = React.useCallback(() => {
-    return monthlyPatients > 0 && avgTicket > 0 && missedRate > 0
-  }, [monthlyPatients, avgTicket, missedRate])
+    return clinicType && monthlyPatients > 0 && avgTicket > 0 && missedRate > 0
+  }, [clinicType, monthlyPatients, avgTicket, missedRate])
 
   // Interceptar navegación y mostrar dialog
   React.useEffect(() => {
@@ -119,6 +174,7 @@ export default function ROIPage() {
   React.useEffect(() => {
     if (hasUserInteracted && (monthlyPatients > 0 || avgTicket > 0 || missedRate > 0)) {
       saveROIData({
+        clinicType,
         monthlyPatients,
         avgTicket,
         missedRate,
@@ -129,7 +185,7 @@ export default function ROIPage() {
         timestamp: Date.now(),
       }, true) // Skip acceptance flag during auto-save
     }
-  }, [monthlyPatients, avgTicket, missedRate, hasUserInteracted, saveROIData, monthlyRevenue, yearlyRevenue, roi, breakEvenDays])
+  }, [clinicType, monthlyPatients, avgTicket, missedRate, hasUserInteracted, saveROIData, monthlyRevenue, yearlyRevenue, roi, breakEvenDays])
 
   // Handle navigation with confirmation
   const handleNavigateWithConfirmation = (href: string) => {
@@ -167,6 +223,16 @@ export default function ROIPage() {
     setMissedRate(value)
   }
   
+  const handleClinicTypeChange = (type: ClinicType) => {
+    setHasUserInteracted(true)
+    setClinicType(type)
+    // Opcionalmente, actualizar valores por defecto
+    const config = getClinicConfig(type)
+    if (monthlyPatients === 0) setMonthlyPatients(config.defaultPatients)
+    if (avgTicket === 0) setAvgTicket(config.defaultTicket)
+    if (missedRate === 0) setMissedRate(config.defaultMissedRate)
+  }
+
   const handlePresetClick = (patients: number, ticket: number, missed: number) => {
     setHasUserInteracted(true)
     setMonthlyPatients(patients)
@@ -270,74 +336,118 @@ export default function ROIPage() {
               </h2>
               
               <div className="space-y-6">
-                {/* Pacientes mensuales */}
-                <div className="space-y-2">
-                  <Label htmlFor="monthly-patients" className="text-base font-medium">
-                    {t("roi.calculator.inputs.monthlyPatients.label")}
+                {/* Tipo de clínica */}
+                <div className="space-y-3">
+                  <Label className="text-base font-medium">
+                    {t("roi.calculator.inputs.clinicType.label")}
                   </Label>
-                  <Input
-                    id="monthly-patients"
-                    type="number"
-                    value={monthlyPatients}
-                    onChange={(e) => handleMonthlyPatientsChange(Number(e.target.value))}
-                    className="text-lg"
-                    min="0"
-                    placeholder="0"
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    {t("roi.calculator.inputs.monthlyPatients.help")}
-                  </p>
-                </div>
-
-                {/* Ticket promedio */}
-                <div className="space-y-2">
-                  <Label htmlFor="avg-ticket" className="text-base font-medium">
-                    {t("roi.calculator.inputs.avgTicket.label")}
-                  </Label>
-                  <div className="relative">
-                    <Euro className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                    <Input
-                      id="avg-ticket"
-                      type="number"
-                      value={avgTicket}
-                      onChange={(e) => handleAvgTicketChange(Number(e.target.value))}
-                      className="text-lg pl-10"
-                      min="0"
-                      placeholder="0"
-                    />
+                  <div className="grid grid-cols-2 gap-3">
+                    {CLINIC_TYPES.map((clinic) => {
+                      const Icon = clinic.icon
+                      const isSelected = clinicType === clinic.id
+                      return (
+                        <button
+                          key={clinic.id}
+                          onClick={() => handleClinicTypeChange(clinic.id)}
+                          className={`relative rounded-lg border-2 p-4 transition-all cursor-pointer ${
+                            isSelected
+                              ? "border-primary bg-primary/10 dark:bg-primary/20"
+                              : "border-border bg-card hover:border-primary/50"
+                          }`}
+                        >
+                          <div className="flex flex-col items-center gap-2 text-center">
+                            <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${clinic.color} flex items-center justify-center ${isSelected ? "dark:glow-sm" : ""}`}>
+                              <Icon className="w-6 h-6 text-white" />
+                            </div>
+                            <span className={`text-sm font-medium ${isSelected ? "text-primary" : "text-foreground"}`}>
+                              {t(`scenarios.${clinic.id}.title`)}
+                            </span>
+                          </div>
+                          {isSelected && (
+                            <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                              <span className="text-white text-xs">✓</span>
+                            </div>
+                          )}
+                        </button>
+                      )
+                    })}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {t("roi.calculator.inputs.avgTicket.help")}
+                    {t("roi.calculator.inputs.clinicType.help")}
                   </p>
                 </div>
 
-                {/* Porcentaje perdido */}
-                <div className="space-y-2">
-                  <Label htmlFor="missed-rate" className="text-base font-medium">
-                    {t("roi.calculator.inputs.missedRate.label")}
-                  </Label>
-                  <div className="relative">
+                {/* Inputs en una línea en pantallas grandes */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Pacientes mensuales */}
+                  <div className="space-y-2">
+                    <Label htmlFor="monthly-patients" className="text-sm font-medium">
+                      {t("roi.calculator.inputs.monthlyPatients.label")}
+                    </Label>
                     <Input
-                      id="missed-rate"
+                      id="monthly-patients"
                       type="number"
-                      value={missedRate}
-                      onChange={(e) => handleMissedRateChange(Number(e.target.value))}
+                      value={monthlyPatients}
+                      onChange={(e) => handleMonthlyPatientsChange(Number(e.target.value))}
                       className="text-lg"
                       min="0"
-                      max="100"
                       placeholder="0"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      %
-                    </span>
+                    <p className="text-xs text-muted-foreground">
+                      {t("roi.calculator.inputs.monthlyPatients.help")}
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {t("roi.calculator.inputs.missedRate.help")}
-                  </p>
+
+                  {/* Ticket promedio */}
+                  <div className="space-y-2">
+                    <Label htmlFor="avg-ticket" className="text-sm font-medium">
+                      {t("roi.calculator.inputs.avgTicket.label")}
+                    </Label>
+                    <div className="relative">
+                      <Euro className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <Input
+                        id="avg-ticket"
+                        type="number"
+                        value={avgTicket}
+                        onChange={(e) => handleAvgTicketChange(Number(e.target.value))}
+                        className="text-lg pl-10"
+                        min="0"
+                        placeholder="0"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {t("roi.calculator.inputs.avgTicket.help")}
+                    </p>
+                  </div>
+
+                  {/* Porcentaje perdido */}
+                  <div className="space-y-2">
+                    <Label htmlFor="missed-rate" className="text-sm font-medium">
+                      {t("roi.calculator.inputs.missedRate.label")}
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="missed-rate"
+                        type="number"
+                        value={missedRate}
+                        onChange={(e) => handleMissedRateChange(Number(e.target.value))}
+                        className="text-lg"
+                        min="0"
+                        max="100"
+                        placeholder="0"
+                      />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        %
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {t("roi.calculator.inputs.missedRate.help")}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Quick preset buttons */}
+              {/* Quick preset buttons - adaptan según el tipo de clínica */}
               <div className="mt-6 p-3 sm:p-4 rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/20">
                 <p className="text-xs sm:text-sm font-medium text-foreground mb-3">
                   {t("roi.calculator.inputs.presets.title")}
@@ -346,7 +456,14 @@ export default function ROIPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handlePresetClick(150, 100, 25)}
+                    onClick={() => {
+                      const conf = getClinicConfig(clinicType)
+                      handlePresetClick(
+                        Math.round(conf.defaultPatients * 0.7),
+                        Math.round(conf.defaultTicket * 0.8),
+                        Math.round(conf.defaultMissedRate * 0.8)
+                      )
+                    }}
                     className="text-xs sm:text-sm cursor-pointer transition-colors hover:border-primary"
                   >
                     {t("roi.calculator.inputs.presets.small")}
@@ -354,7 +471,10 @@ export default function ROIPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handlePresetClick(300, 180, 35)}
+                    onClick={() => {
+                      const conf = getClinicConfig(clinicType)
+                      handlePresetClick(conf.defaultPatients, conf.defaultTicket, conf.defaultMissedRate)
+                    }}
                     className="text-xs sm:text-sm cursor-pointer transition-colors hover:border-primary"
                   >
                     {t("roi.calculator.inputs.presets.medium")}
@@ -362,7 +482,14 @@ export default function ROIPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handlePresetClick(500, 250, 40)}
+                    onClick={() => {
+                      const conf = getClinicConfig(clinicType)
+                      handlePresetClick(
+                        Math.round(conf.defaultPatients * 1.5),
+                        Math.round(conf.defaultTicket * 1.3),
+                        Math.round(conf.defaultMissedRate * 1.2)
+                      )
+                    }}
                     className="text-xs sm:text-sm cursor-pointer transition-colors hover:border-primary"
                   >
                     {t("roi.calculator.inputs.presets.large")}
@@ -384,14 +511,14 @@ export default function ROIPage() {
                   </Button>
                 </div>
               </div>
+            </div>
 
-              {/* Disclaimer */}
-              <div className="mt-6 pt-6 border-t border-border">
-                <p className="text-sm text-foreground/70">
-                  <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
-                  {t("roi.calculator.disclaimer")}
-                </p>
-              </div>
+            {/* Disclaimer - Mobile: entre cajas, Desktop: debajo de ambas */}
+            <div className="lg:hidden rounded-xl border-2 border-border bg-card/50 backdrop-blur-sm p-4">
+              <p className="text-sm text-foreground/70">
+                <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
+                {t("roi.calculator.disclaimer")}
+              </p>
             </div>
 
             {/* Results */}
@@ -465,10 +592,20 @@ export default function ROIPage() {
                   </div>
                   <div className="flex justify-between pt-3 border-t border-border">
                     <span className="text-muted-foreground">{t("roi.calculator.results.recoveryRate")}</span>
-                    <span className="font-medium text-foreground">{!hasUserInteracted ? '-' : '70%'}</span>
+                    <span className="font-medium text-foreground">{!hasUserInteracted ? '-' : `${Math.round(config.recoveryRate * 100)}%`}</span>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Disclaimer - Desktop: debajo de ambas cajas */}
+          <div className="hidden lg:block max-w-6xl mx-auto mt-6">
+            <div className="rounded-xl border-2 border-border bg-card/50 backdrop-blur-sm p-4">
+              <p className="text-sm text-foreground/70 text-center">
+                <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
+                {t("roi.calculator.disclaimer")}
+              </p>
             </div>
           </div>
 
@@ -507,7 +644,7 @@ export default function ROIPage() {
               {t("roi.dialog.title")}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-base">
-              {t("roi.dialog.description").split(/(NeuronIA|IA)/g).map((part, index) => {
+              {t("roi.dialog.description").split(/(NeuronIA|IA)/g).map((part: string, index: number) => {
                 if (part === "NeuronIA" || part === "IA") {
                   return <span key={index} className="gradient-text-pulse font-semibold">{part}</span>
                 }
