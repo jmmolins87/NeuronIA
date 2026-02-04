@@ -60,7 +60,7 @@ export default function ROIPage() {
   const [isInitialized, setIsInitialized] = React.useState(false)
   
   // Inputs - Inicializados vacíos
-  const [clinicType, setClinicType] = React.useState<ClinicType>("small")
+  const [clinicType, setClinicType] = React.useState<ClinicType | null>(null)
   const [monthlyPatients, setMonthlyPatients] = React.useState(0)
   const [avgTicket, setAvgTicket] = React.useState(0)
   const [missedRate, setMissedRate] = React.useState(0)
@@ -68,7 +68,12 @@ export default function ROIPage() {
   // Cargar datos existentes de ROI al montar el componente
   React.useEffect(() => {
     if (!isInitialized && roiData) {
-      setClinicType((roiData.clinicType as ClinicType) || "small")
+      const savedClinicType = (roiData.clinicType ?? null) as ClinicType | null
+      const isValidClinicType = savedClinicType
+        ? CLINIC_TYPES.some((c) => c.id === savedClinicType)
+        : false
+
+      setClinicType(isValidClinicType ? savedClinicType : null)
       setMonthlyPatients(roiData.monthlyPatients)
       setAvgTicket(roiData.avgTicket)
       setMissedRate(roiData.missedRate)
@@ -115,7 +120,15 @@ export default function ROIPage() {
     }
   }
   
-  const config = getClinicConfig(clinicType)
+  const emptyConfig = {
+    recoveryRate: 0,
+    systemCost: 0,
+    defaultPatients: 0,
+    defaultTicket: 0,
+    defaultMissedRate: 0,
+  }
+
+  const config = clinicType ? getClinicConfig(clinicType) : emptyConfig
   
   // Outputs calculados según el tipo de clínica
   const missedPatients = Math.round((monthlyPatients * missedRate) / 100)
@@ -123,7 +136,7 @@ export default function ROIPage() {
   const monthlyRevenue = recoveredPatients * avgTicket
   const yearlyRevenue = monthlyRevenue * 12
   const systemCost = config.systemCost
-  const roi = Math.round(((monthlyRevenue - systemCost) / systemCost) * 100)
+  const roi = systemCost > 0 ? Math.round(((monthlyRevenue - systemCost) / systemCost) * 100) : 0
   const breakEvenDays = systemCost > 0 && monthlyRevenue > 0 ? Math.round((systemCost / (monthlyRevenue / 30))) : 0
 
   const { ref: calculatorRef } = useMountAnimation({ delay: 300, duration: 1000 })
@@ -179,9 +192,10 @@ export default function ROIPage() {
 
   // Save ROI data whenever inputs change (only if user has data)
   React.useEffect(() => {
+    if (!clinicType) return
     if (hasUserInteracted && (monthlyPatients > 0 || avgTicket > 0 || missedRate > 0)) {
       saveROIData({
-        clinicType,
+        clinicType: clinicType ?? undefined,
         monthlyPatients,
         avgTicket,
         missedRate,
@@ -234,11 +248,12 @@ export default function ROIPage() {
   const handleClinicTypeChange = (type: ClinicType) => {
     setHasUserInteracted(true)
     setClinicType(type)
-    // Opcionalmente, actualizar valores por defecto
+
+    // Al cambiar tipo de clinica, actualizar presets de la calculadora
     const config = getClinicConfig(type)
-    if (monthlyPatients === 0) setMonthlyPatients(config.defaultPatients)
-    if (avgTicket === 0) setAvgTicket(config.defaultTicket)
-    if (missedRate === 0) setMissedRate(config.defaultMissedRate)
+    setMonthlyPatients(config.defaultPatients)
+    setAvgTicket(config.defaultTicket)
+    setMissedRate(config.defaultMissedRate)
   }
 
   const handleAccept = () => {

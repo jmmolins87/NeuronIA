@@ -328,6 +328,23 @@
                       linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
   }
 
+  /* Gradient border only (interior stays transparent) */
+  .gradient-border-transparent {
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image:
+      linear-gradient(transparent, transparent),
+      linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
+    transition: background-image 0.7s ease;
+  }
+
+  .gradient-border-transparent:hover {
+    background-image:
+      linear-gradient(transparent, transparent),
+      linear-gradient(135deg, oklch(var(--gradient-to)) 0%, oklch(var(--gradient-from)) 100%);
+  }
+
   /* Animated gradient text effects - Each one moves differently */
   .gradient-text-slide {
     background: linear-gradient(
