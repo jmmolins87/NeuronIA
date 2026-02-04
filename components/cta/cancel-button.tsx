@@ -3,7 +3,7 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-export function DemoButton({
+export function CancelButton({
   className,
   ...props
 }: React.ComponentProps<typeof Button>): React.JSX.Element {
@@ -12,7 +12,7 @@ export function DemoButton({
       {...props}
       variant="ghost"
       className={cn(
-        "box-border cursor-pointer border-2 border-border/70 bg-background text-foreground hover:bg-background hover:text-foreground dark:border-border/50 dark:bg-transparent dark:hover:bg-transparent",
+        "box-border cursor-pointer border-2 border-destructive bg-transparent text-destructive hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 dark:hover:text-destructive",
         className
       )}
     />

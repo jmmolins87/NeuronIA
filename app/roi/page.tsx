@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
@@ -11,12 +12,12 @@ import { useMounted } from "@/hooks/use-mounted"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { Button } from "@/components/ui/button"
+import { CancelButton } from "@/components/cta/cancel-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -65,22 +66,13 @@ export default function ROIPage() {
   const [avgTicket, setAvgTicket] = React.useState(0)
   const [missedRate, setMissedRate] = React.useState(0)
   
-  // Cargar datos existentes de ROI al montar el componente
+  // On entry, do not preselect a clinic type.
+  // ROI persistence is still used for /contacto gating, but the calculator starts unselected.
   React.useEffect(() => {
-    if (!isInitialized && roiData) {
-      const savedClinicType = (roiData.clinicType ?? null) as ClinicType | null
-      const isValidClinicType = savedClinicType
-        ? CLINIC_TYPES.some((c) => c.id === savedClinicType)
-        : false
-
-      setClinicType(isValidClinicType ? savedClinicType : null)
-      setMonthlyPatients(roiData.monthlyPatients)
-      setAvgTicket(roiData.avgTicket)
-      setMissedRate(roiData.missedRate)
-      setHasUserInteracted(true) // Marcar como interactuado si ya hay datos
-      setIsInitialized(true)
-    }
-  }, [roiData, isInitialized])
+    if (isInitialized) return
+    setClinicType(null)
+    setIsInitialized(true)
+  }, [isInitialized])
   
   // Configuración por tipo de clínica veterinaria
   const getClinicConfig = (type: ClinicType) => {
@@ -468,8 +460,7 @@ export default function ROIPage() {
 
               {/* Botón para limpiar valores */}
               <div className="mt-6">
-                <Button
-                  variant="outline"
+                <CancelButton
                   size="default"
                   onClick={() => {
                     clearROIData()
@@ -479,10 +470,10 @@ export default function ROIPage() {
                     setHasUserInteracted(false)
                     setIsInitialized(true) // Prevent reload from localStorage
                   }}
-                  className="w-full cursor-pointer transition-colors hover:border-red-500 hover:text-red-600 dark:hover:text-red-400"
+                  className="w-full cursor-pointer"
                 >
                   {t("roi.calculator.inputs.presets.clear")}
-                </Button>
+                </CancelButton>
               </div>
             </div>
 
@@ -630,9 +621,11 @@ export default function ROIPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancel}>
-              {t("roi.dialog.cancel")}
-            </AlertDialogCancel>
+            <CancelButton asChild>
+              <AlertDialogPrimitive.Cancel onClick={handleCancel}>
+                {t("roi.dialog.cancel")}
+              </AlertDialogPrimitive.Cancel>
+            </CancelButton>
             <AlertDialogAction onClick={handleAccept}>
               {t("roi.dialog.accept")}
             </AlertDialogAction>

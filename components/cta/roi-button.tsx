@@ -8,10 +8,13 @@ export function RoiButton({
   ...props
 }: React.ComponentProps<typeof Button>): React.JSX.Element {
   return (
-    <Button
-      {...props}
-      variant="default"
-      className={cn("cursor-pointer dark:glow-primary", className)}
-    />
+      <Button
+        {...props}
+        variant="default"
+        className={cn(
+          "box-border cursor-pointer border-2 border-transparent dark:glow-primary",
+          className
+        )}
+      />
   )
 }

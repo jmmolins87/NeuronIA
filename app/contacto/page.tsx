@@ -13,6 +13,7 @@ import { useMounted } from "@/hooks/use-mounted"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { Button } from "@/components/ui/button"
 import { DemoButton } from "@/components/cta/demo-button"
+import { CancelButton } from "@/components/cta/cancel-button"
 import { RoiButton } from "@/components/cta/roi-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -30,6 +31,7 @@ import {
 import Link from "next/link"
 import { 
   Send,
+  Loader2,
   User,
   Mail,
   Phone,
@@ -90,6 +92,7 @@ export default function ContactoPage() {
     message: ""
   })
   const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const { ref: formRef } = useMountAnimation({ delay: 300, duration: 1000 })
 
@@ -156,6 +159,8 @@ export default function ContactoPage() {
     if (Object.values(newErrors).some(error => error !== "")) {
       return
     }
+
+    setIsSubmitting(true)
     
     // Aquí iría la lógica de envío del formulario
     console.log("Form submitted:", {
@@ -164,35 +169,38 @@ export default function ContactoPage() {
       dataAccepted: roiData?.accepted || false,
       acceptedTimestamp: roiData?.timestamp
     })
-    
-    setIsSubmitted(true)
-    
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        clinic: "",
-        message: "",
-        calendlyUrl: ""
-      })
-      setErrors({
-        name: "",
-        email: "",
-        phone: "",
-        clinic: "",
-        message: ""
-      })
-      setTouched({
-        name: false,
-        email: false,
-        phone: false,
-        clinic: false,
-        message: false
-      })
-    }, 3000)
+
+    window.setTimeout(() => {
+      setIsSubmitted(true)
+      setIsSubmitting(false)
+
+      // Reset after 3 seconds
+      window.setTimeout(() => {
+        setIsSubmitted(false)
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          clinic: "",
+          message: "",
+          calendlyUrl: ""
+        })
+        setErrors({
+          name: "",
+          email: "",
+          phone: "",
+          clinic: "",
+          message: ""
+        })
+        setTouched({
+          name: false,
+          email: false,
+          phone: false,
+          clinic: false,
+          message: false
+        })
+      }, 3000)
+    }, 600)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -499,15 +507,14 @@ export default function ContactoPage() {
                             <Calendar className="w-4 h-4 mr-2" />
                             {t("contact.form.demoStatus.changeDate")}
                           </DemoButton>
-                          <Button 
-                            variant="outline" 
+                          <CancelButton 
                             size="sm"
                             onClick={() => setShowCancelModal(true)}
-                            className="w-full sm:w-auto border-red-500 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 dark:text-red-400 dark:border-red-400 cursor-pointer"
+                            className="w-full sm:w-auto cursor-pointer"
                           >
                             <X className="w-4 h-4 mr-2" />
                             {t("contact.form.demoStatus.cancelDemo")}
-                          </Button>
+                          </CancelButton>
                         </>
                       ) : (
                         /* When no demo - Show Book Now */
@@ -693,6 +700,7 @@ export default function ContactoPage() {
                             size="lg" 
                             className="w-full md:w-auto cursor-pointer dark:glow-primary"
                             disabled={
+                              isSubmitting ||
                               !formData.name.trim() || 
                               !formData.email.trim() || 
                               !formData.phone.trim() || 
@@ -700,8 +708,14 @@ export default function ContactoPage() {
                               !formData.message.trim() ||
                               Object.values(errors).some(error => error !== "")
                             }
+                            aria-disabled={isSubmitting}
+                            aria-busy={isSubmitting}
                           >
-                            <Send className="w-5 h-5 mr-2" />
+                            {isSubmitting ? (
+                              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            ) : (
+                              <Send className="w-5 h-5 mr-2" />
+                            )}
                             {t("contact.form.submit")}
                           </Button>
                         </div>
@@ -726,8 +740,10 @@ export default function ContactoPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-            <AlertDialogAction variant="destructive" onClick={handleCancelDemo}>
-              {t("contact.form.demoStatus.cancelDemo")}
+            <AlertDialogAction asChild>
+              <CancelButton onClick={handleCancelDemo}>
+                {t("contact.form.demoStatus.cancelDemo")}
+              </CancelButton>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
