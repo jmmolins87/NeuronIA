@@ -328,21 +328,32 @@
                       linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
   }
 
-  /* Gradient border only (interior stays transparent) */
-  .gradient-border-transparent {
-    border: 2px solid transparent;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background-image:
-      linear-gradient(transparent, transparent),
-      linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
-    transition: background-image 0.7s ease;
+  /* Gradient border ring (doesn't affect layout height) */
+  .gradient-border-ring {
+    position: relative;
   }
 
-  .gradient-border-transparent:hover {
-    background-image:
-      linear-gradient(transparent, transparent),
-      linear-gradient(135deg, oklch(var(--gradient-to)) 0%, oklch(var(--gradient-from)) 100%);
+  .gradient-border-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    pointer-events: none;
+
+    background: linear-gradient(135deg, oklch(var(--gradient-from)) 0%, oklch(var(--gradient-to)) 100%);
+
+    /* Show only the border area */
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+
+    transition: background 0.7s ease;
+  }
+
+  .gradient-border-ring:hover::before {
+    background: linear-gradient(135deg, oklch(var(--gradient-to)) 0%, oklch(var(--gradient-from)) 100%);
   }
 
   /* Animated gradient text effects - Each one moves differently */

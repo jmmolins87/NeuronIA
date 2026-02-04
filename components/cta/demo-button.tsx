@@ -12,7 +12,7 @@ export function DemoButton({
       {...props}
       variant="ghost"
       className={cn(
-        "gradient-border-transparent cursor-pointer bg-transparent text-foreground hover:bg-transparent hover:text-foreground active:bg-transparent",
+        "gradient-border-ring cursor-pointer bg-background text-foreground hover:bg-background hover:text-foreground dark:bg-transparent dark:hover:bg-transparent",
         className
       )}
     />
