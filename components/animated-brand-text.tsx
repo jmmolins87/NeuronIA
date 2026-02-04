@@ -9,17 +9,17 @@ interface AnimatedBrandTextProps {
 }
 
 /**
- * Component that applies animated gradient effect to "NeuronIA" and "IA" text
+ * Component that applies animated gradient effect to "ClinvetIA" and "IA" text
  * Uses the gradient-text-pulse class for animation
  */
 export function AnimatedBrandText({ children, className }: AnimatedBrandTextProps) {
-  // Replace "NeuronIA" and standalone "IA" with spans that have gradient animation
+  // Replace "ClinvetIA" and standalone "IA" with spans that have gradient animation
   const processText = (text: string) => {
     const parts: React.ReactNode[] = []
     let lastIndex = 0
     
-    // Regex to match "NeuronIA" or standalone "IA" (not part of another word)
-    const regex = /\b(NeuronIA|IA)\b/g
+    // Regex to match "ClinvetIA" or standalone "IA" (not part of another word)
+    const regex = /\b(ClinvetIA|IA)\b/g
     let match
     
     while ((match = regex.exec(text)) !== null) {

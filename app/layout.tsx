@@ -20,11 +20,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NeuronIA - Automatización Inteligente con IA",
+  title: "ClinvetIA - Automatización Inteligente con IA",
   description: "Descubre cómo la IA puede transformar tu negocio con soluciones automatizadas personalizadas",
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/logo.png", type: "image/png" },
     ],
   },
 };

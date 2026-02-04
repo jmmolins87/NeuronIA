@@ -10,9 +10,9 @@ export function DemoButton({
   return (
     <Button
       {...props}
-      variant="outline"
+      variant="ghost"
       className={cn(
-        "cursor-pointer bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90",
+        "cursor-pointer border-2 border-border/60 bg-transparent text-foreground hover:bg-transparent hover:border-border active:bg-transparent",
         className
       )}
     />

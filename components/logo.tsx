@@ -12,8 +12,8 @@ interface LogoProps {
 export function Logo({ width = 160, height = 102, className }: LogoProps) {
   return (
     <Image
-      src="/logo.svg"
-      alt="NeuronIA"
+      src="/logo.png"
+      alt="ClinvetIA"
       width={width}
       height={height}
       className={className}

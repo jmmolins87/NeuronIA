@@ -606,8 +606,8 @@ export default function ROIPage() {
               {t("roi.dialog.title")}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-base">
-              {t("roi.dialog.description").split(/(NeuronIA|IA)/g).map((part: string, index: number) => {
-                if (part === "NeuronIA" || part === "IA") {
+              {t("roi.dialog.description").split(/(ClinvetIA|IA)/g).map((part: string, index: number) => {
+                if (part === "ClinvetIA" || part === "IA") {
                   return <span key={index} className="gradient-text-pulse font-semibold">{part}</span>
                 }
                 return part

@@ -2,7 +2,7 @@
 
 ## ✅ Completado
 
-Se han implementado 2 temas completos con paleta neón basada en el logo de NeuronIA.
+Se han implementado 2 temas completos con paleta neón basada en el logo de ClinvetIA.
 
 ---
 
@@ -265,7 +265,7 @@ components/
   <div className="max-w-4xl space-y-8 text-center">
     {/* Logo con glow sutil en dark */}
     <div className="dark:glow-md">
-      <Image src="/neuroxia-logo.svg" alt="NeuronIA" width={200} height={200} />
+      <Image src="/logo.png" alt="ClinvetIA" width={200} height={200} />
     </div>
     
     {/* Título con palabra destacada en neón */}

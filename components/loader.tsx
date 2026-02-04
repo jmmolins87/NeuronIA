@@ -15,8 +15,8 @@ export function Loader({ className }: LoaderProps) {
         {/* Logo with neuronas */}
         <div className="relative w-32 h-32">
           <Image
-            src="/logo.svg"
-            alt="NeuronIA"
+            src="/logo.png"
+            alt="ClinvetIA"
             width={128}
             height={128}
             className="relative z-10"

@@ -1,4 +1,4 @@
-# NeuronIA
+# ClinvetIA
 
 Plataforma de automatización inteligente con IA para transformar negocios.
 
@@ -50,7 +50,7 @@ npm run lint
 ## 📁 Estructura del Proyecto
 
 ```
-neuronia-app/
+clinvetia-app/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx         # Root layout con ThemeProvider
 │   ├── page.tsx           # Home page

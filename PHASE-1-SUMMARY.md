@@ -2,7 +2,7 @@
 
 ## 🎯 Objetivo Completado
 
-Se ha configurado exitosamente el proyecto NeuronIA con Next.js 16, TypeScript, Tailwind CSS 4, shadcn/ui y todas las dependencias necesarias para las fases futuras.
+Se ha configurado exitosamente el proyecto ClinvetIA con Next.js 16, TypeScript, Tailwind CSS 4, shadcn/ui y todas las dependencias necesarias para las fases futuras.
 
 ## 📦 Archivos Creados/Modificados
 
@@ -83,7 +83,7 @@ npm run lint
 - ✅ Sin hydration warnings
 
 ### Navegación
-- ✅ Header sticky con logo NeuronIA
+- ✅ Header sticky con logo ClinvetIA
 - ✅ Navegación desktop (links horizontales)
 - ✅ Navegación móvil (Sheet drawer)
 - ✅ Links a todas las rutas

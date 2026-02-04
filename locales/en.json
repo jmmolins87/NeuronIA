@@ -44,7 +44,7 @@
     "cancel": "Cancel"
   },
   "home": {
-    "title": "NeuronIA - Intelligent Care System for Veterinary Clinics",
+    "title": "ClinvetIA - Intelligent Care System for Veterinary Clinics",
     "description": "Intelligent Care System that turns pet owner inquiries into veterinary appointments",
     "serviceName": "Intelligent Care System",
     "hero": {
@@ -375,7 +375,7 @@
     },
     "dialog": {
       "title": "Use of your ROI data",
-      "description": "The calculated data will be automatically added to the contact form and sent to NeuronIA to study your case personally and offer you the best solution. Do you accept that we save and send this information?",
+      "description": "The calculated data will be automatically added to the contact form and sent to ClinvetIA to study your case personally and offer you the best solution. Do you accept that we save and send this information?",
       "accept": "Accept and Continue",
       "cancel": "Cancel",
       "incomplete": {
@@ -760,7 +760,7 @@
       "roiRequired": "Complete the ROI calculator before continuing",
       "roiNotCalculated": "For better service, you must send us your ROI calculator results so we can help you better in a personalized and exclusive way.",
       "roiNotAccepted": "For better service, you must send us your ROI calculator results so we can help you better in a personalized and exclusive way.",
-      "dataAcceptance": "You have accepted that NeuronIA can use your ROI data to study your case personally.",
+      "dataAcceptance": "You have accepted that ClinvetIA can use your ROI data to study your case personally.",
       "goToROI": "Go to ROI Calculator",
       "roiSummary": {
         "title": "Your ROI analysis summary",
@@ -950,7 +950,7 @@
       "description": "Book a personalized demo and discover the potential of AI.",
       "button": "Book Demo"
     },
-    "copyright": "© {{year}} NeuronIA. All rights reserved."
+    "copyright": "© {{year}} ClinvetIA. All rights reserved."
   },
 
   "errors": {
@@ -964,7 +964,7 @@
     "closeMenu": "Close menu",
     "toggleTheme": "Toggle theme",
     "changeLanguage": "Change language",
-    "logo": "NeuronIA logo",
+    "logo": "ClinvetIA logo",
     "goToTop": "Go to top",
     "sectionNavigation": "Section navigation"
   },

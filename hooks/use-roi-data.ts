@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useCallback, useState } from "react"
 
 export interface ROIData {
   clinicType?: string
@@ -15,23 +15,21 @@ export interface ROIData {
   accepted?: boolean
 }
 
-const ROI_STORAGE_KEY = "neuronia-roi-data"
+const ROI_STORAGE_KEY = "clinvetia-roi-data"
 
 export function useROIData() {
-  const [roiData, setROIData] = useState<ROIData | null>(null)
-
-  useEffect(() => {
-    // Load from localStorage on mount
+  const [roiData, setROIData] = useState<ROIData | null>(() => {
+    if (typeof window === "undefined") return null
     const stored = localStorage.getItem(ROI_STORAGE_KEY)
-    if (stored) {
-      try {
-        const data = JSON.parse(stored) as ROIData
-        setROIData(data)
-      } catch (error) {
-        console.error("Failed to parse ROI data:", error)
-      }
+    if (!stored) return null
+
+    try {
+      return JSON.parse(stored) as ROIData
+    } catch (error) {
+      console.error("Failed to parse ROI data:", error)
+      return null
     }
-  }, [])
+  })
 
   const saveROIData = useCallback((data: ROIData, skipAcceptance = false) => {
     const dataWithTimestamp = {

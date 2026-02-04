@@ -44,7 +44,7 @@
     "cancel": "Cancelar"
   },
   "home": {
-    "title": "NeuronIA - Sistema de Atención Inteligente para Veterinarias",
+    "title": "ClinvetIA - Sistema de Atención Inteligente para Veterinarias",
     "description": "Sistema de Atención Inteligente que convierte consultas de dueños en citas veterinarias",
     "serviceName": "Sistema de Atención Inteligente",
     "hero": {
@@ -383,7 +383,7 @@
     },
     "dialog": {
       "title": "Uso de tus datos de ROI",
-      "description": "Los datos calculados se añadirán automáticamente al formulario de contacto y serán enviados a NeuronIA para estudiar tu caso de forma personalizada y ofrecerte la mejor solución. ¿Aceptas que guardemos y enviemos esta información?",
+      "description": "Los datos calculados se añadirán automáticamente al formulario de contacto y serán enviados a ClinvetIA para estudiar tu caso de forma personalizada y ofrecerte la mejor solución. ¿Aceptas que guardemos y enviemos esta información?",
       "accept": "Aceptar y Continuar",
       "cancel": "Cancelar",
       "incomplete": {
@@ -841,7 +841,7 @@
       "roiRequired": "Completa la calculadora ROI antes de continuar",
       "roiNotCalculated": "Para una mejor atención, debes mandarnos tus resultados de la calculadora ROI para poder ayudarte mejor y de forma particular y exclusiva.",
       "roiNotAccepted": "Para una mejor atención, debes mandarnos tus resultados de la calculadora ROI para poder ayudarte mejor y de forma particular y exclusiva.",
-      "dataAcceptance": "Has aceptado que NeuronIA pueda utilizar tus datos de ROI para estudiar tu caso de forma personalizada.",
+      "dataAcceptance": "Has aceptado que ClinvetIA pueda utilizar tus datos de ROI para estudiar tu caso de forma personalizada.",
       "goToROI": "Ir a Calculadora ROI",
       "roiSummary": {
         "title": "Resumen de tu análisis ROI",
@@ -953,7 +953,7 @@
       "description": "Reserva una demo personalizada y descubre el potencial de la IA.",
       "button": "Reservar Demo"
     },
-    "copyright": "© {{year}} NeuronIA. Todos los derechos reservados."
+    "copyright": "© {{year}} ClinvetIA. Todos los derechos reservados."
   },
   "errors": {
     "notFound": "Página no encontrada",
@@ -966,7 +966,7 @@
     "closeMenu": "Cerrar menú",
     "toggleTheme": "Cambiar tema",
     "changeLanguage": "Cambiar idioma",
-    "logo": "Logo de NeuronIA",
+    "logo": "Logo de ClinvetIA",
     "goToTop": "Ir al inicio",
     "sectionNavigation": "Navegación de secciones"
   },

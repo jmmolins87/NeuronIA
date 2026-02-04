@@ -7,14 +7,12 @@ import enTranslations from "@/locales/en.json"
 
 type Locale = "es" | "en"
 
-type TranslationValue = string | Record<string, unknown>
-
-type Translations = Record<string, TranslationValue>
+type Translations = Record<string, unknown>
 
 interface I18nContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: (key: string, variables?: Record<string, string | number>) => any
+  t: (key: string, variables?: Record<string, string | number>) => string
 }
 
 const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
@@ -24,18 +22,20 @@ const translations: Record<Locale, Translations> = {
   en: enTranslations as unknown as Translations,
 }
 
-const LOCALE_STORAGE_KEY = "neuronia-locale"
+const LOCALE_STORAGE_KEY = "clinvetia-locale"
 
-function getNestedValue(obj: Translations, path: string): any {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function getNestedValue(obj: Translations, path: string): unknown {
   const keys = path.split(".")
-  let current: any = obj
+  let current: unknown = obj
 
   for (const key of keys) {
-    if (current && typeof current === "object" && key in current) {
-      current = current[key]
-    } else {
-      return path // Return key if not found
-    }
+    if (!isRecord(current)) return undefined
+    if (!Object.prototype.hasOwnProperty.call(current, key)) return undefined
+    current = current[key]
   }
 
   return current
@@ -54,11 +54,9 @@ function replaceVariables(
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = React.useState<Locale>("es")
-  const [mounted, setMounted] = React.useState(false)
 
   // Initialize from localStorage on mount
   React.useEffect(() => {
-    setMounted(true)
     const savedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null
     if (savedLocale && (savedLocale === "es" || savedLocale === "en")) {
       setLocaleState(savedLocale)
@@ -73,27 +71,15 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const t = React.useCallback(
-    (key: string, variables?: Record<string, string | number>): any => {
+    (key: string, variables?: Record<string, string | number>): string => {
       const translation = getNestedValue(translations[locale], key)
-      // If translation is a string and variables are provided, replace them
-      if (typeof translation === "string" && variables) {
-        return replaceVariables(translation, variables)
-      }
-      // Otherwise return the translation as-is (could be string, array, or object)
-      return translation
+      if (typeof translation !== "string") return key
+      return replaceVariables(translation, variables)
     },
     [locale]
   )
 
-  const value: I18nContextType = React.useMemo(
-    () => ({
-      locale,
-      setLocale,
-      t,
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [locale]
-  )
+  const value: I18nContextType = React.useMemo(() => ({ locale, setLocale, t }), [locale, setLocale, t])
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }

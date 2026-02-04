@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 export interface CalendlyData {
   eventUri: string
@@ -14,23 +14,21 @@ export interface CalendlyData {
   message?: string
 }
 
-const CALENDLY_STORAGE_KEY = "neuronia-calendly-data"
+const CALENDLY_STORAGE_KEY = "clinvetia-calendly-data"
 
 export function useCalendlyData() {
-  const [calendlyData, setCalendlyData] = useState<CalendlyData | null>(null)
-
-  useEffect(() => {
-    // Load from localStorage on mount
+  const [calendlyData, setCalendlyData] = useState<CalendlyData | null>(() => {
+    if (typeof window === "undefined") return null
     const stored = localStorage.getItem(CALENDLY_STORAGE_KEY)
-    if (stored) {
-      try {
-        const data = JSON.parse(stored) as CalendlyData
-        setCalendlyData(data)
-      } catch (error) {
-        console.error("Failed to parse Calendly data:", error)
-      }
+    if (!stored) return null
+
+    try {
+      return JSON.parse(stored) as CalendlyData
+    } catch (error) {
+      console.error("Failed to parse Calendly data:", error)
+      return null
     }
-  }, [])
+  })
 
   const saveCalendlyData = useCallback((data: CalendlyData) => {
     const dataWithTimestamp = {

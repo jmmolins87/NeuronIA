@@ -57,7 +57,7 @@
 - [x] Sin estilos inline (solo Tailwind classes)
 - [x] Sin colores hardcodeados en JSX
 - [x] Accesibilidad base implementada
-- [x] Logo desde `/public/neuroxia-logo.svg`
+- [x] Logo desde `/public/logo.png`
 
 ### 8. Configuración
 - [x] `components.json` (shadcn config)
@@ -104,7 +104,7 @@ npm run lint
 ## 🎨 Características Implementadas
 
 ### Header
-- Logo de NeuronIA en esquina superior izquierda
+- Logo de ClinvetIA en esquina superior izquierda
 - Navegación desktop (links horizontales)
 - Navegación móvil (Sheet/drawer)
 - Botón "Reservar Demo"
@@ -161,7 +161,7 @@ Todas las páginas tienen:
 
 ## ✨ Notas Importantes
 
-- **Logo**: El logo está en `/public/neuroxia-logo.svg` y NO debe modificarse
+- **Logo**: El logo está en `/public/logo.png`
 - **Estilos**: SOLO usar clases Tailwind, NUNCA estilos inline
 - **Colores**: SIEMPRE usar CSS variables, NUNCA hex hardcodeado
 - **Componentes**: Server Components por defecto, `"use client"` solo cuando sea necesario
