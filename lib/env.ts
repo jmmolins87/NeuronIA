@@ -20,6 +20,20 @@ const EnvSchema = z.object({
   ADMIN_API_KEY: optionalNonEmptyString(),
   DATABASE_URL: z.string().min(1),
   DATABASE_URL_UNPOOLED: z.string().min(1),
+
+  BOOKING_TIMEZONE: z.string().min(1).default("Europe/Madrid"),
+  BOOKING_START_TIME: z.string().regex(/^\d{2}:\d{2}$/).default("09:00"),
+  BOOKING_END_TIME: z.string().regex(/^\d{2}:\d{2}$/).default("17:30"),
+  BOOKING_SLOT_MINUTES: z.coerce.number().int().positive().default(30),
+  HOLD_TTL_MINUTES: z.coerce.number().int().positive().default(20),
+  ALLOW_TIME_OVERRIDE: z
+    .preprocess(
+      (v) => (typeof v === "string" ? v.trim().toLowerCase() : v),
+      z
+        .enum(["true", "false"])
+        .transform((v) => v === "true")
+        .default("false")
+    ),
 })
 
 function formatZodError(error: z.ZodError): string {
@@ -47,6 +61,13 @@ const parsed = EnvSchema.safeParse({
     process.env.DATABASE_URL_UNPOOLED,
     process.env.POSTGRES_URL_NON_POOLING
   ),
+
+  BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
+  BOOKING_START_TIME: process.env.BOOKING_START_TIME,
+  BOOKING_END_TIME: process.env.BOOKING_END_TIME,
+  BOOKING_SLOT_MINUTES: process.env.BOOKING_SLOT_MINUTES,
+  HOLD_TTL_MINUTES: process.env.HOLD_TTL_MINUTES,
+  ALLOW_TIME_OVERRIDE: process.env.ALLOW_TIME_OVERRIDE,
 })
 
 if (!parsed.success) {
