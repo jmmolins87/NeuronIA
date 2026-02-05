@@ -69,6 +69,23 @@ export function LenisProvider({ children }: LenisProviderProps) {
     }
   }, [])
 
+  React.useEffect(() => {
+    function handleScrollLock(event: Event) {
+      const custom = event as CustomEvent<{ locked?: boolean }>
+      const locked = Boolean(custom.detail?.locked)
+      if (!lenis) return
+
+      if (locked) {
+        lenis.stop()
+      } else {
+        lenis.start()
+      }
+    }
+
+    window.addEventListener("clinvetia:scroll-lock", handleScrollLock as EventListener)
+    return () => window.removeEventListener("clinvetia:scroll-lock", handleScrollLock as EventListener)
+  }, [lenis])
+
   // Listen for reduced motion changes
   React.useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")

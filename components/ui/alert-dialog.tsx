@@ -5,6 +5,7 @@ import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { lockScroll } from "@/lib/scroll-lock"
 
 function AlertDialog({
   ...props
@@ -51,6 +52,11 @@ function AlertDialogContent({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content> & {
   size?: "default" | "sm" | "lg"
 }) {
+  React.useEffect(() => {
+    const unlock = lockScroll()
+    return () => unlock()
+  }, [])
+
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />

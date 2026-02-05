@@ -1005,5 +1005,28 @@
       "help": "Mostrar ayuda de atajos",
       "closeHelp": "Cerrar ayuda"
     }
+  },
+  "cookies": {
+    "title": "Configuración de Cookies",
+    "description": "Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Puedes personalizar qué tipos de cookies deseas aceptar.",
+    "acceptAll": "Aceptar Todas",
+    "rejectAll": "Rechazar Todas",
+    "customize": "Personalizar",
+    "savePreferences": "Guardar Preferencias",
+    "categories": {
+      "necessary": {
+        "title": "Cookies Necesarias",
+        "description": "Estas cookies son esenciales para el funcionamiento del sitio web y no se pueden desactivar.",
+        "required": "(Requeridas)"
+      },
+      "analytics": {
+        "title": "Cookies de Análisis",
+        "description": "Nos ayudan a entender cómo los visitantes interactúan con el sitio web, recopilando y reportando información de forma anónima."
+      },
+      "marketing": {
+        "title": "Cookies de Marketing",
+        "description": "Se utilizan para rastrear visitantes a través de sitios web con la intención de mostrar anuncios relevantes y atractivos."
+      }
+    }
   }
 }

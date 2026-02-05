@@ -1003,5 +1003,28 @@
       "help": "Show shortcuts help",
       "closeHelp": "Close help"
     }
+  },
+  "cookies": {
+    "title": "Cookie Settings",
+    "description": "We use cookies to enhance your experience on our website. You can customize which types of cookies you want to accept.",
+    "acceptAll": "Accept All",
+    "rejectAll": "Reject All",
+    "customize": "Customize",
+    "savePreferences": "Save Preferences",
+    "categories": {
+      "necessary": {
+        "title": "Necessary Cookies",
+        "description": "These cookies are essential for the website to function and cannot be disabled.",
+        "required": "(Required)"
+      },
+      "analytics": {
+        "title": "Analytics Cookies",
+        "description": "Help us understand how visitors interact with the website by collecting and reporting information anonymously."
+      },
+      "marketing": {
+        "title": "Marketing Cookies",
+        "description": "Used to track visitors across websites with the intent to display relevant and engaging advertisements."
+      }
+    }
   }
 }

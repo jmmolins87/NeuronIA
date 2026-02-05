@@ -69,13 +69,25 @@ export function PageLoaderProvider({ children }: { children: React.ReactNode }) 
   // Hide scrollbar when loader is visible
   React.useEffect(() => {
     if (isLoading) {
-      document.body.style.overflow = "hidden"
+      const html = document.documentElement
+      const body = document.body
+      
+      html.style.overflow = "hidden"
+      body.style.overflow = "hidden"
     } else {
-      document.body.style.overflow = ""
+      const html = document.documentElement
+      const body = document.body
+      
+      html.style.overflow = ""
+      body.style.overflow = ""
     }
 
     return () => {
-      document.body.style.overflow = ""
+      const html = document.documentElement
+      const body = document.body
+      
+      html.style.overflow = ""
+      body.style.overflow = ""
     }
   }, [isLoading])
 
