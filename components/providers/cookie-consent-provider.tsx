@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Cookie } from "lucide-react"
 import { useTranslation } from "@/components/providers/i18n-provider"
+import { useMounted } from "@/hooks/use-mounted"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,6 +45,7 @@ export function useCookieConsent() {
 
 export function CookieConsentProvider({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
+  const mounted = useMounted()
   const [preferences, setPreferences] = React.useState<CookiePreferences | null>(null)
   const [showDialog, setShowDialog] = React.useState(false)
   const [showCustomize, setShowCustomize] = React.useState(false)
@@ -56,6 +58,8 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
 
   // Load preferences on mount
   React.useEffect(() => {
+    if (!mounted) return
+    
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) {
       try {
@@ -69,7 +73,7 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
       // No preferences found, show dialog
       setShowDialog(true)
     }
-  }, [])
+  }, [mounted])
 
   const savePreferences = React.useCallback((prefs: CookiePreferences) => {
     const prefsWithTimestamp = {
@@ -136,9 +140,10 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
     <CookieConsentContext.Provider value={contextValue}>
       {children}
 
-      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <AlertDialogHeader>
+      {mounted && (
+        <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+          <AlertDialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <AlertDialogHeader>
             <div className="flex items-center gap-3 mb-2">
               <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                 <Cookie className="w-6 h-6 text-primary" />
@@ -260,6 +265,7 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      )}
     </CookieConsentContext.Provider>
   )
 }

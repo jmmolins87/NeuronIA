@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum BookingStatus {
+  HELD
+  CONFIRMED
+  CANCELLED
+  RESCHEDULED
+  EXPIRED
+}
+
+enum BookingTokenKind {
+  SESSION
+  CANCEL
+  RESCHEDULE
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  status        BookingStatus @default(HELD)
+
+  startAt       DateTime
+  endAt         DateTime
+  timezone      String
+
+  locale        String        @default("es")
+
+  customerEmail String?
+  customerName  String?
+
+  internalNotes String?
+  formData      Json?
+  roiData       Json?
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  confirmedAt   DateTime?
+  cancelledAt   DateTime?
+  rescheduledAt DateTime?
+  expiresAt     DateTime?
+
+  events        BookingEvent[]
+  tokens        BookingToken[]
+
+  @@index([startAt])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model BookingEvent {
+  id        String   @id @default(cuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  type      String
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([bookingId, createdAt])
+}
+
+model BookingToken {
+  id        String          @id @default(cuid())
+  bookingId String
+  booking   Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  kind      BookingTokenKind
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime        @default(now())
+
+  @@unique([kind, tokenHash])
+  @@index([bookingId, kind])
+  @@index([expiresAt])
+}

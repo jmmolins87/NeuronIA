@@ -12,7 +12,7 @@ export function BorderButton({
       {...props}
       variant="outline"
       className={cn(
-        "box-border cursor-pointer border-2 border-primary/50 bg-transparent text-foreground hover:bg-primary/10 hover:border-primary dark:border-primary/40 dark:hover:bg-primary/20 dark:hover:border-primary",
+        "box-border cursor-pointer border-2 border-primary/50 bg-transparent text-foreground hover:bg-transparent hover:border-primary dark:border-primary/40 dark:hover:bg-transparent dark:hover:border-primary",
         className
       )}
     />
