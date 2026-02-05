@@ -10,6 +10,16 @@ import { useCalendlyData } from "@/hooks/use-calendly-data"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { Button } from "@/components/ui/button"
 import { BookingCalendar } from "@/components/booking-calendar"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import Link from "next/link"
 import { 
   Calendar,
@@ -21,6 +31,22 @@ export default function ReservarPage() {
   const { t } = useTranslation()
   const router = useRouter()
   const { saveCalendlyData, hasCalendlyData } = useCalendlyData()
+  const [hasInteracted, setHasInteracted] = React.useState(false)
+  const [showLeaveWarning, setShowLeaveWarning] = React.useState(false)
+  const [pendingNavigation, setPendingNavigation] = React.useState<string | null>(null)
+  const [hasSubmittedBefore, setHasSubmittedBefore] = React.useState(false)
+  const [showAlreadySubmittedModal, setShowAlreadySubmittedModal] = React.useState(false)
+
+  // Verificar si el usuario ya envió el formulario
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const submitted = localStorage.getItem("clinvetia-contact-submitted")
+      if (submitted === "true") {
+        setHasSubmittedBefore(true)
+        setShowAlreadySubmittedModal(true)
+      }
+    }
+  }, [])
 
   // Manejar cuando el usuario completa la reserva
   const handleBookingComplete = React.useCallback((bookingData: {
@@ -30,6 +56,8 @@ export default function ReservarPage() {
     email: string
     message?: string
   }) => {
+    // Marcar como completado para no mostrar advertencia
+    setHasInteracted(false)
     // Guardar datos de la reserva
     saveCalendlyData({
       eventUri: `booking-${Date.now()}`,
@@ -48,6 +76,60 @@ export default function ReservarPage() {
       router.push("/contacto")
     }, 1500)
   }, [router, saveCalendlyData])
+
+  // Detectar cuando el usuario intenta salir sin reservar
+  React.useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasInteracted) {
+        e.preventDefault()
+        e.returnValue = ""
+      }
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload)
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload)
+  }, [hasInteracted])
+
+  // Interceptar clicks en enlaces para mostrar modal
+  React.useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (!hasInteracted) return
+
+      const target = e.target as HTMLElement
+      const link = target.closest("a")
+      
+      if (link && link.href && !link.href.includes("/reservar")) {
+        e.preventDefault()
+        e.stopPropagation()
+        setPendingNavigation(link.href)
+        setShowLeaveWarning(true)
+      }
+    }
+
+    document.addEventListener("click", handleClick, { capture: true })
+    return () => document.removeEventListener("click", handleClick, { capture: true })
+  }, [hasInteracted])
+
+  const handleConfirmLeave = React.useCallback(() => {
+    setHasInteracted(false)
+    setShowLeaveWarning(false)
+    if (pendingNavigation) {
+      window.location.href = pendingNavigation
+    }
+  }, [pendingNavigation])
+
+  const handleCancelLeave = React.useCallback(() => {
+    setShowLeaveWarning(false)
+    setPendingNavigation(null)
+  }, [])
+
+  const handleGoToContact = React.useCallback(() => {
+    router.push("/contacto")
+  }, [router])
+
+  const handleGoToHome = React.useCallback(() => {
+    router.push("/")
+  }, [router])
 
   return (
     <SiteShell>
@@ -79,17 +161,80 @@ export default function ReservarPage() {
           <div className="max-w-4xl mx-auto">
             {/* Custom Booking Calendar */}
             <Reveal delay={200}>
-              <div className="backdrop-blur-sm overflow-hidden mb-8 p-6">
-                <BookingCalendar 
-                  onBookingComplete={handleBookingComplete}
-                />
-              </div>
+              {hasSubmittedBefore ? (
+                <div className="rounded-xl border-2 border-blue-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                    <Info className="w-8 h-8 text-white dark:text-black" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2 text-foreground">
+                    {t("booking.alreadySubmitted.title")}
+                  </h3>
+                  <p className="text-muted-foreground mb-6">
+                    {t("booking.alreadySubmitted.description")}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button onClick={handleGoToHome} variant="outline" size="lg">
+                      {t("booking.alreadySubmitted.goBack")}
+                    </Button>
+                    <Button onClick={handleGoToContact} size="lg">
+                      {t("booking.alreadySubmitted.goToContact")}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="backdrop-blur-sm overflow-hidden mb-8 p-6">
+                  <BookingCalendar 
+                    onBookingComplete={handleBookingComplete}
+                    onDateSelected={() => setHasInteracted(true)}
+                  />
+                </div>
+              )}
             </Reveal>
 
 
           </div>
         </div>
       </Section>
+
+      {/* Leave Warning Modal */}
+      <AlertDialog open={showLeaveWarning} onOpenChange={setShowLeaveWarning}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("booking.leaveWarning.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("booking.leaveWarning.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleCancelLeave}>
+              {t("booking.leaveWarning.stay")}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmLeave}>
+              {t("booking.leaveWarning.leave")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Already Submitted Modal */}
+      <AlertDialog open={showAlreadySubmittedModal} onOpenChange={setShowAlreadySubmittedModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("booking.alreadySubmitted.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("booking.alreadySubmitted.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleGoToHome}>
+              {t("booking.alreadySubmitted.goBack")}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleGoToContact}>
+              {t("booking.alreadySubmitted.goToContact")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </SiteShell>
   )
 }

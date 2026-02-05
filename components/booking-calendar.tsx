@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 
 interface BookingCalendarProps {
   onBookingComplete?: (data: BookingData) => void
+  onDateSelected?: (date: Date) => void
 }
 
 export interface BookingData {
@@ -35,7 +36,7 @@ const OCCUPIED_TIMES = [
   "12:00", "12:30", "16:00", "16:30"
 ]
 
-export function BookingCalendar({ onBookingComplete }: BookingCalendarProps) {
+export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCalendarProps) {
   const { t } = useTranslation()
   const [step, setStep] = React.useState<1 | 2 | 3>(1)
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
@@ -112,6 +113,9 @@ export function BookingCalendar({ onBookingComplete }: BookingCalendarProps) {
       setSelectedDate(date)
       setSelectedTime(null)
       setIsLoading(true)
+      
+      // Notificar que el usuario seleccionó una fecha
+      onDateSelected?.(date)
 
       if (loaderTimeoutRef.current) {
         window.clearTimeout(loaderTimeoutRef.current)

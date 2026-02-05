@@ -8,6 +8,7 @@ import { KeyboardShortcutsProvider } from "@/components/providers/keyboard-short
 import { KeyboardShortcutsDialog } from "@/components/keyboard-shortcuts-dialog";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { PageLoaderProvider } from "@/components/providers/page-loader-provider";
+import { CookieConsentProvider } from "@/components/providers/cookie-consent-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,15 +48,17 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
-            <LenisProvider>
-              <KeyboardShortcutsProvider>
-                <PageLoaderProvider>
-                  <ScrollToTop />
-                  {children}
-                  <KeyboardShortcutsDialog />
-                </PageLoaderProvider>
-              </KeyboardShortcutsProvider>
-            </LenisProvider>
+            <CookieConsentProvider>
+              <LenisProvider>
+                <KeyboardShortcutsProvider>
+                  <PageLoaderProvider>
+                    <ScrollToTop />
+                    {children}
+                    <KeyboardShortcutsDialog />
+                  </PageLoaderProvider>
+                </KeyboardShortcutsProvider>
+              </LenisProvider>
+            </CookieConsentProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>

@@ -93,8 +93,19 @@ export default function ContactoPage() {
   })
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [hasSubmittedBefore, setHasSubmittedBefore] = React.useState(false)
 
   const { ref: formRef } = useMountAnimation({ delay: 300, duration: 1000 })
+
+  // Verificar localStorage al montar el componente
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const submitted = localStorage.getItem("clinvetia-contact-submitted")
+      if (submitted === "true") {
+        setHasSubmittedBefore(true)
+      }
+    }
+  }, [])
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -173,33 +184,12 @@ export default function ContactoPage() {
     window.setTimeout(() => {
       setIsSubmitted(true)
       setIsSubmitting(false)
-
-      // Reset after 3 seconds
-      window.setTimeout(() => {
-        setIsSubmitted(false)
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          clinic: "",
-          message: "",
-          calendlyUrl: ""
-        })
-        setErrors({
-          name: "",
-          email: "",
-          phone: "",
-          clinic: "",
-          message: ""
-        })
-        setTouched({
-          name: false,
-          email: false,
-          phone: false,
-          clinic: false,
-          message: false
-        })
-      }, 3000)
+      
+      // Guardar en localStorage que ya se envió el formulario
+      if (typeof window !== "undefined") {
+        localStorage.setItem("clinvetia-contact-submitted", "true")
+        setHasSubmittedBefore(true)
+      }
     }, 600)
   }
 
@@ -417,17 +407,19 @@ export default function ContactoPage() {
                     </div>
 
                     {/* Change ROI Button */}
-                    <div className="mt-4 flex justify-end">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => setShowChangeROIModal(true)}
-                        className="w-full sm:w-auto cursor-pointer"
-                      >
-                        <Edit className="w-4 h-4 mr-2" />
-                        {t("contact.form.demoStatus.changeROI")}
-                      </Button>
-                    </div>
+                    {!hasSubmittedBefore && (
+                      <div className="mt-4 flex justify-end">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setShowChangeROIModal(true)}
+                          className="w-full sm:w-auto cursor-pointer"
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          {t("contact.form.demoStatus.changeROI")}
+                        </Button>
+                      </div>
+                    )}
                   </div>
 
                   {/* Demo Status Section */}
@@ -495,39 +487,41 @@ export default function ContactoPage() {
                     )}
 
                     {/* Action Buttons - Below the status box */}
-                    <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-end">
-                      {hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
-                        /* When demo is booked - Show Cancel and Change Date */
-                        <>
+                    {!hasSubmittedBefore && (
+                      <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-end">
+                        {hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
+                          /* When demo is booked - Show Cancel and Change Date */
+                          <>
+                            <DemoButton
+                              size="sm"
+                              onClick={() => router.push("/reservar")}
+                              className="w-full sm:w-auto"
+                            >
+                              <Calendar className="w-4 h-4 mr-2" />
+                              {t("contact.form.demoStatus.changeDate")}
+                            </DemoButton>
+                            <CancelButton 
+                              size="sm"
+                              onClick={() => setShowCancelModal(true)}
+                              className="w-full sm:w-auto cursor-pointer"
+                            >
+                              <X className="w-4 h-4 mr-2" />
+                              {t("contact.form.demoStatus.cancelDemo")}
+                            </CancelButton>
+                          </>
+                        ) : (
+                          /* When no demo - Show Book Now */
                           <DemoButton
                             size="sm"
-                            onClick={() => router.push("/reservar")}
                             className="w-full sm:w-auto"
+                            onClick={() => router.push("/reservar")}
                           >
                             <Calendar className="w-4 h-4 mr-2" />
-                            {t("contact.form.demoStatus.changeDate")}
+                            {t("contact.form.demoStatus.bookNow")}
                           </DemoButton>
-                          <CancelButton 
-                            size="sm"
-                            onClick={() => setShowCancelModal(true)}
-                            className="w-full sm:w-auto cursor-pointer"
-                          >
-                            <X className="w-4 h-4 mr-2" />
-                            {t("contact.form.demoStatus.cancelDemo")}
-                          </CancelButton>
-                        </>
-                      ) : (
-                        /* When no demo - Show Book Now */
-                        <DemoButton
-                          size="sm"
-                          className="w-full sm:w-auto"
-                          onClick={() => router.push("/reservar")}
-                        >
-                          <Calendar className="w-4 h-4 mr-2" />
-                          {t("contact.form.demoStatus.bookNow")}
-                        </DemoButton>
-                      )}
-                    </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -535,7 +529,7 @@ export default function ContactoPage() {
               {/* Second Box: Contact Form */}
               <Reveal delay={300} className="h-full">
                 <div ref={formRef as React.RefObject<HTMLDivElement>} className="h-full">
-                  {isSubmitted ? (
+                  {hasSubmittedBefore ? (
                     <div className="rounded-xl border-2 border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center flex flex-col items-center justify-center h-full">
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                         <Check className="w-8 h-8 text-white dark:text-black" />
@@ -700,6 +694,7 @@ export default function ContactoPage() {
                             size="lg" 
                             className="w-full md:w-auto cursor-pointer dark:glow-primary"
                             disabled={
+                              hasSubmittedBefore ||
                               isSubmitting ||
                               !formData.name.trim() || 
                               !formData.email.trim() || 
@@ -708,7 +703,7 @@ export default function ContactoPage() {
                               !formData.message.trim() ||
                               Object.values(errors).some(error => error !== "")
                             }
-                            aria-disabled={isSubmitting}
+                            aria-disabled={isSubmitting || hasSubmittedBefore}
                             aria-busy={isSubmitting}
                           >
                             {isSubmitting ? (
