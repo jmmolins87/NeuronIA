@@ -459,7 +459,7 @@ export default function ROIPage() {
               </div>
 
               {/* Botón para limpiar valores */}
-              <div className="mt-6">
+              <div className="mt-6 flex justify-end">
                 <CancelButton
                   size="default"
                   onClick={() => {
@@ -470,7 +470,7 @@ export default function ROIPage() {
                     setHasUserInteracted(false)
                     setIsInitialized(true) // Prevent reload from localStorage
                   }}
-                  className="w-full cursor-pointer"
+                  className="cursor-pointer"
                 >
                   {t("roi.calculator.inputs.presets.clear")}
                 </CancelButton>

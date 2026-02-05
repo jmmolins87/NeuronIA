@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button"
 import { DemoButton } from "@/components/cta/demo-button"
 import { CancelButton } from "@/components/cta/cancel-button"
 import { RoiButton } from "@/components/cta/roi-button"
+import { BookingModal } from "@/components/booking-modal"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -57,6 +58,7 @@ export default function ContactoPage() {
   const [demoCancelled, setDemoCancelled] = React.useState(false)
   const [showCancelModal, setShowCancelModal] = React.useState(false)
   const [showChangeROIModal, setShowChangeROIModal] = React.useState(false)
+  const [showBookingModal, setShowBookingModal] = React.useState(false)
 
   const handleCancelDemo = () => {
     clearCalendlyData()
@@ -494,7 +496,7 @@ export default function ContactoPage() {
                           <>
                             <DemoButton
                               size="sm"
-                              onClick={() => router.push("/reservar")}
+                              onClick={() => setShowBookingModal(true)}
                               className="w-full sm:w-auto"
                             >
                               <Calendar className="w-4 h-4 mr-2" />
@@ -514,7 +516,7 @@ export default function ContactoPage() {
                           <DemoButton
                             size="sm"
                             className="w-full sm:w-auto"
-                            onClick={() => router.push("/reservar")}
+                            onClick={() => setShowBookingModal(true)}
                           >
                             <Calendar className="w-4 h-4 mr-2" />
                             {t("contact.form.demoStatus.bookNow")}
@@ -734,7 +736,9 @@ export default function ContactoPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+            <CancelButton onClick={() => setShowCancelModal(false)}>
+              {t("common.cancel")}
+            </CancelButton>
             <AlertDialogAction asChild>
               <CancelButton onClick={handleCancelDemo}>
                 {t("contact.form.demoStatus.cancelDemo")}
@@ -761,6 +765,16 @@ export default function ContactoPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Booking Modal with Calendar */}
+      <BookingModal
+        open={showBookingModal}
+        onOpenChange={setShowBookingModal}
+        onBookingComplete={(data) => {
+          // Handle booking completion if needed
+          console.log("Booking completed:", data)
+        }}
+      />
     </SiteShell>
   )
 }

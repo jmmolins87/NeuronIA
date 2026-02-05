@@ -1,10 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { createPortal } from "react-dom"
 
 import { Button } from "@/components/ui/button"
-import { Loader } from "@/components/loader"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -42,17 +40,10 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = React.useState<string | null>(null)
-  const [isLoading, setIsLoading] = React.useState(false)
   const timeStepRef = React.useRef<HTMLDivElement | null>(null)
-  const loaderTimeoutRef = React.useRef<number | null>(null)
-  const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null)
 
   React.useEffect(() => {
-    setPortalTarget(document.body)
-  }, [])
-
-  React.useEffect(() => {
-    if (step !== 2 || !selectedDate || isLoading) return
+    if (step !== 2 || !selectedDate) return
 
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -64,15 +55,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
         block: "center",
       })
     })
-  }, [isLoading, selectedDate, step])
-
-  React.useEffect(() => {
-    return () => {
-      if (loaderTimeoutRef.current) {
-        window.clearTimeout(loaderTimeoutRef.current)
-      }
-    }
-  }, [])
+  }, [selectedDate, step])
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear()
@@ -112,19 +95,12 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     if (isDateAvailable(date)) {
       setSelectedDate(date)
       setSelectedTime(null)
-      setIsLoading(true)
       
       // Notificar que el usuario seleccionó una fecha
       onDateSelected?.(date)
 
-      if (loaderTimeoutRef.current) {
-        window.clearTimeout(loaderTimeoutRef.current)
-      }
-
-      loaderTimeoutRef.current = window.setTimeout(() => {
-        setIsLoading(false)
-        setStep(2)
-      }, 500)
+      // Slide to the next step immediately.
+      setStep(2)
     }
   }
 
@@ -201,11 +177,10 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
 
   return (
     <div className="w-full space-y-6">
-      {isLoading && portalTarget ? createPortal(<Loader />, portalTarget) : null}
       {/* Info Box - What's included */}
       <div className="rounded-lg border border-border bg-card/80 backdrop-blur-sm p-6">
         <div className="flex items-start gap-3">
-          <Info className="w-10 h-10 text-blue-500 dark:text-primary flex-shrink-0" />
+          <Info className="w-10 h-10 text-blue-500 dark:text-primary shrink-0" />
           <div>
             <h3 className="font-semibold mb-2 text-foreground text-base">
               {t("book.info.title")}
@@ -217,60 +192,72 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
         </div>
       </div>
 
+      {/* Steps Container with Slide Animation */}
+      <div className="relative overflow-hidden">
+        <div
+          className={cn(
+            "flex transition-transform duration-500 ease-in-out motion-reduce:transition-none",
+            step === 1 && "translate-x-0",
+            step === 2 && "-translate-x-full",
+            step === 3 && "-translate-x-[200%]"
+          )}
+        >
+          {/* Step 1: Select Date */}
+          <div className="w-full shrink-0 space-y-6">
+            {step === 1 ? (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-primary" />
+                    {t("book.calendar.selectDate")}
+                  </h3>
+                </div>
 
-      {/* Step 1: Select Date */}
-      {step === 1 && (
-        <div className="space-y-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-primary" />
-              {t("book.calendar.selectDate")}
-            </h3>
-          </div>
+                {/* Month Navigation */}
+                <div className="flex items-center justify-between mb-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={previousMonth}
+                    className="cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <h4 className="text-lg font-semibold">
+                    {currentMonth.toLocaleDateString(t("common.locale"), {
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </h4>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={nextMonth}
+                    className="cursor-pointer"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
 
-          {/* Month Navigation */}
-          <div className="flex items-center justify-between mb-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={previousMonth}
-              className="cursor-pointer"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-            <h4 className="text-lg font-semibold">
-              {currentMonth.toLocaleDateString(t("common.locale"), {
-                month: "long",
-                year: "numeric",
-              })}
-            </h4>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={nextMonth}
-              className="cursor-pointer"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </div>
+                {/* Weekday Headers */}
+                <div className="grid grid-cols-7 gap-2 mb-2">
+                  {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day) => (
+                    <div key={day} className="text-center text-xs font-medium text-muted-foreground">
+                      {t(`book.calendar.weekdays.${day}`)}
+                    </div>
+                  ))}
+                </div>
 
-          {/* Weekday Headers */}
-          <div className="grid grid-cols-7 gap-2 mb-2">
-            {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day) => (
-              <div key={day} className="text-center text-xs font-medium text-muted-foreground">
-                {t(`book.calendar.weekdays.${day}`)}
+                {/* Calendar Grid */}
+                <div className="grid grid-cols-7 gap-2">{days}</div>
               </div>
-            ))}
+            ) : null}
           </div>
-
-          {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2">{days}</div>
-        </div>
-      )}
 
       {/* Step 2: Select Time */}
-      {step === 2 && selectedDate && (
-        <div ref={timeStepRef} className="space-y-6">
+      <div className="w-full shrink-0 space-y-6">
+        {step === 2 && selectedDate ? (
+          <div ref={timeStepRef} className="space-y-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
@@ -326,11 +313,13 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
             </Button>
           </div>
         </div>
-      )}
+        ) : null}
+      </div>
 
       {/* Step 3: Confirm Details */}
-      {step === 3 && selectedDate && selectedTime && (
-        <div className="space-y-6">
+      <div className="w-full shrink-0 space-y-6">
+        {step === 3 && selectedDate && selectedTime ? (
+          <div className="space-y-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Check className="w-5 h-5 text-primary" />
@@ -373,7 +362,10 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
             </Button>
           </div>
         </div>
-      )}
+        ) : null}
+      </div>
+        </div>
+      </div>
     </div>
   )
 }
