@@ -1026,5 +1026,12 @@
         "description": "Used to track visitors across websites with the intent to display relevant and engaging advertisements."
       }
     }
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist or has been moved.",
+    "goBack": "Go Back",
+    "goHome": "Go Home"
   }
 }

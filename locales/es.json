@@ -1028,5 +1028,12 @@
         "description": "Se utilizan para rastrear visitantes a través de sitios web con la intención de mostrar anuncios relevantes y atractivos."
       }
     }
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Página No Encontrada",
+    "description": "Lo sentimos, la página que buscas no existe o ha sido movida.",
+    "goBack": "Volver Atrás",
+    "goHome": "Ir al Inicio"
   }
 }
