@@ -164,6 +164,22 @@
         "multiservice": {
           "title": "Múltiples Servicios",
           "description": "Consulta, peluquería, análisis, cirugías"
+        },
+        "dental": {
+          "title": "Clínicas Dentales",
+          "description": "Ortodoncia, urgencias y revisiones rutinarias"
+        },
+        "medical": {
+          "title": "Centros Médicos",
+          "description": "Medicina general, especialidades y chequeos de salud"
+        },
+        "private": {
+          "title": "Consultas Privadas",
+          "description": "Psicología, fisioterapia y nutrición"
+        },
+        "veterinary": {
+          "title": "Clínicas Veterinarias",
+          "description": "Consultas, vacunación y urgencias"
         }
       }
     },

@@ -298,6 +298,30 @@
           "situation": "3-month-old puppy needs second deworming dose.",
           "problem": "First-time owners don't know when it's due or which product to use.",
           "change": "Automatic protocol guidance and appointment for clinic application."
+        },
+        "emergency": {
+          "title": "Night emergencies",
+          "situation": "Owner texts at midnight: 'My dog is vomiting blood'.",
+          "problem": "No response until morning. The client went to a 24h emergency clinic.",
+          "change": "Immediate response, urgency classification, prioritized appointment."
+        },
+        "vaccines": {
+          "title": "Vaccine reminders",
+          "situation": "The annual booster is due but the owner doesn't remember.",
+          "problem": "Manual calls that consume team time.",
+          "change": "Automated messages with an appointment proposal for vaccination."
+        },
+        "chronic": {
+          "title": "Chronic follow-up",
+          "situation": "A diabetic cat needs monthly glucose checks.",
+          "problem": "Owners forget the follow-up appointment.",
+          "change": "Automatic reminders and easy rescheduling via WhatsApp."
+        },
+        "multiservice": {
+          "title": "Multiple services",
+          "situation": "Mixed inquiries: consultation, grooming, lab work, surgeries.",
+          "problem": "Scheduling confusion and misestimated durations.",
+          "change": "Automatic classification by service type and duration."
         }
       },
       "linkText": "See more scenarios"
