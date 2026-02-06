@@ -14,7 +14,8 @@ const EnvSchema = z.object({
   APP_URL: z.string().url(),
   ADMIN_API_KEY: optionalNonEmptyString(),
   DATABASE_URL: z.string().min(1),
-  DATABASE_URL_UNPOOLED: z.string().min(1),
+  // Optional: useful for direct (non-pooled) connections for migrations.
+  DATABASE_URL_UNPOOLED: optionalNonEmptyString(),
 
   BOOKING_TIMEZONE: z.string().min(1).default("Europe/Madrid"),
   BOOKING_START_TIME: z.string().regex(/^\d{2}:\d{2}$/).default("09:00"),
@@ -58,19 +59,25 @@ function formatZodError(error: z.ZodError): string {
     .join("\n")
 }
 
-function resolveDbUrl(primary?: string, fallback?: string): string | undefined {
-  return primary?.trim() || fallback?.trim() || undefined
+function resolveDbUrl(...candidates: Array<string | undefined>): string | undefined {
+  for (const candidate of candidates) {
+    const value = candidate?.trim()
+    if (value) return value
+  }
+  return undefined
 }
 
 const parsed = EnvSchema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
   APP_URL:
     process.env.APP_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined) ??
     (process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000"),
   ADMIN_API_KEY: process.env.ADMIN_API_KEY,
   DATABASE_URL: resolveDbUrl(
     process.env.DATABASE_URL,
-    process.env.POSTGRES_PRISMA_URL
+    process.env.POSTGRES_PRISMA_URL,
+    process.env.POSTGRES_URL
   ),
   DATABASE_URL_UNPOOLED: resolveDbUrl(
     process.env.DATABASE_URL_UNPOOLED,
@@ -96,9 +103,10 @@ const parsed = EnvSchema.safeParse({
 if (!parsed.success) {
   const message = [
     "Invalid environment configuration.",
-    "\nRequired database env vars (Neon/Vercel Marketplace):",
-    "- DATABASE_URL (preferred; pooled) OR POSTGRES_PRISMA_URL (fallback)",
-    "- DATABASE_URL_UNPOOLED (preferred; direct) OR POSTGRES_URL_NON_POOLING (fallback)",
+    "\nRequired database env vars:",
+    "- DATABASE_URL (preferred) OR POSTGRES_PRISMA_URL / POSTGRES_URL (fallback)",
+    "\nOptional database env vars (recommended for migrations):",
+    "- DATABASE_URL_UNPOOLED (preferred) OR POSTGRES_URL_NON_POOLING (fallback)",
     "\nDetails:",
     formatZodError(parsed.error),
   ].join("\n")

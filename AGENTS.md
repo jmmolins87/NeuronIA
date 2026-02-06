@@ -18,35 +18,27 @@ Essential repository rules for agentic coding tools operating in this repo.
 ```bash
 # Install
 npm install
-
 # Dev
 npm run dev
-
 # Build / run prod (Next build includes typecheck)
 npm run build
 npm run start
-
-# Lint (ESLint flat config)
+# Lint (add `-- --fix` to autofix)
 npm run lint
-
 # Typecheck only (not in package.json, but useful)
 npx tsc -p tsconfig.json --noEmit
-
 # Repo audits (enforced conventions)
 npm run audit          # runs audit:i18n + audit:inline
 npm run audit:i18n     # locales sync + hardcoded-string heuristic scan
 npm run audit:inline   # inline-style + hardcoded-color heuristic scan
-
 # Prisma
 npm run prisma:generate
 npm run prisma:migrate:dev
 npm run prisma:migrate:deploy
 npm run prisma:studio
-
 # Tests
 # No test runner is configured yet (no `test` script in `package.json`).
-# If you add one, keep `npm test` and support single-file + name filtering:
-#   npm test -- path/to/test-file.test.ts -t "name"
+# If you add one, keep single-file + name filtering (example: `npm test -- path/to/foo.test.ts -t "case name"`).
 ```
 
 ## Cursor / Copilot Rules
@@ -99,6 +91,7 @@ import "./globals.css"
 - Use `okJson()` / `errorJson()` from `lib/api/respond.ts` (response includes `{ ok: true|false }`)
 - For structured failures in server code, use `ApiError` from `lib/api/errors.ts` and map to `errorJson`
 - Never leak secrets/tokens in API responses or logs; use generic messages in production
+- Most API routes run on `export const runtime = "nodejs"` (Prisma, crypto, etc.)
 
 ## React / Next.js Patterns
 
@@ -134,7 +127,11 @@ import "./globals.css"
 ## Environment / Secrets
 
 - Env is validated in `lib/env.ts` via `zod`; import `env` only from server code.
+- `lib/env.ts` validates at module import time; missing required env vars can fail `next build` during page-data collection.
+- Minimum required for builds that import Prisma: `DATABASE_URL` (or `POSTGRES_PRISMA_URL`) plus `APP_URL`.
+- Optional but recommended for migrations: `DATABASE_URL_UNPOOLED` (or `POSTGRES_URL_NON_POOLING`).
 - Never commit secret files: `.env`, `.env.local` (use `.env.example` as the shareable template).
+- `.env.example` must contain placeholders only (no real tokens/DB URLs).
 - Do not print or return secrets in API responses, logs, or thrown errors.
 
 ## Prisma / DB
