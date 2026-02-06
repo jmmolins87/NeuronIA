@@ -60,7 +60,7 @@ export async function GET(request: Request) {
         time: formatZonedHHmm(booking.startAt, bookingConfig.timeZone),
         startAtISO: booking.startAt.toISOString(),
         endAtISO: booking.endAt.toISOString(),
-        expiresAtISO: booking.expiresAt.toISOString(),
+        expiresAtISO: booking.expiresAt ? booking.expiresAt.toISOString() : null,
         timezone: booking.timezone,
         locale: booking.locale,
         status: booking.status,

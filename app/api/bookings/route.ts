@@ -70,7 +70,9 @@ export async function POST(request: Request) {
         time: parsed.data.time,
         startAtISO: result.booking.startAt.toISOString(),
         endAtISO: result.booking.endAt.toISOString(),
-        expiresAtISO: result.booking.expiresAt.toISOString(),
+        expiresAtISO: result.booking.expiresAt
+          ? result.booking.expiresAt.toISOString()
+          : null,
         timezone: result.booking.timezone,
         locale: result.booking.locale,
       },
