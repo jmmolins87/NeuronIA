@@ -5,20 +5,20 @@ import { useTranslation } from "@/components/providers/i18n-provider"
 import { useStagger } from "@/hooks/use-stagger"
 import { 
   CheckCircle2,
-  Shield,
-  Target,
-  GitBranch,
-  LayoutGrid,
-  Eye
+  HeartHandshake,
+  ShieldAlert,
+  SlidersHorizontal,
+  Timer,
+  Zap
 } from "lucide-react"
 
 const PRINCIPLE_ICONS = [
-  CheckCircle2, // Claridad
-  Shield,       // Criterio clínico
-  Target,       // Control
-  GitBranch,    // Continuidad
-  LayoutGrid,   // Consistencia
-  Eye          // Supervisión
+  CheckCircle2,
+  Zap,
+  HeartHandshake,
+  ShieldAlert,
+  SlidersHorizontal,
+  Timer,
 ]
 
 export function PrinciplesGrid() {
@@ -39,8 +39,8 @@ export function PrinciplesGrid() {
             className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
           >
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm">
-                <Icon className="w-6 h-6 text-white dark:text-black" />
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gradient-from via-gradient-purple to-gradient-to shadow-lg dark:glow-sm">
+                <Icon className="h-6 w-6 text-primary-foreground" />
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-foreground mb-2">

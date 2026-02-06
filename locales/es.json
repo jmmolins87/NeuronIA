@@ -655,112 +655,157 @@
   },
   "methodology": {
     "title": "Metodología",
-    "description": "Un flujo claro, con supervisión y criterio veterinario",
+    "description": "Cómo pasamos de mensajes y marketing a citas reales",
     "hero": {
       "title": "Metodología",
-      "heading": "Un flujo claro, con supervisión y criterio veterinario",
-      "subheading": "Implantamos el Sistema de Atención Inteligente de forma ordenada en tu clínica veterinaria para que cada consulta tenga un siguiente paso.",
-      "claimLight": "Cada consulta sin responder es un cliente perdido.",
-      "claimDark": "Cada consulta tiene un siguiente paso claro."
+      "heading": "Marketing + atención inteligente para convertir mensajes en citas",
+      "subheading": "Un proceso claro para atraer consultas, atender con criterio veterinario y guiar a la reserva sin saturar al equipo.",
+      "claimLight": "Orden y claridad para que cada conversación tenga un siguiente paso.",
+      "claimDark": "Control y seguridad para guiar reservas sin saturar al equipo."
     },
-    "microCta": "¿Cuántos clientes pierdes cada mes?",
-    "keyMessage": "Cada consulta sin responder es un cliente que se va a otra clínica.",
+    "keyMessage": "Cada mensaje sin responder es una cita que se enfría.",
+    "microCta": "¿Quieres estimar cuántas citas se te escapan?",
+    "cta": {
+      "primary": "Reservar una demo",
+      "secondary": "Ver calculadora ROI"
+    },
+    "what": {
+      "title": "Qué hacemos (sin humo)",
+      "items": [
+        {
+          "title": "Atraer",
+          "text": "Captamos consultas con mensajes claros y un siguiente paso evidente."
+        },
+        {
+          "title": "Atender",
+          "text": "Un agente con tono veterinario ordena la conversación y recoge lo esencial."
+        },
+        {
+          "title": "Convertir",
+          "text": "Guía hacia una propuesta de cita, siempre con confirmación."
+        },
+        {
+          "title": "Retener",
+          "text": "Seguimiento y cierres coherentes para no dejar hilos colgando."
+        }
+      ]
+    },
     "principles": {
       "title": "Principios",
       "items": [
         {
           "title": "Claridad",
-          "text": "Respuestas inmediatas y útiles a dueños preocupados por sus mascotas."
+          "text": "Respuestas breves y útiles para avanzar."
         },
         {
-          "title": "Criterio veterinario",
-          "text": "Clasifica urgencias reales y guía con enfoque profesional veterinario."
+          "title": "Rapidez con criterio",
+          "text": "Agilidad sin precipitarse: confirma antes de cerrar."
         },
         {
-          "title": "Control",
-          "text": "El veterinario decide qué casos revisar, cuándo intervenir y ajustar protocolos."
+          "title": "Empatía con propietarios",
+          "text": "Tono cercano y calmado, sin dramatizar."
+        },
+        {
+          "title": "Triage responsable",
+          "text": "Prioriza urgencias y deriva cuando corresponde."
+        },
+        {
+          "title": "Control del equipo",
+          "text": "La clínica decide cuándo revisar e intervenir."
         },
         {
           "title": "Continuidad",
-          "text": "Cada consulta queda cerrada: cita agendada, recordatorio programado y siguiente paso claro."
-        },
-        {
-          "title": "Consistencia",
-          "text": "El tono profesional y la información veterinaria se mantienen coherentes."
-        },
-        {
-          "title": "Supervisión",
-          "text": "Urgencias y casos complejos se revisan. Síntomas graves se derivan inmediatamente."
+          "text": "Cada hilo termina con un siguiente paso claro."
         }
       ]
     },
     "timeline": {
-      "title": "Implementación en 4 fases",
+      "title": "Implementación en 5 fases",
       "items": [
         {
-          "title": "1) Diagnóstico veterinario",
-          "text": "Revisamos cómo llegan las consultas (urgencias nocturnas, vacunas, síntomas) y dónde se pierden clientes: dudas sobre mascotas sin responder, recordatorios manuales."
+          "title": "1) Contexto y posicionamiento",
+          "text": "Definimos servicios, estilo de atención, límites, horarios y el tipo de consultas que quieres priorizar."
         },
         {
-          "title": "2) Diseño del protocolo",
-          "text": "Definimos protocolo de triaje (síntomas graves vs. rutina), preguntas clave por tipo de consulta y cómo llegar a cita sin alargar al dueño preocupado."
+          "title": "2) Captación",
+          "text": "Preparamos el recorrido: mensajes, landing y CTAs para que pedir cita sea fácil."
         },
         {
-          "title": "3) Puesta en marcha con supervisión veterinaria",
-          "text": "Activamos reglas de derivación, confirmaciones previas (ayuno, alergias) y supervisión de casos complejos."
+          "title": "3) Guión conversacional veterinario",
+          "text": "Diseñamos preguntas clave: mascota, motivo, urgencia, disponibilidad y confirmaciones."
         },
         {
-          "title": "4) Ajuste y mejora continua",
-          "text": "Afinamos clasificación de urgencias, tono con dueños y recordatorios de vacunas para optimizar captura de consultas."
+          "title": "4) Puesta en marcha con supervisión",
+          "text": "Activamos reglas de seguridad, derivación a humano y control por parte del equipo."
+        },
+        {
+          "title": "5) Optimización continua",
+          "text": "Ajustamos claridad, cierres, seguimiento y fricción para mejorar la experiencia."
         }
       ]
     },
     "config": {
       "title": "Qué configuramos contigo",
-      "lead": "Lo adaptamos a tu protocolo veterinario y forma de organizar consultas.",
+      "lead": "Todo se adapta a tu clínica, tu tono y tu forma de trabajar.",
       "items": [
-        "Protocolo de triaje por síntomas (urgencia grave, moderada, consulta rutina).",
-        "Preguntas clave por tipo de consulta (vacuna, urgencia, cirugía, seguimiento).",
-        "Reglas de confirmación antes de agendar (ayuno previo, alergias, comportamiento mascota).",
-        "Cuándo derivar al veterinario (síntomas críticos, casos complejos).",
-        "Recordatorios automáticos de vacunas, desparasitación y revisiones anuales.",
-        "Horarios diferenciados para consultas, urgencias y cirugías."
+        "Servicios y tipos de consulta (editable).",
+        "Tono de atención (cercano, profesional, coherente).",
+        "Preguntas clave para avanzar sin alargar conversaciones.",
+        "Confirmaciones antes de proponer cita.",
+        "Protocolo de urgencias y derivación al equipo.",
+        "Mensajes de cierre y seguimiento.",
+        "Reglas de horarios y disponibilidad (sin prometer integraciones)."
       ]
     },
-    "guardrails": {
-      "title": "Control y seguridad veterinaria",
+    "safety": {
+      "title": "Seguridad y límites",
       "items": [
-        "No diagnostica: recoge síntomas y agenda con el veterinario profesional.",
-        "Identifica señales de alarma (vómitos con sangre, dificultad respiratoria, accidentes) y prioriza.",
-        "Confirma datos críticos antes de cirugía (ayuno, medicación actual, alergias).",
-        "Deriva casos complejos o dueños muy alterados a atención humana inmediata.",
-        "Permite revisar conversaciones y ajustar protocolo de triaje."
+        {
+          "title": "No diagnosticamos por chat",
+          "text": "Se orienta y organiza la conversación, pero la valoración clínica la hace el equipo."
+        },
+        {
+          "title": "Urgencias: derivación inmediata",
+          "text": "Si hay señales de urgencia, se prioriza el contacto con la clínica."
+        },
+        {
+          "title": "Confirmaciones antes de avanzar",
+          "text": "Evita suposiciones antes de cerrar un paso o proponer cita."
+        },
+        {
+          "title": "Visibilidad y ajuste",
+          "text": "El equipo puede revisar lo importante y afinar el flujo."
+        }
       ]
     },
     "not": {
       "title": "Qué NO hacemos",
       "items": [
         {
-          "title": "No diagnosticamos",
-          "text": "El sistema no diagnostica ni prescribe. Recoge síntomas y agenda con el veterinario profesional."
+          "title": "No prometemos resultados",
+          "text": "Cada clínica y zona son distintas; hablamos de proceso y control, no de cifras."
         },
         {
           "title": "No inventamos métricas",
-          "text": "Evitamos claims artificiales. Preferimos claridad y transparencia."
+          "text": "Nada de claims artificiales. Preferimos transparencia."
         },
         {
-          "title": "No sustituimos al veterinario",
-          "text": "El sistema ordena consultas y agenda citas. El diagnóstico y tratamiento siempre son del profesional."
+          "title": "No sustituimos al equipo",
+          "text": "El agente ayuda a ordenar y avanzar; el criterio clínico es humano."
         },
         {
-          "title": "No hay magia",
-          "text": "Protocolo claro de triaje, tono empático con dueños y confirmaciones: eso es lo que funciona."
+          "title": "No hacemos diagnósticos",
+          "text": "La prioridad es seguridad y derivación cuando corresponde."
+        },
+        {
+          "title": "No forzamos la venta",
+          "text": "Construimos confianza con claridad y buen trato."
         }
       ]
     },
-    "cta": {
+    "finalCta": {
       "title": "¿Lo vemos en tu clínica?",
-      "note": "Te enseñamos el flujo y lo adaptamos a tu clínica veterinaria.",
+      "note": "Te enseñamos el flujo y lo adaptamos a tu forma de trabajar.",
       "primary": "Reservar una demo",
       "secondary": "Ver solución",
       "tertiary": "Cómo funciona"

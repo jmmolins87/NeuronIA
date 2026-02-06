@@ -660,16 +660,41 @@
   },
   "methodology": {
     "title": "Methodology",
-    "description": "A clear flow—with supervision and clinical tone",
+    "description": "How we go from messages and marketing to real appointments",
     "hero": {
       "title": "Methodology",
-      "heading": "A clear flow—with supervision and clinical tone",
-      "subheading": "We roll out the Intelligent Care System in an orderly way so every conversation has a clear next step.",
-      "claimLight": "Every unanswered message is a lost patient.",
-      "claimDark": "Every conversation has a clear next step."
+      "heading": "Marketing + intelligent care to turn messages into appointments",
+      "subheading": "A clear process to attract inquiries, respond with a veterinary tone, and guide booking—without overloading your team.",
+      "claimLight": "Order and clarity so every thread has a clear next step.",
+      "claimDark": "Control and safety to guide booking without overloading your team."
     },
-    "microCta": "Want to see how many patients slip away?",
-    "keyMessage": "Every unanswered message is a lost patient.",
+    "keyMessage": "Every unanswered message is an appointment that cools off.",
+    "microCta": "Want to estimate how many appointments slip away?",
+    "cta": {
+      "primary": "Book a demo",
+      "secondary": "See ROI calculator"
+    },
+    "what": {
+      "title": "What we do (no hype)",
+      "items": [
+        {
+          "title": "Attract",
+          "text": "We bring in inquiries with clear messaging and an obvious next step."
+        },
+        {
+          "title": "Respond",
+          "text": "An agent with a veterinary tone organizes the conversation and collects the essentials."
+        },
+        {
+          "title": "Convert",
+          "text": "Guides toward an appointment proposal—always with confirmation."
+        },
+        {
+          "title": "Retain",
+          "text": "Consistent closings and follow-ups so threads don’t get left behind."
+        }
+      ]
+    },
     "principles": {
       "title": "Principles",
       "items": [
@@ -678,94 +703,114 @@
           "text": "Short, useful replies that move things forward."
         },
         {
-          "title": "Clinical criteria",
-          "text": "Guided with caution and a professional approach."
+          "title": "Speed with criteria",
+          "text": "Fast without rushing—confirms before closing."
         },
         {
-          "title": "Control",
-          "text": "Your clinic decides when to review, step in, and refine the flow."
+          "title": "Empathy for owners",
+          "text": "Warm, calm tone—no drama."
+        },
+        {
+          "title": "Responsible triage",
+          "text": "Prioritizes urgent signs and hands off when needed."
+        },
+        {
+          "title": "Team control",
+          "text": "Your clinic decides when to review and step in."
         },
         {
           "title": "Continuity",
-          "text": "Each thread ends ready: summary, confirmation, and next step."
-        },
-        {
-          "title": "Consistency",
-          "text": "Tone and information remain coherent."
-        },
-        {
-          "title": "Supervision",
-          "text": "What matters gets reviewed. Sensitive cases are handed off."
+          "text": "Every thread ends with a clear next step."
         }
       ]
     },
     "timeline": {
-      "title": "Implementation in 4 phases",
+      "title": "Implementation in 5 phases",
       "items": [
         {
-          "title": "1) Diagnosis",
-          "text": "We review how inquiries arrive and where time is lost: repeated questions, back-and-forth, and unclear closings."
+          "title": "1) Context & positioning",
+          "text": "We define services, care style, boundaries, hours, and the inquiries you want to prioritize."
         },
         {
-          "title": "2) Flow design",
-          "text": "We define key questions, conversation order, and how to reach an appointment proposal—frictionlessly."
+          "title": "2) Acquisition",
+          "text": "We shape the journey: messaging, landing, and CTAs so booking feels easy."
         },
         {
-          "title": "3) Supervised rollout",
-          "text": "We enable rules, confirmations, and handoffs to keep control and safety."
+          "title": "3) Veterinary conversation script",
+          "text": "We design key questions: pet, reason, urgency, availability, and confirmations."
         },
         {
-          "title": "4) Refinement",
-          "text": "We fine-tune tone, clarity, and closings so the next step feels natural."
+          "title": "4) Supervised rollout",
+          "text": "We enable safety rules, human handoff, and team control."
+        },
+        {
+          "title": "5) Continuous optimization",
+          "text": "We refine clarity, closings, follow-up, and friction to improve the experience."
         }
       ]
     },
     "config": {
       "title": "What we configure with you",
-      "lead": "Adapted to how you care for patients and manage scheduling.",
+      "lead": "Adapted to your clinic, your tone, and how you work.",
       "items": [
-        "Care style and tone (short, clear, professional).",
+        "Services and inquiry types (editable).",
+        "Care tone (warm, professional, consistent).",
         "Key questions to move forward without long threads.",
-        "Confirmation rules before closing important steps.",
-        "When to hand off to human care.",
-        "Closing and follow-up messages (what happens next).",
-        "Hours and availability ranges (without promising integrations)."
+        "Confirmations before proposing an appointment.",
+        "Urgency protocol and handoff to your team.",
+        "Closing and follow-up messages.",
+        "Hours and availability rules (without promising integrations)."
       ]
     },
-    "guardrails": {
-      "title": "Control and safety",
-      "items": [
-        "Confirms before closing an appointment or important step.",
-        "Avoids assumptions: asks just enough and structures the info.",
-        "Hands off when immediate human care is needed.",
-        "Keeps a clinical, professional tone throughout.",
-        "Enables review and refinement to improve the experience."
-      ]
-    },
-    "not": {
-      "title": "What we don't do",
+    "safety": {
+      "title": "Safety and boundaries",
       "items": [
         {
-          "title": "We don't promise outcomes",
-          "text": "Every clinic is different; we focus on flow and control—not numbers."
+          "title": "No diagnosing over chat",
+          "text": "It organizes and guides the conversation—clinical judgment stays with your team."
         },
         {
-          "title": "We don't invent metrics",
-          "text": "No artificial claims. We prefer clarity and transparency."
+          "title": "Urgency: immediate handoff",
+          "text": "If urgent signs appear, it prioritizes contacting the clinic."
         },
         {
-          "title": "We don't replace your team",
-          "text": "The system helps organize and move conversations forward—with supervision."
+          "title": "Confirmations before moving forward",
+          "text": "Avoids assumptions before closing a step or proposing a visit."
         },
         {
-          "title": "No magic",
-          "text": "A strong flow, the right tone, and clear confirmations—that's what works."
+          "title": "Visibility and refinement",
+          "text": "Your team can review what matters and refine the flow."
         }
       ]
     },
-    "cta": {
-      "title": "Want to see it on your case?",
-      "note": "We'll show the flow and adapt it to your clinic.",
+    "not": {
+      "title": "What we don’t do",
+      "items": [
+        {
+          "title": "We don’t promise outcomes",
+          "text": "Every clinic and area is different—we focus on process and control, not numbers."
+        },
+        {
+          "title": "We don’t invent metrics",
+          "text": "No artificial claims. We prefer transparency."
+        },
+        {
+          "title": "We don’t replace your team",
+          "text": "The agent helps organize and move forward—clinical criteria are human."
+        },
+        {
+          "title": "We don’t diagnose",
+          "text": "Safety first, with handoff when appropriate."
+        },
+        {
+          "title": "We don’t push aggressive selling",
+          "text": "We build trust through clarity and good care."
+        }
+      ]
+    },
+    "finalCta": {
+      "title": "Want to see it for your clinic?",
+      "note": "We’ll show the flow and adapt it to how you work.",
       "primary": "Book a demo",
       "secondary": "See solution",
       "tertiary": "How it works"
