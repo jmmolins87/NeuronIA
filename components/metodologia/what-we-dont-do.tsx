@@ -18,8 +18,12 @@ export function WhatWeDontDo() {
         <div
           key={item.title}
           data-stagger-item
-          className="relative rounded-xl border-2 border-muted bg-card/60 backdrop-blur-sm p-6 transition-all hover:border-muted-foreground hover:shadow-lg"
+          className="relative overflow-hidden rounded-xl border border-border bg-card/60 shadow-sm backdrop-blur-sm p-6 transition-all hover:border-muted-foreground hover:shadow-lg"
         >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gradient-from/0 via-gradient-to/40 to-gradient-to/0"
+          />
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-12 h-12 rounded-full bg-muted flex items-center justify-center">
               <AlertCircle className="w-6 h-6 text-muted-foreground" />

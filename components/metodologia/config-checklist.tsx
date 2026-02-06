@@ -24,7 +24,7 @@ export function ConfigChecklist() {
           <div
             key={index}
             data-stagger-item
-            className="flex items-start gap-4 rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-4 transition-all hover:border-primary hover:shadow-lg dark:hover:shadow-primary/10"
+            className="flex items-start gap-4 rounded-xl border border-border bg-card/80 shadow-sm backdrop-blur-sm p-4 transition-all hover:border-primary hover:shadow-lg dark:hover:shadow-primary/10"
           >
             <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
             <p className="text-foreground leading-relaxed">

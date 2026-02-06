@@ -92,7 +92,6 @@ export default function ContactoPage() {
     clinic: "",
     message: ""
   })
-  const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [hasSubmittedBefore, setHasSubmittedBefore] = React.useState(false)
 
@@ -183,7 +182,6 @@ export default function ContactoPage() {
     })
 
     window.setTimeout(() => {
-      setIsSubmitted(true)
       setIsSubmitting(false)
       
       // Guardar en localStorage que ya se envió el formulario
@@ -281,7 +279,7 @@ export default function ContactoPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="flex flex-col justify-center py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" className="ambient-section flex flex-col justify-center py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -291,7 +289,7 @@ export default function ContactoPage() {
                   <Send className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("contact.title")}
               </h1>
               <p className="text-xl text-foreground/80 dark:text-foreground/90 sm:text-2xl max-w-3xl mx-auto">
@@ -303,13 +301,13 @@ export default function ContactoPage() {
       </Section>
 
       {/* Contact Form Section */}
-      <Section variant="muted" className="flex flex-col justify-center py-16 md:py-20 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" className="ambient-section flex flex-col justify-center py-16 md:py-20">
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           {!hasAcceptedROIData ? (
             /* No ROI Data - Redirect to Calculator */
             <Reveal delay={200}>
               <div className="max-w-2xl mx-auto">
-                <div className="rounded-2xl border-2 border-orange-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
+                <div className="rounded-2xl border border-orange-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
                   <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-pink-600 dark:from-orange-500 dark:to-amber-500 flex items-center justify-center">
                     <AlertCircle className="w-8 h-8 text-white dark:text-black" />
                   </div>
@@ -343,7 +341,7 @@ export default function ContactoPage() {
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-stretch">
               {/* First Box: ROI Summary + Demo Status */}
               <Reveal delay={200} className="h-full">
-                <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
+                <div className="rounded-xl border border-primary/20 bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
                   {/* ROI Summary Section */}
                   <div className="mb-8">
                     <div className="flex items-center gap-3 mb-6">
@@ -357,7 +355,7 @@ export default function ContactoPage() {
 
                     <div className="grid gap-4 sm:grid-cols-3">
                       {/* Monthly Revenue */}
-                      <div className="p-4 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20">
+                      <div className="p-4 rounded-lg border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-base text-muted-foreground">
                             {t("contact.form.roiSummary.monthlyRevenue")}
@@ -370,7 +368,7 @@ export default function ContactoPage() {
                       </div>
 
                       {/* Yearly Revenue */}
-                      <div className="p-4 rounded-lg border-2 border-border bg-muted/50">
+                      <div className="p-4 rounded-lg border border-border bg-muted/50">
                         <p className="text-base text-muted-foreground mb-1">
                           {t("contact.form.roiSummary.yearlyRevenue")}
                         </p>
@@ -380,7 +378,7 @@ export default function ContactoPage() {
                       </div>
 
                       {/* ROI */}
-                      <div className="p-4 rounded-lg border-2 border-border bg-muted/50">
+                      <div className="p-4 rounded-lg border border-border bg-muted/50">
                         <p className="text-base text-muted-foreground mb-1">
                           {t("contact.form.roiSummary.roi")}
                         </p>
@@ -434,7 +432,7 @@ export default function ContactoPage() {
 
                     {demoCancelled ? (
                       /* Demo Cancelled - Red Box */
-                      <div className="rounded-lg border-2 border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
+                      <div className="rounded-lg border border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
                         <div className="flex items-start gap-3">
                           <Info className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0 mt-0.5" />
                           <div className="flex-1">
@@ -449,7 +447,7 @@ export default function ContactoPage() {
                       </div>
                     ) : hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
                       /* Demo Booked - Green Box */
-                      <div className="rounded-lg border-2 border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
+                      <div className="rounded-lg border border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
                         <div>
                           <p className="text-base font-medium text-green-700 dark:text-green-300 mb-1">
                             {t("contact.form.demoStatus.booked.title")}
@@ -470,7 +468,7 @@ export default function ContactoPage() {
                       </div>
                     ) : (
                       /* Demo Not Booked - Red Box */
-                      <div className="rounded-lg border-2 border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
+                      <div className="rounded-lg border border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
                         <div className="flex items-start gap-3">
                           <Info className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0 mt-0.5" />
                           <div className="flex-1">
@@ -529,7 +527,7 @@ export default function ContactoPage() {
               <Reveal delay={300} className="h-full">
                 <div ref={formRef as React.RefObject<HTMLDivElement>} className="h-full">
                   {hasSubmittedBefore ? (
-                    <div className="rounded-xl border-2 border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center flex flex-col items-center justify-center h-full">
+                    <div className="rounded-xl border border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center flex flex-col items-center justify-center h-full">
                       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                         <Check className="w-8 h-8 text-white dark:text-black" />
                       </div>
@@ -541,7 +539,7 @@ export default function ContactoPage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
+                    <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
                       <h2 className="text-2xl font-bold mb-6 text-foreground">
                         {t("contact.form.title")}
                       </h2>

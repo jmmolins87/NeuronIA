@@ -14,13 +14,13 @@ export function BenefitsSection() {
   const { ref: benefitsRef } = useStagger({ stagger: 150, duration: 700, distance: 40 })
 
   return (
-    <Section variant="default" id="benefits-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20 pb-12 md:pb-0">
+    <Section variant="default" id="benefits-section" className="ambient-section min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0">
       <PulsingGrid />
       <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <Reveal delay={100}>
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl gradient-text-bounce">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               {t("home.benefits.title")}
             </h2>
             <p className="text-xl text-foreground/80 dark:text-foreground/90 sm:text-2xl">
@@ -30,7 +30,7 @@ export function BenefitsSection() {
         </Reveal>
 
         <div ref={benefitsRef as React.RefObject<HTMLDivElement>} className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
-          <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+          <div data-stagger-item className="group relative rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                 <Zap className="w-7 h-7 text-primary-foreground" />
@@ -46,7 +46,7 @@ export function BenefitsSection() {
             </div>
           </div>
 
-          <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+          <div data-stagger-item className="group relative rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                 <TrendingUp className="w-7 h-7 text-primary-foreground" />
@@ -62,7 +62,7 @@ export function BenefitsSection() {
             </div>
           </div>
 
-          <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+          <div data-stagger-item className="group relative rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                 <Heart className="w-7 h-7 text-primary-foreground" />
@@ -78,7 +78,7 @@ export function BenefitsSection() {
             </div>
           </div>
 
-          <div data-stagger-item className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+          <div data-stagger-item className="group relative rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-full bg-gradient-to dark:bg-primary flex items-center justify-center shadow-lg  dark:glow-sm shrink-0">
                 <Target className="w-7 h-7 text-primary-foreground" />

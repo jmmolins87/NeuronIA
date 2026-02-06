@@ -13,13 +13,13 @@ export function ScenariosSection() {
   const { t } = useTranslation()
 
   return (
-    <Section variant="card" id="scenarios-section" className="min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted pb-12 md:pb-20">
+    <Section variant="card" id="scenarios-section" className="ambient-section min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 pb-12 md:pb-20">
       <SpiralDots />
       <BlobShape position="top-right" color="gradient" parallax parallaxSpeed={0.25} />
       <BlobShape position="bottom-left" color="primary" className="w-80 h-80" parallax parallaxSpeed={0.35} />
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             {t("home.scenarios.title")}
           </h2>
           <p className="text-lg text-foreground/80 dark:text-foreground/90 sm:text-xl">
@@ -36,7 +36,7 @@ export function ScenariosSection() {
           ].map(({ type, icon: Icon, color }) => (
             <div 
               key={type} 
-              className="group rounded-lg border-2 border-border bg-background/50 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
+              className="group rounded-lg border border-border bg-background/50 backdrop-blur-sm p-6 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
             >
               <div className="flex justify-center mb-4">
                 <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${color} flex items-center justify-center shadow-lg dark:glow-sm`}>

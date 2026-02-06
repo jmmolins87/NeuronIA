@@ -25,7 +25,7 @@ export default function NotFound() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center py-20 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+    <main className="ambient-section min-h-screen flex items-center justify-center py-20 bg-background">
         <div className="container relative z-10 mx-auto max-w-4xl px-4">
           <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
           

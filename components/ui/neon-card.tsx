@@ -12,13 +12,17 @@ const NeonCard = React.forwardRef<HTMLDivElement, NeonCardProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-xl border-2 border-border bg-card text-card-foreground transition-all duration-300",
+          "relative overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300",
           hover && "card-elevation hover:border-primary",
           glow && "dark:hover:glow-sm",
           className
         )}
         {...props}
       >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gradient-from/0 via-gradient-to/40 to-gradient-to/0"
+        />
         {children}
       </div>
     )

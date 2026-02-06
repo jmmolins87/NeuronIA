@@ -35,7 +35,7 @@ export default function ComoFuncionaPage() {
       {/* Hero Section */}
       <Section
         variant="default"
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
+        className="ambient-section py-16 md:py-20"
       >
         <GridPattern squares={[[2, 1], [8, 4]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -47,7 +47,7 @@ export default function ComoFuncionaPage() {
                 </div>
               </div>
 
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("howItWorks.hero.heading")}
               </h1>
 
@@ -66,7 +66,7 @@ export default function ComoFuncionaPage() {
       {/* Steps Section */}
       <Section
         variant="muted"
-        className="py-16 md:py-20 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <BlobShape
           position="top-left"
@@ -78,7 +78,7 @@ export default function ComoFuncionaPage() {
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("howItWorks.steps.title")}
               </h2>
             </div>
@@ -91,13 +91,13 @@ export default function ComoFuncionaPage() {
       {/* Data Needed Section */}
       <Section
         variant="default"
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
+        className="ambient-section py-16 md:py-20"
       >
         <GridPattern squares={[[5, 2], [14, 6]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-bounce">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("howItWorks.data.title")}
               </h2>
             </div>
@@ -110,7 +110,7 @@ export default function ComoFuncionaPage() {
       {/* Supervision Section */}
       <Section
         variant="card"
-        className="py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <BlobShape
           position="bottom-right"
@@ -122,7 +122,7 @@ export default function ComoFuncionaPage() {
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-pulse">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("howItWorks.supervision.title")}
               </h2>
             </div>
@@ -135,12 +135,12 @@ export default function ComoFuncionaPage() {
       {/* Messaging Section */}
       <Section
         variant="muted"
-        className="py-16 md:py-20 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("howItWorks.messaging.title")}
               </h2>
 
@@ -154,7 +154,7 @@ export default function ComoFuncionaPage() {
               </div>
 
               {/* Key message */}
-              <div className="mt-8 rounded-2xl border-2 border-red-500/50 bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20 p-6 md:p-8 backdrop-blur-sm">
+              <div className="mt-8 rounded-2xl border border-red-500/50 bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20 p-6 md:p-8 backdrop-blur-sm">
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
                 </div>
@@ -170,13 +170,13 @@ export default function ComoFuncionaPage() {
       {/* Patient Experience Section */}
       <Section
         variant="default"
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
+        className="ambient-section py-16 md:py-20"
       >
         <GridPattern squares={[[3, 3], [16, 7]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-flow">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("howItWorks.patient.title")}
               </h2>
             </div>
@@ -189,7 +189,7 @@ export default function ComoFuncionaPage() {
       {/* FAQ Section */}
       <Section
         variant="card"
-        className="py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <BlobShape
           position="center"
@@ -201,7 +201,7 @@ export default function ComoFuncionaPage() {
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-wave">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("howItWorks.faq.title")}
               </h2>
             </div>

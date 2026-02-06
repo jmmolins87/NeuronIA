@@ -26,7 +26,7 @@ export function HeroSection() {
   const { ref: heroButtonsRef } = useMountAnimation({ delay: 900, duration: 800, distance: 30 })
 
   return (
-    <Section variant="default" id="hero" className="relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-gradient-to-b from-white via-background to-card/50 dark:from-black dark:via-background dark:to-card/30 pb-12 md:pb-0">
+    <Section variant="default" id="hero" className="ambient-section relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center pb-12 md:pb-0">
       <FloatingParticles count={30} color="primary" size="sm" />
       <ThreeBackdrop />
       <div className="container relative z-10 mx-auto max-w-screen-2xl px-fluid py-8 md:py-0 text-center flex-1 flex items-center">
@@ -42,7 +42,7 @@ export function HeroSection() {
             />
           </div>
 
-          <h1 ref={heroTitleRef as React.RefObject<HTMLHeadingElement>} className="hero-title text-fluid-5xl md:text-fluid-6xl font-bold tracking-tight gradient-text-slide leading-tight">
+          <h1 ref={heroTitleRef as React.RefObject<HTMLHeadingElement>} className="hero-title text-fluid-5xl md:text-fluid-6xl font-bold tracking-tight text-foreground leading-tight">
             {t("home.hero.claim")}
           </h1>
 

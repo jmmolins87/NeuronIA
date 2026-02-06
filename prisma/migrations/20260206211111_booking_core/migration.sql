@@ -54,5 +54,8 @@ CREATE INDEX "Booking_status_startAt_idx" ON "Booking"("status", "startAt");
 -- CreateIndex
 CREATE INDEX "Booking_expiresAt_idx" ON "Booking"("expiresAt");
 
+-- Prevent double-booking for active statuses
+CREATE UNIQUE INDEX "Booking_startAt_unique_active" ON "Booking"("startAt") WHERE ("status" IN ('HELD', 'CONFIRMED'));
+
 -- AddForeignKey
 ALTER TABLE "BookingToken" ADD CONSTRAINT "BookingToken_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE CASCADE ON UPDATE CASCADE;

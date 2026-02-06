@@ -13,7 +13,6 @@ export function FrictionlessFlow() {
     distance: 40,
   })
   const lineRef = React.useRef<HTMLDivElement>(null)
-  const [lineHeight, setLineHeight] = React.useState(0)
 
   React.useEffect(() => {
     const line = lineRef.current
@@ -25,7 +24,6 @@ export function FrictionlessFlow() {
     ).matches
 
     if (prefersReducedMotion) {
-      setLineHeight(100)
       return
     }
 
@@ -57,23 +55,23 @@ export function FrictionlessFlow() {
   const steps = [
     { 
       icon: MessageCircle, 
-      title: t("home.flow.steps.1.title"),
-      description: t("home.flow.steps.1.description")
+      title: String(t("home.flow.steps.1.title")),
+      description: String(t("home.flow.steps.1.description"))
     },
     { 
       icon: Clock, 
-      title: t("home.flow.steps.2.title"),
-      description: t("home.flow.steps.2.description")
+      title: String(t("home.flow.steps.2.title")),
+      description: String(t("home.flow.steps.2.description"))
     },
     { 
       icon: Target, 
-      title: t("home.flow.steps.3.title"),
-      description: t("home.flow.steps.3.description")
+      title: String(t("home.flow.steps.3.title")),
+      description: String(t("home.flow.steps.3.description"))
     },
     { 
       icon: Calendar, 
-      title: t("home.flow.steps.4.title"),
-      description: t("home.flow.steps.4.description")
+      title: String(t("home.flow.steps.4.title")),
+      description: String(t("home.flow.steps.4.description"))
     },
   ]
 
@@ -103,7 +101,7 @@ export function FrictionlessFlow() {
               </div>
 
               {/* Content card */}
-              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
+              <div className="flex-1 rounded-xl border border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
                 <div className="flex items-start gap-4">
                   <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-primary flex-shrink-0 mt-1" />
                   <div className="flex-1 space-y-2">

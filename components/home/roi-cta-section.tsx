@@ -15,13 +15,13 @@ export function RoiCtaSection() {
   const { t } = useTranslation()
 
   return (
-    <Section variant="muted" id="roi-section" className="min-h-screen flex flex-col justify-center py-12 md:py-16 lg:py-20 bg-gradient-to-br from-muted via-background to-muted dark:from-muted dark:via-background dark:to-muted">
+    <Section variant="muted" id="roi-section" className="ambient-section min-h-screen flex flex-col justify-center py-12 md:py-16 lg:py-20">
       <MeteorShower />
       <CircuitLines />
       <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.3} />
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3 md:space-y-4 lg:space-y-5 mb-8 md:mb-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight gradient-text-wave">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
             {t("home.roi.title")}
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-foreground/80 dark:text-foreground/90">
@@ -33,7 +33,7 @@ export function RoiCtaSection() {
           {["response", "lost", "revenue"].map((stat) => (
             <div 
               key={stat} 
-              className="rounded-lg border-2 border-border bg-card/80 backdrop-blur-sm p-5 md:p-6 lg:p-8 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
+              className="rounded-lg border border-border bg-card/80 backdrop-blur-sm p-5 md:p-6 lg:p-8 text-center transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
             >
               <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-gradient-to dark:text-primary">
                 <AnimatedNumber 
@@ -50,7 +50,7 @@ export function RoiCtaSection() {
 
         <div className="max-w-4xl mx-auto mb-8">
           <div className="grid gap-4 md:gap-5 lg:gap-6 md:grid-cols-2">
-            <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-4 md:p-5 lg:p-6 backdrop-blur-sm">
+            <div className="rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-4 md:p-5 lg:p-6 backdrop-blur-sm">
               <div className="flex items-start gap-3 md:gap-4">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
                   <Euro className="w-5 h-5 md:w-6 md:h-6 text-white dark:text-black" />
@@ -66,7 +66,7 @@ export function RoiCtaSection() {
               </div>
             </div>
 
-            <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-4 md:p-5 lg:p-6 backdrop-blur-sm">
+            <div className="rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-4 md:p-5 lg:p-6 backdrop-blur-sm">
               <div className="flex items-start gap-3 md:gap-4">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
                   <Clock className="w-5 h-5 md:w-6 md:h-6 text-white dark:text-black" />

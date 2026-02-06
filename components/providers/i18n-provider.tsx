@@ -13,6 +13,7 @@ interface I18nContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
   t: (key: string, variables?: Record<string, string | number>) => string
+  tRaw: (key: string) => unknown
 }
 
 const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
@@ -70,16 +71,27 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  const tRaw = React.useCallback((key: string): unknown => {
+    return getNestedValue(translations[locale], key)
+  }, [locale])
+
   const t = React.useCallback(
     (key: string, variables?: Record<string, string | number>): string => {
-      const translation = getNestedValue(translations[locale], key)
-      if (typeof translation !== "string") return key
-      return replaceVariables(translation, variables)
+      const translation = tRaw(key)
+
+      if (typeof translation === "string") {
+        return replaceVariables(translation, variables)
+      }
+
+      return key
     },
-    [locale]
+    [tRaw]
   )
 
-  const value: I18nContextType = React.useMemo(() => ({ locale, setLocale, t }), [locale, setLocale, t])
+  const value: I18nContextType = React.useMemo(
+    () => ({ locale, setLocale, t, tRaw }),
+    [locale, setLocale, t, tRaw]
+  )
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }

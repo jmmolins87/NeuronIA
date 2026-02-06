@@ -48,7 +48,7 @@ export function ClinicFit() {
           <div
             key={type}
             data-stagger-item
-            className="group rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
+            className="group rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
           >
             {/* Icon */}
             <div className="flex justify-center mb-4">

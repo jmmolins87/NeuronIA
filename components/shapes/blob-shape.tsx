@@ -21,9 +21,9 @@ const positionClasses = {
 }
 
 const colorClasses = {
-  primary: "bg-primary",
-  accent: "bg-accent",
-  gradient: "bg-gradient-to-br from-gradient-from to-gradient-to",
+  primary: "bg-primary/10",
+  accent: "bg-accent/8",
+  gradient: "bg-gradient-to-br from-gradient-from/10 to-gradient-to/10",
 }
 
 export function BlobShape({
@@ -42,9 +42,8 @@ export function BlobShape({
     <div
       ref={parallax ? (ref as React.RefObject<HTMLDivElement>) : undefined}
       className={cn(
-        "absolute pointer-events-none opacity-20 dark:opacity-30",
+        "absolute pointer-events-none opacity-10 dark:opacity-10 mix-blend-multiply dark:mix-blend-screen",
         "w-96 h-96 rounded-full blur-3xl",
-        "dark:glow-md",
         "animate-blob-float",
         colorClasses[color],
         positionClasses[position],

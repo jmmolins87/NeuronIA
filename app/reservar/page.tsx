@@ -20,17 +20,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import Link from "next/link"
 import { 
   Calendar,
-  ArrowRight,
   Info
 } from "lucide-react"
 
 export default function ReservarPage() {
   const { t } = useTranslation()
   const router = useRouter()
-  const { saveCalendlyData, hasCalendlyData } = useCalendlyData()
+  const { saveCalendlyData } = useCalendlyData()
   const [hasInteracted, setHasInteracted] = React.useState(false)
   const [showLeaveWarning, setShowLeaveWarning] = React.useState(false)
   const [pendingNavigation, setPendingNavigation] = React.useState<string | null>(null)
@@ -134,7 +132,7 @@ export default function ReservarPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -144,7 +142,7 @@ export default function ReservarPage() {
                   <Calendar className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("book.title")}
               </h1>
               <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
@@ -156,13 +154,13 @@ export default function ReservarPage() {
       </Section>
 
       {/* Calendly Section */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" className="ambient-section py-12 md:py-16">
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <div className="max-w-4xl mx-auto">
             {/* Custom Booking Calendar */}
             <Reveal delay={200}>
               {hasSubmittedBefore ? (
-                <div className="rounded-xl border-2 border-blue-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
+                <div className="rounded-xl border border-blue-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
                   <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                     <Info className="w-8 h-8 text-white dark:text-black" />
                   </div>

@@ -18,11 +18,11 @@ export function ScenariosCta({ className }: ScenariosCtaProps): React.JSX.Elemen
   return (
     <div
       className={cn(
-        "rounded-2xl border-2 border-border bg-background/50 backdrop-blur-sm p-7 md:p-8 text-center",
+        "rounded-2xl border border-border bg-background/50 backdrop-blur-sm p-7 md:p-8 text-center",
         className
       )}
     >
-      <h3 className="text-2xl md:text-3xl font-bold tracking-tight gradient-text-shimmer">
+      <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
         {t("scenarios.cta.title")}
       </h3>
       <p className="mt-3 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">

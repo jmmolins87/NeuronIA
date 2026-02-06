@@ -224,6 +224,86 @@
 
 /* Neon glow utilities - use sparingly for CTAs and highlights */
 @layer utilities {
+  /* Ambient section shadows (subtle, slow, no hard gradients) */
+  .ambient-section {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .ambient-section::before,
+  .ambient-section::after {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(64px);
+    opacity: 0.65;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+
+  .ambient-section::before {
+    background:
+      radial-gradient(
+        55rem 38rem at 18% 28%,
+        color-mix(in oklch, var(--foreground) 7%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        45rem 32rem at 88% 72%,
+        color-mix(in oklch, var(--foreground) 5%, transparent),
+        transparent 72%
+      );
+    animation: ambientDriftA 42s ease-in-out infinite alternate;
+  }
+
+  .ambient-section::after {
+    background:
+      radial-gradient(
+        46rem 34rem at 72% 18%,
+        color-mix(in oklch, var(--primary) 6%, transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        40rem 30rem at 30% 84%,
+        color-mix(in oklch, var(--accent) 4%, transparent),
+        transparent 72%
+      );
+    animation: ambientDriftB 58s ease-in-out infinite alternate;
+  }
+
+  .dark .ambient-section::before,
+  .dark .ambient-section::after {
+    opacity: 0.5;
+  }
+
+  @keyframes ambientDriftA {
+    0% {
+      transform: translate3d(-2%, -1%, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(2%, 1.5%, 0) scale(1.04);
+    }
+  }
+
+  @keyframes ambientDriftB {
+    0% {
+      transform: translate3d(1.5%, -2%, 0) scale(1.02);
+    }
+    100% {
+      transform: translate3d(-2%, 2%, 0) scale(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient-section::before,
+    .ambient-section::after {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+
   .glow-sm {
     box-shadow: 0 0 10px oklch(var(--glow) / 0.3);
   }

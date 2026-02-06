@@ -38,7 +38,6 @@ export function Header() {
       { href: "/solucion", label: t("nav.solution") },
       { href: "/escenarios", label: t("nav.scenarios") },
       { href: "/como-funciona", label: t("nav.howItWorks") },
-      { href: "/metodologia", label: t("nav.methodology") },
       { href: "/contacto", label: t("nav.contact") },
     ],
     [t]

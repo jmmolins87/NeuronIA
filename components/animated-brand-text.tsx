@@ -10,7 +10,7 @@ interface AnimatedBrandTextProps {
 
 /**
  * Component that applies animated gradient effect to "ClinvetIA" and "IA" text
- * Uses the gradient-text-pulse class for animation
+ * Renders highlighted tokens with semantic text color
  */
 export function AnimatedBrandText({ children, className }: AnimatedBrandTextProps) {
   // Replace "ClinvetIA" and standalone "IA" with spans that have gradient animation
@@ -30,7 +30,7 @@ export function AnimatedBrandText({ children, className }: AnimatedBrandTextProp
       
       // Add matched text with gradient
       parts.push(
-        <span key={match.index} className="gradient-text-pulse">
+        <span key={match.index} className="font-semibold text-foreground">
           {match[0]}
         </span>
       )

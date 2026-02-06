@@ -52,12 +52,12 @@ export default function EscenariosPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("scenarios.title")}
               </h1>
               <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
@@ -97,14 +97,7 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
   const { t } = useTranslation()
   const Icon = scenario.icon
   
-  // Fondos distintivos para cada escenario
-  const bgClass = scenario.id === "aesthetic"
-    ? "bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-background dark:from-pink-950/20 dark:via-purple-950/15 dark:to-background"
-    : scenario.id === "dental"
-    ? "bg-gradient-to-br from-pink-50/50 via-fuchsia-50/30 to-background dark:from-green-950/20 dark:via-pink-950/15 dark:to-background"
-    : scenario.id === "physiotherapy"
-    ? "bg-gradient-to-br from-green-50/50 via-emerald-50/30 to-background dark:from-green-950/20 dark:via-emerald-950/15 dark:to-background"
-    : "bg-gradient-to-br from-orange-50/50 via-amber-50/30 to-background dark:from-orange-950/20 dark:via-amber-950/15 dark:to-background"
+  const bgClass = "ambient-section"
 
   return (
     <Section variant="default" className={`py-12 md:py-16 ${bgClass}`}>
@@ -123,7 +116,7 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
                 <Icon className="w-8 h-8 text-white dark:text-black" />
               </div>
             </div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
               {t(`scenarios.${scenario.id}.title`)}
             </h2>
             <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
@@ -149,7 +142,7 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
                 {(["midnight", "postSurgery", "chronic", "vaccines"] as const).map((caseId) => (
                   <div
                     key={caseId}
-                    className="rounded-2xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 md:p-7 transition-all hover:border-primary/40 hover:shadow-xl dark:hover:shadow-primary/15"
+                    className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-6 md:p-7 transition-all hover:border-primary/40 hover:shadow-xl dark:hover:shadow-primary/15"
                   >
                     <div className="space-y-4">
                       <div className="space-y-1">

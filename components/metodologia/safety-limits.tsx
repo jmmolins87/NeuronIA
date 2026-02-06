@@ -23,8 +23,12 @@ export function SafetyLimits() {
           <div
             key={item.title}
             data-stagger-item
-            className="rounded-xl border-2 border-border bg-card/70 p-6 backdrop-blur-sm transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/15"
+            className="relative overflow-hidden rounded-xl border border-border bg-card/70 p-6 shadow-sm backdrop-blur-sm transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/15"
           >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gradient-from/0 via-gradient-to/40 to-gradient-to/0"
+            />
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-border bg-muted/40">
                 <Icon className="h-6 w-6 text-primary" />

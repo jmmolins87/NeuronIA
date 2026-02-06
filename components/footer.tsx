@@ -20,7 +20,6 @@ export function Footer() {
       { href: "/como-funciona", label: t("footer.links.howItWorks") },
     ],
     company: [
-      { href: "/metodologia", label: t("footer.links.methodology") },
       { href: "/faqs", label: t("footer.links.faqs") },
       { href: "/contacto", label: t("footer.links.contact") },
     ],

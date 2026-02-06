@@ -3,9 +3,12 @@
 import * as React from "react"
 import Link from "next/link"
 import { Calculator, Calendar } from "lucide-react"
+
 import { DemoButton } from "@/components/cta/demo-button"
+import { BorderButton } from "@/components/cta/border-button"
 import { RoiButton } from "@/components/cta/roi-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
+import { cn } from "@/lib/utils"
 
 interface FinalCTAProps {
   /**
@@ -24,16 +27,22 @@ interface FinalCTAProps {
   descriptionKey?: string
   primaryCtaKey?: string
   secondaryCtaKey?: string
+  tertiaryCtaKey?: string
   microCtaKey?: string
+
+  /** optional style overrides */
+  titleClassName?: string
 
   /** href overrides */
   primaryHref?: string
   secondaryHref?: string
+  tertiaryHref?: string
   microHref?: string
 
   /** optional click overrides (use for confirm flows) */
   primaryOnClick?: () => void
   secondaryOnClick?: () => void
+  tertiaryOnClick?: () => void
   microOnClick?: () => void
 }
 
@@ -44,12 +53,16 @@ export function FinalCTA({
   descriptionKey,
   primaryCtaKey,
   secondaryCtaKey,
+  tertiaryCtaKey,
   microCtaKey,
+  titleClassName,
   primaryHref,
   secondaryHref,
+  tertiaryHref,
   microHref,
   primaryOnClick,
   secondaryOnClick,
+  tertiaryOnClick,
   microOnClick,
 }: FinalCTAProps) {
   const { t } = useTranslation()
@@ -58,17 +71,19 @@ export function FinalCTA({
   const resolvedDescriptionKey = descriptionKey ?? noteKey ?? "home.finalCTA.description"
   const resolvedPrimaryCtaKey = primaryCtaKey ?? "home.finalCTA.cta"
   const resolvedSecondaryCtaKey = secondaryCtaKey ?? "solution.cta.secondary"
+  const resolvedTertiaryCtaKey = tertiaryCtaKey
   const resolvedMicroCtaKey = microCtaKey ?? "solution.microCta"
 
   const resolvedPrimaryHref = primaryHref ?? "/reservar"
   const resolvedSecondaryHref = secondaryHref ?? "/roi"
+  const resolvedTertiaryHref = tertiaryHref
   const resolvedMicroHref = microHref ?? "/roi"
 
   return (
     <div className="max-w-4xl mx-auto text-center space-y-8 pb-5">
       {/* Micro CTA to ROI */}
       {showMicroCta && (
-        <div className="inline-block rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 px-6 py-3 backdrop-blur-sm">
+        <div className="inline-block rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 px-6 py-3 backdrop-blur-sm">
           {microOnClick ? (
             <button
               type="button"
@@ -88,7 +103,12 @@ export function FinalCTA({
         </div>
       )}
 
-      <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-pulse">
+      <h2
+        className={cn(
+          "text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl",
+          titleClassName ?? "text-foreground"
+        )}
+      >
         {t(resolvedTitleKey)}
       </h2>
 
@@ -123,6 +143,20 @@ export function FinalCTA({
             </Link>
           )}
         </RoiButton>
+
+        {resolvedTertiaryCtaKey && resolvedTertiaryHref && (
+          <BorderButton asChild className="w-full sm:w-auto">
+            {tertiaryOnClick ? (
+              <button type="button" onClick={tertiaryOnClick} className="flex items-center gap-2">
+                {t(resolvedTertiaryCtaKey)}
+              </button>
+            ) : (
+              <Link href={resolvedTertiaryHref} className="flex items-center gap-2">
+                {t(resolvedTertiaryCtaKey)}
+              </Link>
+            )}
+          </BorderButton>
+        )}
       </div>
     </div>
   )

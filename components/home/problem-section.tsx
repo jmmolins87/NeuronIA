@@ -15,12 +15,12 @@ export function ProblemSection() {
   const { ref: problemCardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
 
   return (
-    <Section variant="card" id="problem-section" className="min-h-screen flex flex-col justify-center py-12 md:py-16 lg:py-20 bg-gradient-to-b from-red-950/30 via-orange-950/20 to-red-950/30 dark:from-red-950/50 dark:via-orange-950/30 dark:to-red-950/50 relative overflow-hidden">
+    <Section variant="card" id="problem-section" className="ambient-section min-h-screen flex flex-col justify-center pt-24 pb-12 md:py-16 lg:py-20 relative overflow-hidden">
       <FloatingParticles count={60} color="red" size="lg" />
       
       <div className="absolute inset-0 bg-gradient-radial from-red-600/20 via-transparent to-transparent dark:from-red-600/30 pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-red-500/10 to-transparent dark:from-red-500/20 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-orange-600/10 to-transparent dark:from-orange-600/20 pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-1/3 bg-destructive/5 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-destructive/5 pointer-events-none" />
       
       <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px] opacity-10" parallax parallaxSpeed={0.2} />
       <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px] opacity-10" parallax parallaxSpeed={0.3} />
@@ -29,7 +29,7 @@ export function ProblemSection() {
       <div className="container relative z-10 mx-auto max-w-screen-xl px-fluid">
         <Reveal delay={100}>
           <div className="max-w-4xl mx-auto text-center space-y-3 md:space-y-4 lg:space-y-5 mb-8 md:mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight gradient-text-danger">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
               {t("home.problem.title")}
             </h2>
             <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-red-600 dark:text-red-400">
@@ -42,7 +42,7 @@ export function ProblemSection() {
         </Reveal>
 
         <div ref={problemCardsRef as React.RefObject<HTMLDivElement>} className="grid gap-4 md:gap-5 lg:gap-6 md:grid-cols-2 max-w-5xl mx-auto mb-8">
-          <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+          <div data-stagger-item className="group relative rounded-xl border border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
             <div className="mb-3 md:mb-0 md:absolute md:-top-4 md:-left-4 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
               <MessageCircle className="w-6 h-6 md:w-7 md:h-7 text-white" />
             </div>
@@ -56,7 +56,7 @@ export function ProblemSection() {
             </div>
           </div>
 
-          <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+          <div data-stagger-item className="group relative rounded-xl border border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
             <div className="mb-3 md:mb-0 md:absolute md:-top-4 md:-left-4 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
               <Users className="w-6 h-6 md:w-7 md:h-7 text-white" />
             </div>
@@ -70,7 +70,7 @@ export function ProblemSection() {
             </div>
           </div>
 
-          <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+          <div data-stagger-item className="group relative rounded-xl border border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
             <div className="mb-3 md:mb-0 md:absolute md:-top-4 md:-left-4 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
               <AlertCircle className="w-6 h-6 md:w-7 md:h-7 text-white" />
             </div>
@@ -84,7 +84,7 @@ export function ProblemSection() {
             </div>
           </div>
 
-          <div data-stagger-item className="group relative rounded-xl border-2 border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
+          <div data-stagger-item className="group relative rounded-xl border border-red-900/50 bg-card/80 backdrop-blur-sm p-4 md:p-5 lg:p-6 transition-all hover:border-red-600 hover:shadow-2xl hover:shadow-red-500/20 dark:hover:shadow-red-500/30 overflow-visible">
             <div className="mb-3 md:mb-0 md:absolute md:-top-4 md:-left-4 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow mx-auto md:mx-0">
               <Calendar className="w-6 h-6 md:w-7 md:h-7 text-white" />
             </div>

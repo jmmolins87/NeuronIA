@@ -9,7 +9,7 @@ import { useTranslation } from "@/components/providers/i18n-provider"
 import { Reveal } from "@/components/reveal"
 import { DemoButton } from "@/components/cta/demo-button"
 import { RoiButton } from "@/components/cta/roi-button"
-import { BorderButton } from "@/components/cta/border-button"
+import { FinalCtaSection } from "@/components/cta/final-cta-section"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { CircuitLines } from "@/components/shapes/circuit-lines"
@@ -39,7 +39,7 @@ export default function MetodologiaPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-b from-background via-background to-card/30">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -49,7 +49,7 @@ export default function MetodologiaPage() {
                 <span>{t("methodology.hero.title")}</span>
               </div>
 
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("methodology.hero.heading")}
               </h1>
               <p className="mx-auto max-w-3xl text-xl text-muted-foreground sm:text-2xl">
@@ -75,27 +75,18 @@ export default function MetodologiaPage() {
                   </Link>
                 </RoiButton>
               </div>
-
-              <div className="pt-2">
-                <RoiButton asChild size="sm">
-                  <Link href="/roi" className="flex items-center gap-2">
-                    <Calculator className="h-4 w-4" />
-                    {t("methodology.microCta")}
-                  </Link>
-                </RoiButton>
-              </div>
             </div>
           </Reveal>
         </div>
       </Section>
 
       {/* What We Do */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-br from-muted via-card to-muted">
+      <Section variant="muted" className="ambient-section py-12 md:py-16">
         <CircuitLines className="opacity-10" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="mx-auto mb-12 max-w-3xl text-center">
-              <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("methodology.what.title")}
               </h2>
             </div>
@@ -105,12 +96,12 @@ export default function MetodologiaPage() {
       </Section>
 
       {/* Principles Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-br from-card via-background to-muted/40">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <BlobShape position="top-left" color="gradient" parallax parallaxSpeed={0.18} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide mb-4">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("methodology.principles.title")}
               </h2>
             </div>
@@ -121,12 +112,12 @@ export default function MetodologiaPage() {
       </Section>
 
       {/* Timeline Section */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-b from-muted via-background to-card/30">
+      <Section variant="muted" className="ambient-section py-12 md:py-16">
         <GridPattern squares={[[3, 2], [8, 5], [13, 3], [18, 8]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide mb-4">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("methodology.timeline.title")}
               </h2>
             </div>
@@ -137,12 +128,12 @@ export default function MetodologiaPage() {
       </Section>
 
       {/* Config Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-br from-card via-background to-card">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <BlobShape position="bottom-right" color="primary" parallax parallaxSpeed={0.22} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide mb-4">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("methodology.config.title")}
               </h2>
             </div>
@@ -153,12 +144,12 @@ export default function MetodologiaPage() {
       </Section>
 
       {/* Safety & Limits */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-br from-muted via-card to-muted">
+      <Section variant="muted" className="ambient-section py-12 md:py-16">
         <CircuitLines className="opacity-10" />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-slide mb-4">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("methodology.safety.title")}
               </h2>
             </div>
@@ -169,7 +160,7 @@ export default function MetodologiaPage() {
       </Section>
 
       {/* What We Don't Do Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-b from-background via-card/40 to-background">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <BlobShape position="top-right" color="accent" parallax parallaxSpeed={0.16} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
@@ -185,51 +176,20 @@ export default function MetodologiaPage() {
       </Section>
 
       {/* Final CTA */}
-      <Section
-        variant="alt"
-        className="py-16 md:py-20 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background"
-      >
-        <BlobShape position="center" color="gradient" className="w-[520px] h-[520px] opacity-20" parallax parallaxSpeed={0.1} />
-        <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
-          <Reveal delay={100}>
-            <div className="mx-auto max-w-4xl space-y-8 text-center">
-              <div className="inline-block rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 px-6 py-3 backdrop-blur-sm">
-                <Link href="/roi" className="text-base font-medium text-primary hover:underline transition-colors sm:text-lg">
-                  {t("methodology.microCta")}
-                </Link>
-              </div>
-
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-pulse">
-                {t("methodology.finalCta.title")}
-              </h2>
-              <p className="text-base text-foreground/70 sm:text-lg">
-                {t("methodology.finalCta.note")}
-              </p>
-
-              <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <DemoButton asChild size="lg" className="w-full sm:w-auto">
-                  <Link href="/reservar" className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5" />
-                    {t("methodology.finalCta.primary")}
-                  </Link>
-                </DemoButton>
-                <BorderButton asChild className="w-full sm:w-auto">
-                  <Link href="/solucion" className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5" />
-                    {t("methodology.finalCta.secondary")}
-                  </Link>
-                </BorderButton>
-                <BorderButton asChild className="w-full sm:w-auto">
-                  <Link href="/como-funciona" className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5" />
-                    {t("methodology.finalCta.tertiary")}
-                  </Link>
-                </BorderButton>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </Section>
+      <FinalCtaSection
+        showMicroCta
+        titleKey="methodology.finalCta.title"
+        descriptionKey="methodology.finalCta.note"
+        primaryCtaKey="methodology.finalCta.primary"
+        secondaryCtaKey="methodology.finalCta.secondary"
+        tertiaryCtaKey="methodology.finalCta.tertiary"
+        microCtaKey="methodology.microCta"
+        titleClassName="text-foreground"
+        primaryHref="/reservar"
+        secondaryHref="/solucion"
+        tertiaryHref="/como-funciona"
+        microHref="/roi"
+      />
     </SiteShell>
   )
 }

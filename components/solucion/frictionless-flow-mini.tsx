@@ -89,7 +89,7 @@ export function FrictionlessFlowMini() {
               </div>
 
               {/* Content */}
-              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-4 hover:border-primary transition-all">
+              <div className="flex-1 rounded-xl border border-border bg-card/90 backdrop-blur-xl p-4 hover:border-primary transition-all">
                 <p className="text-base font-medium text-foreground/90 dark:text-foreground/95">
                   {item}
                 </p>

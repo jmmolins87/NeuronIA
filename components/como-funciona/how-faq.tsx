@@ -56,7 +56,7 @@ export function HowFaq() {
           <div
             key={index}
             data-stagger-item
-            className={`rounded-xl border-2 bg-card/80 backdrop-blur-sm transition-all duration-300 ${
+            className={`rounded-xl border bg-card/80 backdrop-blur-sm transition-all duration-300 ${
               isOpen
                 ? "border-primary shadow-xl dark:shadow-primary/20"
                 : "border-border hover:border-primary/50"

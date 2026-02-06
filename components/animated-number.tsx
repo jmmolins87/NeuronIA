@@ -14,6 +14,7 @@ export function AnimatedNumber({ value, duration = 2000, className = "" }: Anima
   const ref = React.useRef<HTMLSpanElement>(null)
 
   React.useEffect(() => {
+    const node = ref.current
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -23,13 +24,13 @@ export function AnimatedNumber({ value, duration = 2000, className = "" }: Anima
       { threshold: 0.3 }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
+    if (node) {
+      observer.observe(node)
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
+      if (node) {
+        observer.unobserve(node)
       }
     }
   }, [])

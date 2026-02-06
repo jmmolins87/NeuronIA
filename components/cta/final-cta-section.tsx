@@ -14,13 +14,19 @@ interface FinalCtaSectionProps {
   descriptionKey?: string
   primaryCtaKey?: string
   secondaryCtaKey?: string
+  tertiaryCtaKey?: string
   microCtaKey?: string
   primaryHref?: string
   secondaryHref?: string
+  tertiaryHref?: string
   microHref?: string
   primaryOnClick?: () => void
   secondaryOnClick?: () => void
+  tertiaryOnClick?: () => void
   microOnClick?: () => void
+
+  /** optional style overrides */
+  titleClassName?: string
 }
 
 export function FinalCtaSection({
@@ -30,19 +36,23 @@ export function FinalCtaSection({
   descriptionKey,
   primaryCtaKey,
   secondaryCtaKey,
+  tertiaryCtaKey,
   microCtaKey,
   primaryHref,
   secondaryHref,
+  tertiaryHref,
   microHref,
   primaryOnClick,
   secondaryOnClick,
+  tertiaryOnClick,
   microOnClick,
+  titleClassName,
 }: FinalCtaSectionProps): React.JSX.Element {
   return (
     <Section
       variant="alt"
       id={id}
-      className="min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 bg-gradient-to-br from-section-alt via-card to-section-alt dark:from-background dark:via-card/50 dark:to-background pb-12 md:pb-0"
+      className="ambient-section min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 pb-12 md:pb-0"
     >
       <BlobShape
         position="center"
@@ -59,12 +69,16 @@ export function FinalCtaSection({
             descriptionKey={descriptionKey}
             primaryCtaKey={primaryCtaKey}
             secondaryCtaKey={secondaryCtaKey}
+            tertiaryCtaKey={tertiaryCtaKey}
             microCtaKey={microCtaKey}
+            titleClassName={titleClassName}
             primaryHref={primaryHref}
             secondaryHref={secondaryHref}
+            tertiaryHref={tertiaryHref}
             microHref={microHref}
             primaryOnClick={primaryOnClick}
             secondaryOnClick={secondaryOnClick}
+            tertiaryOnClick={tertiaryOnClick}
             microOnClick={microOnClick}
           />
         </Reveal>

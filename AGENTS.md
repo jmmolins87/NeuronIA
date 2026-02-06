@@ -18,6 +18,7 @@ Essential repository rules for agentic coding tools operating in this repo.
 ```bash
 # Install
 npm install
+# Node: >= 20 (see package.json engines)
 # Dev
 npm run dev
 # Build / run prod (Next build includes typecheck)
@@ -25,6 +26,7 @@ npm run build
 npm run start
 # Lint (add `-- --fix` to autofix)
 npm run lint
+npx eslint app/some/page.tsx  # lint a single file
 # Typecheck only (not in package.json, but useful)
 npx tsc -p tsconfig.json --noEmit
 # Repo audits (enforced conventions)
@@ -37,8 +39,11 @@ npm run prisma:migrate:dev
 npm run prisma:migrate:deploy
 npm run prisma:studio
 # Tests
-# No test runner is configured yet (no `test` script in `package.json`).
-# If you add one, keep single-file + name filtering (example: `npm test -- path/to/foo.test.ts -t "case name"`).
+# No test runner is configured yet (no `test` script in package.json).
+# If you add one, keep single-file + single-test filtering.
+# - Vitest:     npx vitest run path/to/foo.test.ts -t "case name"
+# - Jest:       npx jest path/to/foo.test.ts -t "case name"
+# - Playwright: npx playwright test path/to/spec.spec.ts -g "case name"
 ```
 
 ## Cursor / Copilot Rules

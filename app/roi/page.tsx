@@ -277,7 +277,7 @@ export default function ROIPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <Section variant="default" className="py-12 md:py-16 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20">
+      <Section variant="default" className="ambient-section py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal>
@@ -287,7 +287,7 @@ export default function ROIPage() {
                   <Calculator className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("roi.calculator.title")}
               </h1>
               <p className="text-xl text-muted-foreground sm:text-2xl max-w-3xl mx-auto">
@@ -299,13 +299,13 @@ export default function ROIPage() {
       </Section>
 
       {/* Explanation Section */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted">
+      <Section variant="muted" className="ambient-section py-12 md:py-16">
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={200}>
             <div className="max-w-4xl mx-auto">
               <div className="grid gap-6 md:grid-cols-2">
                 {/* Qué es ROI */}
-                <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+                <div className="rounded-xl border border-primary/20 bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
                   <h2 className="text-xl font-bold mb-3 text-foreground flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-primary" />
                     {t("roi.calculator.whatIsROI.title")}
@@ -316,7 +316,7 @@ export default function ROIPage() {
                 </div>
 
                 {/* Qué es esta calculadora */}
-                <div className="rounded-xl border-2 border-primary/20 bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+                <div className="rounded-xl border border-primary/20 bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
                   <h2 className="text-xl font-bold mb-3 text-foreground flex items-center gap-2">
                     <Calculator className="w-5 h-5 text-primary" />
                     {t("roi.calculator.whatIsCalculator.title")}
@@ -332,14 +332,14 @@ export default function ROIPage() {
       </Section>
 
       {/* Calculator Section */}
-      <Section variant="muted" className="py-12 md:py-16 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted">
+      <Section variant="muted" className="ambient-section py-12 md:py-16">
         <BlobShape position="bottom-right" color="accent" parallax parallaxSpeed={0.3} />
         <div id="roi-calculator" className="container relative z-10 mx-auto max-w-screen-xl px-4 scroll-mt-24">
           <div className="grid gap-8 lg:grid-cols-2 max-w-6xl mx-auto items-stretch">
             {/* Inputs */}
             <div
               ref={calculatorRef as React.RefObject<HTMLDivElement>}
-              className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col"
+              className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col"
             >
               <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
                 <Info className="w-6 h-6 text-primary" />
@@ -360,7 +360,7 @@ export default function ROIPage() {
                         <button
                           key={clinic.id}
                           onClick={() => handleClinicTypeChange(clinic.id)}
-                          className={`relative rounded-lg border-2 p-4 transition-all cursor-pointer ${
+                          className={`relative rounded-lg border p-4 transition-all cursor-pointer ${
                             isSelected
                               ? "border-primary bg-primary/10 dark:bg-primary/20"
                               : "border-border bg-card hover:border-primary/50"
@@ -478,7 +478,7 @@ export default function ROIPage() {
             </div>
 
             {/* Disclaimer - Mobile: entre cajas, Desktop: debajo de ambas */}
-            <div className="lg:hidden rounded-xl border-2 border-border bg-card/50 backdrop-blur-sm p-4">
+            <div className="lg:hidden rounded-xl border border-border bg-card/50 backdrop-blur-sm p-4">
               <p className="text-sm text-foreground/70">
                 <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
                 {t("roi.calculator.disclaimer")}
@@ -495,7 +495,7 @@ export default function ROIPage() {
               <div className="space-y-6 flex-1">
 
               {/* Ingresos recuperables */}
-              <div className="rounded-xl border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-6 backdrop-blur-sm transition-all hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="rounded-xl border border-primary bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-6 backdrop-blur-sm transition-all hover:shadow-2xl dark:hover:shadow-primary/20">
                 <div className="flex items-start justify-between mb-2">
                   <p className="text-sm text-muted-foreground font-medium">
                     {t("roi.calculator.results.monthlyRevenue")}
@@ -511,7 +511,7 @@ export default function ROIPage() {
               </div>
 
               {/* ROI */}
-              <div className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
                 <div className="flex items-start justify-between mb-2">
                   <p className="text-sm text-muted-foreground font-medium">
                     {t("roi.calculator.results.roi")}
@@ -527,7 +527,7 @@ export default function ROIPage() {
               </div>
 
               {/* Punto de equilibrio */}
-              <div className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
                 <div className="flex items-start justify-between mb-2">
                   <p className="text-sm text-muted-foreground font-medium">
                     {t("roi.calculator.results.breakEven")}
@@ -543,7 +543,7 @@ export default function ROIPage() {
               </div>
 
               {/* Desglose */}
-              <div className="rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
+              <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20">
                 <h3 className="text-lg font-semibold mb-4 text-foreground">
                   {t("roi.calculator.results.breakdown")}
                 </h3>
@@ -568,7 +568,7 @@ export default function ROIPage() {
 
           {/* Disclaimer - Desktop: debajo de ambas cajas */}
           <div className="hidden lg:block max-w-4xl mx-auto mt-6">
-            <div className="rounded-xl border-2 border-border bg-card/50 backdrop-blur-sm p-4">
+            <div className="rounded-xl border border-border bg-card/50 backdrop-blur-sm p-4">
               <p className="text-sm text-foreground/70 text-center">
                 <Info className="w-4 h-4 inline mr-2 text-gradient-to dark:text-primary" />
                 {t("roi.calculator.disclaimer")}
@@ -579,7 +579,7 @@ export default function ROIPage() {
           {/* CTA */}
           <Reveal delay={900}>
             <div className="max-w-3xl mx-auto mt-12 text-center">
-              <div className="rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-8 backdrop-blur-sm">
+              <div className="rounded-2xl border border-primary bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-8 backdrop-blur-sm">
                 <h3 className="text-2xl font-bold mb-4 text-foreground">
                   {t("roi.calculator.cta.title")}
                 </h3>
@@ -613,8 +613,8 @@ export default function ROIPage() {
             <AlertDialogDescription className="text-base">
               {t("roi.dialog.description").split(/(ClinvetIA|IA)/g).map((part: string, index: number) => {
                 if (part === "ClinvetIA" || part === "IA") {
-                  return <span key={index} className="gradient-text-pulse font-semibold">{part}</span>
-                }
+                   return <span key={index} className="font-semibold text-foreground">{part}</span>
+                 }
                 return part
               })}
             </AlertDialogDescription>

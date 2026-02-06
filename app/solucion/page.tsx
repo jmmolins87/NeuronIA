@@ -8,10 +8,6 @@ import { useTheme } from "next-themes"
 import { Reveal } from "@/components/reveal"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { BlobShape } from "@/components/shapes/blob-shape"
-import { CircuitLines } from "@/components/shapes/circuit-lines"
-import { FloatingParticles } from "@/components/animations/floating-particles"
-import { WaveLines } from "@/components/animations/wave-lines"
-import { PulsingGrid } from "@/components/animations/pulsing-grid"
 import { FeatureGrid } from "@/components/solucion/feature-grid"
 import { HowItWorksSteps } from "@/components/solucion/how-it-works-steps"
 import { Guardrails } from "@/components/solucion/guardrails"
@@ -39,7 +35,7 @@ export default function SolucionPage() {
       {/* Hero Section */}
       <Section
         variant="default"
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
+        className="ambient-section py-16 md:py-20"
       >
         <GridPattern squares={[[2, 1], [6, 3]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
@@ -51,7 +47,7 @@ export default function SolucionPage() {
                 </div>
               </div>
 
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl gradient-text-pulse">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 {t("solution.hero.heading")}
               </h1>
 
@@ -70,7 +66,7 @@ export default function SolucionPage() {
       {/* What is Section */}
       <Section
         variant="muted"
-        className="py-16 md:py-20 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <BlobShape
           position="top-left"
@@ -82,7 +78,7 @@ export default function SolucionPage() {
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto space-y-8">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl text-center gradient-text-slide">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl text-center">
                 {t("solution.what.title")}
               </h2>
 
@@ -96,7 +92,7 @@ export default function SolucionPage() {
               </div>
 
               {/* Key message */}
-              <div className="mt-8 rounded-2xl border-2 border-red-500/50 bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20 p-6 md:p-8 text-center backdrop-blur-sm">
+              <div className="mt-8 rounded-2xl border border-red-500/50 bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20 p-6 md:p-8 text-center backdrop-blur-sm">
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
                 </div>
@@ -112,13 +108,13 @@ export default function SolucionPage() {
       {/* Day to day Section */}
       <Section
         variant="default"
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-background to-card/30 dark:from-black dark:via-background dark:to-card/20"
+        className="ambient-section py-16 md:py-20"
       >
         <GridPattern squares={[[3, 2], [12, 3]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-bounce">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("solution.day.title")}
               </h2>
             </div>
@@ -131,7 +127,7 @@ export default function SolucionPage() {
       {/* How it works Section */}
       <Section
         variant="card"
-        className="py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <BlobShape
           position="bottom-right"
@@ -143,7 +139,7 @@ export default function SolucionPage() {
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("solution.how.title")}
               </h2>
             </div>
@@ -156,12 +152,12 @@ export default function SolucionPage() {
       {/* Flow Section */}
       <Section
         variant="muted"
-        className="py-16 md:py-20 bg-gradient-to-br from-muted via-card to-muted dark:from-muted dark:via-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-flow">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("solution.flow.title")}
               </h2>
             </div>
@@ -174,13 +170,13 @@ export default function SolucionPage() {
       {/* Guardrails Section */}
       <Section
         variant="default"
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-background to-background dark:from-black dark:via-background dark:to-background"
+        className="ambient-section py-16 md:py-20"
       >
         <GridPattern squares={[[5, 1], [15, 2]]} />
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-pulse">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("solution.guardrails.title")}
               </h2>
             </div>
@@ -193,7 +189,7 @@ export default function SolucionPage() {
       {/* Clinic Fit Section */}
       <Section
         variant="card"
-        className="py-16 md:py-20 bg-gradient-to-b from-card to-muted dark:from-card dark:to-muted"
+        className="ambient-section py-16 md:py-20"
       >
         <BlobShape
           position="top-right"
@@ -205,7 +201,7 @@ export default function SolucionPage() {
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
           <Reveal delay={100}>
             <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl gradient-text-shimmer">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 {t("solution.fit.title")}
               </h2>
               <p className="text-lg text-foreground/80 dark:text-foreground/90 sm:text-xl">

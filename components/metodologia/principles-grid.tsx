@@ -36,8 +36,12 @@ export function PrinciplesGrid() {
           <div
             key={principle.title}
             data-stagger-item
-            className="group relative rounded-xl border-2 border-border bg-card/80 backdrop-blur-sm p-6 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
+            className="group relative overflow-hidden rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6 shadow-sm transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20"
           >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gradient-from/0 via-gradient-to/40 to-gradient-to/0"
+            />
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gradient-from via-gradient-purple to-gradient-to shadow-lg dark:glow-sm">
                 <Icon className="h-6 w-6 text-primary-foreground" />

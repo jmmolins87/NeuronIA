@@ -88,7 +88,7 @@ export function HowItWorksSteps() {
               </div>
 
               {/* Content card */}
-              <div className="flex-1 rounded-xl border-2 border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
+              <div className="flex-1 rounded-xl border border-border bg-card/90 backdrop-blur-xl p-6 hover:border-primary hover:shadow-xl transition-all dark:hover:glow-md">
                 <div className="flex items-start gap-4">
                   <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-primary flex-shrink-0 mt-1" />
                   <div className="flex-1">

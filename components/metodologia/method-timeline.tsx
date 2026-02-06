@@ -26,7 +26,11 @@ export function AgencyMethodTimeline() {
 
             {/* Content */}
             <div className="flex-1 pb-2">
-              <div className="rounded-xl border-2 border-border bg-card/70 p-6 backdrop-blur-sm transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/15">
+              <div className="relative overflow-hidden rounded-xl border border-border bg-card/70 p-6 shadow-sm backdrop-blur-sm transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/15">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-gradient-from/0 via-gradient-to/40 to-gradient-to/0"
+                />
                 <h3 className="mb-3 text-xl font-bold text-foreground">{phase.title}</h3>
                 <p className="leading-relaxed text-muted-foreground">{phase.text}</p>
               </div>
