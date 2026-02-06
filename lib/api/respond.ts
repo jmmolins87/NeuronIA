@@ -2,11 +2,11 @@ import { NextResponse } from "next/server"
 
 export type FieldErrors = Record<string, string>
 
-export function okJson<T extends Record<string, unknown>>(
+export function okJson<T extends object>(
   body: T,
   init?: ResponseInit
 ): NextResponse {
-  return NextResponse.json({ ok: true, ...body }, init)
+  return NextResponse.json({ ok: true, ...(body as Record<string, unknown>) }, init)
 }
 
 export function errorJson(

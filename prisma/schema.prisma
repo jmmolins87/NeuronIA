@@ -8,8 +8,49 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
+enum BookingStatus {
+  HELD
+  CONFIRMED
+  CANCELLED
+  RESCHEDULED
+  EXPIRED
+}
+
+enum BookingTokenKind {
+  SESSION
+}
+
 model Booking {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String        @id @default(cuid())
+  status    BookingStatus
+
+  startAt   DateTime
+  endAt     DateTime
+  timezone  String
+  locale    String
+  expiresAt DateTime
+
+  tokens    BookingToken[]
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([startAt])
+  @@index([status, startAt])
+  @@index([expiresAt])
+}
+
+model BookingToken {
+  id        String          @id @default(cuid())
+  bookingId String
+  kind      BookingTokenKind
+  tokenHash String          @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime        @default(now())
+
+  booking   Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, kind])
+  @@index([expiresAt])
 }
