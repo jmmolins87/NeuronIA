@@ -127,7 +127,7 @@ import "./globals.css"
 ## Environment / Secrets
 
 - Env is validated in `lib/env.ts` via `zod`; import `env` only from server code.
-- `lib/env.ts` validates at module import time; missing required env vars can fail `next build` during page-data collection.
+- `lib/env.ts` validates lazily (on first `env.X` access) to avoid build-time failures when env vars are not loaded during analysis.
 - Minimum required for builds that import Prisma: `DATABASE_URL` (or `POSTGRES_PRISMA_URL`) plus `APP_URL`.
 - Optional but recommended for migrations: `DATABASE_URL_UNPOOLED` (or `POSTGRES_URL_NON_POOLING`).
 - Never commit secret files: `.env`, `.env.local` (use `.env.example` as the shareable template).

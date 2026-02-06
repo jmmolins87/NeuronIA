@@ -67,51 +67,69 @@ function resolveDbUrl(...candidates: Array<string | undefined>): string | undefi
   return undefined
 }
 
-const parsed = EnvSchema.safeParse({
-  NODE_ENV: process.env.NODE_ENV,
-  APP_URL:
-    process.env.APP_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined) ??
-    (process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000"),
-  ADMIN_API_KEY: process.env.ADMIN_API_KEY,
-  DATABASE_URL: resolveDbUrl(
-    process.env.DATABASE_URL,
-    process.env.POSTGRES_PRISMA_URL,
-    process.env.POSTGRES_URL
-  ),
-  DATABASE_URL_UNPOOLED: resolveDbUrl(
-    process.env.DATABASE_URL_UNPOOLED,
-    process.env.POSTGRES_URL_NON_POOLING
-  ),
+export type Env = z.infer<typeof EnvSchema>
 
-  BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
-  BOOKING_START_TIME: process.env.BOOKING_START_TIME,
-  BOOKING_END_TIME: process.env.BOOKING_END_TIME,
-  BOOKING_SLOT_MINUTES: process.env.BOOKING_SLOT_MINUTES,
-  HOLD_TTL_MINUTES: process.env.HOLD_TTL_MINUTES,
+let cachedEnv: Env | undefined
 
-  CANCEL_TOKEN_EXPIRY_DAYS: process.env.CANCEL_TOKEN_EXPIRY_DAYS,
-  RESCHEDULE_TOKEN_EXPIRY_DAYS: process.env.RESCHEDULE_TOKEN_EXPIRY_DAYS,
+function loadEnv(): Env {
+  if (cachedEnv) return cachedEnv
 
-  RESEND_API_KEY: process.env.RESEND_API_KEY,
-  EMAIL_FROM: process.env.EMAIL_FROM,
-  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
-  EMAIL_ENABLED: process.env.EMAIL_ENABLED,
-  ALLOW_TIME_OVERRIDE: process.env.ALLOW_TIME_OVERRIDE,
-})
+  const parsed = EnvSchema.safeParse({
+    NODE_ENV: process.env.NODE_ENV,
+    APP_URL:
+      process.env.APP_URL ??
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined) ??
+      (process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000"),
+    ADMIN_API_KEY: process.env.ADMIN_API_KEY,
+    DATABASE_URL: resolveDbUrl(
+      process.env.DATABASE_URL,
+      process.env.POSTGRES_PRISMA_URL,
+      process.env.POSTGRES_URL
+    ),
+    DATABASE_URL_UNPOOLED: resolveDbUrl(
+      process.env.DATABASE_URL_UNPOOLED,
+      process.env.POSTGRES_URL_NON_POOLING
+    ),
 
-if (!parsed.success) {
-  const message = [
-    "Invalid environment configuration.",
-    "\nRequired database env vars:",
-    "- DATABASE_URL (preferred) OR POSTGRES_PRISMA_URL / POSTGRES_URL (fallback)",
-    "\nOptional database env vars (recommended for migrations):",
-    "- DATABASE_URL_UNPOOLED (preferred) OR POSTGRES_URL_NON_POOLING (fallback)",
-    "\nDetails:",
-    formatZodError(parsed.error),
-  ].join("\n")
+    BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
+    BOOKING_START_TIME: process.env.BOOKING_START_TIME,
+    BOOKING_END_TIME: process.env.BOOKING_END_TIME,
+    BOOKING_SLOT_MINUTES: process.env.BOOKING_SLOT_MINUTES,
+    HOLD_TTL_MINUTES: process.env.HOLD_TTL_MINUTES,
 
-  throw new Error(message)
+    CANCEL_TOKEN_EXPIRY_DAYS: process.env.CANCEL_TOKEN_EXPIRY_DAYS,
+    RESCHEDULE_TOKEN_EXPIRY_DAYS: process.env.RESCHEDULE_TOKEN_EXPIRY_DAYS,
+
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+    EMAIL_ENABLED: process.env.EMAIL_ENABLED,
+    ALLOW_TIME_OVERRIDE: process.env.ALLOW_TIME_OVERRIDE,
+  })
+
+  if (!parsed.success) {
+    const message = [
+      "Invalid environment configuration.",
+      "\nRequired database env vars:",
+      "- DATABASE_URL (preferred) OR POSTGRES_PRISMA_URL / POSTGRES_URL (fallback)",
+      "\nOptional database env vars (recommended for migrations):",
+      "- DATABASE_URL_UNPOOLED (preferred) OR POSTGRES_URL_NON_POOLING (fallback)",
+      "\nDetails:",
+      formatZodError(parsed.error),
+    ].join("\n")
+
+    throw new Error(message)
+  }
+
+  cachedEnv = parsed.data
+  return cachedEnv
 }
 
-export const env = parsed.data
+// Lazy env access: avoids failing Next/Vercel builds on module import.
+// Validation still happens the first time a value is actually read.
+export const env = new Proxy({} as Env, {
+  get(_target, prop) {
+    if (prop === Symbol.toStringTag) return "env"
+    return loadEnv()[prop as keyof Env]
+  },
+})
