@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { Logo } from "@/components/logo"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -22,8 +22,20 @@ export function Header() {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
+  const router = useRouter()
   const isHomePage = pathname === "/"
   const [showHeaderLogo, setShowHeaderLogo] = React.useState(false)
+
+  const handleMobileLogoClick = React.useCallback(() => {
+    setIsOpen(false)
+
+    if (pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
+
+    router.push("/")
+  }, [pathname, router])
 
   const navRef = React.useRef<HTMLElement | null>(null)
   const linkRefs = React.useRef<Record<string, HTMLAnchorElement | null>>({})
@@ -223,7 +235,14 @@ export function Header() {
             <SheetContent side="top" showCloseButton={false} className="w-full h-screen p-0 flex flex-col bg-background/95 backdrop-blur-md overflow-hidden">
               <div className="flex-1 flex flex-col justify-center p-6">
                 <SheetHeader className="mb-6 flex items-center justify-center">
-                  <Logo width={220} height={55} className="h-14 w-auto" />
+                  <button
+                    type="button"
+                    onClick={handleMobileLogoClick}
+                    className="inline-flex cursor-pointer"
+                    aria-label={t("aria.goToTop")}
+                  >
+                    <Logo width={220} height={55} className="h-14 w-auto" />
+                  </button>
                 </SheetHeader>
                 <nav className="flex flex-col items-center gap-5">
                   {navLinks.map((link) => {
