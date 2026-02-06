@@ -5,7 +5,7 @@ import { useStagger } from "@/hooks/use-stagger"
 import { Smile, Stethoscope, Heart, PawPrint } from "lucide-react"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
 
 export function ClinicFit() {
   const { t } = useTranslation()
@@ -24,7 +24,7 @@ export function ClinicFit() {
     {
       type: "dental",
       icon: Smile,
-      color: "from-blue-500 via-purple-600 to-blue-600 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500",
+      color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-green-500 dark:via-emerald-500 dark:to-pink-500",
     },
     {
       type: "physio",
@@ -90,9 +90,9 @@ export function ClinicFit() {
 
       {/* Link to scenarios */}
       <div className="text-center">
-        <Button asChild variant="outline" size="lg">
+        <DemoButton asChild>
           <Link href="/escenarios">{t("solution.fit.linkText")}</Link>
-        </Button>
+        </DemoButton>
       </div>
     </div>
   )

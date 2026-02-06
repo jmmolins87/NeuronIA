@@ -11,7 +11,7 @@ import { useROIData } from "@/hooks/use-roi-data"
 import { useMounted } from "@/hooks/use-mounted"
 import { BlobShape } from "@/components/shapes/blob-shape"
 import { GridPattern } from "@/components/shapes/grid-pattern"
-import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
 import { CancelButton } from "@/components/cta/cancel-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -43,7 +43,7 @@ import {
 type ClinicType = "small" | "medium" | "large" | "specialized"
 
 const CLINIC_TYPES: { id: ClinicType; icon: typeof Building2; color: string }[] = [
-  { id: "small", icon: Home, color: "from-blue-500 via-cyan-600 to-blue-600 dark:from-blue-500 dark:via-cyan-500 dark:to-blue-500" },
+  { id: "small", icon: Home, color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-green-500 dark:via-pink-500 dark:to-fuchsia-500" },
   { id: "medium", icon: Store, color: "from-green-500 via-emerald-600 to-green-600 dark:from-green-500 dark:via-emerald-500 dark:to-green-500" },
   { id: "large", icon: Building, color: "from-purple-500 via-pink-600 to-purple-600 dark:from-purple-500 dark:via-pink-500 dark:to-purple-500" },
   { id: "specialized", icon: Building2, color: "from-orange-500 via-amber-600 to-orange-600 dark:from-orange-500 dark:via-amber-500 dark:to-orange-500" },
@@ -283,7 +283,7 @@ export default function ROIPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Calculator className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
@@ -586,14 +586,13 @@ export default function ROIPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   {t("roi.calculator.cta.description")}
                 </p>
-                <Button
+                <DemoButton
                   onClick={() => handleNavigateWithConfirmation("/contacto")}
-                  size="lg"
                   className="dark:glow-primary cursor-pointer"
                 >
                   {t("roi.calculator.cta.button")}
                   <Send className="w-5 h-5 ml-2" />
-                </Button>
+                </DemoButton>
               </div>
             </div>
           </Reveal>

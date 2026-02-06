@@ -46,7 +46,7 @@ export default function SolucionPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-6">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Sparkles className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>

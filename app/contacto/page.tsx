@@ -11,7 +11,6 @@ import { useROIData } from "@/hooks/use-roi-data"
 import { useCalendlyData } from "@/hooks/use-calendly-data"
 import { useMounted } from "@/hooks/use-mounted"
 import { GridPattern } from "@/components/shapes/grid-pattern"
-import { Button } from "@/components/ui/button"
 import { DemoButton } from "@/components/cta/demo-button"
 import { CancelButton } from "@/components/cta/cancel-button"
 import { RoiButton } from "@/components/cta/roi-button"
@@ -288,7 +287,7 @@ export default function ContactoPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Send className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
@@ -311,7 +310,7 @@ export default function ContactoPage() {
             <Reveal delay={200}>
               <div className="max-w-2xl mx-auto">
                 <div className="rounded-2xl border-2 border-orange-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 dark:from-orange-500 dark:to-amber-500 flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-pink-600 dark:from-orange-500 dark:to-amber-500 flex items-center justify-center">
                     <AlertCircle className="w-8 h-8 text-white dark:text-black" />
                   </div>
                   <h2 className="text-2xl font-bold mb-4 text-foreground">
@@ -348,7 +347,7 @@ export default function ContactoPage() {
                   {/* ROI Summary Section */}
                   <div className="mb-8">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                         <TrendingUp className="w-6 h-6 text-white dark:text-black" />
                       </div>
                       <h2 className="text-2xl font-bold text-foreground">
@@ -411,15 +410,13 @@ export default function ContactoPage() {
                     {/* Change ROI Button */}
                     {!hasSubmittedBefore && (
                       <div className="mt-4 flex justify-end">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
+                        <RoiButton 
                           onClick={() => setShowChangeROIModal(true)}
                           className="w-full sm:w-auto cursor-pointer"
                         >
                           <Edit className="w-4 h-4 mr-2" />
                           {t("contact.form.demoStatus.changeROI")}
-                        </Button>
+                        </RoiButton>
                       </div>
                     )}
                   </div>
@@ -427,7 +424,7 @@ export default function ContactoPage() {
                   {/* Demo Status Section */}
                   <div className="pt-8 border-t border-border">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                         <Calendar className="w-6 h-6 text-white dark:text-black" />
                       </div>
                       <h2 className="text-2xl font-bold text-foreground">
@@ -533,7 +530,7 @@ export default function ContactoPage() {
                 <div ref={formRef as React.RefObject<HTMLDivElement>} className="h-full">
                   {hasSubmittedBefore ? (
                     <div className="rounded-xl border-2 border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center flex flex-col items-center justify-center h-full">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                         <Check className="w-8 h-8 text-white dark:text-black" />
                       </div>
                       <h3 className="text-2xl font-bold mb-2 text-foreground">
@@ -691,9 +688,8 @@ export default function ContactoPage() {
                         </div>
 
                         <div className="flex justify-start md:justify-end">
-                          <Button 
+                          <DemoButton 
                             type="submit" 
-                            size="lg" 
                             className="w-full md:w-auto cursor-pointer dark:glow-primary"
                             disabled={
                               hasSubmittedBefore ||
@@ -714,7 +710,7 @@ export default function ContactoPage() {
                               <Send className="w-5 h-5 mr-2" />
                             )}
                             {t("contact.form.submit")}
-                          </Button>
+                          </DemoButton>
                         </div>
                       </form>
                     </div>

@@ -3,6 +3,8 @@
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
+import { CancelButton } from "@/components/cta/cancel-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -263,15 +265,14 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
               <Clock className="w-5 h-5 text-primary" />
               {t("book.calendar.selectTime")}
             </h3>
-            <Button
-              variant="outline"
+            <CancelButton
               size="sm"
               onClick={() => setStep(1)}
               className="cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4 mr-1" />
               {t("common.back")}
-            </Button>
+            </CancelButton>
           </div>
 
           <div className="p-4 rounded-lg bg-primary/10 dark:bg-primary/20 border border-primary/30">
@@ -303,14 +304,13 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           </div>
 
           <div className="flex justify-end">
-            <Button
+            <DemoButton
               onClick={() => setStep(3)}
               disabled={!selectedTime}
               className="w-auto cursor-pointer dark:glow-primary"
-              size="lg"
             >
               {t("common.continue")}
-            </Button>
+            </DemoButton>
           </div>
         </div>
         ) : null}
@@ -325,15 +325,14 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
               <Check className="w-5 h-5 text-primary" />
               {t("book.calendar.confirmDetails")}
             </h3>
-            <Button
-              variant="outline"
+            <CancelButton
               size="sm"
               onClick={() => setStep(2)}
               className="cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4 mr-1" />
               {t("common.back")}
-            </Button>
+            </CancelButton>
           </div>
 
           <div className="p-6 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
@@ -352,14 +351,13 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           <p className="text-base text-muted-foreground">{t("book.calendar.confirmMessage")}</p>
 
           <div className="flex justify-end">
-            <Button
+            <DemoButton
               onClick={handleSubmit}
               className="w-auto cursor-pointer dark:glow-primary"
-              size="lg"
             >
               <Check className="w-5 h-5 mr-2" />
               {t("book.calendar.confirm")}
-            </Button>
+            </DemoButton>
           </div>
         </div>
         ) : null}

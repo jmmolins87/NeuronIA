@@ -30,7 +30,7 @@ export function ScenariosSection() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mb-10">
           {[
             { type: "emergency", icon: AlertCircle, color: "from-red-500 via-orange-600 to-red-600 dark:from-red-500 dark:via-orange-500 dark:to-red-500" },
-            { type: "preventive", icon: Syringe, color: "from-blue-500 via-cyan-600 to-blue-600 dark:from-blue-500 dark:via-cyan-500 dark:to-blue-500" },
+            { type: "preventive", icon: Syringe, color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-green-500 dark:via-pink-500 dark:to-fuchsia-500" },
             { type: "chronic", icon: Activity, color: "from-purple-500 via-pink-600 to-purple-600 dark:from-purple-500 dark:via-pink-500 dark:to-purple-500" },
             { type: "multiservice", icon: Scissors, color: "from-green-500 via-emerald-600 to-green-600 dark:from-green-500 dark:via-emerald-500 dark:to-green-500" }
           ].map(({ type, icon: Icon, color }) => (

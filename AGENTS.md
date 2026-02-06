@@ -4,12 +4,14 @@ Essential repository rules for agentic coding tools operating in this repo.
 
 ## Project Snapshot
 
-- Framework: Next.js 16 (App Router); React 19; Server Components by default
-- Language: TypeScript (strict) with path alias `@/*`
-- Styling: Tailwind CSS 4 + shadcn/ui (new-york); tokens in `app/globals.css`
+- Framework: Next.js 16 (App Router) + React 19; Server Components by default
+- Language: TypeScript (strict) with path alias `@/*` (see `tsconfig.json`)
+- Styling: Tailwind CSS 4 + shadcn/ui (new-york); Tailwind is configured in CSS (`app/globals.css`)
+- Linting: ESLint flat config (`eslint.config.mjs`), based on `eslint-config-next`
 - Theme: `next-themes` (system default + manual toggle)
-- i18n: custom ES/EN provider; locale persisted in `localStorage` key `clinvetia-locale`
+- i18n: custom ES/EN provider (`components/providers/i18n-provider.tsx`); locale stored in `localStorage` key `clinvetia-locale`
 - Icons/fonts: `lucide-react`, Geist Sans/Mono
+- DB: Postgres + Prisma (`prisma/schema.prisma`)
 
 ## Commands
 
@@ -27,34 +29,38 @@ npm run start
 # Lint (ESLint flat config)
 npm run lint
 
+# Typecheck only (not in package.json, but useful)
+npx tsc -p tsconfig.json --noEmit
+
 # Repo audits (enforced conventions)
 npm run audit          # runs audit:i18n + audit:inline
 npm run audit:i18n     # locales sync + hardcoded-string heuristic scan
 npm run audit:inline   # inline-style + hardcoded-color heuristic scan
 
-# Typecheck only (not in package.json, but useful)
-npx tsc -p tsconfig.json --noEmit
+# Prisma
+npm run prisma:generate
+npm run prisma:migrate:dev
+npm run prisma:migrate:deploy
+npm run prisma:studio
 
 # Tests
-# No test runner is configured yet.
-# When tests are added, provide `npm test` and support single-file runs via:
-# npm test -- path/to/test-file
+# No test runner is configured yet (no `test` script in `package.json`).
+# If you add one, keep `npm test` and support single-file + name filtering:
+#   npm test -- path/to/test-file.test.ts -t "name"
 ```
 
 ## Cursor / Copilot Rules
 
-- No Cursor rules found (`.cursor/rules/` or `.cursorrules`)
-- No GitHub Copilot instructions found (`.github/copilot-instructions.md`)
-
-If any of the files above are added later, treat them as authoritative.
+- No Cursor rules found (`.cursor/rules/` or `.cursorrules`) and no Copilot rules found (`.github/copilot-instructions.md`)
 
 ## Code Style (TypeScript)
 
 - Strict mode: no ignored type errors; avoid `any` (use `unknown` + narrowing)
 - Prefer `interface` for object shapes; `type` for unions/intersections
 - Use `import type` for type-only imports
-- Exported functions/components: prefer explicit return types when non-trivial
-- Prefer small, pure helpers; keep UI components mostly presentational
+- Keep helpers small and pure; avoid mutating inputs
+- Prefer `const` over `let`; keep functions total when possible
+- Exported non-trivial functions/components: prefer explicit return types
 
 ## Imports Order
 
@@ -70,11 +76,13 @@ import { Button } from "@/components/ui/button"
 import "./globals.css"
 ```
 
+- Group imports with a blank line between: type-only, React/Next, third-party, local `@/`, relative, then CSS.
+- Keep diffs minimal: do not reorder imports across a file unless you are already touching that block.
+
 ## Formatting
 
-- Strings: double quotes
-- Semicolons: this repo is mixed; match the file you are editing
-- Keep diffs minimal; do not reformat unrelated code
+- Strings: double quotes; semicolons are mixed (match the file you are editing)
+- Keep diffs minimal; avoid reformatting unrelated code; ESLint is the source of truth (no Prettier)
 
 ## Naming Conventions
 
@@ -85,51 +93,60 @@ import "./globals.css"
   - Routes: `app/**/page.tsx`, `app/**/layout.tsx`
   - Components: kebab-case where applicable (many existing files are `.tsx` with kebab)
 
+## API / Data Conventions
+
+- Route handlers live in `app/api/**/route.ts`; validate inputs with `zod`
+- Use `okJson()` / `errorJson()` from `lib/api/respond.ts` (response includes `{ ok: true|false }`)
+- For structured failures in server code, use `ApiError` from `lib/api/errors.ts` and map to `errorJson`
+- Never leak secrets/tokens in API responses or logs; use generic messages in production
+
 ## React / Next.js Patterns
 
 - Server Components by default; add `"use client"` only when needed (hooks, events, browser APIs)
 - Avoid accessing `window`/`localStorage` outside effects or without guards
 - Use semantic HTML and keep heading order consistent
 - Prefer `next/link` for navigation; use `next/image` when adding images
+- Server-only modules: add `import "server-only"` to files in `lib/**` that must never be imported by client components.
 
 ## Styling Rules (Tailwind)
 
-- Prefer Tailwind utilities; avoid new CSS unless the design system needs a new token/utility
-- Do not hardcode colors (no `bg-[#...]`, `rgb(...)`, etc.); use semantic tokens (`bg-background`, `text-foreground`, `border-border`, etc.)
+- Prefer Tailwind utilities; only add CSS when a reusable token/utility is needed (see `app/globals.css`)
+- Do not hardcode colors in TS/TSX (no `bg-[#...]`, `rgb(...)`, etc.); use semantic tokens (`bg-background`, `text-foreground`, `border-border`, etc.)
 - Conditional classes: use `cn()` from `lib/utils.ts`
-- Inline styles: generally disallowed; `npm run audit:inline` will fail.
-  - If you must use inline styles for a legitimate dynamic case, keep it minimal and add `// @allowed-inline-style` near it.
+- Inline styles in React are generally disallowed; `npm run audit:inline` will fail
+- Exception: React Email templates under `lib/email/templates/**` use inline styles by design
 
 ## i18n Rules (Critical)
 
 - All user-facing strings in UI must come from `t()` (no hardcoded copy in components)
 - Locales: `locales/es.json` and `locales/en.json` (nested objects; keys via dot notation)
+- Variable interpolation uses `{{var}}` (see `components/providers/i18n-provider.tsx`)
 - Run `npm run audit:i18n` after adding/modifying strings
-
-```tsx
-"use client"
-
-import { useTranslation } from "@/components/providers/i18n-provider"
-
-export function Example() {
-  const { t } = useTranslation()
-  return <span>{t("common.close")}</span>
-}
-```
+- Admin area currently uses `app/admin/_ui-text.ts` constants; prefer migrating to shared i18n over adding more scattered literals.
 
 ## Error Handling
 
 - Wrap async work in `try/catch`; show user-friendly messages
 - Log for debugging, but never leak secrets/tokens
 - Prefer early returns and exhaustive checks over deeply nested conditionals
+- API errors: in production, prefer generic messages (see patterns in `app/api/**/route.ts`).
+
+## Environment / Secrets
+
+- Env is validated in `lib/env.ts` via `zod`; import `env` only from server code.
+- Never commit secret files: `.env`, `.env.local` (use `.env.example` as the shareable template).
+- Do not print or return secrets in API responses, logs, or thrown errors.
+
+## Prisma / DB
+
+- Use `prisma` from `lib/prisma.ts` (do not instantiate `new PrismaClient()` in random modules).
+- Prefer transactions for multi-step writes (`prisma.$transaction`), passing a tx client into helpers.
+- Keep DB constraints and enums in `prisma/schema.prisma` as the source of truth.
 
 ## Accessibility
 
-- `aria-label` required for icon-only buttons
-- Keyboard navigation must work for menus/dialogs/sheets
-- Respect `prefers-reduced-motion` for JS-driven animations and scroll effects
+- `aria-label` required for icon-only buttons; keyboard navigation must work; respect `prefers-reduced-motion`
 
 ## Git / Workflow
 
-- Commit messages: Conventional Commits in English (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`)
-- Keep commits focused; avoid bundling formatting-only changes with behavior changes
+- Commit messages: Conventional Commits in English (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`); keep commits focused

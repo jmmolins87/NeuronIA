@@ -67,7 +67,7 @@ export function HowFaq() {
               className="w-full text-left px-6 py-6 flex items-center gap-4 transition-colors cursor-pointer"
               aria-expanded={isOpen}
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
                 <HelpCircle className="w-4 h-4 text-white dark:text-black" />
               </div>
               <span className="flex-1 text-base font-semibold text-foreground sm:text-lg leading-tight">

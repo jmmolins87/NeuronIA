@@ -19,28 +19,28 @@ const SCENARIOS = [
   {
     id: "aesthetic",
     icon: Sparkles,
-    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-pink-500 dark:via-purple-500 dark:to-purple-600",
+    color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-pink-500 dark:via-purple-500 dark:to-purple-600",
     hoverBorder: "hover:border-pink-500",
     hoverShadow: "hover:shadow-pink-500/30 dark:hover:shadow-pink-500/20"
   },
   {
     id: "dental",
     icon: Smile,
-    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500",
+    color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-green-500 dark:via-emerald-500 dark:to-pink-500",
     hoverBorder: "hover:border-blue-500",
     hoverShadow: "hover:shadow-blue-500/30 dark:hover:shadow-blue-500/20"
   },
   {
     id: "physiotherapy",
     icon: Activity,
-    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-green-500 dark:via-emerald-600 dark:to-emerald-500",
+    color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-green-500 dark:via-emerald-600 dark:to-emerald-500",
     hoverBorder: "hover:border-green-500",
     hoverShadow: "hover:shadow-green-500/30 dark:hover:shadow-green-500/20"
   },
   {
     id: "veterinary",
     icon: Heart,
-    color: "from-blue-500 via-purple-600 to-blue-600 dark:from-orange-500 dark:via-amber-600 dark:to-amber-500",
+    color: "from-pink-500 via-fuchsia-600 to-pink-600 dark:from-orange-500 dark:via-amber-600 dark:to-amber-500",
     hoverBorder: "hover:border-orange-500",
     hoverShadow: "hover:shadow-orange-500/30 dark:hover:shadow-orange-500/20"
   }
@@ -101,7 +101,7 @@ function ScenarioSection({ scenario, index }: ScenarioSectionProps) {
   const bgClass = scenario.id === "aesthetic"
     ? "bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-background dark:from-pink-950/20 dark:via-purple-950/15 dark:to-background"
     : scenario.id === "dental"
-    ? "bg-gradient-to-br from-blue-50/50 via-cyan-50/30 to-background dark:from-blue-950/20 dark:via-cyan-950/15 dark:to-background"
+    ? "bg-gradient-to-br from-pink-50/50 via-fuchsia-50/30 to-background dark:from-green-950/20 dark:via-pink-950/15 dark:to-background"
     : scenario.id === "physiotherapy"
     ? "bg-gradient-to-br from-green-50/50 via-emerald-50/30 to-background dark:from-green-950/20 dark:via-emerald-950/15 dark:to-background"
     : "bg-gradient-to-br from-orange-50/50 via-amber-50/30 to-background dark:from-orange-950/20 dark:via-amber-950/15 dark:to-background"

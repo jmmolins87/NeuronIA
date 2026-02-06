@@ -19,6 +19,23 @@ export function useMountAnimation(options: UseMountAnimationOptions = {}) {
 
   const elementRef = React.useRef<HTMLElement>(null)
 
+  async function loadAnimeAnimate(): Promise<((...args: unknown[]) => unknown) | null> {
+    try {
+      const mod: unknown = await import("animejs")
+      const anyMod = mod as { animate?: unknown; default?: unknown }
+      const candidate =
+        anyMod.animate ??
+        (typeof anyMod.default === "object" && anyMod.default !== null
+          ? (anyMod.default as { animate?: unknown }).animate
+          : undefined) ??
+        anyMod.default
+
+      return typeof candidate === "function" ? (candidate as (...args: unknown[]) => unknown) : null
+    } catch {
+      return null
+    }
+  }
+
   React.useEffect(() => {
     const element = elementRef.current
     if (!element) return
@@ -41,15 +58,25 @@ export function useMountAnimation(options: UseMountAnimationOptions = {}) {
 
     // Animate on mount
     const animate = async () => {
-      const { animate: animeAnimate } = await import("animejs")
+      try {
+        const animeAnimate = await loadAnimeAnimate()
+        if (!animeAnimate) {
+          element.style.opacity = "1"
+          element.style.transform = "none"
+          return
+        }
 
-      animeAnimate(element, {
-        opacity: [0, 1],
-        translateY: [distance, 0],
-        duration,
-        delay,
-        ease: easing,
-      })
+        animeAnimate(element, {
+          opacity: [0, 1],
+          translateY: [distance, 0],
+          duration,
+          delay,
+          ease: easing,
+        })
+      } catch {
+        element.style.opacity = "1"
+        element.style.transform = "none"
+      }
     }
 
     animate()

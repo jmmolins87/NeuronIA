@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useMounted } from "@/hooks/use-mounted"
-import { Button } from "@/components/ui/button"
 import { DemoButton } from "@/components/cta/demo-button"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { AlertCircle, Home, ArrowLeft } from "lucide-react"
@@ -33,7 +32,7 @@ export default function NotFound() {
           <div className="relative z-20 text-center space-y-8">
             {/* Icon */}
             <div className="flex justify-center">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg">
                 <AlertCircle className="w-12 h-12 text-white" />
               </div>
             </div>
@@ -61,12 +60,12 @@ export default function NotFound() {
                 {t("notFound.goBack")}
               </DemoButton>
               
-              <Button asChild className="min-w-[200px]">
+              <DemoButton asChild className="min-w-[200px]">
                 <Link href="/">
                   <Home className="w-5 h-5 mr-2" />
                   {t("notFound.goHome")}
                 </Link>
-              </Button>
+              </DemoButton>
             </div>
 
             {/* Decorative Elements */}

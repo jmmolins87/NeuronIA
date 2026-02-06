@@ -80,66 +80,66 @@
 
   /* Base colors - Clean white background with dark text */
   --background: oklch(0.99 0.002 106);        /* Almost white with slight cool tint */
-  --foreground: oklch(0.18 0.015 250);        /* Deep navy-blue, high contrast */
+  --foreground: oklch(0.18 0.015 320);        /* Deep pink-purple-navy, high contrast */
 
   /* Card colors - Subtle elevation */
   --card: oklch(1 0 0);                       /* Pure white cards */
-  --card-foreground: oklch(0.18 0.015 250);   /* Same as foreground */
+  --card-foreground: oklch(0.18 0.015 320);   /* Same as foreground */
 
   /* Popover colors */
   --popover: oklch(1 0 0);                    /* Pure white */
-  --popover-foreground: oklch(0.18 0.015 250);
+  --popover-foreground: oklch(0.18 0.015 320);
 
-  /* Primary - VIBRANT BLUE (azul vibrante para light mode) */
-  --primary: oklch(0.55 0.25 250);            /* Vibrant blue */
-  --primary-foreground: oklch(0.99 0.01 250); /* White text on blue */
+  /* Primary - NEON PINK-PURPLE (morado rosado neón) */
+  --primary: oklch(0.65 0.32 320);            /* Neon pink-purple */
+  --primary-foreground: oklch(0.99 0.01 320); /* White text on purple */
 
-  /* Secondary - Purple accent */
-  --secondary: oklch(0.65 0.20 280);          /* Vibrant purple */
-  --secondary-foreground: oklch(0.99 0.01 280); /* White text */
+  /* Secondary - Pink-purple accent */
+  --secondary: oklch(0.68 0.28 315);          /* Neon pink-purple accent */
+  --secondary-foreground: oklch(0.99 0.01 315); /* White text */
 
   /* Muted - Subtle gray */
-  --muted: oklch(0.94 0.01 250);              /* Light gray-blue */
-  --muted-foreground: oklch(0.48 0.03 250);   /* Medium gray with hint */
+  --muted: oklch(0.94 0.01 320);              /* Light gray-pink-purple */
+  --muted-foreground: oklch(0.48 0.03 320);   /* Medium gray with pink-purple hint */
 
-  /* Accent - VIBRANT PURPLE-BLUE */
-  --accent: oklch(0.60 0.22 270);             /* Purple-blue accent */
-  --accent-foreground: oklch(0.99 0.01 270);  /* White text */
+  /* Accent - NEON PINK-MAGENTA */
+  --accent: oklch(0.70 0.35 325);             /* Neon pink-magenta accent */
+  --accent-foreground: oklch(0.99 0.01 325);  /* White text */
 
   /* Destructive - Red for errors */
   --destructive: oklch(0.60 0.24 25);         /* Vibrant red */
   --destructive-foreground: oklch(0.98 0.01 25); /* Light text on red */
 
-  /* Border and input - Subtle with blue hint */
-  --border: oklch(0.88 0.01 250);             /* Light border with blue hint */
-  --input: oklch(0.90 0.01 250);              /* Slightly darker input border */
-  --ring: oklch(0.55 0.25 250);               /* Blue focus ring */
+  /* Border and input - Subtle with pink-purple hint */
+  --border: oklch(0.88 0.01 320);             /* Light border with pink-purple hint */
+  --input: oklch(0.90 0.01 320);              /* Slightly darker input border */
+  --ring: oklch(0.65 0.32 320);               /* Neon pink-purple focus ring */
 
   /* Extra tokens */
-  --glow: oklch(0.55 0.25 250);               /* Blue for glows in light mode */
-  --section-alt: oklch(0.97 0.01 250);        /* Alternate section background */
+  --glow: oklch(0.65 0.32 320);               /* Neon pink-purple for glows in light mode */
+  --section-alt: oklch(0.97 0.01 320);        /* Alternate section background */
   
-  /* Gradient colors - Azul a Purple VIBRANTE */
-  --gradient-from: oklch(0.55 0.25 250);      /* Vibrant blue start */
-  --gradient-to: oklch(0.60 0.22 280);        /* Vibrant purple end */
-  --gradient-purple: oklch(0.65 0.28 290);    /* Vibrant purple for gradients */
+  /* Gradient colors - NEON PINK-PURPLE (morado rosado neón) */
+  --gradient-from: oklch(0.65 0.32 320);      /* Neon pink-purple start */
+  --gradient-to: oklch(0.68 0.30 310);        /* Neon magenta-purple end */
+  --gradient-purple: oklch(0.70 0.35 325);    /* Neon pink-magenta for gradients */
 
-  /* Chart colors - Blue/Purple palette for light mode */
-  --chart-1: oklch(0.55 0.25 250);            /* Vibrant blue */
-  --chart-2: oklch(0.60 0.22 280);            /* Vibrant purple */
-  --chart-3: oklch(0.65 0.20 270);            /* Purple-blue */
-  --chart-4: oklch(0.50 0.28 240);            /* Deep blue */
-  --chart-5: oklch(0.58 0.24 260);            /* Blue-purple */
+  /* Chart colors - Neon pink-purple palette for light mode */
+  --chart-1: oklch(0.65 0.32 320);            /* Neon pink-purple */
+  --chart-2: oklch(0.68 0.30 310);            /* Neon magenta-purple */
+  --chart-3: oklch(0.70 0.35 325);            /* Neon pink-magenta */
+  --chart-4: oklch(0.62 0.28 315);            /* Deep neon purple-pink */
+  --chart-5: oklch(0.66 0.30 305);            /* Neon purple-magenta */
 
   /* Sidebar colors */
-  --sidebar: oklch(0.98 0.005 250);
-  --sidebar-foreground: oklch(0.20 0.015 250);
-  --sidebar-primary: oklch(0.55 0.25 250);
-  --sidebar-primary-foreground: oklch(0.99 0.01 250);
-  --sidebar-accent: oklch(0.92 0.04 250);
-  --sidebar-accent-foreground: oklch(0.25 0.08 250);
-  --sidebar-border: oklch(0.88 0.01 250);
-  --sidebar-ring: oklch(0.55 0.25 250);
+  --sidebar: oklch(0.98 0.005 320);
+  --sidebar-foreground: oklch(0.20 0.015 320);
+  --sidebar-primary: oklch(0.65 0.32 320);
+  --sidebar-primary-foreground: oklch(0.99 0.01 320);
+  --sidebar-accent: oklch(0.92 0.04 320);
+  --sidebar-accent-foreground: oklch(0.25 0.08 320);
+  --sidebar-border: oklch(0.88 0.01 320);
+  --sidebar-ring: oklch(0.65 0.32 320);
 }
 
 .dark {
@@ -191,12 +191,12 @@
   
   /* Gradient colors - ABSOLUTE MAXIMUM neon vibrancy for dark mode */
   --gradient-from: oklch(0.92 0.35 166);      /* ABSOLUTE MAXIMUM neon green */
-  --gradient-to: oklch(0.78 0.32 230);        /* ABSOLUTE MAXIMUM neon blue */
+  --gradient-to: oklch(0.85 0.35 320);        /* MAXIMUM neon pink-magenta */
   --gradient-purple: oklch(0.75 0.32 290);    /* MAXIMUM neon purple for gradients */
 
   /* Chart colors - MAXIMUM neon vibrancy for dark */
   --chart-1: oklch(0.92 0.35 166);            /* MAXIMUM neon green */
-  --chart-2: oklch(0.78 0.32 230);            /* MAXIMUM neon blue */
+  --chart-2: oklch(0.85 0.35 320);            /* MAXIMUM neon pink-magenta */
   --chart-3: oklch(1.0 0.42 115);             /* ABSOLUTE MAXIMUM neon yellow */
   --chart-4: oklch(0.82 0.28 320);            /* MAXIMUM neon magenta */
   --chart-5: oklch(0.85 0.28 40);             /* MAXIMUM neon orange */
@@ -361,7 +361,7 @@
     background: linear-gradient(
       to right, 
       oklch(0.88 0.33 166), 
-      oklch(0.75 0.30 230), 
+      oklch(0.85 0.35 320), 
       oklch(0.88 0.33 166)
     );
     background-size: 200% auto;
@@ -377,9 +377,9 @@
     background: linear-gradient(
       120deg, 
       oklch(0.88 0.33 166), 
-      oklch(0.75 0.30 230), 
+      oklch(0.85 0.35 320), 
       oklch(0.88 0.33 166),
-      oklch(0.75 0.30 230)
+      oklch(0.85 0.35 320)
     );
     background-size: 300% auto;
     background-clip: text;
@@ -413,9 +413,9 @@
     background: linear-gradient(
       45deg, 
       oklch(0.88 0.33 166), 
-      oklch(0.75 0.30 230),
+      oklch(0.85 0.35 320),
       oklch(0.99 0.40 115),
-      oklch(0.75 0.30 230),
+      oklch(0.85 0.35 320),
       oklch(0.88 0.33 166)
     );
     background-size: 400% auto;
@@ -430,9 +430,9 @@
   .gradient-text-flow {
     background: linear-gradient(
       to left, 
-      oklch(0.75 0.30 230), 
+      oklch(0.85 0.35 320), 
       oklch(0.88 0.33 166), 
-      oklch(0.75 0.30 230)
+      oklch(0.85 0.35 320)
     );
     background-size: 200% auto;
     background-clip: text;
@@ -447,9 +447,9 @@
     background: linear-gradient(
       to bottom, 
       oklch(0.88 0.33 166), 
-      oklch(0.75 0.30 230),
+      oklch(0.85 0.35 320),
       oklch(0.88 0.33 166),
-      oklch(0.75 0.30 230)
+      oklch(0.85 0.35 320)
     );
     background-size: auto 300%;
     background-clip: text;
@@ -465,10 +465,10 @@
       to right, 
       oklch(0.88 0.33 166), 
       oklch(0.99 0.40 115),
-      oklch(0.75 0.30 230),
+      oklch(0.85 0.35 320),
       oklch(0.99 0.40 115),
       oklch(0.88 0.33 166),
-      oklch(0.75 0.30 230)
+      oklch(0.85 0.35 320)
     );
     background-size: 500% auto;
     background-clip: text;
@@ -484,7 +484,7 @@
     background: linear-gradient(
       to right, 
       oklch(0.92 0.35 166), 
-      oklch(0.78 0.32 230), 
+      oklch(0.85 0.35 320), 
       oklch(0.92 0.35 166)
     );
     background-size: 200% auto;
@@ -497,9 +497,9 @@
     background: linear-gradient(
       120deg, 
       oklch(0.92 0.35 166), 
-      oklch(0.78 0.32 230), 
+      oklch(0.85 0.35 320), 
       oklch(0.92 0.35 166),
-      oklch(0.78 0.32 230)
+      oklch(0.85 0.35 320)
     );
     background-size: 300% auto;
     background-clip: text;
@@ -511,9 +511,9 @@
     background: linear-gradient(
       45deg, 
       oklch(0.92 0.35 166), 
-      oklch(0.78 0.32 230),
+      oklch(0.85 0.35 320),
       oklch(1.0 0.42 115),
-      oklch(0.78 0.32 230),
+      oklch(0.85 0.35 320),
       oklch(0.92 0.35 166)
     );
     background-size: 400% auto;
@@ -525,9 +525,9 @@
   .dark .gradient-text-flow {
     background: linear-gradient(
       to left, 
-      oklch(0.78 0.32 230), 
+      oklch(0.85 0.35 320), 
       oklch(0.92 0.35 166), 
-      oklch(0.78 0.32 230)
+      oklch(0.85 0.35 320)
     );
     background-size: 200% auto;
     background-clip: text;
@@ -539,9 +539,9 @@
     background: linear-gradient(
       to bottom, 
       oklch(0.92 0.35 166), 
-      oklch(0.78 0.32 230),
+      oklch(0.85 0.35 320),
       oklch(0.92 0.35 166),
-      oklch(0.78 0.32 230)
+      oklch(0.85 0.35 320)
     );
     background-size: auto 300%;
     background-clip: text;
@@ -554,10 +554,10 @@
       to right, 
       oklch(0.92 0.35 166), 
       oklch(1.0 0.42 115),
-      oklch(0.78 0.32 230),
+      oklch(0.85 0.35 320),
       oklch(1.0 0.42 115),
       oklch(0.92 0.35 166),
-      oklch(0.78 0.32 230)
+      oklch(0.85 0.35 320)
     );
     background-size: 500% auto;
     background-clip: text;

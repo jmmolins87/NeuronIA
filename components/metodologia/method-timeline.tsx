@@ -20,7 +20,7 @@ export function MethodTimeline() {
         {timeline.map((phase, index) => (
           <div key={phase.title} className="relative flex gap-6 md:gap-8">
             {/* Step number */}
-            <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center text-white dark:text-black font-bold text-xl shadow-lg dark:glow-primary z-10">
+            <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center text-white dark:text-black font-bold text-xl shadow-lg dark:glow-primary z-10">
               {index + 1}
             </div>
             

@@ -8,7 +8,7 @@ import { useTranslation } from "@/components/providers/i18n-provider"
 import { Reveal } from "@/components/reveal"
 import { useCalendlyData } from "@/hooks/use-calendly-data"
 import { GridPattern } from "@/components/shapes/grid-pattern"
-import { Button } from "@/components/ui/button"
+import { DemoButton } from "@/components/cta/demo-button"
 import { BookingCalendar } from "@/components/booking-calendar"
 import {
   AlertDialog,
@@ -140,7 +140,7 @@ export default function ReservarPage() {
           <Reveal>
             <div className="max-w-4xl mx-auto text-center space-y-4">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-primary">
                   <Calendar className="w-8 h-8 text-white dark:text-black" />
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function ReservarPage() {
             <Reveal delay={200}>
               {hasSubmittedBefore ? (
                 <div className="rounded-xl border-2 border-blue-500/50 bg-card/80 backdrop-blur-sm p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
                     <Info className="w-8 h-8 text-white dark:text-black" />
                   </div>
                   <h3 className="text-2xl font-bold mb-2 text-foreground">
@@ -173,12 +173,12 @@ export default function ReservarPage() {
                     {t("booking.alreadySubmitted.description")}
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button onClick={handleGoToHome} variant="outline" size="lg">
+                    <DemoButton onClick={handleGoToHome}>
                       {t("booking.alreadySubmitted.goBack")}
-                    </Button>
-                    <Button onClick={handleGoToContact} size="lg">
+                    </DemoButton>
+                    <DemoButton onClick={handleGoToContact}>
                       {t("booking.alreadySubmitted.goToContact")}
-                    </Button>
+                    </DemoButton>
                   </div>
                 </div>
               ) : (

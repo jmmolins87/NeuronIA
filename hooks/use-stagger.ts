@@ -26,6 +26,23 @@ export function useStagger(options: UseStaggerOptions = {}) {
   const containerRef = React.useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = React.useState(false)
 
+  async function loadAnimeAnimate(): Promise<((...args: unknown[]) => unknown) | null> {
+    try {
+      const mod: unknown = await import("animejs")
+      const anyMod = mod as { animate?: unknown; default?: unknown }
+      const candidate =
+        anyMod.animate ??
+        (typeof anyMod.default === "object" && anyMod.default !== null
+          ? (anyMod.default as { animate?: unknown }).animate
+          : undefined) ??
+        anyMod.default
+
+      return typeof candidate === "function" ? (candidate as (...args: unknown[]) => unknown) : null
+    } catch {
+      return null
+    }
+  }
+
   React.useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -56,25 +73,53 @@ export function useStagger(options: UseStaggerOptions = {}) {
       }
     })
 
+    if (typeof IntersectionObserver === "undefined") {
+      children.forEach((child) => {
+        if (child instanceof HTMLElement) {
+          child.style.opacity = "1"
+          child.style.transform = "none"
+        }
+      })
+      return
+    }
+
     // IntersectionObserver
     const observer = new IntersectionObserver(
       async (entries) => {
         for (const entry of entries) {
-          const { animate } = await import("animejs")
-          
+          const animate = await loadAnimeAnimate()
+
           if (entry.isIntersecting) {
             setIsVisible(true)
 
             // Animate children with stagger - entering
-            children.forEach((child, index) => {
-              animate(child, {
-                opacity: [0, 1],
-                translateY: [distance, 0],
-                duration,
-                delay: delay + (index * stagger),
-                ease: easing,
+            try {
+              if (!animate) {
+                children.forEach((child) => {
+                  if (child instanceof HTMLElement) {
+                    child.style.opacity = "1"
+                    child.style.transform = "none"
+                  }
+                })
+              } else {
+                children.forEach((child, index) => {
+                  animate(child, {
+                    opacity: [0, 1],
+                    translateY: [distance, 0],
+                    duration,
+                    delay: delay + (index * stagger),
+                    ease: easing,
+                  })
+                })
+              }
+            } catch {
+              children.forEach((child) => {
+                if (child instanceof HTMLElement) {
+                  child.style.opacity = "1"
+                  child.style.transform = "none"
+                }
               })
-            })
+            }
 
             if (triggerOnce) {
               observer.unobserve(container)
@@ -83,15 +128,27 @@ export function useStagger(options: UseStaggerOptions = {}) {
             setIsVisible(false)
             
             // Animate children with stagger - leaving
-            children.forEach((child, index) => {
-              animate(child, {
-                opacity: [1, 0],
-                translateY: [0, distance / 2],
-                duration: duration * 0.6,
-                delay: index * (stagger / 2),
-                ease: easing,
+            try {
+              if (animate) {
+                children.forEach((child, index) => {
+                  animate(child, {
+                    opacity: [1, 0],
+                    translateY: [0, distance / 2],
+                    duration: duration * 0.6,
+                    delay: index * (stagger / 2),
+                    ease: easing,
+                  })
+                })
+              }
+            } catch {
+              // If animation fails, keep items visible.
+              children.forEach((child) => {
+                if (child instanceof HTMLElement) {
+                  child.style.opacity = "1"
+                  child.style.transform = "none"
+                }
               })
-            })
+            }
           }
         }
       },
@@ -101,7 +158,7 @@ export function useStagger(options: UseStaggerOptions = {}) {
     observer.observe(container)
 
     return () => observer.disconnect()
-  }, [delay, stagger, duration, distance, easing, threshold])
+  }, [delay, stagger, duration, distance, easing, threshold, triggerOnce])
 
   return { ref: containerRef, isVisible }
 }

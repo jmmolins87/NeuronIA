@@ -63,7 +63,7 @@ export function ThemeToggle({ size = "default" }: { size?: "default" | "large" }
         <DropdownMenuTrigger asChild>
           <button
             className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition-colors hover:bg-accent ${
-              isOpen ? "bg-gradient-to/10 text-gradient-to dark:bg-primary/10 dark:text-primary" : ""
+              isOpen ? "bg-primary/10 text-primary" : ""
             }`}
             aria-label={t("aria.toggleTheme")}
           >

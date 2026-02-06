@@ -52,7 +52,7 @@ export function RoiCtaSection() {
           <div className="grid gap-4 md:gap-5 lg:gap-6 md:grid-cols-2">
             <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-4 md:p-5 lg:p-6 backdrop-blur-sm">
               <div className="flex items-start gap-3 md:gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
                   <Euro className="w-5 h-5 md:w-6 md:h-6 text-white dark:text-black" />
                 </div>
                 <div className="flex-1 space-y-1 md:space-y-2">
@@ -68,7 +68,7 @@ export function RoiCtaSection() {
 
             <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 p-4 md:p-5 lg:p-6 backdrop-blur-sm">
               <div className="flex items-start gap-3 md:gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-blue-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center shadow-lg dark:glow-sm flex-shrink-0">
                   <Clock className="w-5 h-5 md:w-6 md:h-6 text-white dark:text-black" />
                 </div>
                 <div className="flex-1 space-y-1 md:space-y-2">

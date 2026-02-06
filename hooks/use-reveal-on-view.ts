@@ -27,6 +27,23 @@ export function useRevealOnView(
   const [isVisible, setIsVisible] = React.useState(false)
   const hasAnimated = React.useRef(false)
 
+  async function loadAnimeAnimate(): Promise<((...args: unknown[]) => unknown) | null> {
+    try {
+      const mod: unknown = await import("animejs")
+      const anyMod = mod as { animate?: unknown; default?: unknown }
+      const candidate =
+        anyMod.animate ??
+        (typeof anyMod.default === "object" && anyMod.default !== null
+          ? (anyMod.default as { animate?: unknown }).animate
+          : undefined) ??
+        anyMod.default
+
+      return typeof candidate === "function" ? (candidate as (...args: unknown[]) => unknown) : null
+    } catch {
+      return null
+    }
+  }
+
   React.useEffect(() => {
     const element = elementRef.current
     if (!element) return
@@ -47,6 +64,12 @@ export function useRevealOnView(
     element.style.opacity = "0"
     element.style.transform = `translateY(${distance}px)`
 
+    if (typeof IntersectionObserver === "undefined") {
+      element.style.opacity = "1"
+      element.style.transform = "none"
+      return
+    }
+
     // IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
@@ -57,30 +80,45 @@ export function useRevealOnView(
             setIsVisible(true)
             hasAnimated.current = true
 
-            // Dynamically import anime.js
-            const { animate } = await import("animejs")
-
-            // Animate with Anime.js
-            animate(element, {
-              opacity: [0, 1],
-              translateY: [distance, 0],
-              duration,
-              delay,
-              ease: easing,
-            })
+            try {
+              const animate = await loadAnimeAnimate()
+              if (!animate) {
+                element.style.opacity = "1"
+                element.style.transform = "none"
+              } else {
+                animate(element, {
+                  opacity: [0, 1],
+                  translateY: [distance, 0],
+                  duration,
+                  delay,
+                  ease: easing,
+                })
+              }
+            } catch {
+              element.style.opacity = "1"
+              element.style.transform = "none"
+            }
 
             if (triggerOnce) {
               observer.unobserve(element)
             }
           } else if (!triggerOnce) {
             setIsVisible(false)
-            const { animate } = await import("animejs")
-            animate(element, {
-              opacity: [1, 0],
-              translateY: [0, distance],
-              duration: duration * 0.6,
-              ease: easing,
-            })
+            try {
+              const animate = await loadAnimeAnimate()
+              if (animate) {
+                animate(element, {
+                  opacity: [1, 0],
+                  translateY: [0, distance],
+                  duration: duration * 0.6,
+                  ease: easing,
+                })
+              }
+            } catch {
+              // If animation fails, keep element visible.
+              element.style.opacity = "1"
+              element.style.transform = "none"
+            }
           }
         })
       },

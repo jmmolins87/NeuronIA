@@ -11,8 +11,9 @@ export function RoiButton({
       <Button
         {...props}
         variant="default"
+        size="lg"
         className={cn(
-          "box-border cursor-pointer border-2 border-transparent dark:glow-primary",
+          "h-12 box-border cursor-pointer border-2 border-transparent dark:glow-primary",
           className
         )}
       />
