@@ -15,7 +15,7 @@ export function ProblemSection() {
   const { ref: problemCardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
 
   return (
-    <Section variant="card" id="problem-section" className="ambient-section min-h-screen flex flex-col justify-center pt-32 pb-12 md:py-16 lg:py-20 relative overflow-hidden">
+    <Section variant="card" id="problem-section" className="ambient-section padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20 relative overflow-hidden">
       <FloatingParticles count={60} color="red" size="lg" />
       
       <div className="absolute inset-0 bg-gradient-radial from-red-600/20 via-transparent to-transparent dark:from-red-600/30 pointer-events-none" />
