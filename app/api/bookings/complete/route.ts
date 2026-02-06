@@ -90,36 +90,54 @@ export async function POST(req: NextRequest) {
       description: t(locale, "email.ics.description"),
     })
 
-    try {
-      const emailRes = await sendBookingConfirmedEmail({
-        to: result.customerEmail,
-        locale,
-        booking: {
-          startAt: result.bookingStartAt,
-          endAt: result.bookingEndAt,
-          timezone: result.bookingTimezone,
-          id: result.bookingId,
-        },
-        cancelUrl,
-        rescheduleUrl,
-        icsBase64,
-      })
+    if (env.EMAIL_ENABLED) {
+      try {
+        const emailRes = await sendBookingConfirmedEmail({
+          to: result.customerEmail,
+          locale,
+          booking: {
+            startAt: result.bookingStartAt,
+            endAt: result.bookingEndAt,
+            timezone: result.bookingTimezone,
+            id: result.bookingId,
+          },
+          cancelUrl,
+          rescheduleUrl,
+          icsBase64,
+        })
 
-      await createBookingEvent(prisma, result.bookingId, "EMAIL_SENT", {
+        await createBookingEvent(prisma, result.bookingId, "EMAIL_SENT", {
+          provider: "resend",
+          providerId: emailRes.id,
+          skipped: emailRes.skipped,
+          locale,
+        })
+      } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : "Unknown error"
+        await createBookingEvent(prisma, result.bookingId, "EMAIL_FAILED", {
+          provider: "resend",
+          error: msg,
+          locale,
+        })
+        return errorJson("EMAIL_FAILED", "Failed to send confirmation email.", {
+          status: 502,
+        })
+      }
+    } else {
+      await createBookingEvent(prisma, result.bookingId, "EMAIL_SKIPPED", {
         provider: "resend",
-        providerId: emailRes.id,
-        skipped: emailRes.skipped,
+        reason: "EMAIL_ENABLED=false",
         locale,
       })
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : "Unknown error"
-      await createBookingEvent(prisma, result.bookingId, "EMAIL_FAILED", {
-        provider: "resend",
-        error: msg,
-        locale,
-      })
-      return errorJson("EMAIL_FAILED", "Failed to send confirmation email.", {
-        status: 502,
+    }
+
+    if (env.NODE_ENV !== "production") {
+      return okJson({
+        debug: {
+          cancelUrl,
+          rescheduleUrl,
+          icsBase64,
+        },
       })
     }
 

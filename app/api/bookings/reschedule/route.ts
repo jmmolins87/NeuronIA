@@ -3,10 +3,13 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 
 import { env } from "@/lib/env"
+import { prisma } from "@/lib/prisma"
 import { errorJson, okJson } from "@/lib/api/respond"
 import { isApiError } from "@/lib/api/errors"
 import { getNow } from "@/lib/booking/time"
 import { rescheduleBookingByToken, validateRescheduleToken } from "@/lib/booking/reschedule"
+import { generateIcsBase64 } from "@/lib/ics/generate"
+import { t } from "@/lib/email/i18n"
 
 export const runtime = "nodejs"
 
@@ -91,7 +94,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await rescheduleBookingByToken({
+    const res = await rescheduleBookingByToken({
       token: body.token,
       now,
       newDate: body.newDate,
@@ -99,6 +102,38 @@ export async function POST(req: NextRequest) {
       durationMinutes: body.durationMinutes,
       locale: body.locale,
     })
+
+    if (env.NODE_ENV !== "production") {
+      const booking = await prisma.booking.findUnique({
+        where: { id: res.bookingId },
+        select: {
+          id: true,
+          startAt: true,
+          endAt: true,
+          timezone: true,
+          locale: true,
+        },
+      })
+
+      const locale = (booking?.locale === "en" ? "en" : "es") as "es" | "en"
+      const icsBase64 = booking
+        ? generateIcsBase64({
+            startAt: booking.startAt,
+            endAt: booking.endAt,
+            tz: booking.timezone,
+            uid: `${booking.id}@clinvetia.com`,
+            summary: t(locale, "email.ics.summary"),
+            description: t(locale, "email.ics.description"),
+          })
+        : ""
+
+      return okJson({
+        debug: {
+          icsBase64,
+        },
+      })
+    }
+
     return okJson({})
   } catch (error: unknown) {
     if (isApiError(error)) {
