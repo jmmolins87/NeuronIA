@@ -10,6 +10,7 @@ export interface BrevoAttachment {
 export interface SendTransacEmailArgs {
   from: { name?: string; email: string }
   to: Array<{ name?: string; email: string }>
+  replyTo?: { name?: string; email: string }
   subject: string
   html: string
   text: string
@@ -50,6 +51,13 @@ export async function sendTransacEmail(args: SendTransacEmailArgs) {
     subject: args.subject,
     htmlContent: args.html,
     textContent: args.text,
+  }
+
+  if (args.replyTo) {
+    payload.replyTo = {
+      email: args.replyTo.email,
+      ...(args.replyTo.name ? { name: args.replyTo.name } : {}),
+    }
   }
 
   if (args.attachments && args.attachments.length > 0) {

@@ -9,25 +9,72 @@ export interface AiAgentBubbleProps {
   className?: string
 }
 
+const CUSTOM_SOURCES_JSON = process.env.NEXT_PUBLIC_AI_AGENT_VIDEO_SOURCES ?? ""
+const CUSTOM_SRC = process.env.NEXT_PUBLIC_AI_AGENT_VIDEO_SRC ?? ""
+const CUSTOM_WEBM = process.env.NEXT_PUBLIC_AI_AGENT_VIDEO_SRC_WEBM ?? ""
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function parseCustomSourcesJson(value: string): Array<{ src: string; type?: string }> {
+  const trimmed = value.trim()
+  if (!trimmed) return []
+  try {
+    const parsed: unknown = JSON.parse(trimmed)
+    if (!Array.isArray(parsed)) return []
+
+    const out: Array<{ src: string; type?: string }> = []
+    for (const item of parsed) {
+      if (!isRecord(item)) continue
+      const src = item.src
+      const type = item.type
+      if (typeof src !== "string") continue
+      const srcTrimmed = src.trim()
+      if (!srcTrimmed) continue
+      out.push({ src: srcTrimmed, ...(typeof type === "string" && type.trim() ? { type: type.trim() } : {}) })
+    }
+    return out
+  } catch {
+    return []
+  }
+}
+
+function buildVideoSources(): Array<{ src: string; type?: string }> {
+  const list: Array<{ src: string; type?: string }> = []
+
+  for (const s of parseCustomSourcesJson(CUSTOM_SOURCES_JSON)) {
+    list.push(s)
+  }
+
+  if (CUSTOM_WEBM.trim()) list.push({ src: CUSTOM_WEBM.trim(), type: "video/webm" })
+  if (CUSTOM_SRC.trim()) {
+    const v = CUSTOM_SRC.trim()
+    const type = v.toLowerCase().endsWith(".webm") ? "video/webm" : v.toLowerCase().endsWith(".ogv") ? "video/ogg" : "video/mp4"
+    list.push({ src: v, type })
+  }
+
+  // Default paths (drop your files into public/videos/avatar/)
+  list.push({ src: "/videos/avatar/agent.webm", type: "video/webm" })
+  list.push({ src: "/videos/avatar/agent.mp4", type: "video/mp4" })
+  list.push({ src: "/videos/avatar/agent.ogv", type: "video/ogg" })
+  list.push({ src: "/videos/avatar/agent.mov", type: "video/quicktime" })
+
+  // Alternate common names
+  list.push({ src: "/videos/avatar/avatar.webm", type: "video/webm" })
+  list.push({ src: "/videos/avatar/avatar.mp4", type: "video/mp4" })
+
+  const seen = new Set<string>()
+  return list.filter((s) => {
+    if (seen.has(s.src)) return false
+    seen.add(s.src)
+    return true
+  })
+}
+
 export function AiAgentBubble({ className }: AiAgentBubbleProps) {
   const [videoFailed, setVideoFailed] = React.useState(false)
-
-  const customSrc = process.env.NEXT_PUBLIC_AI_AGENT_VIDEO_SRC
-  const customWebm = process.env.NEXT_PUBLIC_AI_AGENT_VIDEO_SRC_WEBM
-
-  const sources = React.useMemo(() => {
-    const list: Array<{ src: string; type: string }> = []
-    if (typeof customWebm === "string" && customWebm.trim().length > 0) {
-      list.push({ src: customWebm.trim(), type: "video/webm" })
-    }
-    if (typeof customSrc === "string" && customSrc.trim().length > 0) {
-      const ext = customSrc.trim().toLowerCase().endsWith(".webm") ? "video/webm" : "video/mp4"
-      list.push({ src: customSrc.trim(), type: ext })
-    }
-    list.push({ src: "/videos/avatar/agent.webm", type: "video/webm" })
-    list.push({ src: "/videos/avatar/agent.mp4", type: "video/mp4" })
-    return list
-  }, [customSrc, customWebm])
+  const sources = buildVideoSources()
 
   return (
     <div
@@ -60,13 +107,18 @@ export function AiAgentBubble({ className }: AiAgentBubbleProps) {
             onError={() => setVideoFailed(true)}
           >
             {sources.map((s) => (
-              <source key={`${s.src}:${s.type}`} src={s.src} type={s.type} />
+              <source key={`${s.src}:${s.type ?? ""}`} src={s.src} type={s.type} />
             ))}
           </video>
         ) : (
           <div className="relative z-10 flex h-full w-full items-center justify-center">
             <div className="absolute inset-0 animate-pulse bg-primary/10" aria-hidden />
-            <Bot className="size-10 text-primary" aria-hidden />
+            <div className="flex flex-col items-center gap-2 px-3 text-center">
+              <Bot className="size-10 text-primary" aria-hidden />
+              <div className="text-[10px] font-semibold text-muted-foreground">
+                {process.env.NODE_ENV === "development" ? "Missing avatar video" : "Agent"}
+              </div>
+            </div>
           </div>
         )}
 

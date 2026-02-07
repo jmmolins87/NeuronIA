@@ -151,6 +151,13 @@ export async function sendCancelledEmail(args: {
   const subject = `${args.subjectPrefix ?? ""}${template.subject}`
   const from = parseFrom(env.EMAIL_FROM)
 
+  const replyTo = env.INBOUND_EMAIL_DOMAIN
+    ? {
+        name: "ClinvetIA",
+        email: `booking+${args.booking.id}@${env.INBOUND_EMAIL_DOMAIN}`,
+      }
+    : undefined
+
   const dryRun = env.NODE_ENV !== "production" && (env.EMAIL_DRY_RUN ?? false)
 
   await writeEventSafe({
@@ -172,6 +179,7 @@ export async function sendCancelledEmail(args: {
     const res = await sendTransacEmail({
       from,
       to: [{ email: toEmail, name: args.booking.contactName ?? undefined }],
+      replyTo,
       subject,
       html: template.html,
       text: template.text,

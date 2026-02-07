@@ -37,6 +37,7 @@ const EnvSchema = z.object({
   CRON_SECRET: z.string().min(1).optional(),
   ADMIN_API_KEY: z.string().min(1).optional(),
   BREVO_INBOUND_TOKEN: z.string().min(1).optional(),
+  INBOUND_EMAIL_DOMAIN: z.string().min(1).optional(),
   WHATSAPP_VERIFY_TOKEN: z.string().min(1).optional(),
 
   // Booking configuration (backend-first reservations)
@@ -91,6 +92,7 @@ const parsed = EnvSchemaWithRefinements.safeParse({
   CRON_SECRET: process.env.CRON_SECRET,
   ADMIN_API_KEY: process.env.ADMIN_API_KEY,
   BREVO_INBOUND_TOKEN: process.env.BREVO_INBOUND_TOKEN,
+  INBOUND_EMAIL_DOMAIN: process.env.INBOUND_EMAIL_DOMAIN,
   WHATSAPP_VERIFY_TOKEN: process.env.WHATSAPP_VERIFY_TOKEN,
 
   BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
