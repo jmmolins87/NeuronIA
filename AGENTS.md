@@ -10,13 +10,15 @@ Rules and conventions for agentic coding tools operating in this repo.
 - Linting: ESLint v9 flat config in `eslint.config.mjs` (Next core-web-vitals + typescript)
 - Theme: `next-themes` (system default + manual toggle)
 - i18n: custom ES/EN provider in `components/providers/i18n-provider.tsx`
-- DB: Postgres + Prisma (`prisma/schema.prisma`), client in `lib/prisma.ts`
+- DB: Postgres + Prisma (`prisma/schema.prisma`), client singleton in `lib/prisma.ts`
 
 ## Commands
 
 ```bash
 # Install (use npm; see package-lock.json)
 npm install
+
+# Requirements
 # Node: >= 20 (see package.json engines)
 
 # Dev
@@ -26,7 +28,7 @@ npm run dev
 npm run build
 npm run start
 
-# Lint
+# Lint (repo) / lint one file
 npm run lint
 npm run lint -- --fix
 npx eslint app/some/page.tsx
@@ -62,12 +64,13 @@ npm run prisma:studio
 
 - Strict TS: no ignored type errors; avoid `any` (use `unknown` + narrowing)
 - Prefer `interface` for object shapes; `type` for unions/intersections; use `import type` for type-only imports
-- Prefer `const`; avoid mutation; keep helpers small and total; exported non-trivial functions/components use explicit return types
+- Prefer `const`; avoid mutation; keep helpers small and total
+- Exported non-trivial functions/components: use explicit return types
 - Keep public APIs boring: stable names, small parameter surfaces, predictable return types
 
 ## Imports
 
-Group imports with blank lines, and keep diffs minimal (do not reorder unless touching that block):
+Group imports with blank lines; keep diffs minimal (do not reorder unless touching that block):
 
 ```ts
 import type { Metadata } from "next"
@@ -85,7 +88,8 @@ Order: type-only, React/Next, third-party, `@/` aliases, relative, then CSS.
 
 ## Formatting
 
-- Use double quotes for strings in TS/TSX; in JS/MJS match the file; semicolons vary (match the file)
+- Use double quotes for strings in TS/TSX; in JS/MJS match the file you edit
+- Semicolons vary (match the file)
 - Avoid drive-by formatting; ESLint is the source of truth (no Prettier)
 
 ## Naming / Structure
@@ -104,9 +108,8 @@ Order: type-only, React/Next, third-party, `@/` aliases, relative, then CSS.
 ## API / Data Conventions
 
 - Validate inputs with `zod` in route handlers
-- Response helpers:
-  - `okJson()` / `errorJson()` from `lib/api/respond.ts` (payload includes `{ ok: true|false }`)
-  - For structured failures: throw `ApiError` from `lib/api/errors.ts`, catch, and map to `errorJson`
+- Prefer the response helpers from `lib/api/respond.ts`: `okJson()` / `errorJson()` (payload includes `{ ok: true|false }`)
+- For structured failures: throw `ApiError` from `lib/api/errors.ts`, catch, and map to `errorJson`
 - Do not leak secrets/tokens in responses or logs; prefer generic messages in production
 - Many API routes should run in Node for Prisma/crypto: `export const runtime = "nodejs"`
 
@@ -120,15 +123,15 @@ Order: type-only, React/Next, third-party, `@/` aliases, relative, then CSS.
 ## Styling (Tailwind)
 
 - Prefer Tailwind utilities and semantic tokens (e.g. `bg-background`, `text-foreground`, `border-border`)
-- Do not hardcode colors in TS/TSX (`bg-[#...]`, `rgb(...)`, etc.)
 - Avoid inline styles; `npm run audit:inline` will fail
 - If an inline style is truly necessary, document it with `// @allowed-inline-style` and keep it minimal
+- Avoid hardcoded colors in TS/TSX (`bg-[#...]`, `rgb(...)`, etc.); prefer tokens over one-off palette classes
 - Prefer conditional classes via `cn()` from `lib/utils.ts`
 
 ## i18n (Critical)
 
 - UI copy must come from `t()` (via `useTranslation()`); avoid hardcoded strings in JSX
-- Locale files: `locales/es.json` and `locales/en.json` must stay in sync (nested keys, dot-notation access)
+- Locale files `locales/es.json` and `locales/en.json` must stay in sync (nested keys, dot-notation access)
 - Variable interpolation uses `{{var}}`
 - Run `npm run audit:i18n` after adding/modifying user-facing text
 - Admin area uses `app/admin/_ui-text.ts` today; prefer migrating to shared i18n rather than adding more literals
@@ -146,8 +149,8 @@ Order: type-only, React/Next, third-party, `@/` aliases, relative, then CSS.
 
 ## Accessibility
 
-- Icon-only buttons must have `aria-label`; keyboard navigation must work
-- Respect `prefers-reduced-motion` for animations
+- Icon-only buttons must have `aria-label`
+- Keyboard navigation must work; respect `prefers-reduced-motion` for animations
 
 ## Git / Workflow
 

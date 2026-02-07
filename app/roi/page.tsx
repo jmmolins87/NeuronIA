@@ -647,16 +647,16 @@ export default function ROIPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction 
-              onClick={() => {
-                setShowIncompleteDialog(false)
-                setPendingNavigation(null)
-              }}
-              variant="outline"
-              className="bg-foreground text-background hover:bg-foreground/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90"
-            >
-              {t("roi.dialog.incomplete.button")}
-            </AlertDialogAction>
+            <DemoButton asChild>
+              <AlertDialogPrimitive.Action
+                onClick={() => {
+                  setShowIncompleteDialog(false)
+                  setPendingNavigation(null)
+                }}
+              >
+                {t("roi.dialog.incomplete.button")}
+              </AlertDialogPrimitive.Action>
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
