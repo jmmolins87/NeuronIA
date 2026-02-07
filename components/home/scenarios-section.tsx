@@ -11,7 +11,11 @@ export function ScenariosSection() {
   const { t } = useTranslation()
 
   return (
-    <Section variant="card" id="scenarios-section" className="home-reflections min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 pb-12 md:pb-20">
+    <Section
+      variant="card"
+      id="scenarios-section"
+      className="home-reflections home-surface-scenarios home-shadow-scenarios min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 pb-12 md:pb-20"
+    >
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">

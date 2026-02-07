@@ -51,7 +51,7 @@ export function FinalCtaSection({
     <Section
       variant="alt"
       id={id}
-      className="home-reflections min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 pb-12 md:pb-0"
+      className="home-reflections home-surface-final home-shadow-final min-h-screen md:min-h-[calc(100vh-400px)] flex flex-col justify-center py-16 pb-12 md:pb-0"
     >
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <Reveal delay={100}>

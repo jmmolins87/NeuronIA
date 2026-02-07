@@ -12,7 +12,11 @@ export function ProblemSection() {
   const { ref: problemCardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
 
   return (
-    <Section variant="card" id="problem-section" className="home-reflections padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20">
+    <Section
+      variant="card"
+      id="problem-section"
+      className="home-reflections home-surface-problem home-shadow-problem padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20"
+    >
       <div className="container relative z-10 mx-auto max-w-screen-xl px-fluid">
         <Reveal delay={100}>
           <div className="max-w-4xl mx-auto text-center space-y-3 md:space-y-4 lg:space-y-5 mb-8 md:mb-10 lg:mb-12">

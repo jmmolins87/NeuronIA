@@ -12,7 +12,11 @@ export function SystemSection() {
   const { ref: systemFeaturesRef } = useStagger({ stagger: 100, duration: 600, distance: 40 })
 
   return (
-    <Section variant="default" id="system-section" className="home-reflections min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0">
+    <Section
+      variant="default"
+      id="system-section"
+      className="home-reflections home-surface-system home-shadow-system min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0"
+    >
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <Reveal>
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
