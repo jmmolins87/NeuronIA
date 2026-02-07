@@ -22,6 +22,34 @@ enum BookingTokenKind {
   RESCHEDULE
 }
 
+enum AgentChannel {
+  WEB_FORM
+  EMAIL
+  WHATSAPP
+}
+
+enum AgentThreadStatus {
+  OPEN
+  CLOSED
+}
+
+enum AgentMessageDirection {
+  IN
+  OUT
+}
+
+enum AgentJobType {
+  PROCESS_BOOKING_EVENT
+  PROCESS_INBOUND_MESSAGE
+}
+
+enum AgentJobStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
 model Booking {
   id        String        @id @default(cuid())
   status    BookingStatus
@@ -80,10 +108,61 @@ model BookingEvent {
   bookingId   String
   type        String
   payloadJson Json
+  processedAt DateTime?
   createdAt   DateTime @default(now())
 
   booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   @@index([bookingId, createdAt])
   @@index([type, createdAt])
+  @@index([processedAt])
+}
+
+model AgentThread {
+  id             String            @id @default(cuid())
+  channel        AgentChannel
+  externalId     String
+  locale         String
+  customerName   String?
+  customerEmail  String?
+  customerPhone  String?
+  status         AgentThreadStatus @default(OPEN)
+  lastMessageAt  DateTime
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  messages       AgentMessage[]
+
+  @@unique([channel, externalId])
+  @@index([status, lastMessageAt])
+  @@index([customerEmail])
+}
+
+model AgentMessage {
+  id         String                @id @default(cuid())
+  threadId   String
+  direction  AgentMessageDirection
+  text       String
+  raw        Json
+  createdAt  DateTime              @default(now())
+
+  thread     AgentThread           @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId, createdAt])
+}
+
+model AgentJob {
+  id           String         @id @default(cuid())
+  type         AgentJobType
+  payload      Json
+  bookingEventId String?      @unique
+  runAt        DateTime
+  status       AgentJobStatus @default(PENDING)
+  attempts     Int            @default(0)
+  lastError    String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([status, runAt])
+  @@index([type, status, runAt])
 }

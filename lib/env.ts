@@ -33,6 +33,12 @@ const EnvSchema = z.object({
   EMAIL_NOTIFY_ADMIN: BooleanStringSchema.optional(),
   ADMIN_EMAIL: z.string().min(1).optional(),
 
+  // Agent / cron / inbound
+  CRON_SECRET: z.string().min(1).optional(),
+  ADMIN_API_KEY: z.string().min(1).optional(),
+  BREVO_INBOUND_TOKEN: z.string().min(1).optional(),
+  WHATSAPP_VERIFY_TOKEN: z.string().min(1).optional(),
+
   // Booking configuration (backend-first reservations)
   BOOKING_TIMEZONE: z.literal("Europe/Madrid").default("Europe/Madrid"),
   BOOKING_START_TIME: TimeHHmmSchema.default("09:00"),
@@ -81,6 +87,11 @@ const parsed = EnvSchemaWithRefinements.safeParse({
 
   EMAIL_NOTIFY_ADMIN: process.env.EMAIL_NOTIFY_ADMIN,
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+
+  CRON_SECRET: process.env.CRON_SECRET,
+  ADMIN_API_KEY: process.env.ADMIN_API_KEY,
+  BREVO_INBOUND_TOKEN: process.env.BREVO_INBOUND_TOKEN,
+  WHATSAPP_VERIFY_TOKEN: process.env.WHATSAPP_VERIFY_TOKEN,
 
   BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
   BOOKING_START_TIME: process.env.BOOKING_START_TIME,
