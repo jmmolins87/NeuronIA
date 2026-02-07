@@ -4,9 +4,6 @@ import * as React from "react"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useStagger } from "@/hooks/use-stagger"
-import { BlobShape } from "@/components/shapes/blob-shape"
-import { GridPattern } from "@/components/shapes/grid-pattern"
-import { FloatingParticles } from "@/components/animations/floating-particles"
 import { Reveal } from "@/components/reveal"
 import { MessageCircle, Users, AlertCircle, Calendar } from "lucide-react"
 
@@ -15,17 +12,7 @@ export function ProblemSection() {
   const { ref: problemCardsRef } = useStagger({ stagger: 120, duration: 650, distance: 40 })
 
   return (
-    <Section variant="card" id="problem-section" className="ambient-section padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20 relative overflow-hidden">
-      <FloatingParticles count={60} color="red" size="lg" />
-      
-      <div className="absolute inset-0 bg-gradient-radial from-red-600/20 via-transparent to-transparent dark:from-red-600/30 pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-1/3 bg-destructive/5 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-destructive/5 pointer-events-none" />
-      
-      <BlobShape position="top-left" color="primary" className="w-[500px] h-[500px] opacity-10" parallax parallaxSpeed={0.2} />
-      <BlobShape position="bottom-right" color="accent" className="w-[600px] h-[600px] opacity-10" parallax parallaxSpeed={0.3} />
-      <GridPattern squares={[[3, 2], [7, 5], [12, 3], [18, 8], [5, 10], [15, 6]]} />
-      
+    <Section variant="card" id="problem-section" className="home-reflections padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20">
       <div className="container relative z-10 mx-auto max-w-screen-xl px-fluid">
         <Reveal delay={100}>
           <div className="max-w-4xl mx-auto text-center space-y-3 md:space-y-4 lg:space-y-5 mb-8 md:mb-10 lg:mb-12">

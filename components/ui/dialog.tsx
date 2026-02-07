@@ -45,11 +45,33 @@ function DialogOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+  const ref = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) return
+      if (process.env.NODE_ENV === "production") return
+
+      const cs = window.getComputedStyle(node)
+      console.info("[ui] DialogOverlay mounted", {
+        className,
+        computed: {
+          backgroundColor: cs.backgroundColor,
+          opacity: cs.opacity,
+          backdropFilter: cs.backdropFilter,
+          webkitBackdropFilter: (cs as unknown as { webkitBackdropFilter?: string })
+            .webkitBackdropFilter,
+        },
+      })
+    },
+    [className]
+  )
+
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
+      data-overlay-version="ui-overlay-2026-02-07"
+      ref={ref}
       className={cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/60 dark:bg-black/50 supports-[backdrop-filter]:bg-black/30 dark:supports-[backdrop-filter]:bg-black/20 backdrop-blur-xl backdrop-saturate-150 overscroll-contain touch-none",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-transparent backdrop-blur-none overscroll-contain touch-none",
         className
       )}
       {...props}
@@ -61,18 +83,20 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  overlayClassName,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
+  overlayClassName?: string
 }) {
   return (
     <DialogPortal data-slot="dialog-portal">
-      <DialogOverlay />
+      <DialogOverlay className={overlayClassName} />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         data-lenis-prevent
         className={cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 outline-none sm:max-w-lg max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain touch-auto [-webkit-overflow-scrolling:touch]",
+          "bg-background/85 supports-[backdrop-filter]:bg-background/65 backdrop-blur-xl backdrop-saturate-150 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 outline-none sm:max-w-lg max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain touch-auto [-webkit-overflow-scrolling:touch]",
           className
         )}
         {...props}

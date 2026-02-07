@@ -42,11 +42,33 @@ function SheetOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
+  const ref = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) return
+      if (process.env.NODE_ENV === "production") return
+
+      const cs = window.getComputedStyle(node)
+      console.info("[ui] SheetOverlay mounted", {
+        className,
+        computed: {
+          backgroundColor: cs.backgroundColor,
+          opacity: cs.opacity,
+          backdropFilter: cs.backdropFilter,
+          webkitBackdropFilter: (cs as unknown as { webkitBackdropFilter?: string })
+            .webkitBackdropFilter,
+        },
+      })
+    },
+    [className]
+  )
+
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
+      data-overlay-version="ui-overlay-2026-02-07"
+      ref={ref}
       className={cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/60 dark:bg-black/50 supports-[backdrop-filter]:bg-black/30 dark:supports-[backdrop-filter]:bg-black/20 backdrop-blur-xl backdrop-saturate-150 overscroll-contain touch-none",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-transparent backdrop-blur-none overscroll-contain touch-none",
         className
       )}
       {...props}
@@ -59,14 +81,16 @@ function SheetContent({
   children,
   side = "right",
   showCloseButton = true,
+  overlayClassName,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left"
   showCloseButton?: boolean
+  overlayClassName?: string
 }) {
   return (
     <SheetPortal>
-      <SheetOverlay />
+      <SheetOverlay className={overlayClassName} />
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(

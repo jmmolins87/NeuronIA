@@ -634,7 +634,10 @@ export default function ROIPage() {
 
       {/* Incomplete Data Dialog */}
       <AlertDialog open={showIncompleteDialog} onOpenChange={setShowIncompleteDialog}>
-        <AlertDialogContent size="lg">
+        <AlertDialogContent
+          size="lg"
+          overlayClassName="!bg-transparent dark:!bg-transparent supports-[backdrop-filter]:!bg-transparent dark:supports-[backdrop-filter]:!bg-transparent !backdrop-blur-none !backdrop-saturate-100"
+        >
           <AlertDialogHeader>
             <AlertDialogMedia className="bg-red-500/10 dark:bg-red-500/20">
               <AlertTriangle className="text-red-600 dark:text-red-500" />

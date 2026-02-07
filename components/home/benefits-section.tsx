@@ -4,8 +4,6 @@ import * as React from "react"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useStagger } from "@/hooks/use-stagger"
-import { GridPattern } from "@/components/shapes/grid-pattern"
-import { PulsingGrid } from "@/components/animations/pulsing-grid"
 import { Reveal } from "@/components/reveal"
 import { Zap, TrendingUp, Heart, Target } from "lucide-react"
 
@@ -14,9 +12,7 @@ export function BenefitsSection() {
   const { ref: benefitsRef } = useStagger({ stagger: 150, duration: 700, distance: 40 })
 
   return (
-    <Section variant="default" id="benefits-section" className="ambient-section min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0">
-      <PulsingGrid />
-      <GridPattern squares={[[2, 3], [5, 1], [8, 5], [12, 8], [15, 2], [10, 9]]} />
+    <Section variant="default" id="benefits-section" className="home-reflections min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0">
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <Reveal delay={100}>
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">

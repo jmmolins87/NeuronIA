@@ -4,8 +4,6 @@ import * as React from "react"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useStagger } from "@/hooks/use-stagger"
-import { CircuitLines } from "@/components/shapes/circuit-lines"
-import { RotatingRings } from "@/components/animations/rotating-rings"
 import { Reveal } from "@/components/reveal"
 import { Brain, Clock, Calendar, BellRing } from "lucide-react"
 
@@ -14,9 +12,7 @@ export function SystemSection() {
   const { ref: systemFeaturesRef } = useStagger({ stagger: 100, duration: 600, distance: 40 })
 
   return (
-    <Section variant="default" id="system-section" className="ambient-section min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0">
-      <RotatingRings count={6} />
-      <CircuitLines />
+    <Section variant="default" id="system-section" className="home-reflections min-h-screen md:h-screen flex flex-col justify-center py-16 pb-12 md:pb-0">
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <Reveal>
           <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">

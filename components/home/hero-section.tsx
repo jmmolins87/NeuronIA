@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import dynamic from "next/dynamic"
 import Link from "next/link"
 import { DemoButton } from "@/components/cta/demo-button"
 import { RoiButton } from "@/components/cta/roi-button"
@@ -9,13 +8,7 @@ import { Logo } from "@/components/logo"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useMountAnimation } from "@/hooks/use-mount-animation"
-import { FloatingParticles } from "@/components/animations/floating-particles"
 import { ScrollIndicator } from "@/components/scroll-indicator"
-
-const ThreeBackdrop = dynamic(
-  () => import("@/components/canvas/three-backdrop").then((mod) => mod.ThreeBackdrop),
-  { ssr: false }
-)
 
 export function HeroSection() {
   const { t } = useTranslation()
@@ -26,9 +19,7 @@ export function HeroSection() {
   const { ref: heroButtonsRef } = useMountAnimation({ delay: 900, duration: 800, distance: 30 })
 
   return (
-    <Section variant="default" id="hero" className="ambient-section relative h-[calc(100vh-4rem)] flex flex-col items-center justify-center pb-12 md:pb-0">
-      <FloatingParticles count={30} color="primary" size="sm" />
-      <ThreeBackdrop />
+    <Section variant="default" id="hero" className="home-reflections h-[calc(100vh-4rem)] flex flex-col items-center justify-center pb-12 md:pb-0">
       <div className="container relative z-10 mx-auto max-w-screen-2xl px-fluid py-8 md:py-0 text-center flex-1 flex items-center">
         <div className="max-w-7xl mx-auto space-fluid-lg w-full">
           <div

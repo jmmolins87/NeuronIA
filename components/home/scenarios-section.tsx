@@ -5,18 +5,13 @@ import Link from "next/link"
 import { Section } from "@/components/section"
 import { DemoButton } from "@/components/cta/demo-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
-import { BlobShape } from "@/components/shapes/blob-shape"
-import { SpiralDots } from "@/components/animations/spiral-dots"
 import { AlertCircle, Syringe, Activity, Scissors } from "lucide-react"
 
 export function ScenariosSection() {
   const { t } = useTranslation()
 
   return (
-    <Section variant="card" id="scenarios-section" className="ambient-section min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 pb-12 md:pb-20">
-      <SpiralDots />
-      <BlobShape position="top-right" color="gradient" parallax parallaxSpeed={0.25} />
-      <BlobShape position="bottom-left" color="primary" className="w-80 h-80" parallax parallaxSpeed={0.35} />
+    <Section variant="card" id="scenarios-section" className="home-reflections min-h-screen md:h-screen flex flex-col justify-center py-16 md:py-20 pb-12 md:pb-20">
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">

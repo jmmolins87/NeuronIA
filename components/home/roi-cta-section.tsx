@@ -5,9 +5,6 @@ import Link from "next/link"
 import { Section } from "@/components/section"
 import { RoiButton } from "@/components/cta/roi-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
-import { BlobShape } from "@/components/shapes/blob-shape"
-import { CircuitLines } from "@/components/shapes/circuit-lines"
-import { MeteorShower } from "@/components/animations/meteor-shower"
 import { AnimatedNumber } from "@/components/animated-number"
 import { Euro, Clock } from "lucide-react"
 
@@ -15,10 +12,7 @@ export function RoiCtaSection() {
   const { t } = useTranslation()
 
   return (
-    <Section variant="muted" id="roi-section" className="ambient-section min-h-screen flex flex-col justify-center py-12 md:py-16 lg:py-20">
-      <MeteorShower />
-      <CircuitLines />
-      <BlobShape position="center" color="accent" className="w-[500px] h-[500px]" parallax parallaxSpeed={0.3} />
+    <Section variant="muted" id="roi-section" className="home-reflections min-h-screen flex flex-col justify-center py-12 md:py-16 lg:py-20">
       <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3 md:space-y-4 lg:space-y-5 mb-8 md:mb-10">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
