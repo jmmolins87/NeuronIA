@@ -1102,5 +1102,14 @@
     "description": "Sorry, the page you are looking for does not exist or has been moved.",
     "goBack": "Go Back",
     "goHome": "Go Home"
+  },
+  "booking": {
+    "ics": {
+      "summary": "ClinvetIA appointment",
+      "description": "Your appointment with ClinvetIA. Date: {{date}} at {{time}} ({{timezone}})."
+    },
+    "cancel": {
+      "success": "Your booking has been cancelled."
+    }
   }
 }

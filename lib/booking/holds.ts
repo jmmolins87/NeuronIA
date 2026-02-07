@@ -5,7 +5,7 @@ import type { Booking, BookingToken, Prisma } from "@prisma/client"
 import { bookingConfig } from "@/lib/booking/config"
 import { ApiError } from "@/lib/errors"
 import { assertIsoDateNotPast, assertStartAtNotPast, zonedLocalToUtcDate } from "@/lib/booking/time"
-import { generateSessionToken, sha256Hex } from "@/lib/booking/tokens"
+import { generateBookingUid, generateSessionToken, sha256Hex } from "@/lib/booking/tokens"
 
 export async function expireHolds(db: Prisma.TransactionClient, now: Date): Promise<number> {
   const result = await db.booking.updateMany({
@@ -62,6 +62,7 @@ export async function createHold(db: Prisma.TransactionClient, input: CreateHold
 
   const booking = await db.booking.create({
     data: {
+      uid: generateBookingUid(),
       status: "HELD",
       startAt,
       endAt,

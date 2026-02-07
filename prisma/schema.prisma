@@ -18,19 +18,34 @@ enum BookingStatus {
 
 enum BookingTokenKind {
   SESSION
+  CANCEL
+  RESCHEDULE
 }
 
 model Booking {
   id        String        @id @default(cuid())
   status    BookingStatus
 
+  uid       String        @unique
+
   startAt   DateTime
   endAt     DateTime
   timezone  String
   locale    String
-  expiresAt DateTime
+  expiresAt DateTime?
+
+  contactName       String?
+  contactEmail      String?
+  contactPhone      String?
+  contactClinicName String?
+  contactMessage    String?
+
+  roiData     Json?
+  confirmedAt DateTime?
+  cancelledAt DateTime?
 
   tokens    BookingToken[]
+  events    BookingEvent[]
 
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -53,4 +68,17 @@ model BookingToken {
 
   @@index([bookingId, kind])
   @@index([expiresAt])
+}
+
+model BookingEvent {
+  id          String   @id @default(cuid())
+  bookingId   String
+  type        String
+  payloadJson Json
+  createdAt   DateTime @default(now())
+
+  booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, createdAt])
+  @@index([type, createdAt])
 }

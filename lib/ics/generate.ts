@@ -2,7 +2,7 @@ import "server-only"
 
 import ical, { ICalCalendarMethod } from "ical-generator"
 
-export function generateIcsBase64(args: {
+export function generateIcsText(args: {
   startAt: Date
   endAt: Date
   tz: string
@@ -25,6 +25,17 @@ export function generateIcsBase64(args: {
     description: args.description,
   })
 
-  const ics = cal.toString()
+  return cal.toString()
+}
+
+export function generateIcsBase64(args: {
+  startAt: Date
+  endAt: Date
+  tz: string
+  uid: string
+  summary: string
+  description: string
+}): string {
+  const ics = generateIcsText(args)
   return Buffer.from(ics, "utf-8").toString("base64")
 }

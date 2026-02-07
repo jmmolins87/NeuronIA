@@ -27,6 +27,10 @@ const EnvSchema = z.object({
   BOOKING_END_TIME: TimeHHmmSchema.default("17:30"),
   BOOKING_SLOT_MINUTES: z.coerce.number().int().min(5).max(240).default(30),
   HOLD_TTL_MINUTES: z.coerce.number().int().min(1).max(24 * 60).default(20),
+
+  // Tokens (no-email confirm / cancel / reschedule)
+  CANCEL_TOKEN_EXPIRY_DAYS: z.coerce.number().int().min(1).max(365).default(30),
+  RESCHEDULE_TOKEN_EXPIRY_DAYS: z.coerce.number().int().min(1).max(365).default(30),
   // In dev/test: allow overriding "now" via x-debug-now header.
   // Default: true in non-production, false in production.
   ALLOW_TIME_OVERRIDE: BooleanStringSchema.optional(),
@@ -52,6 +56,8 @@ const parsed = EnvSchema.safeParse({
   BOOKING_END_TIME: process.env.BOOKING_END_TIME,
   BOOKING_SLOT_MINUTES: process.env.BOOKING_SLOT_MINUTES,
   HOLD_TTL_MINUTES: process.env.HOLD_TTL_MINUTES,
+  CANCEL_TOKEN_EXPIRY_DAYS: process.env.CANCEL_TOKEN_EXPIRY_DAYS,
+  RESCHEDULE_TOKEN_EXPIRY_DAYS: process.env.RESCHEDULE_TOKEN_EXPIRY_DAYS,
   ALLOW_TIME_OVERRIDE: process.env.ALLOW_TIME_OVERRIDE,
 })
 
@@ -67,6 +73,8 @@ if (!parsed.success) {
     "- BOOKING_END_TIME (HH:mm)",
     "- BOOKING_SLOT_MINUTES (int)",
     "- HOLD_TTL_MINUTES (int)",
+    "- CANCEL_TOKEN_EXPIRY_DAYS (int)",
+    "- RESCHEDULE_TOKEN_EXPIRY_DAYS (int)",
     "- ALLOW_TIME_OVERRIDE (true|false)",
     "\nOptional (recommended):",
     "- DATABASE_URL_UNPOOLED",

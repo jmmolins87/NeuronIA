@@ -10,6 +10,8 @@ export interface BookingConfig {
   holdTtlMinutes: number
   allowTimeOverride: boolean
   cutoffMinutes: number
+  cancelTokenExpiryDays: number
+  rescheduleTokenExpiryDays: number
 }
 
 export const bookingConfig: BookingConfig = {
@@ -23,4 +25,6 @@ export const bookingConfig: BookingConfig = {
   // Prepared for future: minimum lead time before a slot can be held.
   // (Not enforced unless set > 0.)
   cutoffMinutes: 0,
+  cancelTokenExpiryDays: env.CANCEL_TOKEN_EXPIRY_DAYS,
+  rescheduleTokenExpiryDays: env.RESCHEDULE_TOKEN_EXPIRY_DAYS,
 }

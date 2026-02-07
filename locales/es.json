@@ -1096,5 +1096,14 @@
     "description": "Lo sentimos, la página que buscas no existe o ha sido movida.",
     "goBack": "Volver Atrás",
     "goHome": "Ir al Inicio"
+  },
+  "booking": {
+    "ics": {
+      "summary": "Cita ClinvetIA",
+      "description": "Tu cita con ClinvetIA. Fecha: {{date}} a las {{time}} ({{timezone}})."
+    },
+    "cancel": {
+      "success": "Tu reserva ha sido cancelada."
+    }
   }
 }
