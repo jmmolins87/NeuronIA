@@ -93,7 +93,7 @@ export async function sendCancelledEmail(args: {
   }
 
   const appUrl = env.APP_URL
-  const icsUrl = `${appUrl}/api/bookings/ics?token=${encodeURIComponent(args.icsToken)}`
+  const icsUrl = `${appUrl}/api/bookings/ics/download?token=${encodeURIComponent(args.icsToken)}`
 
   const date = formatZonedYYYYMMDD(args.booking.startAt, bookingConfig.timeZone)
   const startTime = formatZonedHHmm(args.booking.startAt, bookingConfig.timeZone)

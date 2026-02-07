@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { errorJson, okJson } from "@/lib/api/respond"
+import { errorJson } from "@/lib/api/respond"
 import { bookingConfig } from "@/lib/booking/config"
 import { expireHolds } from "@/lib/booking/holds"
 import { formatZonedHHmm, formatZonedYYYYMMDD, getNowFromRequest } from "@/lib/booking/time"
@@ -72,13 +72,13 @@ export async function GET(request: Request) {
 
     const filename = `clinvetia-booking-${date}-${time.replace(":", "")}.ics`
 
-    const contentBase64 = Buffer.from(ics, "utf8").toString("base64")
-
-    return okJson({
-      filename,
-      contentType: "text/calendar; charset=utf-8",
-      contentBase64,
-      downloadUrl: `/api/bookings/ics/download?token=${encodeURIComponent(tokenParsed.data)}`,
+    return new Response(ics, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/calendar; charset=utf-8",
+        "Content-Disposition": `attachment; filename=\"${filename}\"`,
+        "Cache-Control": "no-store",
+      },
     })
   } catch (error: unknown) {
     return toResponse(error)

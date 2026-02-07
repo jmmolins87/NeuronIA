@@ -207,7 +207,7 @@ export async function POST(request: Request) {
     }
 
     const ics = {
-      url: `${env.APP_URL}/api/bookings/ics?token=${encodeURIComponent(result.rescheduleToken)}`,
+      url: `${env.APP_URL}/api/bookings/ics/download?token=${encodeURIComponent(result.rescheduleToken)}`,
     }
 
     let email: Awaited<ReturnType<typeof sendRescheduledEmail>>
@@ -221,7 +221,7 @@ export async function POST(request: Request) {
         icsToken: result.rescheduleToken,
       })
     } catch {
-      email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: false, code: "EMAIL_FAILED" }
+      email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: false, skipped: false, code: "EMAIL_FAILED" }
     }
 
     if (env.EMAIL_ENABLED && env.EMAIL_NOTIFY_ADMIN && env.ADMIN_EMAIL) {

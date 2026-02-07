@@ -201,13 +201,21 @@ export async function POST(request: Request) {
       url: `${env.APP_URL}/reschedule?token=${encodeURIComponent(result.rescheduleToken)}`,
     }
 
-    let email:
-      | { ok: true; skipped: true; provider: "brevo"; emailSkipped?: true; reason?: string }
-      | { ok: true; skipped: false; provider: "brevo"; messageId?: string; dryRun?: true }
-      | { ok: false; skipped: false; provider: "brevo"; code: "EMAIL_FAILED" }
+    const provider = "brevo" as const
 
-    if (result.wasAlreadyConfirmed) {
-      email = { ok: true, skipped: true, provider: "brevo", reason: "ALREADY_CONFIRMED" }
+    let email: {
+      enabled: boolean
+      skipped: boolean
+      provider: "brevo"
+      ok: boolean
+      code?: string
+      messageId?: string
+    }
+
+    if (!env.EMAIL_ENABLED) {
+      email = { enabled: false, skipped: true, provider, ok: true, code: "EMAIL_DISABLED" }
+    } else if (result.wasAlreadyConfirmed) {
+      email = { enabled: true, skipped: true, provider, ok: true, code: "ALREADY_CONFIRMED" }
     } else {
       try {
         const sent = await sendConfirmationEmail({
@@ -217,14 +225,21 @@ export async function POST(request: Request) {
           reschedule,
           sessionToken: parsed.data.sessionToken,
         })
-        if (sent.ok && sent.skipped) {
-          email = { ok: true, skipped: true, provider: "brevo", emailSkipped: true }
+        if (!sent.ok) {
+          email = { enabled: true, skipped: false, provider, ok: false, code: "EMAIL_FAILED" }
+        } else if (sent.ok && sent.skipped) {
+          email = { enabled: true, skipped: true, provider, ok: true, code: "EMAIL_SKIPPED" }
         } else {
-          email = sent
+          email = {
+            enabled: true,
+            skipped: false,
+            provider,
+            ok: true,
+            ...(sent.messageId ? { messageId: sent.messageId } : {}),
+          }
         }
-      } catch (e: unknown) {
-        console.error("[email] unexpected error (sendConfirmationEmail)", e)
-        email = { ok: false, skipped: false, provider: "brevo", code: "EMAIL_FAILED" }
+      } catch {
+        email = { enabled: true, skipped: false, provider, ok: false, code: "EMAIL_FAILED" }
       }
     }
 
@@ -248,10 +263,9 @@ export async function POST(request: Request) {
       cancel,
       reschedule,
       ics: {
-        url: `${env.APP_URL}/api/bookings/ics?token=${encodeURIComponent(parsed.data.sessionToken)}`,
+        url: `${env.APP_URL}/api/bookings/ics/download?token=${encodeURIComponent(parsed.data.sessionToken)}`,
       },
       email,
-      ...(email.ok && email.skipped && email.emailSkipped ? { emailSkipped: true } : {}),
     })
   } catch (error: unknown) {
     return toResponse(error)

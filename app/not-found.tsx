@@ -25,8 +25,8 @@ export default function NotFound() {
   }
 
   return (
-    <main className="ambient-section min-h-screen flex items-center justify-center py-20 bg-background">
-        <div className="container relative z-10 mx-auto max-w-4xl px-4">
+    <main className="ambient-section min-h-screen overflow-x-hidden flex items-center justify-center py-20 bg-background">
+        <div className="container relative z-10 mx-auto max-w-4xl px-4 overflow-x-hidden">
           <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
           
           <div className="relative z-20 text-center space-y-8">
@@ -69,7 +69,7 @@ export default function NotFound() {
             </div>
 
             {/* Decorative Elements */}
-            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-full blur-3xl" />
+            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,92vw)] h-[min(600px,92vw)] bg-gradient-to-r from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-full blur-3xl" />
           </div>
         </div>
       </main>

@@ -75,6 +75,33 @@ function buildVideoSources(): Array<{ src: string; type?: string }> {
 export function AiAgentBubble({ className }: AiAgentBubbleProps) {
   const [videoFailed, setVideoFailed] = React.useState(false)
   const sources = buildVideoSources()
+  const [selected, setSelected] = React.useState<{ src: string; type?: string } | null>(null)
+
+  React.useEffect(() => {
+    let cancelled = false
+
+    async function probe(): Promise<void> {
+      for (const s of sources) {
+        try {
+          const res = await fetch(s.src, { method: "HEAD", cache: "no-store" })
+          if (res.ok) {
+            if (!cancelled) setSelected(s)
+            return
+          }
+        } catch {
+          // ignore and try next
+        }
+      }
+
+      if (!cancelled) setSelected(null)
+    }
+
+    void probe()
+
+    return () => {
+      cancelled = true
+    }
+  }, [sources])
 
   return (
     <div
@@ -96,7 +123,7 @@ export function AiAgentBubble({ className }: AiAgentBubbleProps) {
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-accent/10"
         />
 
-        {!videoFailed ? (
+        {!videoFailed && selected ? (
           <video
             className="relative z-10 h-full w-full object-cover"
             autoPlay
@@ -106,9 +133,7 @@ export function AiAgentBubble({ className }: AiAgentBubbleProps) {
             preload="metadata"
             onError={() => setVideoFailed(true)}
           >
-            {sources.map((s) => (
-              <source key={`${s.src}:${s.type ?? ""}`} src={s.src} type={s.type} />
-            ))}
+            <source src={selected.src} type={selected.type} />
           </video>
         ) : (
           <div className="relative z-10 flex h-full w-full items-center justify-center">

@@ -137,7 +137,7 @@ export async function POST(request: Request) {
           icsToken: parsed.data.token,
         })
       } catch {
-        email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: false, code: "EMAIL_FAILED" }
+        email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: false, skipped: false, code: "EMAIL_FAILED" }
       }
     }
 

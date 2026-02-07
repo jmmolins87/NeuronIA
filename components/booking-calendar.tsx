@@ -51,12 +51,17 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       "(prefers-reduced-motion: reduce)"
     ).matches
 
-    window.requestAnimationFrame(() => {
+    // Wait for the slide transition to finish before scrolling.
+    const delayMs = prefersReducedMotion ? 0 : 560
+    const id = window.setTimeout(() => {
       timeStepRef.current?.scrollIntoView({
         behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "center",
+        block: "start",
+        inline: "nearest",
       })
-    })
+    }, delayMs)
+
+    return () => window.clearTimeout(id)
   }, [selectedDate, step])
 
   const getDaysInMonth = (date: Date) => {
@@ -75,19 +80,20 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
   const isDateAvailable = (date: Date) => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
-    date.setHours(0, 0, 0, 0)
+    const day = new Date(date)
+    day.setHours(0, 0, 0, 0)
     
     // No weekends
     const dayOfWeek = date.getDay()
     if (dayOfWeek === 0 || dayOfWeek === 6) return false
     
     // Not in the past
-    if (date < today) return false
+    if (day < today) return false
     
     // Not more than 60 days in the future
     const maxDate = new Date(today)
     maxDate.setDate(today.getDate() + 60)
-    if (date > maxDate) return false
+    if (day > maxDate) return false
     
     return true
   }
@@ -259,7 +265,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       {/* Step 2: Select Time */}
       <div className="w-full shrink-0 space-y-6">
         {step === 2 && selectedDate ? (
-          <div ref={timeStepRef} className="space-y-6">
+           <div ref={timeStepRef} className="space-y-6 scroll-mt-24">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
