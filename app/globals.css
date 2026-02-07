@@ -72,74 +72,74 @@
 :root {
   /* ═══════════════════════════════════════════════════════════
      HEALTH-TECH THEME (LIGHT)
-     Fondo claro, limpio, neón controlado para CTAs/highlights
+     Fondo claro, limpio, neón AZUL para CTAs/highlights
      ═══════════════════════════════════════════════════════════ */
   
   /* Border radius */
   --radius: 0.625rem;
 
   /* Base colors - Clean white background with dark text */
-  --background: oklch(0.99 0.002 106);        /* Almost white with slight cool tint */
-  --foreground: oklch(0.18 0.015 320);        /* Deep pink-purple-navy, high contrast */
+  --background: oklch(0.99 0.003 240);        /* Almost white with slight cool tint */
+  --foreground: oklch(0.20 0.03 250);         /* Deep navy-blue, high contrast */
 
   /* Card colors - Subtle elevation */
   --card: oklch(1 0 0);                       /* Pure white cards */
-  --card-foreground: oklch(0.18 0.015 320);   /* Same as foreground */
+  --card-foreground: oklch(0.20 0.03 250);    /* Same as foreground */
 
   /* Popover colors */
   --popover: oklch(1 0 0);                    /* Pure white */
-  --popover-foreground: oklch(0.18 0.015 320);
+  --popover-foreground: oklch(0.20 0.03 250);
 
-  /* Primary - NEON PINK-PURPLE (morado rosado neón) */
-  --primary: oklch(0.65 0.32 320);            /* Neon pink-purple */
-  --primary-foreground: oklch(0.99 0.01 320); /* White text on purple */
+  /* Primary - ULTRA NEON BLUE */
+  --primary: oklch(0.58 0.40 255);            /* Ultra neon electric blue */
+  --primary-foreground: oklch(0.99 0.01 260); /* White text on blue */
 
-  /* Secondary - Pink-purple accent */
-  --secondary: oklch(0.68 0.28 315);          /* Neon pink-purple accent */
-  --secondary-foreground: oklch(0.99 0.01 315); /* White text */
+  /* Secondary - ULTRA neon cyan */
+  --secondary: oklch(0.78 0.28 205);          /* Ultra neon cyan accent */
+  --secondary-foreground: oklch(0.14 0.03 250); /* Dark text for contrast */
 
   /* Muted - Subtle gray */
-  --muted: oklch(0.94 0.01 320);              /* Light gray-pink-purple */
-  --muted-foreground: oklch(0.48 0.03 320);   /* Medium gray with pink-purple hint */
+  --muted: oklch(0.94 0.01 240);              /* Light gray-blue */
+  --muted-foreground: oklch(0.50 0.04 250);   /* Medium gray with blue hint */
 
-  /* Accent - NEON PINK-MAGENTA */
-  --accent: oklch(0.70 0.35 325);             /* Neon pink-magenta accent */
-  --accent-foreground: oklch(0.99 0.01 325);  /* White text */
+  /* Accent - ULTRA neon azure */
+  --accent: oklch(0.76 0.34 232);             /* Ultra neon blue-cyan */
+  --accent-foreground: oklch(0.12 0.03 250);  /* Dark text */
 
   /* Destructive - Red for errors */
   --destructive: oklch(0.60 0.24 25);         /* Vibrant red */
   --destructive-foreground: oklch(0.98 0.01 25); /* Light text on red */
 
-  /* Border and input - Subtle with pink-purple hint */
-  --border: oklch(0.88 0.01 320);             /* Light border with pink-purple hint */
-  --input: oklch(0.90 0.01 320);              /* Slightly darker input border */
-  --ring: oklch(0.65 0.32 320);               /* Neon pink-purple focus ring */
+  /* Border and input - Subtle with blue hint */
+  --border: oklch(0.88 0.01 240);             /* Light border with blue hint */
+  --input: oklch(0.90 0.01 240);              /* Slightly darker input border */
+  --ring: oklch(0.58 0.40 255);               /* Ultra neon blue focus ring */
 
   /* Extra tokens */
-  --glow: oklch(0.65 0.32 320);               /* Neon pink-purple for glows in light mode */
-  --section-alt: oklch(0.97 0.01 320);        /* Alternate section background */
+  --glow: oklch(0.58 0.40 255);               /* Ultra neon blue for glows in light mode */
+  --section-alt: oklch(0.97 0.01 240);        /* Alternate section background */
   
-  /* Gradient colors - NEON PINK-PURPLE (morado rosado neón) */
-  --gradient-from: oklch(0.65 0.32 320);      /* Neon pink-purple start */
-  --gradient-to: oklch(0.68 0.30 310);        /* Neon magenta-purple end */
-  --gradient-purple: oklch(0.70 0.35 325);    /* Neon pink-magenta for gradients */
+  /* Gradient colors - ULTRA NEON BLUE */
+  --gradient-from: oklch(0.58 0.40 255);      /* Ultra neon blue start */
+  --gradient-to: oklch(0.72 0.32 225);        /* Ultra neon azure end */
+  --gradient-purple: oklch(0.76 0.34 232);    /* Kept name; now ultra neon azure */
 
-  /* Chart colors - Neon pink-purple palette for light mode */
-  --chart-1: oklch(0.65 0.32 320);            /* Neon pink-purple */
-  --chart-2: oklch(0.68 0.30 310);            /* Neon magenta-purple */
-  --chart-3: oklch(0.70 0.35 325);            /* Neon pink-magenta */
-  --chart-4: oklch(0.62 0.28 315);            /* Deep neon purple-pink */
-  --chart-5: oklch(0.66 0.30 305);            /* Neon purple-magenta */
+  /* Chart colors - Ultra neon blue palette for light mode */
+  --chart-1: oklch(0.58 0.40 255);            /* Ultra neon blue */
+  --chart-2: oklch(0.72 0.32 225);            /* Ultra neon azure */
+  --chart-3: oklch(0.78 0.28 205);            /* Ultra neon cyan */
+  --chart-4: oklch(0.54 0.34 275);            /* Deep neon indigo */
+  --chart-5: oklch(0.76 0.22 195);            /* Bright aqua */
 
   /* Sidebar colors */
-  --sidebar: oklch(0.98 0.005 320);
-  --sidebar-foreground: oklch(0.20 0.015 320);
-  --sidebar-primary: oklch(0.65 0.32 320);
-  --sidebar-primary-foreground: oklch(0.99 0.01 320);
-  --sidebar-accent: oklch(0.92 0.04 320);
-  --sidebar-accent-foreground: oklch(0.25 0.08 320);
-  --sidebar-border: oklch(0.88 0.01 320);
-  --sidebar-ring: oklch(0.65 0.32 320);
+  --sidebar: oklch(0.98 0.005 240);
+  --sidebar-foreground: oklch(0.20 0.03 250);
+  --sidebar-primary: oklch(0.58 0.40 255);
+  --sidebar-primary-foreground: oklch(0.99 0.01 260);
+  --sidebar-accent: oklch(0.92 0.03 230);
+  --sidebar-accent-foreground: oklch(0.22 0.06 250);
+  --sidebar-border: oklch(0.88 0.01 240);
+  --sidebar-ring: oklch(0.58 0.40 255);
 }
 
 .dark {

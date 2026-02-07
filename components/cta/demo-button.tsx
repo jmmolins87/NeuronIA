@@ -10,10 +10,10 @@ export function DemoButton({
   return (
     <Button
       {...props}
-      variant="ghost"
+      variant="outline"
       size="lg"
       className={cn(
-        "h-12 box-border cursor-pointer border-2 border-primary/30 bg-background text-foreground hover:bg-primary/5 hover:text-primary hover:border-primary/50 dark:border-primary/20 dark:bg-transparent dark:hover:bg-primary/10 dark:hover:border-primary/40",
+        "h-12 bg-sky-50 text-black hover:bg-sky-100 dark:bg-black dark:text-white dark:hover:bg-neutral-900",
         className
       )}
     />

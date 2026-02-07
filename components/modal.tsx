@@ -74,7 +74,7 @@ export function Modal({
 
         <div
           className={cn(
-            "min-w-0 min-h-0 pr-4 break-words [overflow-wrap:anywhere]",
+            "min-w-0 min-h-0 pr-4 break-words [overflow-wrap:anywhere] overscroll-contain",
             bodyScroll === "auto" ? "overflow-auto overflow-x-hidden" : "overflow-hidden",
             bodyClassName
           )}

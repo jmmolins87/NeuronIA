@@ -1,46 +1,53 @@
 # ClinvetIA Agent Guidelines
 
-Essential repository rules for agentic coding tools operating in this repo.
+Rules and conventions for agentic coding tools operating in this repo.
 
 ## Project Snapshot
 
 - Framework: Next.js 16 (App Router) + React 19; Server Components by default
-- Language: TypeScript (strict) with path alias `@/*` (see `tsconfig.json`)
-- Styling: Tailwind CSS 4 + shadcn/ui (new-york); Tailwind is configured in CSS (`app/globals.css`)
-- Linting: ESLint flat config (`eslint.config.mjs`), based on `eslint-config-next`
+- Language: TypeScript (strict), path alias `@/*` (see `tsconfig.json`)
+- Styling: Tailwind CSS 4 + shadcn/ui (new-york); global tokens in `app/globals.css`
+- Linting: ESLint v9 flat config in `eslint.config.mjs` (Next core-web-vitals + typescript)
 - Theme: `next-themes` (system default + manual toggle)
-- i18n: custom ES/EN provider (`components/providers/i18n-provider.tsx`); locale stored in `localStorage` key `clinvetia-locale`
-- Icons/fonts: `lucide-react`, Geist Sans/Mono
-- DB: Postgres + Prisma (`prisma/schema.prisma`)
+- i18n: custom ES/EN provider in `components/providers/i18n-provider.tsx`
+- DB: Postgres + Prisma (`prisma/schema.prisma`), client in `lib/prisma.ts`
 
 ## Commands
 
 ```bash
-# Install
+# Install (use npm; see package-lock.json)
 npm install
 # Node: >= 20 (see package.json engines)
+
 # Dev
 npm run dev
-# Build / run prod (Next build includes typecheck)
+
+# Build / start (Next build includes typecheck)
 npm run build
 npm run start
-# Lint (add `-- --fix` to autofix)
+
+# Lint
 npm run lint
-npx eslint app/some/page.tsx  # lint a single file
-# Typecheck only (not in package.json, but useful)
+npm run lint -- --fix
+npx eslint app/some/page.tsx
+
+# Typecheck only
 npx tsc -p tsconfig.json --noEmit
-# Repo audits (enforced conventions)
-npm run audit          # runs audit:i18n + audit:inline
-npm run audit:i18n     # locales sync + hardcoded-string heuristic scan
-npm run audit:inline   # inline-style + hardcoded-color heuristic scan
+
+# Repo audits (convention enforcement)
+npm run audit
+npm run audit:i18n
+npm run audit:inline
+
 # Prisma
 npm run prisma:generate
 npm run prisma:migrate:dev
 npm run prisma:migrate:deploy
 npm run prisma:studio
+
 # Tests
-# No test runner is configured yet (no `test` script in package.json).
-# If you add one, keep single-file + single-test filtering.
+# No test runner configured (no tests/*.test.* and no test script).
+# If you add one, require single-file + single-test filtering:
 # - Vitest:     npx vitest run path/to/foo.test.ts -t "case name"
 # - Jest:       npx jest path/to/foo.test.ts -t "case name"
 # - Playwright: npx playwright test path/to/spec.spec.ts -g "case name"
@@ -48,18 +55,19 @@ npm run prisma:studio
 
 ## Cursor / Copilot Rules
 
-- No Cursor rules found (`.cursor/rules/` or `.cursorrules`) and no Copilot rules found (`.github/copilot-instructions.md`)
+- No Cursor rules found (`.cursor/rules/` or `.cursorrules`)
+- No Copilot rules found (`.github/copilot-instructions.md`)
 
-## Code Style (TypeScript)
+## TypeScript / Code Style
 
-- Strict mode: no ignored type errors; avoid `any` (use `unknown` + narrowing)
-- Prefer `interface` for object shapes; `type` for unions/intersections
-- Use `import type` for type-only imports
-- Keep helpers small and pure; avoid mutating inputs
-- Prefer `const` over `let`; keep functions total when possible
-- Exported non-trivial functions/components: prefer explicit return types
+- Strict TS: no ignored type errors; avoid `any` (use `unknown` + narrowing)
+- Prefer `interface` for object shapes; `type` for unions/intersections; use `import type` for type-only imports
+- Prefer `const`; avoid mutation; keep helpers small and total; exported non-trivial functions/components use explicit return types
+- Keep public APIs boring: stable names, small parameter surfaces, predictable return types
 
-## Imports Order
+## Imports
+
+Group imports with blank lines, and keep diffs minimal (do not reorder unless touching that block):
 
 ```ts
 import type { Metadata } from "next"
@@ -73,82 +81,74 @@ import { Button } from "@/components/ui/button"
 import "./globals.css"
 ```
 
-- Group imports with a blank line between: type-only, React/Next, third-party, local `@/`, relative, then CSS.
-- Keep diffs minimal: do not reorder imports across a file unless you are already touching that block.
+Order: type-only, React/Next, third-party, `@/` aliases, relative, then CSS.
 
 ## Formatting
 
-- Strings: double quotes; semicolons are mixed (match the file you are editing)
-- Keep diffs minimal; avoid reformatting unrelated code; ESLint is the source of truth (no Prettier)
+- Use double quotes for strings in TS/TSX; in JS/MJS match the file; semicolons vary (match the file)
+- Avoid drive-by formatting; ESLint is the source of truth (no Prettier)
 
-## Naming Conventions
+## Naming / Structure
 
-- Components: `PascalCase` (e.g. `ThemeToggle`)
-- Functions/vars: `camelCase`
-- Constants: `UPPER_SNAKE_CASE`
-- Files:
-  - Routes: `app/**/page.tsx`, `app/**/layout.tsx`
-  - Components: kebab-case where applicable (many existing files are `.tsx` with kebab)
+- Components: `PascalCase`; hooks: `useThing`; functions/vars: `camelCase`; constants: `UPPER_SNAKE_CASE`
+- Routes: `app/**/page.tsx`, `app/**/layout.tsx`; route handlers: `app/api/**/route.ts`
+- Prefer file names that match existing neighborhood conventions (many components use kebab-case)
+
+## Next.js / React Patterns
+
+- Server Components by default; add `"use client"` only when needed (hooks, events, browser APIs)
+- Browser APIs (`window`, `localStorage`) only inside effects or guarded checks
+- Prefer `next/link` and `next/image`; keep heading order semantic
+- Server-only modules: add `import "server-only"` in `lib/**` modules that must never ship to the client
 
 ## API / Data Conventions
 
-- Route handlers live in `app/api/**/route.ts`; validate inputs with `zod`
-- Use `okJson()` / `errorJson()` from `lib/api/respond.ts` (response includes `{ ok: true|false }`)
-- For structured failures in server code, use `ApiError` from `lib/api/errors.ts` and map to `errorJson`
-- Never leak secrets/tokens in API responses or logs; use generic messages in production
-- Most API routes run on `export const runtime = "nodejs"` (Prisma, crypto, etc.)
-
-## React / Next.js Patterns
-
-- Server Components by default; add `"use client"` only when needed (hooks, events, browser APIs)
-- Avoid accessing `window`/`localStorage` outside effects or without guards
-- Use semantic HTML and keep heading order consistent
-- Prefer `next/link` for navigation; use `next/image` when adding images
-- Server-only modules: add `import "server-only"` to files in `lib/**` that must never be imported by client components.
-
-## Styling Rules (Tailwind)
-
-- Prefer Tailwind utilities; only add CSS when a reusable token/utility is needed (see `app/globals.css`)
-- Do not hardcode colors in TS/TSX (no `bg-[#...]`, `rgb(...)`, etc.); use semantic tokens (`bg-background`, `text-foreground`, `border-border`, etc.)
-- Conditional classes: use `cn()` from `lib/utils.ts`
-- Inline styles in React are generally disallowed; `npm run audit:inline` will fail
-- Exception: React Email templates under `lib/email/templates/**` use inline styles by design
-
-## i18n Rules (Critical)
-
-- All user-facing strings in UI must come from `t()` (no hardcoded copy in components)
-- Locales: `locales/es.json` and `locales/en.json` (nested objects; keys via dot notation)
-- Variable interpolation uses `{{var}}` (see `components/providers/i18n-provider.tsx`)
-- Run `npm run audit:i18n` after adding/modifying strings
-- Admin area currently uses `app/admin/_ui-text.ts` constants; prefer migrating to shared i18n over adding more scattered literals.
+- Validate inputs with `zod` in route handlers
+- Response helpers:
+  - `okJson()` / `errorJson()` from `lib/api/respond.ts` (payload includes `{ ok: true|false }`)
+  - For structured failures: throw `ApiError` from `lib/api/errors.ts`, catch, and map to `errorJson`
+- Do not leak secrets/tokens in responses or logs; prefer generic messages in production
+- Many API routes should run in Node for Prisma/crypto: `export const runtime = "nodejs"`
 
 ## Error Handling
 
-- Wrap async work in `try/catch`; show user-friendly messages
-- Log for debugging, but never leak secrets/tokens
-- Prefer early returns and exhaustive checks over deeply nested conditionals
-- API errors: in production, prefer generic messages (see patterns in `app/api/**/route.ts`).
+- Prefer early returns and explicit checks over deep nesting
+- Wrap async flows in `try/catch`; return user-safe messages
+- Log for debugging, but never log env secrets, auth tokens, or raw DB connection strings
+- When mapping unknown errors, treat them as `unknown` and narrow intentionally
+
+## Styling (Tailwind)
+
+- Prefer Tailwind utilities and semantic tokens (e.g. `bg-background`, `text-foreground`, `border-border`)
+- Do not hardcode colors in TS/TSX (`bg-[#...]`, `rgb(...)`, etc.)
+- Avoid inline styles; `npm run audit:inline` will fail
+- If an inline style is truly necessary, document it with `// @allowed-inline-style` and keep it minimal
+- Prefer conditional classes via `cn()` from `lib/utils.ts`
+
+## i18n (Critical)
+
+- UI copy must come from `t()` (via `useTranslation()`); avoid hardcoded strings in JSX
+- Locale files: `locales/es.json` and `locales/en.json` must stay in sync (nested keys, dot-notation access)
+- Variable interpolation uses `{{var}}`
+- Run `npm run audit:i18n` after adding/modifying user-facing text
+- Admin area uses `app/admin/_ui-text.ts` today; prefer migrating to shared i18n rather than adding more literals
 
 ## Environment / Secrets
 
-- Env is validated in `lib/env.ts` via `zod`; import `env` only from server code.
-- `lib/env.ts` validates lazily (on first `env.X` access) to avoid build-time failures when env vars are not loaded during analysis.
-- Minimum required for builds that import Prisma: `DATABASE_URL` (or `POSTGRES_PRISMA_URL`) plus `APP_URL`.
-- Optional but recommended for migrations: `DATABASE_URL_UNPOOLED` (or `POSTGRES_URL_NON_POOLING`).
-- Never commit secret files: `.env`, `.env.local` (use `.env.example` as the shareable template).
-- `.env.example` must contain placeholders only (no real tokens/DB URLs).
-- Do not print or return secrets in API responses, logs, or thrown errors.
+- Server env is validated by `zod` in `lib/env.ts`; import `env` only from server code
+- Required for most server work: `APP_URL`, `DATABASE_URL`; optional: `DATABASE_URL_UNPOOLED`
+- Do not commit `.env`, `.env.local`; keep `.env.example` placeholders only
 
 ## Prisma / DB
 
-- Use `prisma` from `lib/prisma.ts` (do not instantiate `new PrismaClient()` in random modules).
-- Prefer transactions for multi-step writes (`prisma.$transaction`), passing a tx client into helpers.
-- Keep DB constraints and enums in `prisma/schema.prisma` as the source of truth.
+- Use `prisma` from `lib/prisma.ts` (no ad-hoc `new PrismaClient()`)
+- Use transactions for multi-step writes (`prisma.$transaction`) and pass the tx client into helpers
 
 ## Accessibility
 
-- `aria-label` required for icon-only buttons; keyboard navigation must work; respect `prefers-reduced-motion`
+- Icon-only buttons must have `aria-label`; keyboard navigation must work
+- Respect `prefers-reduced-motion` for animations
 
 ## Git / Workflow
 
-- Commit messages: Conventional Commits in English (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`); keep commits focused
+- Keep commits focused; Conventional Commits in English: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`
