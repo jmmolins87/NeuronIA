@@ -13,9 +13,11 @@ import {
   validateRequestedSlot,
   zonedLocalToUtcDate,
 } from "@/lib/booking/time"
-import { generateBookingUid, sha256Hex } from "@/lib/booking/tokens"
+import { generateBookingUid, generateToken, sha256Hex } from "@/lib/booking/tokens"
+import { sendRescheduledEmail } from "@/lib/email/sendRescheduled"
 import { ApiError, toResponse } from "@/lib/errors"
 import { prisma } from "@/lib/prisma"
+import { env } from "@/lib/env"
 
 export const runtime = "nodejs"
 
@@ -38,6 +40,10 @@ function zodToFields(error: z.ZodError): Record<string, string> {
 
 function isUniqueConstraintError(error: unknown): boolean {
   return error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002"
+}
+
+function addDays(date: Date, days: number): Date {
+  return new Date(date.getTime() + days * 24 * 60 * 60_000)
 }
 
 export async function POST(request: Request) {
@@ -121,24 +127,44 @@ export async function POST(request: Request) {
         },
       })
 
-      const toBooking = await tx.booking.create({
-        data: {
-          uid: generateBookingUid(),
-          status: "CONFIRMED",
-          startAt: newStartAt,
-          endAt: newEndAt,
-          timezone: bookingConfig.timeZone,
-          locale: parsed.data.locale,
-          expiresAt: null,
-          confirmedAt: now,
-          contactName: fromBooking.contactName,
-          contactEmail: fromBooking.contactEmail,
-          contactPhone: fromBooking.contactPhone,
-          contactClinicName: fromBooking.contactClinicName,
-          contactMessage: fromBooking.contactMessage,
-          roiData: fromBooking.roiData ?? undefined,
-        },
-      })
+       const toBooking = await tx.booking.create({
+         data: {
+           uid: generateBookingUid(),
+           status: "CONFIRMED",
+           startAt: newStartAt,
+           endAt: newEndAt,
+           timezone: bookingConfig.timeZone,
+           locale: parsed.data.locale,
+           expiresAt: null,
+           confirmedAt: now,
+           contactName: fromBooking.contactName,
+           contactEmail: fromBooking.contactEmail,
+           contactPhone: fromBooking.contactPhone,
+           contactClinicName: fromBooking.contactClinicName,
+           contactMessage: fromBooking.contactMessage,
+           roiData: fromBooking.roiData ?? undefined,
+         },
+       })
+
+       const cancelToken = generateToken()
+       const rescheduleToken = generateToken()
+
+       await tx.bookingToken.createMany({
+         data: [
+           {
+             bookingId: toBooking.id,
+             kind: "CANCEL",
+             tokenHash: sha256Hex(cancelToken),
+             expiresAt: addDays(now, bookingConfig.cancelTokenExpiryDays),
+           },
+           {
+             bookingId: toBooking.id,
+             kind: "RESCHEDULE",
+             tokenHash: sha256Hex(rescheduleToken),
+             expiresAt: addDays(now, bookingConfig.rescheduleTokenExpiryDays),
+           },
+         ],
+       })
 
       await tx.booking.update({
         where: { id: fromBooking.id },
@@ -165,10 +191,51 @@ export async function POST(request: Request) {
         },
       })
 
-      return { kind: "ok" as const, fromBooking, toBooking }
-    })
+       return { kind: "ok" as const, fromBooking, toBooking, cancelToken, rescheduleToken }
+     })
 
     if (result.kind === "error") return result.response
+
+    const cancel = {
+      token: result.cancelToken,
+      url: `${env.APP_URL}/cancel?token=${encodeURIComponent(result.cancelToken)}`,
+    }
+
+    const reschedule = {
+      token: result.rescheduleToken,
+      url: `${env.APP_URL}/reschedule?token=${encodeURIComponent(result.rescheduleToken)}`,
+    }
+
+    const ics = {
+      url: `${env.APP_URL}/api/bookings/ics?token=${encodeURIComponent(result.rescheduleToken)}`,
+    }
+
+    let email: Awaited<ReturnType<typeof sendRescheduledEmail>>
+    try {
+      email = await sendRescheduledEmail({
+        booking: result.toBooking,
+        fromBooking: result.fromBooking,
+        roiData: result.toBooking.roiData,
+        cancelUrl: cancel.url,
+        rescheduleUrl: reschedule.url,
+        icsToken: result.rescheduleToken,
+      })
+    } catch {
+      email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: false, code: "EMAIL_FAILED" }
+    }
+
+    if (env.EMAIL_ENABLED && env.EMAIL_NOTIFY_ADMIN && env.ADMIN_EMAIL) {
+      void sendRescheduledEmail({
+        booking: result.toBooking,
+        fromBooking: result.fromBooking,
+        roiData: result.toBooking.roiData,
+        cancelUrl: cancel.url,
+        rescheduleUrl: reschedule.url,
+        icsToken: result.rescheduleToken,
+        toOverride: env.ADMIN_EMAIL,
+        subjectPrefix: "[Admin] ",
+      })
+    }
 
     return okJson({
       fromBooking: {
@@ -188,6 +255,10 @@ export async function POST(request: Request) {
         locale: result.toBooking.locale,
         confirmedAtISO: result.toBooking.confirmedAt ? result.toBooking.confirmedAt.toISOString() : null,
       },
+      cancel,
+      reschedule,
+      ics,
+      email,
     })
   } catch (error: unknown) {
     if (isUniqueConstraintError(error)) {

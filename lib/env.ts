@@ -29,6 +29,10 @@ const EnvSchema = z.object({
   // In dev/test: build payload and skip sending.
   EMAIL_DRY_RUN: BooleanStringSchema.optional(),
 
+  // Optional notifications
+  EMAIL_NOTIFY_ADMIN: BooleanStringSchema.optional(),
+  ADMIN_EMAIL: z.string().min(1).optional(),
+
   // Booking configuration (backend-first reservations)
   BOOKING_TIMEZONE: z.literal("Europe/Madrid").default("Europe/Madrid"),
   BOOKING_START_TIME: TimeHHmmSchema.default("09:00"),
@@ -45,28 +49,12 @@ const EnvSchema = z.object({
 })
 
 const EnvSchemaWithRefinements = EnvSchema.superRefine((data, ctx) => {
-  if (data.EMAIL_ENABLED) {
-    if (data.EMAIL_PROVIDER !== "brevo") {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["EMAIL_PROVIDER"],
-        message: "Only brevo is supported",
-      })
-    }
-    if (!data.BREVO_API_KEY) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["BREVO_API_KEY"],
-        message: "Required when EMAIL_ENABLED=true",
-      })
-    }
-    if (!data.EMAIL_FROM) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["EMAIL_FROM"],
-        message: "Required when EMAIL_ENABLED=true",
-      })
-    }
+  if (data.EMAIL_ENABLED && data.EMAIL_PROVIDER !== "brevo") {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["EMAIL_PROVIDER"],
+      message: "Only brevo is supported",
+    })
   }
 })
 
@@ -91,6 +79,9 @@ const parsed = EnvSchemaWithRefinements.safeParse({
   EMAIL_FROM: process.env.EMAIL_FROM,
   EMAIL_DRY_RUN: process.env.EMAIL_DRY_RUN,
 
+  EMAIL_NOTIFY_ADMIN: process.env.EMAIL_NOTIFY_ADMIN,
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+
   BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
   BOOKING_START_TIME: process.env.BOOKING_START_TIME,
   BOOKING_END_TIME: process.env.BOOKING_END_TIME,
@@ -110,9 +101,11 @@ if (!parsed.success) {
     "\nEmail (optional; required only if enabled):",
     "- EMAIL_ENABLED (true|false)",
     "- EMAIL_PROVIDER (brevo)",
-    "- BREVO_API_KEY (required if EMAIL_ENABLED=true)",
-    "- EMAIL_FROM (required if EMAIL_ENABLED=true)",
+    "- BREVO_API_KEY",
+    "- EMAIL_FROM",
     "- EMAIL_DRY_RUN (true|false)",
+    "- EMAIL_NOTIFY_ADMIN (true|false)",
+    "- ADMIN_EMAIL",
     "\nBooking (defaults exist, but invalid values will fail):",
     "- BOOKING_TIMEZONE (must be Europe/Madrid)",
     "- BOOKING_START_TIME (HH:mm)",

@@ -6,8 +6,10 @@ import { getNowFromRequest } from "@/lib/booking/time"
 import { sha256Hex } from "@/lib/booking/tokens"
 import type { BookingLocale } from "@/lib/i18n/booking-strings"
 import { getBookingStrings } from "@/lib/i18n/booking-strings"
+import { sendCancelledEmail } from "@/lib/email/sendCancelled"
 import { ApiError, toResponse } from "@/lib/errors"
 import { prisma } from "@/lib/prisma"
+import { env } from "@/lib/env"
 
 export const runtime = "nodejs"
 
@@ -67,7 +69,7 @@ export async function POST(request: Request) {
 
       if (record.usedAt) {
         if (wasCancelled) {
-          return { kind: "ok" as const, booking }
+          return { kind: "ok" as const, booking, cancelledNow: false }
         }
         return {
           kind: "error" as const,
@@ -112,7 +114,7 @@ export async function POST(request: Request) {
         })
       }
 
-      return { kind: "ok" as const, booking: updatedBooking }
+      return { kind: "ok" as const, booking: updatedBooking, cancelledNow: !wasCancelled }
     })
 
     if (result.kind === "error") return result.response
@@ -120,6 +122,34 @@ export async function POST(request: Request) {
     const booking = result.booking
     const locale = booking.locale as BookingLocale
     const { t } = getBookingStrings(locale)
+
+    let email:
+      | Awaited<ReturnType<typeof sendCancelledEmail>>
+      | { enabled: boolean; provider: "brevo"; ok: boolean; skipped?: boolean; code?: string }
+
+    if (!result.cancelledNow) {
+      email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: true, skipped: true, code: "ALREADY_CANCELLED" }
+    } else {
+      try {
+        email = await sendCancelledEmail({
+          booking,
+          roiData: booking.roiData,
+          icsToken: parsed.data.token,
+        })
+      } catch {
+        email = { enabled: env.EMAIL_ENABLED, provider: "brevo" as const, ok: false, code: "EMAIL_FAILED" }
+      }
+    }
+
+    if (result.cancelledNow && env.EMAIL_ENABLED && env.EMAIL_NOTIFY_ADMIN && env.ADMIN_EMAIL) {
+      void sendCancelledEmail({
+        booking,
+        roiData: booking.roiData,
+        icsToken: parsed.data.token,
+        toOverride: env.ADMIN_EMAIL,
+        subjectPrefix: "[Admin] ",
+      })
+    }
 
     return okJson({
       booking: {
@@ -133,6 +163,7 @@ export async function POST(request: Request) {
         cancelledAtISO: booking.cancelledAt ? booking.cancelledAt.toISOString() : null,
       },
       message: t("booking.cancel.success"),
+      email,
     })
   } catch (error: unknown) {
     return toResponse(error)
