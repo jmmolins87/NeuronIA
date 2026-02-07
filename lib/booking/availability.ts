@@ -3,7 +3,7 @@ import "server-only"
 import type { Prisma, PrismaClient } from "@prisma/client"
 
 import { bookingConfig } from "@/lib/booking/config"
-import { formatZonedHHmm, generateSlotsForDate, getLocalDayBoundsUtc } from "@/lib/booking/time"
+import { assertIsoDateNotPast, formatZonedHHmm, generateSlotsForDate, getLocalDayBoundsUtc, parseIsoDate } from "@/lib/booking/time"
 import { expireHolds } from "@/lib/booking/holds"
 
 export interface AvailabilitySlot {
@@ -43,6 +43,9 @@ async function getOccupiedStarts(db: Prisma.TransactionClient, date: string, now
 export async function getAvailability(prisma: PrismaClient, date: string, now: Date): Promise<AvailabilityResult> {
   return prisma.$transaction(async (tx) => {
     await expireHolds(tx, now)
+
+    parseIsoDate(date)
+    assertIsoDateNotPast(date, now, bookingConfig.timeZone)
 
     const slots = generateSlotsForDate(date)
     const occupied = await getOccupiedStarts(tx, date, now)

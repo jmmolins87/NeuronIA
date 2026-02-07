@@ -75,6 +75,7 @@ export async function POST(request: Request) {
           : null,
         timezone: result.booking.timezone,
         locale: result.booking.locale,
+        status: result.booking.status,
       },
     })
   } catch (error: unknown) {

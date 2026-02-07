@@ -155,6 +155,26 @@ export function formatZonedYYYYMMDD(date: Date, timeZone: string): string {
   return `${map.year}-${map.month}-${map.day}`
 }
 
+export function assertIsoDateNotPast(date: string, now: Date, timeZone: string): void {
+  // Compare lexicographically: YYYY-MM-DD is sortable as a string.
+  const today = formatZonedYYYYMMDD(now, timeZone)
+  if (date < today) {
+    throw new ApiError("INVALID_INPUT", "Date is in the past", {
+      status: 400,
+      fields: { date: "Date cannot be in the past" },
+    })
+  }
+}
+
+export function assertStartAtNotPast(startAt: Date, now: Date): void {
+  if (startAt.getTime() <= now.getTime()) {
+    throw new ApiError("INVALID_INPUT", "Slot is in the past", {
+      status: 400,
+      fields: { time: "Slot must be in the future" },
+    })
+  }
+}
+
 export function getNowFromRequest(request: Request): Date {
   if (env.NODE_ENV !== "production" && bookingConfig.allowTimeOverride) {
     const debugNow = request.headers.get("x-debug-now")

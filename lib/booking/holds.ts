@@ -4,7 +4,7 @@ import type { Booking, BookingToken, Prisma } from "@prisma/client"
 
 import { bookingConfig } from "@/lib/booking/config"
 import { ApiError } from "@/lib/errors"
-import { zonedLocalToUtcDate } from "@/lib/booking/time"
+import { assertIsoDateNotPast, assertStartAtNotPast, zonedLocalToUtcDate } from "@/lib/booking/time"
 import { generateSessionToken, sha256Hex } from "@/lib/booking/tokens"
 
 export async function expireHolds(db: Prisma.TransactionClient, now: Date): Promise<number> {
@@ -40,7 +40,10 @@ export async function createHold(db: Prisma.TransactionClient, input: CreateHold
     })
   }
 
+  assertIsoDateNotPast(input.date, now, bookingConfig.timeZone)
+
   const startAt = zonedLocalToUtcDate(input.date, input.time, input.timezone)
+  assertStartAtNotPast(startAt, now)
   const endAt = new Date(startAt.getTime() + bookingConfig.slotMinutes * 60_000)
   const expiresAt = new Date(now.getTime() + bookingConfig.holdTtlMinutes * 60_000)
 
