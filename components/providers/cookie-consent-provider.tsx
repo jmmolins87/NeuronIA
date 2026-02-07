@@ -6,7 +6,6 @@ import { useTranslation } from "@/components/providers/i18n-provider"
 import { useMounted } from "@/hooks/use-mounted"
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -16,7 +15,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { CancelButton } from "@/components/cta/cancel-button"
-import { BorderButton } from "@/components/cta/border-button"
+import { DemoButton } from "@/components/cta/demo-button"
+import { RoiButton } from "@/components/cta/roi-button"
 
 const STORAGE_KEY = "clinvetia-cookie-preferences"
 
@@ -49,6 +49,8 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
   const [preferences, setPreferences] = React.useState<CookiePreferences | null>(null)
   const [showDialog, setShowDialog] = React.useState(false)
   const [showCustomize, setShowCustomize] = React.useState(false)
+  const [isAnimating, setIsAnimating] = React.useState(false)
+  const [slideDirection, setSlideDirection] = React.useState<"left" | "right">("right")
   const [tempPreferences, setTempPreferences] = React.useState<CookiePreferences>({
     necessary: true,
     analytics: false,
@@ -106,12 +108,32 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
   }, [savePreferences])
 
   const handleCustomize = React.useCallback(() => {
-    setShowCustomize(true)
+    setSlideDirection("right")
+    setIsAnimating(true)
+    setTimeout(() => {
+      setShowCustomize(true)
+      setIsAnimating(false)
+    }, 300)
   }, [])
 
   const handleSaveCustom = React.useCallback(() => {
     savePreferences(tempPreferences)
   }, [savePreferences, tempPreferences])
+
+  const handleBackToMain = React.useCallback(() => {
+    setSlideDirection("left")
+    setIsAnimating(true)
+    setTimeout(() => {
+      setShowCustomize(false)
+      setIsAnimating(false)
+      setTempPreferences({
+        necessary: true,
+        analytics: false,
+        marketing: false,
+        timestamp: Date.now(),
+      })
+    }, 300)
+  }, [])
 
   const updatePreferences = React.useCallback((prefs: Partial<CookiePreferences>) => {
     if (preferences) {
@@ -155,8 +177,18 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          {showCustomize && (
-            <div className="space-y-4 py-4">
+          <div className="relative overflow-hidden">
+            <div
+              className={`transition-all duration-300 ease-in-out ${
+                isAnimating
+                  ? slideDirection === "right"
+                    ? "-translate-x-full opacity-0"
+                    : "translate-x-full opacity-0"
+                  : "translate-x-0 opacity-100"
+              }`}
+            >
+              {showCustomize ? (
+                <div className="space-y-4 py-4">
               {/* Necessary Cookies */}
               <div className="flex items-start gap-3 p-4 rounded-lg border bg-muted/50">
                 <Checkbox
@@ -227,7 +259,9 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
                 </div>
               </div>
             </div>
-          )}
+              ) : null}
+            </div>
+          </div>
 
           <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
             {!showCustomize ? (
@@ -235,31 +269,21 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
                 <CancelButton onClick={handleRejectAll}>
                   {t("cookies.rejectAll")}
                 </CancelButton>
-                <BorderButton onClick={handleCustomize}>
+                <DemoButton onClick={handleCustomize}>
                   {t("cookies.customize")}
-                </BorderButton>
-                <AlertDialogAction onClick={handleAcceptAll}>
+                </DemoButton>
+                <RoiButton onClick={handleAcceptAll}>
                   {t("cookies.acceptAll")}
-                </AlertDialogAction>
+                </RoiButton>
               </>
             ) : (
               <>
-                <CancelButton
-                  onClick={() => {
-                    setShowCustomize(false)
-                    setTempPreferences({
-                      necessary: true,
-                      analytics: false,
-                      marketing: false,
-                      timestamp: Date.now(),
-                    })
-                  }}
-                >
+                <CancelButton onClick={handleBackToMain}>
                   {t("common.back")}
                 </CancelButton>
-                <AlertDialogAction onClick={handleSaveCustom}>
+                <RoiButton onClick={handleSaveCustom}>
                   {t("cookies.savePreferences")}
-                </AlertDialogAction>
+                </RoiButton>
               </>
             )}
           </AlertDialogFooter>

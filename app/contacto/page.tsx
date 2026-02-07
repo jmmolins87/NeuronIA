@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
@@ -48,8 +48,43 @@ import {
   Edit
 } from "lucide-react"
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function getBookingSummaryFromStorage(value: unknown): null | {
+  startAtISO: string
+  timezone: string
+  contactName: string | null
+  contactEmail: string | null
+  contactPhone: string | null
+  roi: unknown
+} {
+  if (!isRecord(value)) return null
+  const confirm = value.confirm
+  const roi = value.roi
+  if (!isRecord(confirm) || confirm.ok !== true) return null
+  if (!isRecord(confirm.booking)) return null
+  const booking = confirm.booking
+  const startAtISO = typeof booking.startAtISO === "string" ? booking.startAtISO : null
+  const timezone = typeof booking.timezone === "string" ? booking.timezone : "Europe/Madrid"
+  const contact = isRecord(booking.contact) ? booking.contact : null
+
+  if (!startAtISO) return null
+
+  return {
+    startAtISO,
+    timezone,
+    contactName: contact && typeof contact.fullName === "string" ? contact.fullName : null,
+    contactEmail: contact && typeof contact.email === "string" ? contact.email : null,
+    contactPhone: contact && typeof contact.phone === "string" ? contact.phone : null,
+    roi,
+  }
+}
+
 export default function ContactoPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { t, locale } = useTranslation()
   const { roiData, hasROIData, hasAcceptedROIData } = useROIData()
   const { calendlyData, hasCalendlyData, clearCalendlyData } = useCalendlyData()
@@ -58,6 +93,51 @@ export default function ContactoPage() {
   const [showCancelModal, setShowCancelModal] = React.useState(false)
   const [showChangeROIModal, setShowChangeROIModal] = React.useState(false)
   const [showBookingModal, setShowBookingModal] = React.useState(false)
+
+  const isFromBooking = searchParams.get("from") === "booking"
+  const [lastBookingLoaded, setLastBookingLoaded] = React.useState(false)
+  const [lastBooking, setLastBooking] = React.useState<unknown>(null)
+
+  React.useEffect(() => {
+    if (!isFromBooking) {
+      setLastBookingLoaded(true)
+      setLastBooking(null)
+      return
+    }
+
+    try {
+      const raw = sessionStorage.getItem("lastBooking")
+      setLastBooking(raw ? (JSON.parse(raw) as unknown) : null)
+    } catch {
+      setLastBooking(null)
+    } finally {
+      setLastBookingLoaded(true)
+    }
+  }, [isFromBooking])
+
+  const bookingSummary = getBookingSummaryFromStorage(lastBooking)
+
+  const formatBookingDateTime = React.useCallback(
+    (startAtISO: string) => {
+      const date = new Date(startAtISO)
+      const timeZone = "Europe/Madrid"
+      const dateText = new Intl.DateTimeFormat(t("common.locale"), {
+        timeZone,
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+      }).format(date)
+      const timeText = new Intl.DateTimeFormat(t("common.locale"), {
+        timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(date)
+      return { dateText, timeText }
+    },
+    [t]
+  )
 
   const handleCancelDemo = () => {
     clearCalendlyData()
@@ -278,6 +358,23 @@ export default function ContactoPage() {
 
   return (
     <SiteShell>
+      {isFromBooking && lastBookingLoaded && !bookingSummary ? (
+        <Section variant="default" className="ambient-section py-14">
+          <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
+          <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
+            <div className="mx-auto max-w-2xl rounded-2xl border border-border bg-card/80 p-8 text-center backdrop-blur-sm">
+              <h1 className="text-2xl font-bold text-foreground">{t("book.backend.contact_fallback_title")}</h1>
+              <p className="mt-3 text-muted-foreground">{t("book.backend.contact_fallback_desc")}</p>
+              <div className="mt-6 flex justify-center">
+                <DemoButton asChild>
+                  <Link href="/reservar">{t("book.backend.contact_fallback_cta")}</Link>
+                </DemoButton>
+              </div>
+            </div>
+          </div>
+        </Section>
+      ) : (
+        <>
       {/* Hero Section */}
       <Section variant="default" className="ambient-section flex flex-col justify-center py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />
@@ -303,6 +400,54 @@ export default function ContactoPage() {
       {/* Contact Form Section */}
       <Section variant="muted" className="ambient-section flex flex-col justify-center py-16 md:py-20">
         <div className="container relative z-10 mx-auto max-w-screen-xl px-4">
+          {isFromBooking && bookingSummary ? (
+            <Reveal delay={150}>
+              <div className="mx-auto mb-8 max-w-4xl rounded-2xl border border-primary/20 bg-card/80 p-6 backdrop-blur-sm">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground">{t("book.backend.contact_summary_title")}</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">{t("book.backend.contact_summary_desc")}</p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-background/40 px-3 py-2 text-sm">
+                    {(() => {
+                      const { dateText, timeText } = formatBookingDateTime(bookingSummary.startAtISO)
+                      return (
+                        <div className="space-y-1">
+                          <div className="font-semibold capitalize text-foreground">{dateText}</div>
+                          <div className="font-mono text-muted-foreground">{timeText} ({bookingSummary.timezone})</div>
+                        </div>
+                      )
+                    })()}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-lg border border-border bg-background/40 p-3">
+                    <div className="text-xs font-semibold text-muted-foreground">{t("contact.form.fields.name.label")}</div>
+                    <div className="mt-1 text-sm font-semibold text-foreground">{bookingSummary.contactName ?? "-"}</div>
+                  </div>
+                  <div className="rounded-lg border border-border bg-background/40 p-3">
+                    <div className="text-xs font-semibold text-muted-foreground">{t("contact.form.fields.email.label")}</div>
+                    <div className="mt-1 break-words text-sm font-semibold text-foreground">{bookingSummary.contactEmail ?? "-"}</div>
+                  </div>
+                  <div className="rounded-lg border border-border bg-background/40 p-3">
+                    <div className="text-xs font-semibold text-muted-foreground">{t("contact.form.fields.phone.label")}</div>
+                    <div className="mt-1 break-words text-sm font-semibold text-foreground">{bookingSummary.contactPhone ?? "-"}</div>
+                  </div>
+                </div>
+
+                {bookingSummary.roi ? (
+                  <div className="mt-4 rounded-lg border border-border bg-background/40 p-3">
+                    <div className="text-xs font-semibold text-muted-foreground">{t("book.backend.contact_summary_roi")}</div>
+                    <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted/40 p-3 text-xs text-foreground">
+                      {JSON.stringify(bookingSummary.roi, null, 2)}
+                    </pre>
+                  </div>
+                ) : null}
+              </div>
+            </Reveal>
+          ) : null}
+
           {!hasAcceptedROIData ? (
             /* No ROI Data - Redirect to Calculator */
             <Reveal delay={200}>
@@ -769,6 +914,8 @@ export default function ContactoPage() {
           console.log("Booking completed:", data)
         }}
       />
+        </>
+      )}
     </SiteShell>
   )
 }

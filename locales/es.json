@@ -887,6 +887,30 @@
           "invalid": "Por favor, introduce un email válido"
         }
       }
+    },
+    "backend": {
+      "tooltip_1930": "Para citas del mismo día, a partir de las 19:30 no se permite reservar. Elige otro día.",
+      "hold_title": "Hora reservada temporalmente",
+      "hold_countdown": "Se libera en {{time}}",
+      "hold_missing": "Selecciona una hora para bloquearla temporalmente.",
+      "contact_title": "Tus datos",
+      "confirm_success": "Reserva confirmada. Te llevamos a contacto.",
+      "email_disabled_note": "Nota: el envío de emails está desactivado en este entorno.",
+      "errors": {
+        "SLOT_TAKEN": "Hora no disponible. Elige otra.",
+        "INVALID_INPUT": "Revisa los datos e inténtalo de nuevo.",
+        "INTERNAL_ERROR": "Algo salió mal. Inténtalo de nuevo.",
+        "TOKEN_EXPIRED": "La reserva temporal ha expirado. Vuelve a seleccionar una hora.",
+        "TOKEN_INVALID": "El enlace o token no es válido. Vuelve a reservar.",
+        "ROI_REQUIRED": "Necesitas calcular el ROI antes de confirmar.",
+        "NOT_IMPLEMENTED": "Función no disponible todavía."
+      },
+      "contact_fallback_title": "No hay datos de reserva",
+      "contact_fallback_desc": "No encontramos información de tu última reserva. Vuelve a reservar para continuar.",
+      "contact_fallback_cta": "Volver a reservar",
+      "contact_summary_title": "Tu cita está confirmada",
+      "contact_summary_desc": "Este es el resumen de la reserva que acabas de confirmar.",
+      "contact_summary_roi": "ROI enviado"
     }
   },
   "booking": {

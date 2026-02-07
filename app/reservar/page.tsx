@@ -10,6 +10,8 @@ import { useCalendlyData } from "@/hooks/use-calendly-data"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { DemoButton } from "@/components/cta/demo-button"
 import { BookingCalendar } from "@/components/booking-calendar"
+import type { BookingCompleteData } from "@/components/booking-calendar"
+import { Toaster } from "@/components/ui/sonner"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,13 +49,7 @@ export default function ReservarPage() {
   }, [])
 
   // Manejar cuando el usuario completa la reserva
-  const handleBookingComplete = React.useCallback((bookingData: {
-    date: Date
-    time: string
-    name: string
-    email: string
-    message?: string
-  }) => {
+  const handleBookingComplete = React.useCallback((bookingData: BookingCompleteData) => {
     // Marcar como completado para no mostrar advertencia
     setHasInteracted(false)
     // Guardar datos de la reserva
@@ -61,17 +57,35 @@ export default function ReservarPage() {
       eventUri: `booking-${Date.now()}`,
       inviteeUri: `invitee-${Date.now()}`,
       eventType: "Demo",
-      inviteeName: bookingData.name,
-      inviteeEmail: bookingData.email,
+      inviteeName: bookingData.confirm.booking.contact.fullName ?? undefined,
+      inviteeEmail: bookingData.confirm.booking.contact.email ?? undefined,
       timestamp: Date.now(),
-      scheduledDate: bookingData.date.toISOString(),
+      scheduledDate: bookingData.confirm.booking.startAtISO,
       scheduledTime: bookingData.time,
-      message: bookingData.message,
+      message: undefined,
     })
+
+    if (typeof window !== "undefined") {
+      try {
+        const roiRaw = localStorage.getItem("clinvetia-roi-data")
+        const roi = roiRaw ? JSON.parse(roiRaw) : null
+        sessionStorage.setItem(
+          "lastBooking",
+          JSON.stringify({
+            confirm: bookingData.confirm,
+            dateISO: bookingData.date.toISOString(),
+            time: bookingData.time,
+            roi,
+          })
+        )
+      } catch {
+        // ignore
+      }
+    }
     
     // Redirigir a contacto después de agendar
     setTimeout(() => {
-      router.push("/contacto")
+      router.push("/contacto?from=booking")
     }, 1500)
   }, [router, saveCalendlyData])
 
@@ -131,6 +145,7 @@ export default function ReservarPage() {
 
   return (
     <SiteShell>
+      <Toaster position="bottom-right" />
       {/* Hero Section */}
       <Section variant="default" className="ambient-section py-12 md:py-16">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />

@@ -1000,6 +1000,30 @@
           "invalid": "Please enter a valid email"
         }
       }
+    },
+    "backend": {
+      "tooltip_1930": "For same-day bookings, after 19:30 we do not allow new reservations. Please choose another day.",
+      "hold_title": "Time temporarily held",
+      "hold_countdown": "Releases in {{time}}",
+      "hold_missing": "Select a time to temporarily hold it.",
+      "contact_title": "Your details",
+      "confirm_success": "Booking confirmed. Redirecting you to contact.",
+      "email_disabled_note": "Note: email sending is disabled in this environment.",
+      "errors": {
+        "SLOT_TAKEN": "Time not available. Please pick another.",
+        "INVALID_INPUT": "Please review the details and try again.",
+        "INTERNAL_ERROR": "Something went wrong. Please try again.",
+        "TOKEN_EXPIRED": "Your temporary hold expired. Please pick a time again.",
+        "TOKEN_INVALID": "Invalid link or token. Please book again.",
+        "ROI_REQUIRED": "You need to calculate ROI before confirming.",
+        "NOT_IMPLEMENTED": "Not available yet."
+      },
+      "contact_fallback_title": "No booking data",
+      "contact_fallback_desc": "We couldn't find your latest booking details. Please book again to continue.",
+      "contact_fallback_cta": "Book again",
+      "contact_summary_title": "Your appointment is confirmed",
+      "contact_summary_desc": "Here is the summary of the booking you just confirmed.",
+      "contact_summary_roi": "ROI submitted"
     }
   },
   "footer": {
