@@ -28,6 +28,8 @@ export function Section({
       id={id}
       className={cn(
         "relative overflow-hidden",
+        // Add scroll margin to account for sticky header (h-16 = 64px)
+        id && "scroll-mt-16",
         variantClasses[variant],
         className
       )}

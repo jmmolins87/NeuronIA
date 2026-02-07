@@ -12,7 +12,7 @@ import { StatusBadge } from "@/app/admin/_components/status-badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Modal } from "@/app/admin/_components/modal"
+import { Modal } from "@/components/modal"
 
 function pad2(n: number): string {
   return String(n).padStart(2, "0")
@@ -316,6 +316,7 @@ export function CalendarView() {
         contentClassName="max-w-[980px]"
         bodyScroll="none"
         bodyClassName="pr-0"
+        closeAriaLabel="Close"
       >
         <div className="relative overflow-hidden">
           <div

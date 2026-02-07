@@ -1,13 +1,7 @@
 "use client"
 
 import * as React from "react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Modal } from "@/components/modal"
 import { useKeyboardShortcuts } from "@/components/providers/keyboard-shortcuts-provider"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Keyboard } from "lucide-react"
@@ -20,19 +14,20 @@ export function KeyboardShortcutsDialog() {
   const actionShortcuts = shortcuts.filter((s) => s.category === "actions")
 
   return (
-    <Dialog open={isHelpOpen} onOpenChange={(open: boolean) => !open && hideHelp()}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Keyboard className="w-5 h-5 text-primary" />
-            {t("shortcuts.title")}
-          </DialogTitle>
-          <DialogDescription>
-            {t("shortcuts.description")}
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-6">
+    <Modal
+      open={isHelpOpen}
+      onOpenChange={(open: boolean) => !open && hideHelp()}
+      title={
+        <div className="flex items-center gap-2">
+          <Keyboard className="w-5 h-5 text-primary" />
+          {t("shortcuts.title")}
+        </div>
+      }
+      description={t("shortcuts.description")}
+      contentClassName="max-w-2xl"
+      closeAriaLabel={t("common.close")}
+    >
+      <div className="space-y-6">
           {/* Navigation Shortcuts */}
           <div>
             <h3 className="text-lg font-semibold mb-3 text-gradient-to dark:text-primary">
@@ -82,7 +77,6 @@ export function KeyboardShortcutsDialog() {
             {t("shortcuts.hint")}
           </p>
         </div>
-      </DialogContent>
-    </Dialog>
+    </Modal>
   )
 }

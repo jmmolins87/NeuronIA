@@ -127,7 +127,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     const id = window.setTimeout(() => {
       timeStepRef.current?.scrollIntoView({
         behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "start",
+        block: "nearest",
         inline: "nearest",
       })
     }, delayMs)
@@ -444,7 +444,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
        {/* Step 2: Select Time */}
        <div className="w-full shrink-0 space-y-6">
          {step === 2 && selectedDate ? (
-            <div ref={timeStepRef} className="space-y-6 scroll-mt-24">
+            <div ref={timeStepRef} className="space-y-6 scroll-mt-4 md:scroll-mt-8">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />

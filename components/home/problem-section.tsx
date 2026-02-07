@@ -15,7 +15,7 @@ export function ProblemSection() {
     <Section
       variant="card"
       id="problem-section"
-      className="home-reflections home-surface-problem home-shadow-problem padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20"
+      className="home-reflections home-surface-problem home-shadow-problem padding-top-pain min-h-screen flex flex-col justify-center pb-12 md:py-16 lg:py-20 scroll-mt-0 md:scroll-mt-16"
     >
       <div className="container relative z-10 mx-auto max-w-screen-xl px-fluid">
         <Reveal delay={100}>

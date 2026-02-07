@@ -9,6 +9,7 @@ import { Reveal } from "@/components/reveal"
 import { useCalendlyData } from "@/hooks/use-calendly-data"
 import { GridPattern } from "@/components/shapes/grid-pattern"
 import { DemoButton } from "@/components/cta/demo-button"
+import { CancelButton } from "@/components/cta/cancel-button"
 import { BookingCalendar } from "@/components/booking-calendar"
 import type { BookingCompleteData } from "@/components/booking-calendar"
 import { Toaster } from "@/components/ui/sonner"
@@ -219,12 +220,12 @@ export default function ReservarPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancelLeave}>
+            <CancelButton onClick={handleConfirmLeave}>
+              {t("booking.leaveWarning.leave")}
+            </CancelButton>
+            <AlertDialogCancel variant="default" size="lg" onClick={handleCancelLeave}>
               {t("booking.leaveWarning.stay")}
             </AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmLeave}>
-              {t("booking.leaveWarning.leave")}
-            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

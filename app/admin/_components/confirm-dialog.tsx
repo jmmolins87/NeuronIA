@@ -4,7 +4,7 @@ import * as React from "react"
 
 import { Button } from "@/components/ui/button"
 import { CancelButton } from "@/components/cta/cancel-button"
-import { Modal } from "@/app/admin/_components/modal"
+import { Modal } from "@/components/modal"
 
 export function ConfirmDialog({
   open,
@@ -12,7 +12,8 @@ export function ConfirmDialog({
   title,
   description,
   confirmLabel,
-  cancelLabel,
+  cancelLabel = "Close",
+  closeAriaLabel = "Close",
   onConfirm,
 }: {
   open: boolean
@@ -21,6 +22,7 @@ export function ConfirmDialog({
   description?: string
   confirmLabel: string
   cancelLabel?: string
+  closeAriaLabel?: string
   onConfirm?: () => void
 }) {
   return (
@@ -30,13 +32,14 @@ export function ConfirmDialog({
       title={title}
       description={description}
       contentClassName="sm:max-w-lg"
+      closeAriaLabel={closeAriaLabel}
       footer={
         <>
           <CancelButton
             type="button"
             onClick={() => onOpenChange(false)}
           >
-            {cancelLabel ?? "Cerrar"}
+            {cancelLabel}
           </CancelButton>
           <Button
             type="button"
@@ -51,7 +54,7 @@ export function ConfirmDialog({
       }
     >
       <div className="text-muted-foreground text-sm">
-        Esta accion es solo UI (mock).
+        This action is UI only (mock).
       </div>
     </Modal>
   )
