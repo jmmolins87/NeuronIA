@@ -44,6 +44,10 @@ model Booking {
   confirmedAt DateTime?
   cancelledAt DateTime?
 
+  rescheduledToBookingId String?
+  rescheduledToBooking   Booking? @relation("BookingReschedule", fields: [rescheduledToBookingId], references: [id], onDelete: SetNull)
+  rescheduledFromBookings Booking[] @relation("BookingReschedule")
+
   tokens    BookingToken[]
   events    BookingEvent[]
 
@@ -53,6 +57,7 @@ model Booking {
   @@index([startAt])
   @@index([status, startAt])
   @@index([expiresAt])
+  @@index([rescheduledToBookingId])
 }
 
 model BookingToken {

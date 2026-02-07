@@ -1,9 +1,11 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
 import { Calendar, Calculator } from "lucide-react"
 import { DemoButton } from "@/components/cta/demo-button"
 import { RoiButton } from "@/components/cta/roi-button"
+import { BookingModal } from "@/components/booking-modal"
 import { Separator } from "@/components/ui/separator"
 import { Logo } from "@/components/logo"
 import { useTranslation } from "@/components/providers/i18n-provider"
@@ -11,6 +13,7 @@ import { useTranslation } from "@/components/providers/i18n-provider"
 export function Footer() {
   const { t } = useTranslation()
   const currentYear = new Date().getFullYear()
+  const [showBookingModal, setShowBookingModal] = React.useState(false)
 
   const footerLinks = {
     product: [
@@ -84,13 +87,9 @@ export function Footer() {
               {t("footer.cta.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-2">
-              <DemoButton asChild size="sm">
-                <Link href="/reservar">
-                  <span className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    {t("common.bookDemo")}
-                  </span>
-                </Link>
+              <DemoButton onClick={() => setShowBookingModal(true)} size="sm">
+                <Calendar className="w-4 h-4" />
+                {t("common.bookDemo")}
               </DemoButton>
               <RoiButton asChild size="sm">
                 <Link href="/roi">
@@ -126,6 +125,12 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      <BookingModal
+        open={showBookingModal}
+        onOpenChange={setShowBookingModal}
+        onBookingComplete={() => setShowBookingModal(false)}
+      />
     </footer>
   )
 }

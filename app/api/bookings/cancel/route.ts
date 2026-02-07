@@ -71,7 +71,7 @@ export async function POST(request: Request) {
         }
         return {
           kind: "error" as const,
-          response: errorJson("TOKEN_INVALID", "Token already used", { status: 400 }),
+          response: errorJson("TOKEN_USED", "Token already used", { status: 410 }),
         }
       }
 
@@ -88,7 +88,10 @@ export async function POST(request: Request) {
           : null
 
       if (!updatedBooking) {
-        return { kind: "error" as const, response: errorJson("BOOKING_NOT_HELD", "Booking cannot be cancelled", { status: 409 }) }
+        return {
+          kind: "error" as const,
+          response: errorJson("INVALID_INPUT", "Booking cannot be cancelled", { status: 409 }),
+        }
       }
 
       await tx.bookingToken.update({
