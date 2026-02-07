@@ -21,6 +21,14 @@ const EnvSchema = z.object({
   // Optional but recommended (direct / non-pooled connection URL).
   DATABASE_URL_UNPOOLED: z.string().min(1).optional(),
 
+  // Transactional email (Brevo)
+  EMAIL_ENABLED: BooleanStringSchema.default("false"),
+  EMAIL_PROVIDER: z.enum(["brevo"]).default("brevo"),
+  BREVO_API_KEY: z.string().min(1).optional(),
+  EMAIL_FROM: z.string().min(1).optional(),
+  // In dev/test: build payload and skip sending.
+  EMAIL_DRY_RUN: BooleanStringSchema.optional(),
+
   // Booking configuration (backend-first reservations)
   BOOKING_TIMEZONE: z.literal("Europe/Madrid").default("Europe/Madrid"),
   BOOKING_START_TIME: TimeHHmmSchema.default("09:00"),
@@ -36,6 +44,32 @@ const EnvSchema = z.object({
   ALLOW_TIME_OVERRIDE: BooleanStringSchema.optional(),
 })
 
+const EnvSchemaWithRefinements = EnvSchema.superRefine((data, ctx) => {
+  if (data.EMAIL_ENABLED) {
+    if (data.EMAIL_PROVIDER !== "brevo") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["EMAIL_PROVIDER"],
+        message: "Only brevo is supported",
+      })
+    }
+    if (!data.BREVO_API_KEY) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["BREVO_API_KEY"],
+        message: "Required when EMAIL_ENABLED=true",
+      })
+    }
+    if (!data.EMAIL_FROM) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["EMAIL_FROM"],
+        message: "Required when EMAIL_ENABLED=true",
+      })
+    }
+  }
+})
+
 function formatZodError(error: z.ZodError): string {
   return error.issues
     .map((issue) => {
@@ -45,11 +79,17 @@ function formatZodError(error: z.ZodError): string {
     .join("\n")
 }
 
-const parsed = EnvSchema.safeParse({
+const parsed = EnvSchemaWithRefinements.safeParse({
   NODE_ENV: process.env.NODE_ENV,
   APP_URL: process.env.APP_URL,
   DATABASE_URL: process.env.DATABASE_URL,
   DATABASE_URL_UNPOOLED: process.env.DATABASE_URL_UNPOOLED,
+
+  EMAIL_ENABLED: process.env.EMAIL_ENABLED,
+  EMAIL_PROVIDER: process.env.EMAIL_PROVIDER,
+  BREVO_API_KEY: process.env.BREVO_API_KEY,
+  EMAIL_FROM: process.env.EMAIL_FROM,
+  EMAIL_DRY_RUN: process.env.EMAIL_DRY_RUN,
 
   BOOKING_TIMEZONE: process.env.BOOKING_TIMEZONE,
   BOOKING_START_TIME: process.env.BOOKING_START_TIME,
@@ -67,6 +107,12 @@ if (!parsed.success) {
     "\nRequired:",
     "- APP_URL",
     "- DATABASE_URL",
+    "\nEmail (optional; required only if enabled):",
+    "- EMAIL_ENABLED (true|false)",
+    "- EMAIL_PROVIDER (brevo)",
+    "- BREVO_API_KEY (required if EMAIL_ENABLED=true)",
+    "- EMAIL_FROM (required if EMAIL_ENABLED=true)",
+    "- EMAIL_DRY_RUN (true|false)",
     "\nBooking (defaults exist, but invalid values will fail):",
     "- BOOKING_TIMEZONE (must be Europe/Madrid)",
     "- BOOKING_START_TIME (HH:mm)",

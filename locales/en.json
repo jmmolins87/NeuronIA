@@ -1103,6 +1103,43 @@
     "goBack": "Go Back",
     "goHome": "Go Home"
   },
+  "email": {
+    "confirmation": {
+      "subject": "Booking confirmed - ClinvetIA",
+      "preheader": "Your demo is confirmed for {{date}} at {{time}}.",
+      "title": "Booking confirmed",
+      "intro": "Thanks for booking a demo with ClinvetIA. Here is the summary and links to manage your appointment.",
+      "labels": {
+        "date": "Date",
+        "time": "Time",
+        "duration": "Duration",
+        "timezone": "Time zone",
+        "contactName": "Name",
+        "contactEmail": "Email",
+        "contactPhone": "Phone",
+        "clinicName": "Clinic",
+        "message": "Message"
+      },
+      "durationMinutes": "{{minutes}} min",
+      "contact": {
+        "title": "Form details"
+      },
+      "roi": {
+        "title": "ROI summary",
+        "subtitle": "We include a summary of the submitted data.",
+        "empty": "No ROI data was included.",
+        "rawTitle": "ROI (full)"
+      },
+      "cta": {
+        "reschedule": "Reschedule",
+        "cancel": "Cancel"
+      },
+      "ics": {
+        "fallback": "If you can't see the attachment, you can download the calendar here:"
+      },
+      "footer": "If you need help, reply to this email."
+    }
+  },
   "booking": {
     "ics": {
       "summary": "ClinvetIA appointment",

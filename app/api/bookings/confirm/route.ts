@@ -8,6 +8,7 @@ import { getNowFromRequest } from "@/lib/booking/time"
 import { generateBookingUid, generateToken, sha256Hex } from "@/lib/booking/tokens"
 import type { BookingLocale } from "@/lib/i18n/booking-strings"
 import { ApiError, toResponse } from "@/lib/errors"
+import { sendConfirmationEmail } from "@/lib/email/sendConfirmation"
 import { env } from "@/lib/env"
 import { prisma } from "@/lib/prisma"
 
@@ -183,11 +184,49 @@ export async function POST(request: Request) {
         booking: updatedBooking,
         cancelToken,
         rescheduleToken,
+        wasAlreadyConfirmed,
       }
     })
 
     const booking = result.booking
     const locale = booking.locale as BookingLocale
+
+    const cancel = {
+      token: result.cancelToken,
+      url: `${env.APP_URL}/cancel?token=${encodeURIComponent(result.cancelToken)}`,
+    }
+
+    const reschedule = {
+      token: result.rescheduleToken,
+      url: `${env.APP_URL}/reschedule?token=${encodeURIComponent(result.rescheduleToken)}`,
+    }
+
+    let email:
+      | { ok: true; skipped: true; provider: "brevo"; emailSkipped?: true; reason?: string }
+      | { ok: true; skipped: false; provider: "brevo"; messageId?: string; dryRun?: true }
+      | { ok: false; skipped: false; provider: "brevo"; code: "EMAIL_FAILED" }
+
+    if (result.wasAlreadyConfirmed) {
+      email = { ok: true, skipped: true, provider: "brevo", reason: "ALREADY_CONFIRMED" }
+    } else {
+      try {
+        const sent = await sendConfirmationEmail({
+          booking,
+          roiData: booking.roiData,
+          cancel,
+          reschedule,
+          sessionToken: parsed.data.sessionToken,
+        })
+        if (sent.ok && sent.skipped) {
+          email = { ok: true, skipped: true, provider: "brevo", emailSkipped: true }
+        } else {
+          email = sent
+        }
+      } catch (e: unknown) {
+        console.error("[email] unexpected error (sendConfirmationEmail)", e)
+        email = { ok: false, skipped: false, provider: "brevo", code: "EMAIL_FAILED" }
+      }
+    }
 
     return okJson({
       booking: {
@@ -206,17 +245,13 @@ export async function POST(request: Request) {
           message: booking.contactMessage,
         },
       },
-      cancel: {
-        token: result.cancelToken,
-        url: `${env.APP_URL}/cancel?token=${encodeURIComponent(result.cancelToken)}`,
-      },
-      reschedule: {
-        token: result.rescheduleToken,
-        url: `${env.APP_URL}/reschedule?token=${encodeURIComponent(result.rescheduleToken)}`,
-      },
+      cancel,
+      reschedule,
       ics: {
         url: `${env.APP_URL}/api/bookings/ics?token=${encodeURIComponent(parsed.data.sessionToken)}`,
       },
+      email,
+      ...(email.ok && email.skipped && email.emailSkipped ? { emailSkipped: true } : {}),
     })
   } catch (error: unknown) {
     return toResponse(error)

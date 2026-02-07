@@ -1097,6 +1097,43 @@
     "goBack": "Volver Atrás",
     "goHome": "Ir al Inicio"
   },
+  "email": {
+    "confirmation": {
+      "subject": "Reserva confirmada - ClinvetIA",
+      "preheader": "Tu demo está confirmada para el {{date}} a las {{time}}.",
+      "title": "Reserva confirmada",
+      "intro": "Gracias por reservar una demo con ClinvetIA. Aquí tienes el resumen y los enlaces para gestionar tu cita.",
+      "labels": {
+        "date": "Fecha",
+        "time": "Hora",
+        "duration": "Duración",
+        "timezone": "Zona horaria",
+        "contactName": "Nombre",
+        "contactEmail": "Email",
+        "contactPhone": "Teléfono",
+        "clinicName": "Clínica",
+        "message": "Mensaje"
+      },
+      "durationMinutes": "{{minutes}} min",
+      "contact": {
+        "title": "Datos del formulario"
+      },
+      "roi": {
+        "title": "Resumen ROI",
+        "subtitle": "Incluimos un resumen de los datos enviados.",
+        "empty": "No se incluyeron datos de ROI.",
+        "rawTitle": "ROI (completo)"
+      },
+      "cta": {
+        "reschedule": "Reagendar",
+        "cancel": "Cancelar"
+      },
+      "ics": {
+        "fallback": "Si no ves el adjunto, puedes descargar el calendario aquí:"
+      },
+      "footer": "Si necesitas ayuda, responde a este email."
+    }
+  },
   "booking": {
     "ics": {
       "summary": "Cita ClinvetIA",
