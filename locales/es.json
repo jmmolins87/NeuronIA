@@ -852,6 +852,10 @@
       "title": "¿Qué incluye la demo?",
       "description": "Te mostramos cómo el Sistema clasifica urgencias veterinarias, gestiona recordatorios de vacunas y captura consultas 24/7. Calculamos tu ROI específico y adaptamos el flujo a tu clínica."
     },
+    "roiRequired": {
+      "title": "Calculadora ROI requerida",
+      "description": "Para completar tu reserva, primero debes calcular tu ROI. Esto nos ayudará a preparar una demostración personalizada para tu clínica."
+    },
     "form": {
       "title": "O envíanos tus datos",
       "name": {
@@ -889,7 +893,17 @@
       "message": "Mensaje (opcional)",
       "messagePlaceholder": "Cuéntanos sobre tu clínica...",
       "confirm": "Confirmar Reserva",
+      "goToCalculator": "Ir a Calculadora ROI",
       "confirmMessage": "Por favor, confirma tu reserva de demo. Luego completarás tus datos en el formulario de contacto.",
+      "confirmDate": {
+        "title": "¿Confirmar esta fecha?",
+        "confirm": "Confirmar fecha"
+      },
+      "confirmTime": {
+        "title": "¿Confirmar esta hora?",
+        "description": "Has seleccionado:",
+        "confirm": "Confirmar hora"
+      },
       "bookingSuccess": "¡Reserva confirmada!",
       "bookingSuccessMessage": "Recibirás un email de confirmación pronto",
       "weekdays": {
@@ -1181,6 +1195,12 @@
       "description": "Ya has completado tu solicitud de contacto. Si necesitas cambiar o cancelar tu cita, por favor gestiona estos cambios a través del correo electrónico de confirmación que recibirás. Nuestro equipo te ayudará con cualquier modificación que necesites.",
       "goBack": "Volver a inicio",
       "goToContact": "Ir a contacto"
+    },
+    "leaveWarning": {
+      "title": "¿Abandonar la reserva?",
+      "description": "Tienes una fecha seleccionada que se perderá si sales de esta página. ¿Estás seguro de que quieres continuar?",
+      "leave": "Salir",
+      "stay": "Continuar reservando"
     },
     "ics": {
       "summary": "Cita ClinvetIA",

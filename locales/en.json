@@ -948,6 +948,10 @@
       "title": "What's included in the demo?",
       "description": "In our personalized demonstration, we'll show you how the Intelligent Care System can transform your clinic. You'll see real cases, we'll calculate your specific ROI, and answer all your questions."
     },
+    "roiRequired": {
+      "title": "ROI Calculator required",
+      "description": "To complete your booking, you must first calculate your ROI. This will help us prepare a personalized demonstration for your clinic."
+    },
     "form": {
       "title": "Or send us your details",
       "name": {
@@ -985,7 +989,17 @@
       "message": "Message (optional)",
       "messagePlaceholder": "Tell us about your clinic...",
       "confirm": "Confirm Booking",
+      "goToCalculator": "Go to ROI Calculator",
       "confirmMessage": "Please confirm your demo booking. You will complete your details in the contact form afterwards.",
+      "confirmDate": {
+        "title": "Confirm this date?",
+        "confirm": "Confirm date"
+      },
+      "confirmTime": {
+        "title": "Confirm this time?",
+        "description": "You selected:",
+        "confirm": "Confirm time"
+      },
       "bookingSuccess": "Booking confirmed!",
       "bookingSuccessMessage": "You'll receive a confirmation email soon",
       "weekdays": {
@@ -1187,6 +1201,12 @@
       "description": "You've already completed your contact request. If you need to change or cancel your appointment, please manage these changes through the confirmation email you'll receive. Our team will help you with any modifications you need.",
       "goBack": "Go to home",
       "goToContact": "Go to contact"
+    },
+    "leaveWarning": {
+      "title": "Leave booking?",
+      "description": "You have a selected date that will be lost if you leave this page. Are you sure you want to continue?",
+      "leave": "Leave",
+      "stay": "Continue booking"
     },
     "ics": {
       "summary": "ClinvetIA appointment",

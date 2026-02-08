@@ -12,7 +12,7 @@ import { KeyboardShortcutsDialog } from "@/components/keyboard-shortcuts-dialog"
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { PageLoaderProvider } from "@/components/providers/page-loader-provider";
 import { CookieConsentProvider } from "@/components/providers/cookie-consent-provider";
-import { AvatarChat } from "@/components/AvatarChat";
+import { AvatarChatGate } from "@/components/avatar-chat-gate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,12 +56,12 @@ export default function RootLayout({
               <LenisProvider>
                 <KeyboardShortcutsProvider>
                   <PageLoaderProvider>
-                    <ScrollToTop />
-                    {children}
-                    <AvatarChat />
-                    <KeyboardShortcutsDialog />
-                  </PageLoaderProvider>
-                </KeyboardShortcutsProvider>
+                     <ScrollToTop />
+                     {children}
+                     <AvatarChatGate />
+                     <KeyboardShortcutsDialog />
+                   </PageLoaderProvider>
+                 </KeyboardShortcutsProvider>
               </LenisProvider>
             </CookieConsentProvider>
           </I18nProvider>

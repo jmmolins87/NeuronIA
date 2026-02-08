@@ -17,6 +17,7 @@ import type { BookingCompleteData } from "@/components/booking-calendar"
 import { Toaster } from "@/components/ui/sonner"
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -198,9 +199,9 @@ export default function ReservarPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <CancelButton onClick={handleConfirmLeave}>{t("booking.leaveWarning.leave")}</CancelButton>
-            <AlertDialogCancel variant="default" size="lg" onClick={handleCancelLeave}>
+            <DemoButton onClick={handleCancelLeave}>
               {t("booking.leaveWarning.stay")}
-            </AlertDialogCancel>
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

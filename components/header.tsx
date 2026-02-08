@@ -25,6 +25,7 @@ export function Header() {
   const router = useRouter()
   const isHomePage = pathname === "/"
   const [showHeaderLogo, setShowHeaderLogo] = React.useState(false)
+  const [isScrolled, setIsScrolled] = React.useState(false)
 
   const handleMobileLogoClick = React.useCallback(() => {
     setIsOpen(false)
@@ -121,25 +122,35 @@ export function Header() {
     transform: `translateX(${indicator.left}px)`,
   }
 
-  // Detectar cuando el logo del hero sale del viewport
+  // Detectar cuando el logo del hero sale del viewport y scroll state
   React.useEffect(() => {
-    if (!isHomePage) return
-
     const handleScroll = () => {
-      // Detectar si hemos scrolleado más allá del hero logo
-      // El logo del hero está aproximadamente a 200-400px del top
+      const scrollY = window.scrollY
       const scrollThreshold = 300
-      setShowHeaderLogo(window.scrollY > scrollThreshold)
+      
+      // Update scroll state (for background)
+      setIsScrolled(scrollY > 50)
+      
+      // Update logo visibility (only for homepage)
+      if (isHomePage) {
+        setShowHeaderLogo(scrollY > scrollThreshold)
+      }
     }
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll() // Check initial state
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [isHomePage])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header 
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled || !isHomePage
+          ? "border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+          : "border-b border-transparent bg-transparent backdrop-blur-none"
+      }`}
+    >
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4">
         {/* Logo - Lógica de visibilidad */}
         {isHomePage ? (

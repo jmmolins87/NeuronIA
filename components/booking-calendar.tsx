@@ -6,13 +6,24 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { DemoButton } from "@/components/cta/demo-button"
 import { CancelButton } from "@/components/cta/cancel-button"
+import { RoiButton } from "@/components/cta/roi-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info, Loader2 } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info, Loader2, Calculator } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 import type { AvailabilitySlot, ConfirmResponse, EmailResult } from "@/lib/api/bookings"
@@ -105,6 +116,10 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
   const [holding, setHolding] = React.useState(false)
   const [confirming, setConfirming] = React.useState(false)
 
+  // Estados para modal de confirmación
+  const [pendingDate, setPendingDate] = React.useState<Date | null>(null)
+  const [showDateConfirmModal, setShowDateConfirmModal] = React.useState(false)
+
   const [contact, setContact] = React.useState({
     fullName: "",
     email: "",
@@ -148,21 +163,8 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
   React.useEffect(() => {
     if (step !== 2 || !selectedDate) return
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches
-
-    // Wait for the slide transition to finish before scrolling.
-    const delayMs = prefersReducedMotion ? 0 : 560
-    const id = window.setTimeout(() => {
-      timeStepRef.current?.scrollIntoView({
-        behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "nearest",
-        inline: "nearest",
-      })
-    }, delayMs)
-
-    return () => window.clearTimeout(id)
+    // Scroll al principio del contenedor cuando cambiamos al step 2
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }, [selectedDate, step])
 
   const getDaysInMonth = (date: Date) => {
@@ -202,50 +204,65 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
   const handleDateSelect = (day: number) => {
     const date = new Date(year, month, day)
     if (isDateAvailable(date)) {
-      setSelectedDate(date)
-      setSelectedTime(null)
-      setHold(null)
-      setAvailability(null)
-      setAvailabilityError(null)
-
-      // Notificar que el usuario seleccionó una fecha
-      onDateSelected?.(date)
-
-      const isoDate = toIsoDate(date)
-      setAvailabilityLoading(true)
-      void (async () => {
-        const res = await getAvailability(isoDate)
-        if (res.ok) {
-          setAvailability(res.slots)
-          setAvailabilityError(null)
-        } else {
-          setAvailability(null)
-          setAvailabilityError(res.code)
-          toast.error(codeToMessage(res.code, t))
-        }
-        setAvailabilityLoading(false)
-      })()
-
-      // Slide to the next step immediately.
-      setStep(2)
+      setPendingDate(date)
+      setShowDateConfirmModal(true)
     }
+  }
+
+  const confirmDateSelection = () => {
+    if (!pendingDate) return
+    
+    setSelectedDate(pendingDate)
+    setSelectedTime(null)
+    setHold(null)
+    setAvailability(null)
+    setAvailabilityError(null)
+    setShowDateConfirmModal(false)
+
+    // Notificar que el usuario seleccionó una fecha
+    onDateSelected?.(pendingDate)
+
+    const isoDate = toIsoDate(pendingDate)
+    setAvailabilityLoading(true)
+    void (async () => {
+      const res = await getAvailability(isoDate)
+      if (res.ok) {
+        setAvailability(res.slots)
+        setAvailabilityError(null)
+      } else {
+        setAvailability(null)
+        setAvailabilityError(res.code)
+        toast.error(codeToMessage(res.code, t))
+      }
+      setAvailabilityLoading(false)
+    })()
+
+    // Slide to the next step immediately.
+    setStep(2)
+    setPendingDate(null)
   }
 
   const handleTimeSelect = async (time: string) => {
     if (!selectedDate) return
-    if (hold && hold.time !== time) return
     if (isTodayCutoff) return
 
+    // Permitir cambiar de hora
+    if (hold && hold.time === time) return
+    if (hold) {
+      setHold(null)
+      setHoldSecondsLeft(0)
+    }
+
     setSelectedTime(time)
-    if (hold) return
+    setHolding(true)
 
     const isoDate = toIsoDate(selectedDate)
-    setHolding(true)
     const res = await createHold({ date: isoDate, time, timezone: "Europe/Madrid", locale })
     setHolding(false)
 
     if (!res.ok) {
       setHold(null)
+      setSelectedTime(null)
       toast.error(codeToMessage(res.code, t))
       const refreshed = await getAvailability(isoDate)
       if (refreshed.ok) setAvailability(refreshed.slots)
@@ -255,6 +272,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     const expiresAtISO = res.booking.expiresAtISO
     if (!expiresAtISO) {
       setHold(null)
+      setSelectedTime(null)
       toast.error(codeToMessage("INTERNAL_ERROR", t))
       return
     }
@@ -310,7 +328,9 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     }
 
     toast.success(t("book.backend.confirm_success"))
-    onBookingComplete?.({ date: selectedDate, time: selectedTime, confirm: res })
+    if (selectedDate) {
+      onBookingComplete?.({ date: selectedDate, time: selectedTime, confirm: res })
+    }
   }
 
   const previousMonth = () => {
@@ -417,19 +437,19 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       </div>
 
       {/* Steps Container with Slide Animation */}
-      <div className="relative overflow-hidden">
-        <div
-          className={cn(
-            "flex transition-transform duration-500 ease-in-out motion-reduce:transition-none",
-            step === 1 && "translate-x-0",
-            step === 2 && "-translate-x-full",
-            step === 3 && "-translate-x-[200%]"
-          )}
-        >
-          {/* Step 1: Select Date */}
-          <div className="w-full shrink-0 space-y-6">
-            {step === 1 ? (
-              <div className="space-y-6">
+         <div className="relative w-full overflow-x-hidden">
+         <div
+           className={cn(
+             "flex transition-transform duration-500 ease-in-out motion-reduce:transition-none w-[300%]",
+             step === 1 && "translate-x-0",
+             step === 2 && "-translate-x-[33.333%]",
+             step === 3 && "-translate-x-[66.666%]"
+           )}
+         >
+           {/* Step 1: Select Date */}
+           <div className="w-[33.333%] shrink-0">
+             {step === 1 ? (
+               <div className="max-w-5xl mx-auto px-4 md:px-8 space-y-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
                     <Calendar className="w-5 h-5 text-primary" />
@@ -479,9 +499,9 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           </div>
 
        {/* Step 2: Select Time */}
-       <div className="w-full shrink-0 space-y-6">
+       <div className="w-[33.333%] shrink-0">
          {step === 2 && selectedDate ? (
-            <div ref={timeStepRef} className="space-y-6 scroll-mt-4 md:scroll-mt-8">
+            <div className="max-w-5xl mx-auto px-4 md:px-8 space-y-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
@@ -498,7 +518,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           </div>
 
           <div className="p-4 rounded-lg bg-primary/10 dark:bg-primary/20 border border-primary/30">
-            <p className="text-sm font-medium text-foreground">{formatDate(selectedDate)}</p>
+            <p className="text-sm font-medium text-blue-700 dark:text-blue-400">{formatDate(selectedDate)}</p>
           </div>
 
            {availabilityLoading ? (
@@ -522,76 +542,75 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
              <div className="rounded-lg border border-border bg-card/60 p-4 text-sm text-muted-foreground">
                {codeToMessage(availabilityError, t)}
              </div>
-           ) : availability && availability.length > 0 ? (
-             <div className="space-y-4">
-               {hold ? (
-                 <Card className="border-primary/30 bg-card/80 backdrop-blur-sm">
-                   <CardHeader className="pb-3">
-                     <CardTitle className="text-base">{t("book.backend.hold_title")}</CardTitle>
-                   </CardHeader>
-                   <CardContent className="text-sm text-muted-foreground">
-                     {t("book.backend.hold_countdown", { time: formatCountdown(holdSecondsLeft) })}
-                   </CardContent>
-                 </Card>
-               ) : null}
+             ) : availability && availability.length > 0 ? (
+              <>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {availability.map((slot) => {
+                    const isSelected = selectedTime === slot.start
+                    const disabledByCutoff = isTodayCutoff
+                    const disabledByAvailability = !slot.available && !(hold && hold.time === slot.start)
+                    const disabled = disabledByCutoff || disabledByAvailability || holding
 
-               <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                 {availability.map((slot) => {
-                   const isSelected = selectedTime === slot.start
-                   const disabledByCutoff = isTodayCutoff
-                   const disabledByHold = Boolean(hold && hold.time !== slot.start)
-                   const disabledByAvailability = !slot.available && !(hold && hold.time === slot.start)
-                   const disabled = disabledByCutoff || disabledByHold || disabledByAvailability || holding
+                    const label = slot.start
+                    const tooltipText = disabledByCutoff
+                      ? t("book.backend.tooltip_1930")
+                      : disabledByAvailability
+                        ? t("book.backend.errors.SLOT_TAKEN")
+                        : null
 
-                   const label = slot.start
-                   const tooltipText = disabledByCutoff
-                     ? t("book.backend.tooltip_1930")
-                     : disabledByAvailability
-                       ? t("book.backend.errors.SLOT_TAKEN")
-                       : null
+                    const btn = (
+                      <button
+                        key={slot.start}
+                        type="button"
+                        onClick={() => handleTimeSelect(slot.start)}
+                        disabled={disabled}
+                        className={cn(
+                          "p-3 rounded-lg text-sm font-medium transition-all border-2",
+                          disabled
+                            ? "opacity-40 cursor-not-allowed bg-muted border-border"
+                            : isSelected
+                              ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
+                              : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
+                        )}
+                      >
+                        {label}
+                      </button>
+                    )
 
-                   const btn = (
-                     <button
-                       key={slot.start}
-                       type="button"
-                       onClick={() => void handleTimeSelect(slot.start)}
-                       disabled={disabled}
-                       className={cn(
-                         "p-3 rounded-lg text-sm font-medium transition-all border-2",
-                         disabled
-                           ? "opacity-40 cursor-not-allowed bg-muted border-border"
-                           : isSelected
-                             ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
-                             : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
-                       )}
-                     >
-                       {label}
-                     </button>
-                   )
+                    if (!tooltipText || !disabled) return btn
 
-                   if (!tooltipText || !disabled) return btn
-
-                   return (
-                     <Tooltip key={`${slot.start}-tt`}>
-                       <TooltipTrigger asChild>
-                         <span className="inline-flex">{btn}</span>
-                       </TooltipTrigger>
-                       <TooltipContent side="top">{tooltipText}</TooltipContent>
-                     </Tooltip>
-                   )
-                 })}
-               </div>
-             </div>
-           ) : (
+                    return (
+                      <Tooltip key={`${slot.start}-tt`}>
+                        <TooltipTrigger asChild>
+                          <span className="inline-flex">{btn}</span>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{tooltipText}</TooltipContent>
+                      </Tooltip>
+                    )
+                  })}
+                </div>
+              </>
+            ) : (
              <div className="rounded-lg border border-border bg-card/60 p-4 text-sm text-muted-foreground">
                {t("book.calendar.noSlotsAvailable")}
              </div>
            )}
 
-           <div className="flex justify-end">
-             <DemoButton
-               onClick={() => setStep(3)}
-               disabled={!selectedTime || !hold || holding}
+            {hold && (
+              <div className="w-full p-4 rounded-lg border-2 border-orange-500/50 bg-orange-500/10 flex items-center justify-between">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <Clock className="w-5 h-5 text-orange-500 flex-shrink-0" />
+                  <span className="text-base font-medium text-orange-700 dark:text-orange-400 truncate">
+                    {t("book.backend.hold_title")}... {t("book.backend.hold_countdown", { time: formatCountdown(holdSecondsLeft) })}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <DemoButton
+                onClick={() => setStep(3)}
+                disabled={!selectedTime || !hold || holding}
                className="w-auto cursor-pointer dark:glow-primary"
              >
                {t("common.continue")}
@@ -602,9 +621,9 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       </div>
 
        {/* Step 3: Confirm Details */}
-       <div className="w-full shrink-0 space-y-6">
+       <div className="w-[33.333%] shrink-0">
          {step === 3 && selectedDate && selectedTime ? (
-           <div className="space-y-6">
+            <div className="max-w-5xl mx-auto px-4 md:px-8 space-y-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Check className="w-5 h-5 text-primary" />
@@ -623,31 +642,17 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           <div className="p-6 rounded-lg bg-linear-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-primary" />
-                <span className="font-medium">{formatDate(selectedDate)}</span>
+                <Calendar className="w-5 h-5 text-blue-700 dark:text-blue-400" />
+                <span className="font-medium text-blue-700 dark:text-blue-400">{formatDate(selectedDate)}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-primary" />
-                <span className="font-medium">{selectedTime}</span>
+                <Clock className="w-5 h-5 text-blue-700 dark:text-blue-400" />
+                <span className="font-medium text-blue-700 dark:text-blue-400">{selectedTime}</span>
               </div>
             </div>
           </div>
 
-           {!hasROIData ? (
-             <div className="rounded-lg border border-border bg-card/70 p-4 text-sm text-muted-foreground">
-               {t("contact.form.roiRequired")}
-             </div>
-           ) : null}
 
-           {!hold ? (
-             <div className="rounded-lg border border-border bg-card/70 p-4 text-sm text-muted-foreground">
-               {t("book.backend.hold_missing")}
-             </div>
-           ) : (
-             <div className="rounded-lg border border-border bg-card/70 p-4 text-sm text-muted-foreground">
-               {t("book.backend.hold_countdown", { time: formatCountdown(holdSecondsLeft) })}
-             </div>
-           )}
 
            <Card className="border-border bg-card/80 backdrop-blur-sm">
              <CardHeader className="pb-3">
@@ -708,41 +713,108 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
              </CardContent>
            </Card>
 
-           <p className="text-base text-muted-foreground">{t("book.calendar.confirmMessage")}</p>
+            <p className="text-base text-muted-foreground">{t("book.calendar.confirmMessage")}</p>
 
-           <div className="flex justify-end">
-             <DemoButton
-               onClick={() => {
-                 if (confirming) return
-                 setConfirming(true)
-                 void (async () => {
-                   try {
-                     await handleSubmit()
-                   } finally {
-                     setConfirming(false)
-                   }
-                 })()
-               }}
-               disabled={
-                 confirming ||
-                 !hold ||
-                 holdSecondsLeft <= 0 ||
-                 !hasROIData ||
-                 !contact.fullName.trim() ||
-                 !contact.email.trim() ||
-                 !contact.phone.trim()
-               }
-               className="w-auto cursor-pointer dark:glow-primary"
-             >
-               <Check className="w-5 h-5 mr-2" />
-               {confirming ? t("common.loading") : t("book.calendar.confirm")}
-             </DemoButton>
-           </div>
+            {/* Warnings - Justo antes del botón final */}
+            {!hasROIData && (
+              <div className="rounded-lg border-2 border-orange-500/50 bg-orange-500/10 p-4">
+                <div className="flex items-start gap-3">
+                  <Info className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">{t("book.roiRequired.title")}</p>
+                    <p className="text-sm text-muted-foreground">{t("book.roiRequired.description")}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {!hold && (
+              <div className="rounded-lg border border-border bg-card/70 p-4 text-sm text-muted-foreground">
+                {t("book.backend.hold_missing")}
+              </div>
+            )}
+
+            {hold && (
+              <div className="w-full p-4 rounded-lg border-2 border-orange-500/50 bg-orange-500/10 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-orange-500" />
+                  <span className="text-base font-medium text-orange-700 dark:text-orange-400">
+                    {t("book.backend.hold_title")}... {t("book.backend.hold_countdown", { time: formatCountdown(holdSecondsLeft) })}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              {!hasROIData ? (
+                <RoiButton
+                  asChild
+                  disabled={confirming || !hold || holdSecondsLeft <= 0}
+                  className="w-auto cursor-pointer"
+                >
+                  <a href="/roi">
+                    <Calculator className="w-5 h-5 mr-2" />
+                    {t("book.calendar.goToCalculator")}
+                  </a>
+                </RoiButton>
+              ) : (
+                <DemoButton
+                  onClick={() => {
+                    if (confirming) return
+                    setConfirming(true)
+                    void (async () => {
+                      try {
+                        await handleSubmit()
+                      } finally {
+                        setConfirming(false)
+                      }
+                    })()
+                  }}
+                  disabled={
+                    confirming ||
+                    !hold ||
+                    holdSecondsLeft <= 0 ||
+                    !contact.fullName.trim() ||
+                    !contact.email.trim() ||
+                    !contact.phone.trim()
+                  }
+                  className="w-auto cursor-pointer dark:glow-primary"
+                >
+                  <Check className="w-5 h-5 mr-2" />
+                  {confirming ? t("common.loading") : t("book.calendar.confirm")}
+                </DemoButton>
+              )}
+            </div>
          </div>
          ) : null}
        </div>
         </div>
       </div>
+
+      {/* Modal de confirmación de fecha */}
+      <AlertDialog open={showDateConfirmModal} onOpenChange={setShowDateConfirmModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("book.calendar.confirmDate.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingDate ? formatDate(pendingDate) : ""}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <CancelButton onClick={() => {
+              setShowDateConfirmModal(false)
+              setPendingDate(null)
+            }}>
+              {t("common.cancel")}
+            </CancelButton>
+            <DemoButton onClick={confirmDateSelection}>
+              {t("book.calendar.confirmDate.confirm")}
+            </DemoButton>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+
     </div>
   )
 }

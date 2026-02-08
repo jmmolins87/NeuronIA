@@ -9,6 +9,7 @@ import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useMountAnimation } from "@/hooks/use-mount-animation"
 import { ScrollIndicator } from "@/components/scroll-indicator"
+import { ConstellationCanvas } from "@/components/backgrounds/constellation-canvas"
 
 export function HeroSection() {
   const { t } = useTranslation()
@@ -19,8 +20,18 @@ export function HeroSection() {
   const { ref: heroButtonsRef } = useMountAnimation({ delay: 900, duration: 800, distance: 30 })
 
   return (
-    <Section variant="default" id="hero" className="home-reflections h-[calc(100vh-4rem)] flex flex-col items-center justify-center pb-12 md:pb-0">
-      <div className="container relative z-10 mx-auto max-w-screen-2xl px-fluid py-8 md:py-0 text-center flex-1 flex items-center">
+    <Section variant="default" id="hero" className="relative min-h-screen flex flex-col items-center justify-between overflow-hidden py-8">
+      {/* Constellation background - covers entire hero */}
+      <div className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }}>
+        <ConstellationCanvas 
+          particleCount={150} 
+          connectionDistance={200} 
+          speed={0.4} 
+        />
+      </div>
+      
+      {/* Hero content - stays in place */}
+      <div className="container relative z-10 mx-auto max-w-screen-2xl px-fluid pt-4 md:pt-8 text-center flex-1 flex flex-col items-center justify-start">
         <div className="max-w-7xl mx-auto space-fluid-lg w-full">
           <div
             ref={heroLogoRef as React.RefObject<HTMLDivElement>}
@@ -58,10 +69,11 @@ export function HeroSection() {
             </RoiButton>
           </div>
         </div>
-      </div>
 
-      <div className="relative z-10 pb-8">
-        <ScrollIndicator targetId="problem-section" />
+        {/* Scroll indicator closer to content */}
+        <div className="mt-8 md:mt-12">
+          <ScrollIndicator targetId="problem-section" />
+        </div>
       </div>
     </Section>
   )
