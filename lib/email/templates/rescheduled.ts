@@ -5,7 +5,7 @@ import type { Prisma } from "@prisma/client"
 import type { EmailTxLocale } from "@/lib/i18n/emailStrings"
 import { getEmailTxStrings } from "@/lib/i18n/emailStrings"
 
-import { buildCalendarLinks, escapeHtml, formatMaybe, getRoiKeyValues, safeJsonStringify } from "@/lib/email/templates/_shared"
+import { buildCalendarLinks, escapeHtml, formatMaybe, getRoiKeyValues } from "@/lib/email/templates/_shared"
 
 export interface EmailAttachment {
   name: string
@@ -66,7 +66,6 @@ export function buildRescheduledEmail(args: RescheduledEmailTemplateArgs): {
   })
 
   const roiKv = getRoiKeyValues(args.booking.roiData)
-  const roiRaw = safeJsonStringify(args.booking.roiData, 2500)
 
   const accent = "#2EE9A6"
   const bg = "#0B0F1A"
@@ -74,6 +73,10 @@ export function buildRescheduledEmail(args: RescheduledEmailTemplateArgs): {
   const text = "#E6EEF9"
   const muted = "#A9B4C7"
   const border = "#1D2A44"
+  
+  // Button colors matching app components
+  const buttonReschedule = "#0ea5e9"  // DemoButton blue (sky-500)
+  const buttonCancel = "#dc2626"       // CancelButton red (destructive)
 
   function row(label: string, value: string): string {
     return `
@@ -177,18 +180,6 @@ export function buildRescheduledEmail(args: RescheduledEmailTemplateArgs): {
                           ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px; border:1px solid ${border}; border-radius:12px; overflow:hidden;">${roiTableRows}</table>`
                           : `<div style="margin-top:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:13px; color:${muted};">-</div>`
                       }
-                      ${
-                        roiRaw
-                          ? `<div style="margin-top:12px; border:1px solid ${border}; border-radius:12px; overflow:hidden;">
-                              <div style="padding:10px 12px; color:${muted}; font-size:12px; background:#0E1626;">${escapeHtml(
-                                args.locale === "en" ? "ROI (raw excerpt)" : "ROI (extracto)"
-                              )}</div>
-                              <pre style="margin:0; padding:12px; white-space:pre-wrap; word-break:break-word; font-size:12px; line-height:1.4; color:${text};">${escapeHtml(
-                                roiRaw
-                              )}</pre>
-                            </div>`
-                          : ""
-                      }
                     </td>
                   </tr>
 
@@ -208,12 +199,12 @@ export function buildRescheduledEmail(args: RescheduledEmailTemplateArgs): {
                           <td style="padding:0;">
                             <a href="${escapeHtml(
                               args.actions.rescheduleUrl
-                            )}" style="display:inline-block; border:1px solid ${border}; color:${text}; text-decoration:none; padding:10px 14px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:13px; font-weight:700; margin-right:10px;">
+                            )}" style="display:inline-block; background:${buttonReschedule}; color:#fff; text-decoration:none; padding:10px 14px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:13px; font-weight:700; margin-right:10px;">
                               ${escapeHtml(t("email.cta.reschedule"))}
                             </a>
                             <a href="${escapeHtml(
                               args.actions.cancelUrl
-                            )}" style="display:inline-block; border:1px solid ${border}; color:${text}; text-decoration:none; padding:10px 14px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:13px; font-weight:700;">
+                            )}" style="display:inline-block; background:${buttonCancel}; color:#fff; text-decoration:none; padding:10px 14px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:13px; font-weight:700;">
                               ${escapeHtml(t("email.cta.cancel"))}
                             </a>
                           </td>
@@ -233,7 +224,19 @@ export function buildRescheduledEmail(args: RescheduledEmailTemplateArgs): {
                       </div>
 
                       <div style="margin-top:16px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:12px; line-height:1.6; color:${muted};">
-                        ${escapeHtml(t("email.text.footer"))}
+                        <div style="margin-bottom:8px;">
+                          ${escapeHtml(t("email.text.footer"))}
+                        </div>
+                        <div style="padding-top:8px; border-top:1px solid ${border}; color:${muted}; font-size:11px; line-height:1.5;">
+                          <strong>ClinvetIA</strong><br />
+                          Soluciones de IA para clínicas veterinarias<br />
+                          Email: <a href="mailto:info@clinvetia.com" style="color:${accent}; text-decoration:underline;">info@clinvetia.com</a><br />
+                          Web: <a href="${escapeHtml(args.appUrl)}" style="color:${accent}; text-decoration:underline;">www.clinvetia.com</a>
+                        </div>
+                        <div style="margin-top:8px; color:${muted}; font-size:10px;">
+                          Este es un correo transaccional relacionado con tu cita.<br />
+                          Para cancelar, haz clic en el botón "Cancelar" arriba.
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -274,11 +277,6 @@ export function buildRescheduledEmail(args: RescheduledEmailTemplateArgs): {
     for (const kv of roiKv) {
       textLines.push(`- ${kv.key}: ${kv.value}`)
     }
-  }
-  if (roiRaw) {
-    textLines.push("")
-    textLines.push(args.locale === "en" ? "ROI (raw excerpt):" : "ROI (extracto):")
-    textLines.push(roiRaw)
   }
   textLines.push("")
   textLines.push(`${t("email.cta.downloadIcs")}: ${args.actions.icsUrl}`)

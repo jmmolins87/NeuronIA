@@ -16,6 +16,7 @@ export interface SendTransacEmailArgs {
   text: string
   attachments?: BrevoAttachment[]
   tags?: string[]
+  headers?: Record<string, string>
   timeoutMs?: number
 }
 
@@ -67,6 +68,10 @@ export async function sendTransacEmail(args: SendTransacEmailArgs) {
 
   if (args.tags && args.tags.length > 0) {
     payload.tags = args.tags
+  }
+
+  if (args.headers && Object.keys(args.headers).length > 0) {
+    payload.headers = args.headers
   }
 
   try {

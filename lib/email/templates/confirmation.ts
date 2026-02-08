@@ -52,17 +52,6 @@ function formatMultilineHtml(value: string): string {
   return escapeHtml(value).replace(/\n/g, "<br />")
 }
 
-function safeJsonStringify(value: unknown, maxChars: number): string {
-  try {
-    const json = JSON.stringify(value, null, 2)
-    if (!json) return ""
-    if (json.length <= maxChars) return json
-    return `${json.slice(0, maxChars)}\n...` 
-  } catch {
-    return ""
-  }
-}
-
 function getRoiKeyValues(roi: Prisma.JsonValue | null): Array<{ key: string; value: string }> {
   if (!roi || typeof roi !== "object" || Array.isArray(roi)) return []
   const record = roi as Record<string, unknown>
@@ -93,7 +82,6 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
   }
 
   const roiKv = getRoiKeyValues(args.booking.roiData)
-  const roiRaw = safeJsonStringify(args.booking.roiData, 3500)
 
   const logoUrl = `${args.appUrl.replace(/\/$/, "")}/logo.png`
 
@@ -104,12 +92,15 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
   })
 
   const primary = "#0F2D3F"
-  const accent = "#E5A24C"
   const bg = "#F6F7F9"
   const card = "#FFFFFF"
   const text = "#0B1220"
   const muted = "#5B6472"
   const border = "#E6E8ED"
+  
+  // Button colors matching app components
+  const buttonReschedule = "#0ea5e9"  // DemoButton blue (sky-500)
+  const buttonCancel = "#dc2626"       // CancelButton red (destructive)
 
   function row(label: string, value: string, multiline?: boolean): string {
     const renderedValue = multiline ? formatMultilineHtml(value) : escapeHtml(value)
@@ -130,19 +121,6 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
   const roiTableRows = roiKv
     .map((kv) => row(kv.key, kv.value))
     .join("")
-
-  const roiRawBlock = roiRaw
-    ? `
-      <div style="margin-top:12px; border:1px solid ${border}; border-radius:10px; overflow:hidden;">
-        <div style="padding:10px 12px; background:${bg}; color:${muted}; font-size:12px;">${escapeHtml(
-          t("email.confirmation.roi.rawTitle")
-        )}</div>
-        <pre style="margin:0; padding:12px; white-space:pre-wrap; word-break:break-word; font-size:12px; line-height:1.4; color:${text};">${escapeHtml(
-          roiRaw
-        )}</pre>
-      </div>
-    `
-    : ""
 
   return `<!doctype html>
 <html lang="${args.locale}">
@@ -213,7 +191,6 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
                               t("email.confirmation.roi.empty")
                             )}</div>`
                       }
-                      ${roiRawBlock}
                     </td>
                   </tr>
                   <tr>
@@ -223,14 +200,14 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
                           <td align="left" style="padding:0;">
                             <a href="${escapeHtml(
                               args.actions.rescheduleUrl
-                            )}" style="display:inline-block; background:${primary}; color:#fff; text-decoration:none; padding:12px 16px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:14px; font-weight:700;">
+                            )}" style="display:inline-block; background:${buttonReschedule}; color:#fff; text-decoration:none; padding:12px 16px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:14px; font-weight:700;">
                               ${escapeHtml(t("email.confirmation.cta.reschedule"))}
                             </a>
                           </td>
                           <td align="right" style="padding:0;">
                             <a href="${escapeHtml(
                               args.actions.cancelUrl
-                            )}" style="display:inline-block; background:${accent}; color:${text}; text-decoration:none; padding:12px 16px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:14px; font-weight:700;">
+                            )}" style="display:inline-block; background:${buttonCancel}; color:#fff; text-decoration:none; padding:12px 16px; border-radius:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:14px; font-weight:700;">
                               ${escapeHtml(t("email.confirmation.cta.cancel"))}
                             </a>
                           </td>
@@ -251,7 +228,19 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
             </tr>
             <tr>
               <td style="padding:14px 8px 0 8px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:12px; line-height:1.6; color:${muted};">
-                ${escapeHtml(t("email.confirmation.footer"))}
+                <div style="margin-bottom:8px;">
+                  ${escapeHtml(t("email.confirmation.footer"))}
+                </div>
+                <div style="padding-top:8px; border-top:1px solid ${border}; color:${muted}; font-size:11px; line-height:1.5;">
+                  <strong>ClinvetIA</strong><br />
+                  Soluciones de IA para clínicas veterinarias<br />
+                  Email: <a href="mailto:info@clinvetia.com" style="color:${muted}; text-decoration:underline;">info@clinvetia.com</a><br />
+                  Web: <a href="${escapeHtml(args.appUrl)}" style="color:${muted}; text-decoration:underline;">www.clinvetia.com</a>
+                </div>
+                <div style="margin-top:8px; color:${muted}; font-size:10px;">
+                  Este es un correo transaccional relacionado con tu reserva de demostración.<br />
+                  Para cancelar tu cita, haz clic en el botón "Cancelar" arriba.
+                </div>
               </td>
             </tr>
           </table>
@@ -298,12 +287,6 @@ export function buildText(args: ConfirmationEmailTemplateArgs): string {
     for (const kv of roiKv) {
       lines.push(`- ${kv.key}: ${kv.value}`)
     }
-  }
-  const roiRaw = safeJsonStringify(args.booking.roiData, 3500)
-  if (roiRaw) {
-    lines.push("")
-    lines.push(t("email.confirmation.roi.rawTitle"))
-    lines.push(roiRaw)
   }
   lines.push("")
 

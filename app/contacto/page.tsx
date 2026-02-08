@@ -58,6 +58,8 @@ function getBookingSummaryFromStorage(value: unknown): null | {
   contactName: string | null
   contactEmail: string | null
   contactPhone: string | null
+  contactClinicName: string | null
+  contactMessage: string | null
   roi: unknown
 } {
   if (!isRecord(value)) return null
@@ -78,6 +80,8 @@ function getBookingSummaryFromStorage(value: unknown): null | {
     contactName: contact && typeof contact.fullName === "string" ? contact.fullName : null,
     contactEmail: contact && typeof contact.email === "string" ? contact.email : null,
     contactPhone: contact && typeof contact.phone === "string" ? contact.phone : null,
+    contactClinicName: contact && typeof contact.clinicName === "string" ? contact.clinicName : null,
+    contactMessage: contact && typeof contact.message === "string" ? contact.message : null,
     roi,
   }
 }
@@ -174,18 +178,70 @@ export default function ContactoPage() {
   })
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [hasSubmittedBefore, setHasSubmittedBefore] = React.useState(false)
+  const [dataLoaded, setDataLoaded] = React.useState(false)
 
   const { ref: formRef } = useMountAnimation({ delay: 300, duration: 1000 })
 
   // Verificar localStorage al montar el componente
   React.useEffect(() => {
+    if (!mounted) return
+    
     if (typeof window !== "undefined") {
       const submitted = localStorage.getItem("clinvetia-contact-submitted")
       if (submitted === "true") {
         setHasSubmittedBefore(true)
       }
     }
-  }, [])
+  }, [mounted])
+
+  // Load contact data from booking summary (if coming from booking page)
+  React.useEffect(() => {
+    if (!mounted || dataLoaded) return
+    
+    if (lastBookingLoaded && bookingSummary && !hasSubmittedBefore) {
+      setFormData(prev => ({
+        ...prev,
+        name: bookingSummary.contactName || prev.name,
+        email: bookingSummary.contactEmail || prev.email,
+        phone: bookingSummary.contactPhone || prev.phone,
+        clinic: bookingSummary.contactClinicName || prev.clinic,
+        message: bookingSummary.contactMessage || prev.message,
+      }))
+      setDataLoaded(true)
+    }
+  }, [mounted, lastBookingLoaded, bookingSummary, hasSubmittedBefore, dataLoaded])
+
+  // Load contact data from booking form draft (if not coming from booking page)
+  React.useEffect(() => {
+    if (!mounted || dataLoaded) return
+    
+    if (typeof window !== "undefined" && !hasSubmittedBefore && !isFromBooking) {
+      try {
+        const draft = localStorage.getItem("clinvetia-contact-draft")
+        if (draft) {
+          const parsed = JSON.parse(draft)
+          if (parsed && typeof parsed === "object") {
+            setFormData(prev => ({
+              ...prev,
+              name: typeof parsed.fullName === "string" && parsed.fullName ? parsed.fullName : prev.name,
+              email: typeof parsed.email === "string" && parsed.email ? parsed.email : prev.email,
+              phone: typeof parsed.phone === "string" && parsed.phone ? parsed.phone : prev.phone,
+              clinic: typeof parsed.clinicName === "string" && parsed.clinicName ? parsed.clinicName : prev.clinic,
+              message: typeof parsed.message === "string" && parsed.message ? parsed.message : prev.message,
+            }))
+            setDataLoaded(true)
+          }
+        } else {
+          setDataLoaded(true)
+        }
+      } catch {
+        // Ignore parse errors
+        setDataLoaded(true)
+      }
+    } else if (!isFromBooking) {
+      setDataLoaded(true)
+    }
+  }, [mounted, hasSubmittedBefore, isFromBooking, dataLoaded])
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -435,20 +491,19 @@ export default function ContactoPage() {
                     <div className="mt-1 break-words text-sm font-semibold text-foreground">{bookingSummary.contactPhone ?? "-"}</div>
                   </div>
                 </div>
-
-                {bookingSummary.roi ? (
-                  <div className="mt-4 rounded-lg border border-border bg-background/40 p-3">
-                    <div className="text-xs font-semibold text-muted-foreground">{t("book.backend.contact_summary_roi")}</div>
-                    <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted/40 p-3 text-xs text-foreground">
-                      {JSON.stringify(bookingSummary.roi, null, 2)}
-                    </pre>
-                  </div>
-                ) : null}
               </div>
             </Reveal>
           ) : null}
 
-          {!hasAcceptedROIData ? (
+          {!mounted ? (
+            /* Loading state to prevent hydration mismatch */
+            <div className="max-w-2xl mx-auto">
+              <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-8 text-center">
+                <div className="h-8 w-8 mx-auto mb-4 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                <p className="text-muted-foreground">{t("common.loading")}</p>
+              </div>
+            </div>
+          ) : !hasAcceptedROIData ? (
             /* No ROI Data - Redirect to Calculator */
             <Reveal delay={200}>
               <div className="max-w-2xl mx-auto">

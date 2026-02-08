@@ -90,19 +90,6 @@ export default function ReservarPage() {
     }, 1500)
   }, [router, saveCalendlyData])
 
-  // Detectar cuando el usuario intenta salir sin reservar
-  React.useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (hasInteracted) {
-        e.preventDefault()
-        e.returnValue = ""
-      }
-    }
-
-    window.addEventListener("beforeunload", handleBeforeUnload)
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload)
-  }, [hasInteracted])
-
   // Interceptar clicks en enlaces para mostrar modal
   React.useEffect(() => {
     const handleClick = (e: MouseEvent) => {

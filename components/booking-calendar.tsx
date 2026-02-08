@@ -113,6 +113,36 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     message: "",
   })
 
+  // Load contact data from localStorage on mount
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem("clinvetia-contact-draft")
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed && typeof parsed === "object") {
+          setContact({
+            fullName: typeof parsed.fullName === "string" ? parsed.fullName : "",
+            email: typeof parsed.email === "string" ? parsed.email : "",
+            phone: typeof parsed.phone === "string" ? parsed.phone : "",
+            clinicName: typeof parsed.clinicName === "string" ? parsed.clinicName : "",
+            message: typeof parsed.message === "string" ? parsed.message : "",
+          })
+        }
+      }
+    } catch {
+      // Ignore parse errors
+    }
+  }, [])
+
+  // Save contact data to localStorage when it changes
+  React.useEffect(() => {
+    try {
+      localStorage.setItem("clinvetia-contact-draft", JSON.stringify(contact))
+    } catch {
+      // Ignore storage errors
+    }
+  }, [contact])
+
   const isTodayCutoff = selectedDate ? isSameDayLocal(selectedDate, new Date()) && isAfterLocalCutoff1930(new Date()) : false
 
   React.useEffect(() => {
@@ -271,6 +301,13 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
 
     const note = emailNote(res.email, t)
     if (note) toast.message(note)
+
+    // Clear the saved contact draft since booking is confirmed
+    try {
+      localStorage.removeItem("clinvetia-contact-draft")
+    } catch {
+      // Ignore storage errors
+    }
 
     toast.success(t("book.backend.confirm_success"))
     onBookingComplete?.({ date: selectedDate, time: selectedTime, confirm: res })

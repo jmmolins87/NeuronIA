@@ -153,6 +153,15 @@ export async function sendConfirmationEmail(args: {
       return { ok: true, skipped: false, provider, dryRun: true }
     }
 
+    // Anti-spam headers
+    const headers: Record<string, string> = {
+      "X-Priority": "1",
+      "X-Mailer": "ClinvetIA Booking System",
+      "Precedence": "bulk",
+      "List-Unsubscribe": `<${args.cancel.url}>`,
+      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    }
+
     const res = await sendTransacEmail({
       from,
       to: [{ email: toEmail, name: args.booking.contactName ?? undefined }],
@@ -162,6 +171,7 @@ export async function sendConfirmationEmail(args: {
       text,
       attachments: [{ name: "invite.ics", content: icsBase64 }],
       tags: ["booking-confirmation"],
+      headers,
       timeoutMs: 12_000,
     })
 

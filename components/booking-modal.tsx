@@ -2,20 +2,20 @@
 
 import * as React from "react"
 import { BookingCalendar } from "@/components/booking-calendar"
-import type { BookingData } from "@/components/booking-calendar"
+import type { BookingCompleteData } from "@/components/booking-calendar"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { Modal } from "@/components/modal"
 
 interface BookingModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onBookingComplete?: (data: BookingData) => void
+  onBookingComplete?: (data: BookingCompleteData) => void
 }
 
 export function BookingModal({ open, onOpenChange, onBookingComplete }: BookingModalProps) {
   const { t } = useTranslation()
 
-  const handleBookingComplete = (data: BookingData) => {
+  const handleBookingComplete = (data: BookingCompleteData) => {
     onBookingComplete?.(data)
     onOpenChange(false)
   }

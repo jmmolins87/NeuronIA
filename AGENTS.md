@@ -97,7 +97,49 @@ npm run prisma:studio
 - Validate inputs with `zod` (typically `safeParse` + field mapping)
 - Prefer `lib/api/respond.ts` helpers: `okJson(body)` and `errorJson(code, message, { status, fields })`
 - For structured failures: throw `ApiError` from `lib/errors.ts` and handle with `toResponse(error)`
-- Route handlers that use Prisma/crypto should run in Node: `export const runtime = "nodejs"`
+- Route handlers that use Prisma/crypto should run in Node: `export const runtime = "nodejs"` (first export in file)
+
+### Typical API Route Structure
+```typescript
+import { z } from "zod"
+import { okJson, errorJson } from "@/lib/api/respond"
+import { ApiError, toResponse } from "@/lib/errors"
+import { prisma } from "@/lib/prisma"
+
+export const runtime = "nodejs"
+
+const BodySchema = z.object({ /* ... */ })
+
+// Convert Zod errors to field-level errors
+function zodToFields(error: z.ZodError): Record<string, string> {
+  const fields: Record<string, string> = {}
+  for (const issue of error.issues) {
+    const key = issue.path.join(".") || "_"
+    if (!fields[key]) fields[key] = issue.message
+  }
+  return fields
+}
+
+export async function POST(request: Request) {
+  try {
+    const json = await request.json().catch(() => null)
+    const parsed = BodySchema.safeParse(json)
+    
+    if (!parsed.success) {
+      throw new ApiError("INVALID_INPUT", "Invalid input", {
+        status: 400,
+        fields: zodToFields(parsed.error),
+      })
+    }
+
+    // ... business logic, use prisma.$transaction for multi-step writes
+    
+    return okJson({ /* response */ })
+  } catch (error: unknown) {
+    return toResponse(error)
+  }
+}
+```
 
 ## Error Handling
 
