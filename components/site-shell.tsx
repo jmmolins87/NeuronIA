@@ -1,6 +1,6 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { AiAgentBubble } from "@/components/ai-agent-bubble"
+import { AvatarChat } from "@/components/AvatarChat"
 
 interface SiteShellProps {
   children: React.ReactNode
@@ -12,7 +12,7 @@ export function SiteShell({ children }: SiteShellProps) {
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-      <AiAgentBubble />
+      <AvatarChat />
     </div>
   )
 }

@@ -43,6 +43,12 @@
     "continue": "Continuar",
     "cancel": "Cancelar"
   },
+  "chat_title": "Asistente ClinvetIA",
+  "chat_placeholder": "Escribe tu pregunta...",
+  "chat_send": "Enviar",
+  "chat_open": "Abrir chat",
+  "chat_close": "Cerrar chat",
+  "chat_cta": "Reservar demo",
   "home": {
     "title": "ClinvetIA - Sistema de Atención Inteligente para Veterinarias",
     "description": "Sistema de Atención Inteligente que convierte consultas de dueños en citas veterinarias",
@@ -1145,12 +1151,6 @@
     "title": "Reservar Demo",
     "description": "Agenda tu demostración personalizada. Contenido completo próximamente en Fase 2.",
     "content": "Contenido de reserva",
-    "leaveWarning": {
-      "title": "¿Salir sin reservar?",
-      "description": "Has comenzado a seleccionar una fecha para tu demo. Si sales ahora, perderás tu selección. ¿Estás seguro de que quieres salir?",
-      "stay": "Quedarme y terminar",
-      "leave": "Salir de todos modos"
-    },
     "alreadySubmitted": {
       "title": "Ya has enviado tu solicitud",
       "description": "Ya has completado tu solicitud de contacto. Si necesitas cambiar o cancelar tu cita, por favor gestiona estos cambios a través del correo electrónico de confirmación que recibirás. Nuestro equipo te ayudará con cualquier modificación que necesites.",

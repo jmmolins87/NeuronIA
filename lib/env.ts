@@ -53,6 +53,12 @@ const EnvSchema = z.object({
   // In dev/test: allow overriding "now" via x-debug-now header.
   // Default: true in non-production, false in production.
   ALLOW_TIME_OVERRIDE: BooleanStringSchema.optional(),
+
+  // Chat (web assistant)
+  OPENAI_API_KEY: z.string().min(1).optional(),
+  CHAT_MODEL: z.string().min(1).optional(),
+  CHAT_RATE_LIMIT_PER_MIN: z.coerce.number().int().min(1).max(600).optional(),
+  CHAT_SESSION_SECRET: z.string().min(16).optional(),
 })
 
 const EnvSchemaWithRefinements = EnvSchema.superRefine((data, ctx) => {
@@ -103,6 +109,11 @@ const parsed = EnvSchemaWithRefinements.safeParse({
   CANCEL_TOKEN_EXPIRY_DAYS: process.env.CANCEL_TOKEN_EXPIRY_DAYS,
   RESCHEDULE_TOKEN_EXPIRY_DAYS: process.env.RESCHEDULE_TOKEN_EXPIRY_DAYS,
   ALLOW_TIME_OVERRIDE: process.env.ALLOW_TIME_OVERRIDE,
+
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  CHAT_MODEL: process.env.CHAT_MODEL,
+  CHAT_RATE_LIMIT_PER_MIN: process.env.CHAT_RATE_LIMIT_PER_MIN,
+  CHAT_SESSION_SECRET: process.env.CHAT_SESSION_SECRET,
 })
 
 if (!parsed.success) {
