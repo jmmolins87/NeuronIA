@@ -518,7 +518,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           </div>
 
           <div className="p-4 rounded-lg bg-primary/10 dark:bg-primary/20 border border-primary/30">
-            <p className="text-sm font-medium text-blue-700 dark:text-blue-400">{formatDate(selectedDate)}</p>
+            <p className="text-sm font-medium text-blue-700 dark:text-green-500">{formatDate(selectedDate)}</p>
           </div>
 
            {availabilityLoading ? (
@@ -642,12 +642,12 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           <div className="p-6 rounded-lg bg-linear-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-blue-700 dark:text-blue-400" />
-                <span className="font-medium text-blue-700 dark:text-blue-400">{formatDate(selectedDate)}</span>
+                <Calendar className="w-5 h-5 text-blue-700 dark:text-green-500" />
+                <span className="font-medium text-blue-700 dark:text-green-500">{formatDate(selectedDate)}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-blue-700 dark:text-blue-400" />
-                <span className="font-medium text-blue-700 dark:text-blue-400">{selectedTime}</span>
+                <Clock className="w-5 h-5 text-blue-700 dark:text-green-500" />
+                <span className="font-medium text-blue-700 dark:text-green-500">{selectedTime}</span>
               </div>
             </div>
           </div>

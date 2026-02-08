@@ -19,7 +19,7 @@ const NAV: NavItem[] = [
   { href: "/admin", label: UI_TEXT.nav.overview, icon: LayoutGrid },
   { href: "/admin/bookings", label: UI_TEXT.nav.bookings, icon: List },
   { href: "/admin/calendar", label: UI_TEXT.nav.calendar, icon: CalendarDays },
-  { href: "/admin/metrics", label: UI_TEXT.nav.metrics, icon: LineChart, disabled: true },
+  { href: "/admin/metrics", label: UI_TEXT.nav.metrics, icon: LineChart },
   { href: "/admin/settings", label: UI_TEXT.nav.settings, icon: Settings },
 ]
 

@@ -79,6 +79,8 @@ model Booking {
 
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+  
+  bookingAdminAudits BookingAdminAudit[]
 
   @@index([startAt])
   @@index([status, startAt])
@@ -163,4 +165,45 @@ model AgentJob {
 
   @@index([status, runAt])
   @@index([type, status, runAt])
+}
+
+// Admin System Models
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  username     String    @unique
+  email        String?   @unique
+  passwordHash String
+  
+  role         AdminRole @default(ADMIN)
+  isActive     Boolean   @default(true)
+  
+  lastLoginAt  DateTime?
+  
+  auditActions BookingAdminAudit[]
+}
+
+model BookingAdminAudit {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  adminId   String
+  admin     AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  
+  bookingId String
+  booking   Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  
+  action    String   // CANCEL, RESCHEDULE, EDIT_CONTACT, etc.
+  metadata  Json?    // { oldData, newData, reason, ip, userAgent }
+  
+  @@index([adminId, createdAt])
+  @@index([bookingId, createdAt])
+  @@index([action, createdAt])
 }

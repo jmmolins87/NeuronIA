@@ -19,7 +19,6 @@ const ALLOWED_TOP_LEVEL_ROUTES = new Set([
   "cancelado",
   "reagendar",
   "reschedule",
-  "admin",
 ])
 
 export function AvatarChatGate() {

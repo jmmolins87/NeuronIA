@@ -3,8 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { Menu, Search, ChevronDown } from "lucide-react"
 import { toast } from "sonner"
+import type { AdminSession } from "@/lib/admin-auth"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,11 +21,16 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle"
 import { UI_TEXT } from "@/app/admin/_ui-text"
 
-export function HeaderBar({
-  onOpenMobileNav,
-}: {
+interface HeaderBarProps {
+  session: AdminSession
   onOpenMobileNav: () => void
-}) {
+}
+
+export function HeaderBar({
+  session,
+  onOpenMobileNav,
+}: HeaderBarProps) {
+  const router = useRouter()
   const [q, setQ] = React.useState("")
 
   return (
@@ -74,9 +81,9 @@ export function HeaderBar({
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
                 <Avatar className="size-7">
-                  <AvatarFallback>AD</AvatarFallback>
+                  <AvatarFallback>{session.username.slice(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <span className="hidden sm:inline">Admin</span>
+                <span className="hidden sm:inline">{session.username}</span>
                 <ChevronDown className="size-4 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
@@ -94,7 +101,15 @@ export function HeaderBar({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
-                onClick={() => toast.message("Logout (placeholder)")}
+                onClick={async () => {
+                  try {
+                    await fetch("/api/admin/auth/logout", { method: "POST" })
+                    toast.success("Logged out successfully")
+                    router.push("/admin/login")
+                  } catch (error) {
+                    toast.error("Logout failed")
+                  }
+                }}
               >
                 {UI_TEXT.actions.logout}
               </DropdownMenuItem>

@@ -43,6 +43,27 @@
     "continue": "Continuar",
     "cancel": "Cancelar"
   },
+  "admin": {
+    "login": {
+      "title": "Administración ClinvetIA",
+      "subtitle": "Accede al panel de administración",
+      "username": "Usuario",
+      "usernamePlaceholder": "Ingresa tu usuario",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingresa tu contraseña",
+      "signIn": "Iniciar Sesión",
+      "signingIn": "Iniciando sesión...",
+      "demoMode": "Modo Demo"
+    },
+    "error": {
+      "INVALID_INPUT": "Usuario y contraseña son requeridos",
+      "INVALID_CREDENTIALS": "Credenciales inválidas",
+      "genericError": "Error al iniciar sesión",
+      "networkError": "Error de red. Inténtalo de nuevo.",
+      "usernameRequired": "El usuario es obligatorio",
+      "passwordRequired": "La contraseña es obligatoria"
+    }
+  },
   "chat_title": "Asistente ClinvetIA",
   "chat_placeholder": "Escribe tu pregunta...",
   "chat_send": "Enviar",

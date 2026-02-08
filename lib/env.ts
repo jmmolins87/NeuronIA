@@ -60,6 +60,16 @@ const EnvSchema = z.object({
   CHAT_RATE_LIMIT_PER_MIN: z.coerce.number().int().min(1).max(600).optional(),
   CHAT_SESSION_SECRET: z.string().min(16).optional(),
   CHAT_AGENT_VERSION: z.enum(["v1", "v2", "v21"]).optional(),
+
+  // Admin System
+  ADMIN_SESSION_SECRET: z.string().min(32),
+  ADMIN_COOKIE_NAME: z.string().default("clinvetia_admin"),
+  ADMIN_DEMO_ENABLED: BooleanStringSchema.default("false"),
+  
+  // Super Admin Bootstrap
+  ADMIN_BOOTSTRAP_USERNAME: z.string().default("superadmin"),
+  ADMIN_BOOTSTRAP_PASSWORD: z.string().min(8),
+  ADMIN_BOOTSTRAP_EMAIL: z.string().email().optional(),
 })
 
 const EnvSchemaWithRefinements = EnvSchema.superRefine((data, ctx) => {
@@ -116,6 +126,13 @@ const parsed = EnvSchemaWithRefinements.safeParse({
   CHAT_RATE_LIMIT_PER_MIN: process.env.CHAT_RATE_LIMIT_PER_MIN,
   CHAT_SESSION_SECRET: process.env.CHAT_SESSION_SECRET,
   CHAT_AGENT_VERSION: process.env.CHAT_AGENT_VERSION,
+  
+  ADMIN_SESSION_SECRET: process.env.ADMIN_SESSION_SECRET,
+  ADMIN_COOKIE_NAME: process.env.ADMIN_COOKIE_NAME,
+  ADMIN_DEMO_ENABLED: process.env.ADMIN_DEMO_ENABLED,
+  ADMIN_BOOTSTRAP_USERNAME: process.env.ADMIN_BOOTSTRAP_USERNAME,
+  ADMIN_BOOTSTRAP_PASSWORD: process.env.ADMIN_BOOTSTRAP_PASSWORD,
+  ADMIN_BOOTSTRAP_EMAIL: process.env.ADMIN_BOOTSTRAP_EMAIL,
 })
 
 if (!parsed.success) {
@@ -141,8 +158,16 @@ if (!parsed.success) {
     "- CANCEL_TOKEN_EXPIRY_DAYS (int)",
     "- RESCHEDULE_TOKEN_EXPIRY_DAYS (int)",
     "- ALLOW_TIME_OVERRIDE (true|false)",
-    "\nOptional (recommended):",
-    "- DATABASE_URL_UNPOOLED",
+     "\nAdmin System (required):",
+     "- ADMIN_SESSION_SECRET (32+ characters)",
+     "- ADMIN_BOOTSTRAP_PASSWORD (8+ characters)",
+     "\nAdmin System (optional):",
+     "- ADMIN_DEMO_ENABLED (true|false)",
+     "- ADMIN_BOOTSTRAP_USERNAME",
+     "- ADMIN_BOOTSTRAP_EMAIL",
+     "- ADMIN_COOKIE_NAME (default: clinvetia_admin)",
+     "\nOptional (recommended):",
+     "- DATABASE_URL_UNPOOLED",
     "\nDetails:",
     formatZodError(parsed.error),
   ].join("\n")
