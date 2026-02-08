@@ -4,13 +4,13 @@ Rules and conventions for agentic coding tools operating in this repo.
 
 ## Project Snapshot
 
-- Framework: Next.js 16.1.x (App Router) + React 19.2.x; Server Components by default
-- Language: TypeScript (strict); path alias `@/*` (see `tsconfig.json`)
-- Styling: Tailwind CSS 4 + shadcn/ui (new-york); design tokens live in `app/globals.css`
-- Linting: ESLint v9 flat config in `eslint.config.mjs` (Next core-web-vitals + TypeScript)
-- Theme: `next-themes` (system default + manual toggle)
-- i18n: custom ES/EN provider in `components/providers/i18n-provider.tsx`
-- DB: Postgres + Prisma (`prisma/schema.prisma`), client singleton in `lib/prisma.ts`
+- Framework: Next.js 16.1.6 (App Router); React 19.2.3; Server Components by default
+- Language: TypeScript (strict) with path alias `@/*` (see `tsconfig.json`)
+- Styling: Tailwind CSS 4 + shadcn/ui (new-york); tokens live in `app/globals.css`
+- Linting: ESLint v9 flat config in `eslint.config.mjs` (Next core-web-vitals + TS)
+- Theme: `next-themes` + CSS variables
+- i18n: custom provider `components/providers/i18n-provider.tsx` with `locales/es.json` + `locales/en.json`
+- DB: Postgres + Prisma (`prisma/schema.prisma`); singleton client in `lib/prisma.ts`
 
 ## Commands
 
@@ -18,17 +18,17 @@ Rules and conventions for agentic coding tools operating in this repo.
 # Install (use npm; repo tracks package-lock.json)
 npm install
 
-# Requirements
-# Node: >= 20 (package.json engines)
+# Node version
+# - package.json engines: 20.x
 
 # Dev
 npm run dev
 
-# Build / start (Next build includes typecheck)
+# Build / start (build runs prisma generate)
 npm run build
 npm run start
 
-# Lint (repo) / lint one file / autofix
+# Lint
 npm run lint
 npm run lint -- --fix
 npx eslint app/page.tsx
@@ -36,7 +36,9 @@ npx eslint app/page.tsx
 # Typecheck only
 npx tsc -p tsconfig.json --noEmit
 
-# Repo audits (convention enforcement)
+# Convention audits
+# - i18n keys synced + heuristic hardcoded strings scan
+# - inline style + hardcoded color scan
 npm run audit
 npm run audit:i18n
 npm run audit:inline
@@ -48,138 +50,113 @@ npm run prisma:migrate:deploy
 npm run prisma:studio
 
 # Tests
-# No test runner is configured (no test script + no *.test/*spec files).
-# If you add one, require single-file + single-test filtering:
-# - Vitest:     npx vitest run path/to/foo.test.ts -t "case name"
-# - Jest:       npx jest path/to/foo.test.ts -t "case name"
-# - Playwright: npx playwright test path/to/spec.spec.ts -g "case name"
+# - No test runner is configured in this repo currently.
+# - If you add one, require single-file + single-test filtering:
+#   Vitest:     npx vitest run path/to/foo.test.ts -t "case name"
+#   Jest:       npx jest path/to/foo.test.ts -t "case name"
+#   Playwright: npx playwright test path/to/spec.spec.ts -g "case name"
 ```
 
 ## Cursor / Copilot Rules
 
-- Cursor: none found (`.cursor/rules/` or `.cursorrules`)
-- Copilot: none found (`.github/copilot-instructions.md`)
+- Cursor rules: none found (`.cursor/rules/` or `.cursorrules`)
+- Copilot rules: none found (`.github/copilot-instructions.md`)
 
-## TypeScript / Code Style
+## Code Style (TypeScript/React)
 
-- Strict TS: fix type errors; avoid `any` (use `unknown` + narrowing)
-- Prefer `interface` for object shapes; `type` for unions/intersections; use `import type` for type-only imports
-- Prefer `const`; keep helpers small and total; avoid hidden mutation
-- Exported non-trivial functions/components: add explicit return types
+- Strict TS: fix type errors; avoid `any` (prefer `unknown` + narrowing)
+- Types: prefer `interface` for object shapes; `type` for unions/intersections
+- Type-only imports: use `import type { ... }` where applicable
+- Exports: add explicit return types for exported non-trivial functions/components
+- Mutability: prefer `const`; keep helpers small/total; avoid hidden mutation
 
 ## Imports
 
-- Keep diffs minimal: do not reorder imports unless you must touch that block
-- When you do touch it: group with blank lines; order = type-only, React/Next, third-party, `@/`, relative, CSS
-- Server-only modules: keep `import "server-only"` as the very first import
+- Keep diffs minimal: do not reorder imports unless you touch that block
+- When editing import blocks: group with blank lines; order = type-only, React/Next, third-party, `@/`, relative, styles
+- Server-only modules: keep `import "server-only"` as the very first import (see `lib/env.ts`, `lib/prisma.ts`)
 
 ## Formatting
 
-- Strings: use double quotes in TS/TSX; in JS/MJS match the file
-- Semicolons: mixed in this repo; match the file you edit
-- No Prettier config; let ESLint/Next dictate formatting
+- TS/TSX strings: double quotes
+- JS/MJS strings: match the file (repo mixes styles in scripts)
+- Semicolons: mixed; match the file you edit
+- No Prettier config; rely on Next/ESLint defaults
 
 ## Naming / Structure
 
 - Components: `PascalCase`; hooks: `useThing`; functions/vars: `camelCase`; constants: `UPPER_SNAKE_CASE`
-- Routes: `app/**/page.tsx`, `app/**/layout.tsx`; route handlers: `app/api/**/route.ts`
+- Routes: `app/**/page.tsx`, `app/**/layout.tsx`; API handlers: `app/api/**/route.ts`
 - File names: follow the local neighborhood (many components use kebab-case)
 
-## Next.js / React Patterns
+## Next.js Patterns
 
-- Server Components by default; add `"use client"` only for hooks, events, or browser APIs
-- Browser APIs (`window`, `localStorage`) only inside effects or guarded checks
-- Prefer `next/link` and `next/image`; keep semantic headings in order
-- Root layout imports `@/lib/env` to fail-fast on invalid env; do not import env into client components
+- Default to Server Components; add `"use client"` only for hooks, event handlers, or browser APIs
+- Browser APIs (`window`, `localStorage`): only in effects or guarded checks (`typeof window !== "undefined"`)
+- Prefer `next/link` + `next/image` where relevant
+- Root layout imports `@/lib/env` to fail-fast; never import `env` into client components
 
-## API / Data Conventions
+## Styling (Tailwind + shadcn/ui)
 
-- Validate inputs with `zod` (typically `safeParse` + field mapping)
-- Prefer `lib/api/respond.ts` helpers: `okJson(body)` and `errorJson(code, message, { status, fields })`
-- For structured failures: throw `ApiError` from `lib/errors.ts` and handle with `toResponse(error)`
-- Route handlers that use Prisma/crypto should run in Node: `export const runtime = "nodejs"` (first export in file)
+- Prefer semantic tokens (`bg-background`, `text-foreground`, `border-border`) over hardcoded colors
+- Avoid inline styles; `npm run audit:inline` fails on most uses
+- If inline style is truly required: add `// @allowed-inline-style` and keep the style minimal
+- Use `cn()` from `lib/utils.ts` for conditional class composition
 
-### Typical API Route Structure
-```typescript
+## i18n (Critical)
+
+- UI copy: use `t("key")` via `useTranslation()`; avoid hardcoded JSX strings
+- Locale files must stay in sync: `locales/es.json` and `locales/en.json` (dot-notation keys)
+- Interpolation syntax: `{{var}}`
+- After i18n changes: run `npm run audit:i18n` (also scans `app/`, `components/`, `hooks/`)
+
+## Environment / Secrets
+
+- Source of truth: `lib/env.ts` validates with zod and throws on invalid config
+- Minimum required for boot: `APP_URL`, `DATABASE_URL` (see `lib/env.ts` for the full set)
+- Never commit `.env`, `.env.local`, or real credentials/tokens
+- Never log secrets or raw DB URLs
+
+## API + Error Handling
+
+- Inputs: validate with `zod` (`safeParse` + map issues to field errors)
+- Responses: prefer `okJson()` / `errorJson()` from `lib/api/respond.ts`
+- Structured failures: throw `ApiError` and catch with `toResponse(error)` from `lib/errors.ts`
+- Runtime: for routes using Prisma/crypto/Node APIs, set `export const runtime = "nodejs"` as the first export
+- Exceptions: treat caught errors as `unknown`; narrow intentionally
+
+Example API skeleton (keep handlers small and explicit):
+
+```ts
 import { z } from "zod"
-import { okJson, errorJson } from "@/lib/api/respond"
+import { okJson } from "@/lib/api/respond"
 import { ApiError, toResponse } from "@/lib/errors"
-import { prisma } from "@/lib/prisma"
 
 export const runtime = "nodejs"
 
-const BodySchema = z.object({ /* ... */ })
+const Body = z.object({ /* ... */ })
 
-// Convert Zod errors to field-level errors
-function zodToFields(error: z.ZodError): Record<string, string> {
-  const fields: Record<string, string> = {}
-  for (const issue of error.issues) {
-    const key = issue.path.join(".") || "_"
-    if (!fields[key]) fields[key] = issue.message
-  }
-  return fields
-}
-
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const json = await request.json().catch(() => null)
-    const parsed = BodySchema.safeParse(json)
-    
-    if (!parsed.success) {
-      throw new ApiError("INVALID_INPUT", "Invalid input", {
-        status: 400,
-        fields: zodToFields(parsed.error),
-      })
-    }
-
-    // ... business logic, use prisma.$transaction for multi-step writes
-    
-    return okJson({ /* response */ })
-  } catch (error: unknown) {
-    return toResponse(error)
+    const parsed = Body.safeParse(await req.json().catch(() => null))
+    if (!parsed.success) throw new ApiError("INVALID_INPUT", "Invalid input", { status: 400 })
+    return okJson({ /* ... */ })
+  } catch (e: unknown) {
+    return toResponse(e)
   }
 }
 ```
 
-## Error Handling
-
-- Prefer early returns and explicit checks over deep nesting
-- Wrap async flows in `try/catch`; in API routes return `toResponse(error)`
-- Treat caught errors as `unknown`; narrow intentionally
-- Never log secrets (env vars, tokens) or raw DB URLs
-
-## Styling (Tailwind)
-
-- Prefer Tailwind utilities + semantic tokens (`bg-background`, `text-foreground`, `border-border`)
-- Avoid inline styles; `npm run audit:inline` will fail
-- If an inline style is unavoidable, document it with `// @allowed-inline-style`
-- Avoid hardcoded colors in TS/TSX (`bg-[#...]`, `rgb(...)`); prefer tokens
-- Use `cn()` from `lib/utils.ts` for conditional classes
-
-## i18n (Critical)
-
-- UI copy should come from `t()` (via `useTranslation()`); avoid hardcoded JSX strings
-- Locale files `locales/es.json` and `locales/en.json` must stay in sync (dot-notation keys)
-- Interpolation uses `{{var}}`
-- Run `npm run audit:i18n` after i18n changes; it also heuristically scans `app/` and `components/`
-
-## Environment / Secrets
-
-- `lib/env.ts` is the source of truth for required env vars; it validates via `zod` and throws on boot
-- Required today: `APP_URL`, `DATABASE_URL`; optional/recommended: `DATABASE_URL_UNPOOLED`
-- `.env.example` may list placeholders not yet wired; verify before relying on them
-- Never commit `.env`, `.env.local`, or real credentials
-
 ## Prisma / DB
 
 - Use `prisma` from `lib/prisma.ts` (no ad-hoc `new PrismaClient()`)
-- Use transactions for multi-step writes (`prisma.$transaction`) and pass the tx client into helpers
-- Production deploys must run migrations (`prisma migrate deploy`); avoid `prisma db push` in prod
+- Use `prisma.$transaction` for multi-step writes; pass the tx client into helpers
+- Deploys: run migrations (`prisma migrate deploy`); avoid `prisma db push` in production
 
 ## Accessibility
 
-- Icon-only buttons must have `aria-label`
-- Keyboard navigation must work; respect `prefers-reduced-motion`
+- Icon-only buttons require `aria-label`
+- Keep keyboard navigation working; respect `prefers-reduced-motion`
 
 ## Git / Workflow
 
