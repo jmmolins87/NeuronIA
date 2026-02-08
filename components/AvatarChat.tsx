@@ -176,7 +176,50 @@ export function AvatarChat({ className }: { className?: string }) {
   }
 
   return (
-    <div className={cn("fixed bottom-6 right-6 z-50", className)}>
+    <div className={cn("fixed bottom-6 right-6", open ? "z-[70]" : "z-50", className)}>
+      {open ? (
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none fixed z-[80] hidden sm:block",
+            "bottom-10",
+            "right-[22rem] md:right-[28rem]",
+            "size-28",
+            "overflow-hidden rounded-full",
+            "border border-primary/45 ring-1 ring-primary/20",
+            "bg-card/70 backdrop-blur-sm shadow-2xl",
+            "dark:glow-primary",
+            "animate-in fade-in-0 zoom-in-95"
+          )}
+        >
+          {!videoFailed ? (
+            <video
+              className="h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              onError={() => setVideoFailed(true)}
+            >
+              <source src={selected.src} type={selected.type} />
+            </video>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-muted/40">
+              <Image src="/logo.png" alt="ClinvetIA" width={44} height={44} className="rounded-full" />
+            </div>
+          )}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-accent/10"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-border/50"
+          />
+        </div>
+      ) : null}
+
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button
@@ -187,7 +230,8 @@ export function AvatarChat({ className }: { className?: string }) {
               "bg-card/80 backdrop-blur-sm",
               "border border-primary/40 ring-1 ring-primary/20 shadow-lg",
               "hover:bg-card",
-              "dark:glow-primary"
+              "dark:glow-primary",
+              open && "pointer-events-none opacity-0"
             )}
             aria-label={t("chat_open")}
           >
@@ -213,7 +257,12 @@ export function AvatarChat({ className }: { className?: string }) {
           </Button>
         </SheetTrigger>
 
-        <SheetContent side="right" className="w-full sm:max-w-md p-0">
+        <SheetContent
+          side="right"
+          showCloseButton={false}
+          overlayClassName="bg-white/35 dark:bg-black/55 backdrop-blur-xl backdrop-saturate-150"
+          className="w-full sm:max-w-md p-0 bg-background/85 supports-[backdrop-filter]:bg-background/65 backdrop-blur-xl backdrop-saturate-150"
+        >
           <div className="flex h-dvh flex-col bg-background">
             <SheetHeader className="border-b border-border px-4 py-3">
               <div className="flex items-center justify-between gap-3">
