@@ -42,6 +42,8 @@ export interface GenericRoiResult {
   upliftOnNonConvertedPct: number
   extraSalesExact: number
   extraSalesRounded: number
+  currentSalesRounded: number
+  newSalesRounded: number
   newConversionPct: number
 
   currentSalesExact: number
@@ -110,10 +112,13 @@ export function calcGenericRoi(raw: Partial<GenericRoiInputs>): GenericRoiCalcul
     clampNum(improvementsPct.retention, 0, 100)
 
   const currentSalesExact = (leadsMonthly * conversionCurrentPct) / 100
+  const currentSalesRounded = Math.round(currentSalesExact)
   const leadsNonConverted = Math.max(0, leadsMonthly - currentSalesExact)
   const extraSalesExact = (leadsNonConverted * upliftOnNonConvertedPct) / 100
-  const extraSalesRounded = Math.round(extraSalesExact)
+  // Conservative rounding: never overstate extra sales.
+  const extraSalesRounded = Math.max(0, Math.floor(extraSalesExact))
   const newSalesExact = currentSalesExact + extraSalesExact
+  const newSalesRounded = currentSalesRounded + extraSalesRounded
   const newConversionPct = (newSalesExact / leadsMonthly) * 100
 
   const currentRevenueMonthly = roundMoney(currentSalesExact * avgTicketEur)
@@ -147,6 +152,8 @@ export function calcGenericRoi(raw: Partial<GenericRoiInputs>): GenericRoiCalcul
       upliftOnNonConvertedPct: Math.round(upliftOnNonConvertedPct),
       extraSalesExact,
       extraSalesRounded,
+      currentSalesRounded,
+      newSalesRounded,
       newConversionPct: Math.round(newConversionPct * 10) / 10,
 
       currentSalesExact,
@@ -165,7 +172,7 @@ export function calcGenericRoi(raw: Partial<GenericRoiInputs>): GenericRoiCalcul
       roi12m,
     },
     note:
-      "Estimacion orientativa (escenario) basada en leads, conversion y ticket. No es una promesa ni una garantia.",
+      "Estimacion orientativa (escenario) basada en leads, conversion y ticket. Los redondeos son conservadores. No es una promesa ni una garantia.",
   }
 }
 
