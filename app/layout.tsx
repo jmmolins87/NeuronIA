@@ -12,6 +12,7 @@ import { KeyboardShortcutsDialog } from "@/components/keyboard-shortcuts-dialog"
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { PageLoaderProvider } from "@/components/providers/page-loader-provider";
 import { CookieConsentProvider } from "@/components/providers/cookie-consent-provider";
+import { AvatarChat } from "@/components/AvatarChat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +58,7 @@ export default function RootLayout({
                   <PageLoaderProvider>
                     <ScrollToTop />
                     {children}
+                    <AvatarChat />
                     <KeyboardShortcutsDialog />
                   </PageLoaderProvider>
                 </KeyboardShortcutsProvider>

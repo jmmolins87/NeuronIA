@@ -49,6 +49,24 @@
   "chat_open": "Abrir chat",
   "chat_close": "Cerrar chat",
   "chat_cta": "Reservar demo",
+  "chat_continue": "Continuar reserva",
+  "chat_change_time": "Cambiar hora",
+  "chat_error_retry": "Ha ocurrido un error. Intenta de nuevo.",
+  "chat_hold_confirmed": "Reserva temporal creada",
+  "chat_quick_book": "Reservar demo",
+  "chat_quick_pricing": "Precio",
+  "chat_quick_howworks": "Como funciona",
+  "chat_quick_roi": "ROI",
+  "agent_next_step": "Siguiente paso",
+  "agent_need_roi_inputs": "Para estimar el ROI necesito algunos datos.",
+  "agent_roi_summary": "Resumen ROI (escenario)",
+  "agent_offer_slots": "Te propongo estos horarios",
+  "agent_hold_done": "Reserva temporal creada.",
+  "agent_handoff_contact": "Vamos a contacto para terminar.",
+  "quick_pricing": "Precio",
+  "quick_roi": "ROI",
+  "quick_book": "Reservar demo",
+  "quick_how_it_works": "Como funciona",
   "home": {
     "title": "ClinvetIA - Sistema de Atención Inteligente para Veterinarias",
     "description": "Sistema de Atención Inteligente que convierte consultas de dueños en citas veterinarias",
@@ -899,6 +917,8 @@
       "hold_title": "Hora reservada temporalmente",
       "hold_countdown": "Se libera en {{time}}",
       "hold_missing": "Selecciona una hora para bloquearla temporalmente.",
+      "searching_slots": "Buscando horarios disponibles...",
+      "searching_subtitle": "Esto solo tardará un momento",
       "contact_title": "Tus datos",
       "confirm_success": "Reserva confirmada. Te llevamos a contacto.",
       "email_disabled_note": "Nota: el envío de emails está desactivado en este entorno.",
@@ -981,7 +1001,7 @@
       "demoStatus": {
         "label": "Estado de la Demo",
         "booked": {
-          "title": "✓ Demo reservada",
+          "title": "Demo reservada",
           "message": "Has reservado una demo para el {{date}} a las {{time}}. Te enviaremos un recordatorio."
         },
         "notBooked": {
@@ -1132,10 +1152,15 @@
         "title": "Datos del formulario"
       },
       "roi": {
-        "title": "Resumen ROI",
+        "title": "Resumen de tu análisis ROI",
         "subtitle": "Incluimos un resumen de los datos enviados.",
         "empty": "No se incluyeron datos de ROI.",
         "rawTitle": "ROI (completo)"
+        ,"cards": {
+          "monthlyLabel": "Ingresos recuperables/mes",
+          "annualLabel": "Proyección anual",
+          "roiLabel": "ROI estimado"
+        }
       },
       "cta": {
         "reschedule": "Reagendar",

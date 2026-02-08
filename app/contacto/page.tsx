@@ -20,8 +20,6 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -99,8 +97,12 @@ export default function ContactoPage() {
   const [showBookingModal, setShowBookingModal] = React.useState(false)
 
   const isFromBooking = searchParams.get("from") === "booking"
+  const isFromAgent = searchParams.get("from") === "agent"
   const [lastBookingLoaded, setLastBookingLoaded] = React.useState(false)
   const [lastBooking, setLastBooking] = React.useState<unknown>(null)
+
+  const [agentHandoffLoaded, setAgentHandoffLoaded] = React.useState(false)
+  const [agentHandoff, setAgentHandoff] = React.useState<unknown>(null)
 
   React.useEffect(() => {
     if (!isFromBooking) {
@@ -119,7 +121,49 @@ export default function ContactoPage() {
     }
   }, [isFromBooking])
 
+  React.useEffect(() => {
+    if (!isFromAgent) {
+      setAgentHandoffLoaded(true)
+      setAgentHandoff(null)
+      return
+    }
+
+    try {
+      const raw = sessionStorage.getItem("clinvetia_handoff")
+      setAgentHandoff(raw ? (JSON.parse(raw) as unknown) : null)
+    } catch {
+      setAgentHandoff(null)
+    } finally {
+      setAgentHandoffLoaded(true)
+    }
+  }, [isFromAgent])
+
   const bookingSummary = getBookingSummaryFromStorage(lastBooking)
+
+  const agentBooking = React.useMemo(() => {
+    if (!isRecord(agentHandoff)) return null
+    const booking = agentHandoff.booking
+    if (!isRecord(booking)) return null
+    const date = typeof booking.date === "string" ? booking.date : null
+    const time = typeof booking.time === "string" ? booking.time : null
+    const sessionToken = typeof booking.sessionToken === "string" ? booking.sessionToken : null
+    const expiresAt = typeof booking.expiresAt === "string" ? booking.expiresAt : null
+    if (!date || !time) return null
+    return { date, time, sessionToken, expiresAt }
+  }, [agentHandoff])
+
+  const agentRoi = React.useMemo(() => {
+    if (!isRecord(agentHandoff)) return null
+    const roi = agentHandoff.roi
+    if (!isRecord(roi)) return null
+    const result = roi.result
+    if (!isRecord(result)) return null
+    const monthlyRevenue = typeof result.monthlyRevenue === "number" ? result.monthlyRevenue : null
+    const yearlyRevenue = typeof result.yearlyRevenue === "number" ? result.yearlyRevenue : null
+    const roiPercent = typeof result.roi === "number" ? result.roi : null
+    if (monthlyRevenue === null || yearlyRevenue === null || roiPercent === null) return null
+    return { monthlyRevenue, yearlyRevenue, roi: roiPercent }
+  }, [agentHandoff])
 
   const formatBookingDateTime = React.useCallback(
     (startAtISO: string) => {
@@ -210,6 +254,25 @@ export default function ContactoPage() {
       setDataLoaded(true)
     }
   }, [mounted, lastBookingLoaded, bookingSummary, hasSubmittedBefore, dataLoaded])
+
+  // Load contact data from agent handoff (if coming from agent)
+  React.useEffect(() => {
+    if (!mounted || dataLoaded) return
+
+    if (agentHandoffLoaded && isFromAgent && isRecord(agentHandoff) && !hasSubmittedBefore) {
+      const lead = isRecord(agentHandoff.lead) ? agentHandoff.lead : null
+
+      setFormData((prev) => ({
+        ...prev,
+        name: lead && typeof lead.name === "string" && lead.name ? lead.name : prev.name,
+        email: lead && typeof lead.email === "string" && lead.email ? lead.email : prev.email,
+        phone: lead && typeof lead.phone === "string" && lead.phone ? lead.phone : prev.phone,
+        clinic: lead && typeof lead.clinicName === "string" && lead.clinicName ? lead.clinicName : prev.clinic,
+      }))
+
+      setDataLoaded(true)
+    }
+  }, [mounted, dataLoaded, agentHandoffLoaded, isFromAgent, agentHandoff, hasSubmittedBefore])
 
   // Load contact data from booking form draft (if not coming from booking page)
   React.useEffect(() => {
@@ -495,6 +558,25 @@ export default function ContactoPage() {
             </Reveal>
           ) : null}
 
+          {isFromAgent && agentBooking ? (
+            <Reveal delay={150}>
+              <div className="mx-auto mb-8 max-w-4xl rounded-2xl border border-primary/20 bg-card/80 p-6 backdrop-blur-sm">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground">{t("book.backend.contact_summary_title")}</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">{t("book.backend.contact_summary_desc")}</p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-background/40 px-3 py-2 text-sm">
+                    <div className="space-y-1">
+                      <div className="font-semibold text-foreground">{agentBooking.date}</div>
+                      <div className="font-mono text-muted-foreground">{agentBooking.time} (Europe/Madrid)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ) : null}
+
           {!mounted ? (
             /* Loading state to prevent hydration mismatch */
             <div className="max-w-2xl mx-auto">
@@ -503,7 +585,7 @@ export default function ContactoPage() {
                 <p className="text-muted-foreground">{t("common.loading")}</p>
               </div>
             </div>
-          ) : !hasAcceptedROIData ? (
+          ) : !(hasAcceptedROIData || (isFromAgent && agentRoi)) ? (
             /* No ROI Data - Redirect to Calculator */
             <Reveal delay={200}>
               <div className="max-w-2xl mx-auto">
@@ -536,7 +618,7 @@ export default function ContactoPage() {
                 </div>
               </div>
             </Reveal>
-          ) : roiData && (
+          ) : (roiData || agentRoi) && (
             /* Has ROI Data - Show Form */
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-stretch">
               {/* First Box: ROI Summary + Demo Status */}
@@ -553,7 +635,13 @@ export default function ContactoPage() {
                       </h2>
                     </div>
 
-                    <div className="grid gap-4 sm:grid-cols-3">
+                    {(() => {
+                      const effectiveRoi = isFromAgent && agentRoi ? agentRoi : roiData
+                      if (!effectiveRoi) return null
+
+                      return (
+                        <>
+                          <div className="grid gap-4 sm:grid-cols-3">
                       {/* Monthly Revenue */}
                       <div className="p-4 rounded-lg border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20">
                         <div className="flex items-center justify-between mb-2">
@@ -563,7 +651,7 @@ export default function ContactoPage() {
                           <Euro className="w-5 h-5 text-primary" />
                         </div>
                         <p className="text-2xl font-bold text-primary">
-                          {mounted ? `${roiData.monthlyRevenue.toLocaleString()}€` : `${roiData.monthlyRevenue}€`}
+                          {mounted ? `${effectiveRoi.monthlyRevenue.toLocaleString()}€` : `${effectiveRoi.monthlyRevenue}€`}
                         </p>
                       </div>
 
@@ -573,7 +661,7 @@ export default function ContactoPage() {
                           {t("contact.form.roiSummary.yearlyRevenue")}
                         </p>
                         <p className="text-2xl font-bold text-foreground">
-                          {mounted ? `${roiData.yearlyRevenue.toLocaleString()}€` : `${roiData.yearlyRevenue}€`}
+                          {mounted ? `${effectiveRoi.yearlyRevenue.toLocaleString()}€` : `${effectiveRoi.yearlyRevenue}€`}
                         </p>
                       </div>
 
@@ -583,23 +671,26 @@ export default function ContactoPage() {
                           {t("contact.form.roiSummary.roi")}
                         </p>
                         <p className="text-2xl font-bold text-foreground">
-                          {roiData.roi > 0 ? '+' : ''}{roiData.roi}%
+                          {effectiveRoi.roi > 0 ? '+' : ''}{effectiveRoi.roi}%
                         </p>
                       </div>
                     </div>
-
-                    {/* Timestamp */}
-                    <div className="mt-4">
-                      <p className="text-base text-muted-foreground">
-                        {t("contact.form.roiSummary.calculated")}: {mounted ? new Date(roiData.timestamp).toLocaleString() : new Date(roiData.timestamp).toString()}
-                      </p>
-                    </div>
+                          {!isFromAgent && roiData ? (
+                            <div className="mt-4">
+                              <p className="text-base text-muted-foreground">
+                                {t("contact.form.roiSummary.calculated")}: {mounted ? new Date(roiData.timestamp).toLocaleString() : new Date(roiData.timestamp).toString()}
+                              </p>
+                            </div>
+                          ) : null}
+                        </>
+                      )
+                    })()}
 
                     {/* Data Acceptance Notice */}
                     <div className="mt-4 rounded-lg border border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
                       <div className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                        <p className="text-base text-foreground">
+                        <p className="text-base font-medium text-green-700 dark:text-green-300">
                           {t("contact.form.dataAcceptance")}
                         </p>
                       </div>
@@ -648,22 +739,25 @@ export default function ContactoPage() {
                     ) : hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
                       /* Demo Booked - Green Box */
                       <div className="rounded-lg border border-green-500/50 bg-green-500/10 dark:bg-green-500/20 p-4">
-                        <div>
-                          <p className="text-base font-medium text-green-700 dark:text-green-300 mb-1">
-                            {t("contact.form.demoStatus.booked.title")}
-                          </p>
-                          <p className="text-base text-green-600/80 dark:text-green-400/80">
-                            {mounted 
-                              ? new Date(calendlyData.scheduledDate).toLocaleDateString(locale === "es" ? "es-ES" : "en-US", {
-                                  weekday: "long",
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric"
-                                })
-                              : new Date(calendlyData.scheduledDate).toLocaleDateString()}
-                            {" a las "}
-                            {calendlyData.scheduledTime}
-                          </p>
+                        <div className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <p className="text-base font-medium text-green-700 dark:text-green-300 mb-1">
+                              {t("contact.form.demoStatus.booked.title")}
+                            </p>
+                            <p className="text-base text-green-600/80 dark:text-green-400/80">
+                              {mounted 
+                                ? new Date(calendlyData.scheduledDate).toLocaleDateString(locale === "es" ? "es-ES" : "en-US", {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric"
+                                  })
+                                : new Date(calendlyData.scheduledDate).toLocaleDateString()}
+                              {" a las "}
+                              {calendlyData.scheduledTime}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -933,11 +1027,9 @@ export default function ContactoPage() {
             <CancelButton onClick={() => setShowCancelModal(false)}>
               {t("common.cancel")}
             </CancelButton>
-            <AlertDialogAction asChild>
-              <CancelButton onClick={handleCancelDemo}>
-                {t("contact.form.demoStatus.cancelDemo")}
-              </CancelButton>
-            </AlertDialogAction>
+            <DemoButton onClick={handleCancelDemo}>
+              {t("contact.form.demoStatus.cancelDemo")}
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -952,10 +1044,12 @@ export default function ContactoPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-            <AlertDialogAction onClick={handleChangeROI}>
+            <CancelButton onClick={() => setShowChangeROIModal(false)}>
+              {t("common.cancel")}
+            </CancelButton>
+            <DemoButton onClick={handleChangeROI}>
               {t("common.continue")}
-            </AlertDialogAction>
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

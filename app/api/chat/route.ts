@@ -2,8 +2,10 @@ import { z } from "zod"
 
 import { okJson, errorJson } from "@/lib/api/respond"
 import { env } from "@/lib/env"
-import { ChatInputSchema } from "@/lib/agent/schema"
+import { ChatInputSchema } from "@/lib/agent-v21/schema"
 import { runChatAgent } from "@/lib/agent/run"
+import { runChatAgentV2 } from "@/lib/agent-v2/run"
+import { runChatAgentV21 } from "@/lib/agent-v21/run"
 
 export const runtime = "nodejs"
 
@@ -62,14 +64,19 @@ export async function POST(request: Request) {
       }
     }
 
-    if (!env.OPENAI_API_KEY) {
+    const version = env.CHAT_AGENT_VERSION ?? "v21"
+
+    // Only LLM-backed agents require OPENAI_API_KEY.
+    if ((version === "v1" || version === "v2") && !env.OPENAI_API_KEY) {
       return errorJson("UPSTREAM_MISCONFIG", "Chat is not configured", { status: 502 })
     }
 
-    const result = await runChatAgent({
-      requestUrl: request.url,
-      input: parsed.data,
-    })
+    const result =
+      version === "v1"
+        ? await runChatAgent({ requestUrl: request.url, input: parsed.data })
+        : version === "v2"
+          ? await runChatAgentV2({ requestUrl: request.url, input: parsed.data })
+          : await runChatAgentV21({ requestUrl: request.url, input: parsed.data })
 
     return okJson(result)
   } catch (error: unknown) {

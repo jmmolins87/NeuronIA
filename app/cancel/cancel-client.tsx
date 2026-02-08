@@ -12,10 +12,10 @@ import { TokenErrorState } from "@/components/booking/TokenErrorState"
 import { SiteShell } from "@/components/site-shell"
 import { Section } from "@/components/section"
 import { GridPattern } from "@/components/shapes/grid-pattern"
+import { DemoButton } from "@/components/cta/demo-button"
+import { CancelButton } from "@/components/cta/cancel-button"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -365,14 +365,14 @@ export function CancelClient() {
                           </p>
                         </div>
 
-                        <NeonButton
+                        <CancelButton
                           onClick={() => setConfirmOpen(true)}
                           disabled={submitting}
                           className="w-full sm:w-auto"
                         >
                           {submitting ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
                           {c.cancelCta}
-                        </NeonButton>
+                        </CancelButton>
                       </div>
                     </div>
                   )}
@@ -396,10 +396,12 @@ export function CancelClient() {
             <AlertDialogDescription>{c.confirmDesc}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={submitting}>{c.confirmNo}</AlertDialogCancel>
-            <AlertDialogAction onClick={() => void onCancel()} disabled={submitting}>
+            <CancelButton onClick={() => setConfirmOpen(false)} disabled={submitting}>
+              {c.confirmNo}
+            </CancelButton>
+            <DemoButton onClick={() => void onCancel()} disabled={submitting}>
               {c.confirmYes}
-            </AlertDialogAction>
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

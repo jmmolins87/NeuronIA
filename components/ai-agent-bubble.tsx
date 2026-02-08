@@ -83,13 +83,13 @@ export function AiAgentBubble({ className }: AiAgentBubbleProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-6 right-6 z-50 hidden lg:block",
+        "fixed bottom-4 right-4 z-50 block md:bottom-6 md:right-6",
         className
       )}
     >
       <div
         className={cn(
-          "group relative size-28 overflow-hidden rounded-full",
+          "group relative size-24 overflow-hidden rounded-full md:size-32",
           "border border-primary/45 ring-1 ring-primary/20",
           "bg-card/70 backdrop-blur-sm shadow-lg",
           "dark:glow-primary"
@@ -97,7 +97,7 @@ export function AiAgentBubble({ className }: AiAgentBubbleProps) {
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-accent/10"
+          className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/15 via-transparent to-accent/10"
         />
 
         {!videoFailed && selected ? (
@@ -116,8 +116,8 @@ export function AiAgentBubble({ className }: AiAgentBubbleProps) {
           <div className="relative z-10 flex h-full w-full items-center justify-center">
             <div className="absolute inset-0 animate-pulse bg-primary/10" aria-hidden />
             <div className="flex flex-col items-center gap-2 px-3 text-center">
-              <Bot className="size-10 text-primary" aria-hidden />
-              <div className="text-[10px] font-semibold text-muted-foreground">
+              <Bot className="size-8 text-primary md:size-12" aria-hidden />
+              <div className="text-[10px] font-semibold text-muted-foreground md:text-xs">
                 {process.env.NODE_ENV === "development" ? "Missing avatar video" : "Agent"}
               </div>
             </div>

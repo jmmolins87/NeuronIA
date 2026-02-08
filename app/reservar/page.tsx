@@ -17,7 +17,6 @@ import type { BookingCompleteData } from "@/components/booking-calendar"
 import { Toaster } from "@/components/ui/sonner"
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -214,8 +213,12 @@ export default function ReservarPage() {
             <AlertDialogDescription>{t("booking.alreadySubmitted.description")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleGoToHome}>{t("booking.alreadySubmitted.goBack")}</AlertDialogCancel>
-            <AlertDialogAction onClick={handleGoToContact}>{t("booking.alreadySubmitted.goToContact")}</AlertDialogAction>
+            <CancelButton onClick={handleGoToHome}>
+              {t("booking.alreadySubmitted.goBack")}
+            </CancelButton>
+            <DemoButton onClick={handleGoToContact}>
+              {t("booking.alreadySubmitted.goToContact")}
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

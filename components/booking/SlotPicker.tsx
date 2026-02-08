@@ -6,7 +6,7 @@ import { CalendarDays, Clock, Info } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
@@ -81,6 +81,7 @@ export function SlotPicker({
   className,
 }: SlotPickerProps) {
   const today = React.useMemo(() => new Date(), [])
+  const [calendarOpen, setCalendarOpen] = React.useState(false)
   const isSameDayAsToday = selectedDate ? isSameDay(selectedDate, today) : false
   const localCutoffActive = isSameDayAsToday && isAfterLocalCutoff1930(new Date())
 
@@ -95,20 +96,21 @@ export function SlotPicker({
             <span>{strings.newDateLabel}</span>
           </div>
           <div className="mt-3">
-            <Popover>
-              <PopoverTrigger asChild>
+            <Dialog open={calendarOpen} onOpenChange={setCalendarOpen}>
+              <DialogTrigger asChild>
                 <Button variant="outline" className="w-full justify-between">
                   <span className="truncate">{dateButtonText}</span>
                   <CalendarDays className="size-4 text-muted-foreground" />
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent align="start" className="w-[min(92vw,380px)]">
+              </DialogTrigger>
+              <DialogContent className="w-[min(92vw,420px)] p-4">
                 <Calendar
                   locale={getIntlLocale(locale)}
                   selected={selectedDate ?? undefined}
                   onSelect={(d) => {
                     if (!d) return
                     onDateChange(d)
+                    setCalendarOpen(false)
                   }}
                   fromDate={new Date()}
                   toDate={new Date(new Date().getTime() + 60 * 24 * 60 * 60_000)}
@@ -117,8 +119,8 @@ export function SlotPicker({
                     return day === 0 || day === 6
                   }}
                 />
-              </PopoverContent>
-            </Popover>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 

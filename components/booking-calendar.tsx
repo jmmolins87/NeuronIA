@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info } from "lucide-react"
+import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 import type { AvailabilitySlot, ConfirmResponse, EmailResult } from "@/lib/api/bookings"
@@ -384,13 +384,13 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           onClick={() => handleDateSelect(day)}
           disabled={!isAvailable}
           className={cn(
-            "aspect-square rounded-lg text-sm font-medium transition-all",
+            "aspect-square rounded-lg text-sm font-medium transition-all border border-border bg-card text-foreground",
             isAvailable
               ? "hover:bg-primary/10 hover:border-primary cursor-pointer"
               : "opacity-30 cursor-not-allowed",
             isSelected
-              ? "bg-primary text-primary-foreground dark:glow-primary"
-              : "bg-card border border-border text-foreground"
+              ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
+              : ""
           )}
         >
           {day}
@@ -502,8 +502,21 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
           </div>
 
            {availabilityLoading ? (
-             <div className="rounded-lg border border-border bg-card/60 p-4 text-sm text-muted-foreground">
-               {t("common.loading")}
+             <div className="rounded-lg border border-primary/20 bg-linear-to-br from-primary/5 via-primary/10 to-primary/5 dark:from-primary/10 dark:via-primary/20 dark:to-primary/10 p-8">
+               <div className="flex flex-col items-center justify-center space-y-4">
+                 <div className="relative">
+                   <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                   <div className="absolute inset-0 blur-xl bg-primary/20 animate-pulse" />
+                 </div>
+                 <div className="text-center space-y-1">
+                   <p className="text-sm font-medium text-foreground">
+                     {t("book.backend.searching_slots")}
+                   </p>
+                   <p className="text-xs text-muted-foreground">
+                     {t("book.backend.searching_subtitle")}
+                   </p>
+                 </div>
+               </div>
              </div>
            ) : availabilityError ? (
              <div className="rounded-lg border border-border bg-card/60 p-4 text-sm text-muted-foreground">
@@ -607,7 +620,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
             </CancelButton>
           </div>
 
-          <div className="p-6 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
+          <div className="p-6 rounded-lg bg-linear-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-primary" />

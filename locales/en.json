@@ -49,6 +49,24 @@
   "chat_open": "Open chat",
   "chat_close": "Close chat",
   "chat_cta": "Book demo",
+  "chat_continue": "Continue booking",
+  "chat_change_time": "Change time",
+  "chat_error_retry": "Something went wrong. Please try again.",
+  "chat_hold_confirmed": "Hold created",
+  "chat_quick_book": "Book demo",
+  "chat_quick_pricing": "Pricing",
+  "chat_quick_howworks": "How it works",
+  "chat_quick_roi": "ROI",
+  "agent_next_step": "Next step",
+  "agent_need_roi_inputs": "To estimate ROI I need a few inputs.",
+  "agent_roi_summary": "ROI summary (scenario)",
+  "agent_offer_slots": "Here are some slots",
+  "agent_hold_done": "Hold created.",
+  "agent_handoff_contact": "Let's continue on the contact page.",
+  "quick_pricing": "Pricing",
+  "quick_roi": "ROI",
+  "quick_book": "Book demo",
+  "quick_how_it_works": "How it works",
   "home": {
     "title": "ClinvetIA - Intelligent Care System for Veterinary Clinics",
     "description": "Intelligent Care System that turns pet owner inquiries into veterinary appointments",
@@ -889,7 +907,7 @@
       "demoStatus": {
         "label": "Demo Status",
         "booked": {
-          "title": "✓ Demo booked",
+          "title": "Demo booked",
           "message": "You have booked a demo for {{date}} at {{time}}. We'll send you a reminder."
         },
         "notBooked": {
@@ -995,6 +1013,8 @@
       "hold_title": "Time temporarily held",
       "hold_countdown": "Releases in {{time}}",
       "hold_missing": "Select a time to temporarily hold it.",
+      "searching_slots": "Searching available time slots...",
+      "searching_subtitle": "This will only take a moment",
       "contact_title": "Your details",
       "confirm_success": "Booking confirmed. Redirecting you to contact.",
       "email_disabled_note": "Note: email sending is disabled in this environment.",
@@ -1138,10 +1158,15 @@
         "title": "Form details"
       },
       "roi": {
-        "title": "ROI summary",
+        "title": "Your ROI analysis summary",
         "subtitle": "We include a summary of the submitted data.",
         "empty": "No ROI data was included.",
-        "rawTitle": "ROI (full)"
+        "rawTitle": "ROI (full)",
+        "cards": {
+          "monthlyLabel": "Recoverable revenue/month",
+          "annualLabel": "Annual projection",
+          "roiLabel": "Estimated ROI"
+        }
       },
       "cta": {
         "reschedule": "Reschedule",

@@ -252,16 +252,16 @@ export async function runChatAgent(args: {
             call.name === "createHold" &&
             isRecord(a) &&
             typeof a.date === "string" &&
-            typeof a.time === "string" &&
-            typeof a.timezone === "string" &&
-            (a.locale === "es" || a.locale === "en")
+            typeof a.time === "string"
           ) {
+            const forcedTimezone = args.input.timezone && args.input.timezone.trim() ? args.input.timezone : "Europe/Madrid"
+            const forcedLocale = args.input.locale === "en" ? "en" : "es"
             out = await toolCreateHold({
               requestUrl: args.requestUrl,
               date: a.date,
               time: a.time,
-              timezone: a.timezone,
-              locale: a.locale,
+              timezone: forcedTimezone,
+              locale: forcedLocale,
             })
 
             if (isRecord(out) && out.ok === true) {

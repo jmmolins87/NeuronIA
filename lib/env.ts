@@ -59,6 +59,7 @@ const EnvSchema = z.object({
   CHAT_MODEL: z.string().min(1).optional(),
   CHAT_RATE_LIMIT_PER_MIN: z.coerce.number().int().min(1).max(600).optional(),
   CHAT_SESSION_SECRET: z.string().min(16).optional(),
+  CHAT_AGENT_VERSION: z.enum(["v1", "v2", "v21"]).optional(),
 })
 
 const EnvSchemaWithRefinements = EnvSchema.superRefine((data, ctx) => {
@@ -114,6 +115,7 @@ const parsed = EnvSchemaWithRefinements.safeParse({
   CHAT_MODEL: process.env.CHAT_MODEL,
   CHAT_RATE_LIMIT_PER_MIN: process.env.CHAT_RATE_LIMIT_PER_MIN,
   CHAT_SESSION_SECRET: process.env.CHAT_SESSION_SECRET,
+  CHAT_AGENT_VERSION: process.env.CHAT_AGENT_VERSION,
 })
 
 if (!parsed.success) {

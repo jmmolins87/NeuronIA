@@ -66,6 +66,35 @@ function getRoiKeyValues(roi: Prisma.JsonValue | null): Array<{ key: string; val
   return entries
 }
 
+function getRoiNumber(roi: Prisma.JsonValue | null, key: string): number | null {
+  if (!roi || typeof roi !== "object" || Array.isArray(roi)) return null
+  const record = roi as Record<string, unknown>
+  const value = record[key]
+  if (typeof value === "number" && Number.isFinite(value)) return value
+  if (typeof value === "string") {
+    const n = Number(value)
+    if (Number.isFinite(n)) return n
+  }
+  return null
+}
+
+function formatNumber(value: number, locale: EmailLocale): string {
+  const intl = locale === "en" ? "en-GB" : "es-ES"
+  return new Intl.NumberFormat(intl, { maximumFractionDigits: 0 }).format(value)
+}
+
+function formatEuro(value: number, locale: EmailLocale): string {
+  return `${formatNumber(value, locale)}€`
+}
+
+function formatPercentSigned(value: number, locale: EmailLocale): string {
+  const n = Math.round(value)
+  const abs = Math.abs(n)
+  const formatted = formatNumber(abs, locale)
+  const sign = n > 0 ? "+" : n < 0 ? "-" : ""
+  return `${sign}${formatted}%`
+}
+
 export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
   const { t } = getEmailStrings(args.locale)
 
@@ -82,6 +111,9 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
   }
 
   const roiKv = getRoiKeyValues(args.booking.roiData)
+  const roiMonthlyRevenue = getRoiNumber(args.booking.roiData, "monthlyRevenue")
+  const roiYearlyRevenue = getRoiNumber(args.booking.roiData, "yearlyRevenue")
+  const roiPercent = getRoiNumber(args.booking.roiData, "roi")
 
   const logoUrl = `${args.appUrl.replace(/\/$/, "")}/logo.png`
 
@@ -118,9 +150,7 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
     .map((r) => row(r.label, r.value, r.label === messageLabel))
     .join("")
 
-  const roiTableRows = roiKv
-    .map((kv) => row(kv.key, kv.value))
-    .join("")
+  const roiHasAny = roiKv.length > 0 || roiMonthlyRevenue !== null || roiYearlyRevenue !== null || roiPercent !== null
 
   return `<!doctype html>
 <html lang="${args.locale}">
@@ -185,8 +215,43 @@ export function buildHtml(args: ConfirmationEmailTemplateArgs): string {
                         ${escapeHtml(t("email.confirmation.roi.subtitle"))}
                       </div>
                       ${
-                        roiTableRows
-                          ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px; border:1px solid ${border}; border-radius:12px; overflow:hidden;">${roiTableRows}</table>`
+                        roiHasAny
+                          ? `
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;">
+                              <tr>
+                                <td width="33.33%" valign="top" style="padding:0 8px 0 0;">
+                                  <div style="border:1px solid ${border}; border-radius:12px; padding:12px; background:${bg};">
+                                    <div style="font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:12px; color:${muted}; font-weight:700;">${escapeHtml(
+                                      t("email.confirmation.roi.cards.monthlyLabel")
+                                    )}</div>
+                                    <div style="margin-top:8px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:20px; color:${text}; font-weight:800;">${escapeHtml(
+                                      roiMonthlyRevenue !== null ? formatEuro(roiMonthlyRevenue, args.locale) : "-"
+                                    )}</div>
+                                  </div>
+                                </td>
+                                <td width="33.33%" valign="top" style="padding:0 4px;">
+                                  <div style="border:1px solid ${border}; border-radius:12px; padding:12px; background:${bg};">
+                                    <div style="font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:12px; color:${muted}; font-weight:700;">${escapeHtml(
+                                      t("email.confirmation.roi.cards.annualLabel")
+                                    )}</div>
+                                    <div style="margin-top:8px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:20px; color:${text}; font-weight:800;">${escapeHtml(
+                                      roiYearlyRevenue !== null ? formatEuro(roiYearlyRevenue, args.locale) : "-"
+                                    )}</div>
+                                  </div>
+                                </td>
+                                <td width="33.33%" valign="top" style="padding:0 0 0 8px;">
+                                  <div style="border:1px solid ${border}; border-radius:12px; padding:12px; background:${bg};">
+                                    <div style="font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:12px; color:${muted}; font-weight:700;">${escapeHtml(
+                                      t("email.confirmation.roi.cards.roiLabel")
+                                    )}</div>
+                                    <div style="margin-top:8px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:20px; color:${text}; font-weight:800;">${escapeHtml(
+                                      roiPercent !== null ? formatPercentSigned(roiPercent, args.locale) : "-"
+                                    )}</div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                          `
                           : `<div style="margin-top:10px; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:13px; color:${muted};">${escapeHtml(
                               t("email.confirmation.roi.empty")
                             )}</div>`
@@ -281,12 +346,17 @@ export function buildText(args: ConfirmationEmailTemplateArgs): string {
 
   lines.push(t("email.confirmation.roi.title"))
   const roiKv = getRoiKeyValues(args.booking.roiData)
-  if (roiKv.length === 0) {
+  const monthly = getRoiNumber(args.booking.roiData, "monthlyRevenue")
+  const yearly = getRoiNumber(args.booking.roiData, "yearlyRevenue")
+  const roi = getRoiNumber(args.booking.roiData, "roi")
+  const hasAny = roiKv.length > 0 || monthly !== null || yearly !== null || roi !== null
+
+  if (!hasAny) {
     lines.push(t("email.confirmation.roi.empty"))
   } else {
-    for (const kv of roiKv) {
-      lines.push(`- ${kv.key}: ${kv.value}`)
-    }
+    lines.push(`${t("email.confirmation.roi.cards.monthlyLabel")}: ${monthly !== null ? formatEuro(monthly, args.locale) : "-"}`)
+    lines.push(`${t("email.confirmation.roi.cards.annualLabel")}: ${yearly !== null ? formatEuro(yearly, args.locale) : "-"}`)
+    lines.push(`${t("email.confirmation.roi.cards.roiLabel")}: ${roi !== null ? formatPercentSigned(roi, args.locale) : "-"}`)
   }
   lines.push("")
 

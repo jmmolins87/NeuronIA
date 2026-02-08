@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -625,9 +624,9 @@ export default function ROIPage() {
                 {t("roi.dialog.cancel")}
               </AlertDialogPrimitive.Cancel>
             </CancelButton>
-            <AlertDialogAction onClick={handleAccept}>
+            <DemoButton onClick={handleAccept}>
               {t("roi.dialog.accept")}
-            </AlertDialogAction>
+            </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
