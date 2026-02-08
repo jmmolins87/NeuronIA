@@ -10,12 +10,98 @@ import { UI_TEXT } from "@/app/admin/_ui-text"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { CalendarDays, CircleCheck, RotateCcw, XCircle } from "lucide-react"
+import { prisma } from "@/lib/prisma"
+import { cookies } from "next/headers"
 
 function getState(searchParams?: Record<string, string | string[] | undefined>) {
   const raw = searchParams?.state
   const value = Array.isArray(raw) ? raw[0] : raw
   if (value === "loading" || value === "empty" || value === "error") return value
   return "ready"
+}
+
+async function getRealData() {
+  try {
+    // Fetch real data from database
+    const [totalBookings, bookingsByStatus, recentBookings, recentActivity] = await Promise.all([
+      
+      // Total count
+      prisma.booking.count(),
+      
+      // Count by status
+      prisma.booking.groupBy({
+        by: ['status'],
+        _count: true,
+      }),
+      
+      // Recent bookings (last 5)
+      prisma.booking.findMany({
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          uid: true,
+          status: true,
+          startAt: true,
+          contactEmail: true,
+          createdAt: true,
+        }
+      }),
+      
+      // Recent activity (admin audit)
+      prisma.bookingAdminAudit.findMany({
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          admin: {
+            select: {
+              username: true,
+            }
+          },
+          booking: {
+            select: {
+              uid: true,
+              contactEmail: true,
+            }
+          }
+        }
+      })
+    ])
+
+    // Process status counts
+    const statusCounts = bookingsByStatus.reduce((acc, item) => {
+      acc[item.status] = item._count
+      return acc
+    }, {} as Record<string, number>)
+
+    // Process activity for timeline
+    const timelineEvents = recentActivity.map(event => ({
+      id: `ACT-${event.id}`,
+      at: event.createdAt.toISOString(),
+      title: `${event.action} por ${event.admin.username}`,
+      description: `Reserva ${event.booking?.uid || event.bookingId} - ${event.booking?.contactEmail || ''}`,
+      tone: event.action === 'CANCEL' ? 'bad' : event.action === 'RESCHEDULE' ? 'warn' : 'neutral' as const,
+    }))
+
+    return {
+      bookings: recentBookings.map(booking => ({
+        id: booking.id,
+        uid: booking.uid,
+        status: booking.status,
+        email: booking.contactEmail || '',
+        startAt: booking.startAt.toISOString(),
+        createdAt: booking.createdAt.toISOString(),
+      })),
+      total: totalBookings,
+      confirmed: statusCounts['CONFIRMED'] || 0,
+      cancelled: statusCounts['CANCELLED'] || 0,
+      rescheduled: statusCounts['RESCHEDULED'] || 0,
+      activity: timelineEvents,
+    }
+  } catch (error) {
+    console.error('Error fetching real admin data:', error)
+    return null
+  }
 }
 
 export default async function AdminOverviewPage({
@@ -25,13 +111,44 @@ export default async function AdminOverviewPage({
 }) {
   const resolved = searchParams ? await searchParams : undefined
   const state = getState(resolved)
-  const rows = state === "empty" ? [] : BOOKINGS
-  const recent = rows.slice(0, 5)
-
-  const total = rows.length
-  const confirmed = rows.filter((b) => b.status === "CONFIRMED").length
-  const cancelled = rows.filter((b) => b.status === "CANCELLED").length
-  const rescheduled = rows.filter((b) => b.status === "RESCHEDULED").length
+  
+  // Check if we're in demo mode by checking cookies
+  const cookieStore = await cookies()
+  const demoCookie = cookieStore.get('clinvetia_admin')?.value
+  const isDemo = demoCookie === 'demo-session'
+  
+  let rows, recent, total, confirmed, cancelled, rescheduled, activity
+  
+  if (isDemo) {
+    // Use mock data for demo
+    rows = state === "empty" ? [] : BOOKINGS
+    recent = rows.slice(0, 5)
+    total = rows.length
+    confirmed = rows.filter((b) => b.status === "CONFIRMED").length
+    cancelled = rows.filter((b) => b.status === "CANCELLED").length
+    rescheduled = rows.filter((b) => b.status === "RESCHEDULED").length
+    activity = ACTIVITY.slice(0, 5)
+  } else {
+    // Use real data for production/superadmin
+    const realData = await getRealData()
+    
+    if (!realData) {
+      // Show error state if database fails
+      return (
+        <div className="space-y-6">
+          <ErrorBanner onRetry={() => {}} />
+        </div>
+      )
+    }
+    
+    rows = realData.bookings
+    recent = rows
+    total = realData.total
+    confirmed = realData.confirmed
+    cancelled = realData.cancelled
+    rescheduled = realData.rescheduled
+    activity = realData.activity
+  }
 
   return (
     <div className="space-y-6">
@@ -42,6 +159,7 @@ export default async function AdminOverviewPage({
           </h1>
           <p className="text-muted-foreground mt-1 text-sm">
             {UI_TEXT.overviewSubtitle}
+            {isDemo && <span className="ml-2 text-xs text-yellow-600">(Modo Demo)</span>}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -60,27 +178,27 @@ export default async function AdminOverviewPage({
           <KpiCard
             title={UI_TEXT.kpi.total}
             value={String(total)}
-            hint="Ultimos 14 dias (mock)"
+            hint={isDemo ? "Datos de demostración" : "Últimos 30 días"}
             icon={CalendarDays}
           />
           <KpiCard
             title={UI_TEXT.kpi.confirmed}
             value={String(confirmed)}
-            hint="En estado Confirmed"
+            hint="Confirmadas"
             icon={CircleCheck}
             tone="good"
           />
           <KpiCard
             title={UI_TEXT.kpi.cancelled}
             value={String(cancelled)}
-            hint="Incluye cancelaciones manuales"
+            hint="Cancelaciones"
             icon={XCircle}
             tone="bad"
           />
           <KpiCard
             title={UI_TEXT.kpi.rescheduled}
             value={String(rescheduled)}
-            hint="Cambios de agenda"
+            hint="Reagendadas"
             icon={RotateCcw}
             tone="warn"
           />
@@ -109,7 +227,7 @@ export default async function AdminOverviewPage({
                   {recent.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={4} className="text-muted-foreground py-10 text-center">
-                        {UI_TEXT.empty.title}
+                        {isDemo ? UI_TEXT.empty.title : "No hay reservas recientes"}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -148,10 +266,13 @@ export default async function AdminOverviewPage({
         ) : (
           <Card>
             <CardHeader className="border-b">
-              <CardTitle className="text-base">{UI_TEXT.sections.activity}</CardTitle>
+              <CardTitle className="text-base">
+                {UI_TEXT.sections.activity}
+                {isDemo && <span className="ml-2 text-xs text-yellow-600">(Demo)</span>}
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <ActivityTimeline events={ACTIVITY} />
+              <ActivityTimeline events={activity} />
             </CardContent>
           </Card>
         )}
