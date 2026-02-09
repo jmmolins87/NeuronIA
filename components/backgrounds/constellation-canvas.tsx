@@ -116,7 +116,7 @@ export function ConstellationCanvas({
           const distance = Math.sqrt(dx * dx + dy * dy)
 
           if (distance < connectionDistance) {
-            const baseOpacity = isDark ? 0.5 : 0.35
+            const baseOpacity = isDark ? 0.5 : 0.55
             const opacity = (1 - distance / connectionDistance) * baseOpacity
             
             // Mezcla de colores para las conexiones
@@ -127,7 +127,7 @@ export function ConstellationCanvas({
             const b = Math.floor((Number(color1[2]) + Number(color2[2])) / 2)
             
             ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`
-            ctx.lineWidth = 1.2
+            ctx.lineWidth = isDark ? 1.2 : 1.5
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
@@ -157,8 +157,8 @@ export function ConstellationCanvas({
         const b = rgb[2]
         
         // Opacidades más altas para light mode
-        const innerOpacity = isDark ? 0.9 : 0.8
-        const midOpacity = isDark ? 0.6 : 0.5
+        const innerOpacity = isDark ? 0.9 : 0.95
+        const midOpacity = isDark ? 0.6 : 0.7
         
         gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${innerOpacity})`)
         gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${midOpacity})`)
@@ -242,7 +242,7 @@ export function ConstellationCanvas({
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: resolvedTheme === "dark" ? 0.85 : 0.7 }}
+      style={{ opacity: resolvedTheme === "dark" ? 0.85 : 0.9 }}
     />
   )
 }

@@ -19,7 +19,7 @@ Rules and conventions for agentic coding tools operating in this repo.
 npm install
 
 # Node version
-# - package.json engines: 20.x
+# - package.json engines: 25.5.0
 
 # Dev
 npm run dev
@@ -55,6 +55,9 @@ npm run prisma:studio
 #   Vitest:     npx vitest run path/to/foo.test.ts -t "case name"
 #   Jest:       npx jest path/to/foo.test.ts -t "case name"
 #   Playwright: npx playwright test path/to/spec.spec.ts -g "case name"
+
+# Admin bootstrap
+npm run admin:bootstrap
 ```
 
 ## Cursor / Copilot Rules
@@ -124,6 +127,7 @@ npm run prisma:studio
 - Structured failures: throw `ApiError` and catch with `toResponse(error)` from `lib/errors.ts`
 - Runtime: for routes using Prisma/crypto/Node APIs, set `export const runtime = "nodejs"` as the first export
 - Exceptions: treat caught errors as `unknown`; narrow intentionally
+- Field errors: map zod issues to `{ fields: Record<string, string> }` for form validation feedback
 
 Example API skeleton (keep handlers small and explicit):
 
@@ -134,12 +138,26 @@ import { ApiError, toResponse } from "@/lib/errors"
 
 export const runtime = "nodejs"
 
-const Body = z.object({ /* ... */ })
+const Body = z.object({ email: z.string().email() })
+
+function zodToFields(error: z.ZodError): Record<string, string> {
+  const fields: Record<string, string> = {}
+  for (const issue of error.issues) {
+    const key = issue.path.join(".") || "_"
+    if (!fields[key]) fields[key] = issue.message
+  }
+  return fields
+}
 
 export async function POST(req: Request) {
   try {
     const parsed = Body.safeParse(await req.json().catch(() => null))
-    if (!parsed.success) throw new ApiError("INVALID_INPUT", "Invalid input", { status: 400 })
+    if (!parsed.success) {
+      throw new ApiError("INVALID_INPUT", "Invalid input", {
+        status: 400,
+        fields: zodToFields(parsed.error)
+      })
+    }
     return okJson({ /* ... */ })
   } catch (e: unknown) {
     return toResponse(e)

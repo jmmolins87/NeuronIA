@@ -9,7 +9,7 @@ import { Section } from "@/components/section"
 import { useTranslation } from "@/components/providers/i18n-provider"
 import { useMountAnimation } from "@/hooks/use-mount-animation"
 import { ScrollIndicator } from "@/components/scroll-indicator"
-import { ConstellationCanvas } from "@/components/backgrounds/constellation-canvas"
+import { HeroModernBackground } from "@/components/backgrounds/hero-modern-bg"
 
 export function HeroSection() {
   const { t } = useTranslation()
@@ -21,13 +21,9 @@ export function HeroSection() {
 
   return (
     <Section variant="default" id="hero" className="relative min-h-screen flex flex-col items-center justify-between overflow-hidden py-8">
-      {/* Constellation background - covers entire hero */}
+      {/* Modern animated background */}
       <div className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }}>
-        <ConstellationCanvas 
-          particleCount={150} 
-          connectionDistance={200} 
-          speed={0.4} 
-        />
+        <HeroModernBackground />
       </div>
       
       {/* Hero content - stays in place */}
