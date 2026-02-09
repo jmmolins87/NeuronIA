@@ -1,14 +1,18 @@
 import "server-only"
 
+import { NextRequest } from "next/server"
 import { errorJson, okJson } from "@/lib/api/respond"
-import { requireAdminApiKey } from "@/lib/auth/admin-api"
+import { requireAdmin } from "@/lib/admin/middleware"
 import { prisma } from "@/lib/prisma"
 
 export const runtime = "nodejs"
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
-  const auth = requireAdminApiKey(request)
-  if (auth) return auth
+/**
+ * Get Thread Details - Admin Only (no CSRF required for GET)
+ */
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const auth = await requireAdmin(request)
+  if (!auth.ok) return auth.error
 
   const { id } = await context.params
   if (!id) return errorJson("INVALID_INPUT", "Missing id", { status: 400 })

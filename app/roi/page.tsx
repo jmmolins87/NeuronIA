@@ -252,9 +252,62 @@ export default function ROIPage() {
     setShouldBlockNavigation(false)
     setShowDialog(false)
     
+    // Guardar datos de la reserva demo en sessionStorage
+    const bookingData = {
+      confirm: {
+        ok: true,
+        booking: {
+          startAtISO: new Date().toISOString(), // Fecha demo
+          timezone: "Europe/Madrid",
+          contact: {
+            fullName: "Juanma Molins",
+            email: "jmmolins87@icloud.com",
+            phone: "+34614928994",
+            clinicName: "Clínica Demo",
+            message: "Demo de prueba"
+          }
+        }
+      },
+      roi: roiData
+    }
+    
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("lastBooking", JSON.stringify(bookingData))
+    }
+    
+    // Check if there's pending booking data to return to
+    const hasPendingBooking = typeof window !== "undefined" && 
+      sessionStorage.getItem("clinvetia-pending-booking")
+    
     // Esperar un momento para que se actualice el estado antes de navegar
     setTimeout(() => {
-      if (pendingNavigation) {
+      if (hasPendingBooking) {
+        // Redirect back to booking page
+        window.location.href = "/reservar"
+      } else if (pendingNavigation) {
+        window.location.href = pendingNavigation
+      }
+    }, 100)
+  }
+        }
+      },
+      roi: roiData
+    }
+    
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("lastBooking", JSON.stringify(bookingData))
+    }
+    
+    // Check if there's pending booking data to return to
+    const hasPendingBooking = typeof window !== "undefined" && 
+      sessionStorage.getItem("clinvetia-pending-booking")
+    
+    // Esperar un momento para que se actualice el estado antes de navegar
+    setTimeout(() => {
+      if (hasPendingBooking) {
+        // Redirect back to booking page
+        window.location.href = "/reservar"
+      } else if (pendingNavigation) {
         window.location.href = pendingNavigation
       }
     }, 100)
@@ -585,10 +638,35 @@ export default function ROIPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   {t("roi.calculator.cta.description")}
                 </p>
-                <DemoButton
-                  onClick={() => handleNavigateWithConfirmation("/contacto")}
-                  className="dark:glow-primary cursor-pointer"
-                >
+          <DemoButton
+            onClick={() => {
+              // Guardar datos de la reserva demo en sessionStorage para que contacto los cargue
+              const bookingData = {
+                confirm: {
+                  ok: true,
+                  booking: {
+                    startAtISO: new Date().toISOString(), // Fecha demo
+                    timezone: "Europe/Madrid",
+                    contact: {
+                      fullName: "Juanma Molins",
+                      email: "jmmolins87@icloud.com",
+                      phone: "+34614928994",
+                      clinicName: "Clínica Demo",
+                      message: "Demo de prueba"
+                    }
+                  }
+                },
+                roi: roiData
+              }
+              
+              if (typeof window !== "undefined") {
+                sessionStorage.setItem("lastBooking", JSON.stringify(bookingData))
+              }
+              
+              handleNavigateWithConfirmation("/contacto")
+            }}
+            className="dark:glow-primary cursor-pointer"
+          >
                   {t("roi.calculator.cta.button")}
                   <Send className="w-5 h-5 ml-2" />
                 </DemoButton>

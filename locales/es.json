@@ -877,6 +877,16 @@
       "title": "Calculadora ROI requerida",
       "description": "Para completar tu reserva, primero debes calcular tu ROI. Esto nos ayudará a preparar una demostración personalizada para tu clínica."
     },
+    "redirect": {
+      "title": "Preparando tu calculadora",
+      "description": "Para ofrecerte una demo personalizada, necesitamos conocer los datos de tu clínica.",
+      "note": "No te preocupes, los datos de tu reserva se han guardado automáticamente y los recuperaremos al volver.",
+      "saved": {
+        "date": "Fecha seleccionada guardada",
+        "time": "Hora seleccionada guardada"
+      },
+      "restored": "¡Datos de reserva recuperados! Puedes continuar donde lo dejaste."
+    },
     "form": {
       "title": "O envíanos tus datos",
       "name": {
@@ -969,8 +979,9 @@
       "contact_fallback_title": "No hay datos de reserva",
       "contact_fallback_desc": "No encontramos información de tu última reserva. Vuelve a reservar para continuar.",
       "contact_fallback_cta": "Volver a reservar",
-      "contact_summary_title": "Tu cita está confirmada",
-      "contact_summary_desc": "Este es el resumen de la reserva que acabas de confirmar.",
+      "contact_summary_title": "Datos de tu demo",
+      "contact_summary_desc": "Estos son los datos de tu demo que acabas de reservar.",
+      "contact_summary_roi": "ROI enviado"
       "contact_summary_roi": "ROI enviado"
     }
   },

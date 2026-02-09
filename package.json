@@ -18,7 +18,18 @@
     "audit:i18n": "node scripts/audit-i18n.mjs",
     "audit:inline": "node scripts/audit-inline-styles.mjs",
     "audit": "npm run audit:i18n && npm run audit:inline",
-    "admin:bootstrap": "tsx scripts/create-super-admin.ts"
+    "admin:bootstrap": "tsx scripts/create-super-admin.ts",
+    "test:email": "tsx scripts/test-email.ts",
+    "db:start": "docker-compose -f docker-compose.dev.yml up -d",
+    "db:stop": "docker-compose -f docker-compose.dev.yml down",
+    "db:reset": "./scripts/reset-db.sh",
+    "db:setup": "prisma db push --accept-data-loss && npm run admin:bootstrap",
+    "db:migrate": "prisma migrate deploy",
+    "setup:local": "./scripts/setup-local.sh",
+    "switch:local": "./scripts/switch-env.sh local",
+    "switch:prod": "./scripts/switch-env.sh prod",
+    "env:status": "./scripts/switch-env.sh status",
+    "dev:local": "cp .env.local.dev .env.local && npm run db:start && echo 'Esperando base de datos...' && sleep 5 && npm run db:setup && npm run dev"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
@@ -49,6 +60,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "resend": "^6.9.1",
+    "server-only": "^0.0.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0",

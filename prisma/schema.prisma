@@ -173,6 +173,11 @@ enum AdminRole {
   ADMIN
 }
 
+enum AdminMode {
+  REAL
+  DEMO
+}
+
 model AdminUser {
   id           String    @id @default(cuid())
   createdAt    DateTime  @default(now())
@@ -183,11 +188,65 @@ model AdminUser {
   passwordHash String
   
   role         AdminRole @default(ADMIN)
+  mode         AdminMode @default(REAL)
   isActive     Boolean   @default(true)
   
-  lastLoginAt  DateTime?
+  // Session & Login tracking
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
   
-  auditActions BookingAdminAudit[]
+  // Security: Account lockout
+  failedLoginCount     Int       @default(0)
+  lastFailedLoginAt    DateTime?
+  lockedUntil          DateTime?
+  
+  // Relations
+  auditActions         BookingAdminAudit[]
+  userAuditActions     UserAdminAudit[]    @relation("AuditActor")
+  userAuditTargets     UserAdminAudit[]    @relation("AuditTarget")
+  sessions             AdminSession[]
+  
+  @@index([username])
+  @@index([lockedUntil])
+}
+
+model AdminSession {
+  id           String    @id @default(cuid())
+  sessionToken String    @unique
+  adminId      String
+  
+  csrfToken    String    @unique
+  
+  createdAt    DateTime  @default(now())
+  expiresAt    DateTime
+  lastUsedAt   DateTime  @default(now())
+  
+  ipAddress    String?
+  userAgent    String?
+  
+  admin        AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  
+  @@index([adminId])
+  @@index([expiresAt])
+  @@index([sessionToken])
+}
+
+model UserAdminAudit {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  
+  adminId         String
+  admin           AdminUser @relation("AuditActor", fields: [adminId], references: [id], onDelete: Cascade)
+  
+  targetAdminId   String?
+  targetAdmin     AdminUser? @relation("AuditTarget", fields: [targetAdminId], references: [id], onDelete: SetNull)
+  
+  action          String    // CREATE_ADMIN, DISABLE_ADMIN, RESET_PASSWORD, DEMO_LOGIN, etc.
+  metadata        Json?     // { ip, userAgent, oldData, newData }
+  
+  @@index([adminId, createdAt])
+  @@index([targetAdminId, createdAt])
+  @@index([action, createdAt])
 }
 
 model BookingAdminAudit {

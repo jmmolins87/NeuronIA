@@ -47,7 +47,7 @@ export function AdminLayout({ children, session }: AdminLayoutProps) {
           </SheetContent>
         </Sheet>
 
-        <Toaster position="bottom-right" />
+        <Toaster position="top-right" />
       </div>
     </AdminSessionProvider>
   )

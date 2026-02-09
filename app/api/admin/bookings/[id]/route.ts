@@ -1,17 +1,23 @@
 import "server-only"
 
+import { NextRequest } from "next/server"
 import { z } from "zod"
 import { errorJson, okJson } from "@/lib/api/respond"
-import { requireAdminApiKey } from "@/lib/auth/admin-api"
+import { requireAdmin, requireAdminWithCsrf } from "@/lib/admin/middleware"
+import { createBookingAudit } from "@/lib/admin/audit"
+import { ADMIN_SECURITY } from "@/lib/admin/constants"
 import { prisma } from "@/lib/prisma"
 import { toResponse } from "@/lib/errors"
 
 export const runtime = "nodejs"
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+/**
+ * Get Booking - Admin Only (no CSRF required for GET)
+ */
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const auth = requireAdminApiKey(request)
-    if (auth) return auth
+    const auth = await requireAdmin(request)
+    if (!auth.ok) return auth.error
 
     const { id } = await context.params
     if (!id) return errorJson("INVALID_INPUT", "Missing id", { status: 400 })
@@ -78,13 +84,26 @@ const Body = z.object({
   reason: z.string().optional(),
 })
 
-export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
+/**
+ * Update Booking - Admin Only with CSRF Protection
+ * 
+ * Security:
+ * - Requires valid admin session
+ * - Requires CSRF token in X-Admin-CSRF header
+ * - Creates audit log entry
+ */
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const auth = requireAdminApiKey(request)
-    if (auth) return auth
+    // 1. Validate admin session + CSRF
+    const auth = await requireAdminWithCsrf(request)
+    if (!auth.ok) return auth.error
 
+    const { session } = auth.data
     const { id } = await context.params
-    if (!id) return errorJson("INVALID_INPUT", "Missing id", { status: 400 })
+    if (!id) return errorJson("INVALID_INPUT", "Missing booking id", { status: 400 })
+
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+    const userAgent = request.headers.get("user-agent") || undefined
 
     const parsed = Body.safeParse(await request.json().catch(() => null))
     if (!parsed.success) {
@@ -126,16 +145,29 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       return errorJson("INVALID_INPUT", "No valid fields to update", { status: 400 })
     }
 
-    // Use transaction for atomic update
+    // Use transaction for atomic update + audit
     const updatedBooking = await prisma.$transaction(async (tx) => {
-      // Note: Admin audit would require admin session info, which this API key-based endpoint doesn't have
-      // For now, we'll just update the booking. In a real implementation, you'd want to track who made the change
-      
       // Update booking
-      return tx.booking.update({
+      const updated = await tx.booking.update({
         where: { id: existingBooking.id },
         data: filteredUpdateData,
       })
+
+      // Create audit record
+      await createBookingAudit(tx, {
+        adminId: session.adminId,
+        bookingId: existingBooking.id,
+        action: ADMIN_SECURITY.AUDIT.BOOKING.EDIT,
+        metadata: {
+          oldData,
+          newData: filteredUpdateData,
+          reason,
+          ip,
+          userAgent,
+        },
+      })
+
+      return updated
     })
 
     return okJson({

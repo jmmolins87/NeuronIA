@@ -1,9 +1,13 @@
 import "server-only"
 
+import { NextRequest } from "next/server"
 import { Prisma } from "@prisma/client"
 import { z } from "zod"
 
 import { errorJson, okJson } from "@/lib/api/respond"
+import { requireAdminWithCsrf } from "@/lib/admin/middleware"
+import { createBookingAudit } from "@/lib/admin/audit"
+import { ADMIN_SECURITY } from "@/lib/admin/constants"
 import { bookingConfig } from "@/lib/booking/config"
 import { expireHolds } from "@/lib/booking/holds"
 import {
@@ -15,7 +19,6 @@ import {
   zonedLocalToUtcDate,
 } from "@/lib/booking/time"
 import { generateBookingUid } from "@/lib/booking/tokens"
-import { requireAdminApiKey } from "@/lib/auth/admin-api"
 import { env } from "@/lib/env"
 import { prisma } from "@/lib/prisma"
 import { toResponse } from "@/lib/errors"
@@ -42,15 +45,29 @@ function isUniqueConstraintError(error: unknown): boolean {
   return error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002"
 }
 
-export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
+/**
+ * Reschedule Booking - Admin Only with CSRF Protection
+ * 
+ * Security:
+ * - Requires valid admin session
+ * - Requires CSRF token in X-Admin-CSRF header
+ * - Creates audit log entry
+ */
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const auth = requireAdminApiKey(request)
-    if (auth) return auth
+    // 1. Validate admin session + CSRF
+    const auth = await requireAdminWithCsrf(request)
+    if (!auth.ok) return auth.error
 
+    const { session } = auth.data
     const { id } = await context.params
-    if (!id) return errorJson("INVALID_INPUT", "Missing id", { status: 400 })
+    if (!id) return errorJson("INVALID_INPUT", "Missing booking id", { status: 400 })
 
     const now = new Date()
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+    const userAgent = request.headers.get("user-agent") || undefined
+
+    // 2. Parse and validate request body
     const json = await request.json().catch(() => null)
     const parsed = BodySchema.safeParse(json)
     if (!parsed.success) {
@@ -132,7 +149,24 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
             oldStartAtISO: fromBooking.startAt.toISOString(),
             newStartAtISO: toBooking.startAt.toISOString(),
             source: "ADMIN",
+            adminId: session.adminId,
+            adminUsername: session.admin.username,
           },
+        },
+      })
+
+      // Create audit record
+      await createBookingAudit(tx, {
+        adminId: session.adminId,
+        bookingId: fromBooking.id,
+        action: ADMIN_SECURITY.AUDIT.BOOKING.RESCHEDULE,
+        metadata: {
+          fromId: fromBooking.id,
+          toId: toBooking.id,
+          oldStartAt: fromBooking.startAt.toISOString(),
+          newStartAt: toBooking.startAt.toISOString(),
+          ip,
+          userAgent,
         },
       })
 

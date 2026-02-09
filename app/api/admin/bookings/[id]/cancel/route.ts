@@ -1,31 +1,49 @@
 import "server-only"
 
+import { NextRequest } from "next/server"
 import { errorJson, okJson } from "@/lib/api/respond"
-import { requireAdminApiKey } from "@/lib/auth/admin-api"
+import { requireAdminWithCsrf } from "@/lib/admin/middleware"
+import { createBookingAudit } from "@/lib/admin/audit"
+import { ADMIN_SECURITY } from "@/lib/admin/constants"
 import { env } from "@/lib/env"
 import { prisma } from "@/lib/prisma"
 import { toResponse } from "@/lib/errors"
 
 export const runtime = "nodejs"
 
-export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
+/**
+ * Cancel Booking - Admin Only with CSRF Protection
+ * 
+ * Security:
+ * - Requires valid admin session
+ * - Requires CSRF token in X-Admin-CSRF header
+ * - Creates audit log entry
+ */
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const auth = requireAdminApiKey(request)
-    if (auth) return auth
+    // 1. Validate admin session + CSRF
+    const auth = await requireAdminWithCsrf(request)
+    if (!auth.ok) return auth.error
 
+    const { session } = auth.data
     const { id } = await context.params
-    if (!id) return errorJson("INVALID_INPUT", "Missing id", { status: 400 })
+    if (!id) return errorJson("INVALID_INPUT", "Missing booking id", { status: 400 })
 
     const now = new Date()
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+    const userAgent = request.headers.get("user-agent") || undefined
 
+    // 2. Cancel booking + create audit log
     const result = await prisma.$transaction(async (tx) => {
       const booking = await tx.booking.findUnique({ where: { id } })
       if (!booking) {
         return { kind: "error" as const, response: errorJson("NOT_FOUND", "Booking not found", { status: 404 }) }
       }
 
+      const oldStatus = booking.status
+
       if (booking.status === "CANCELLED") {
-        return { kind: "ok" as const, booking }
+        return { kind: "ok" as const, booking, alreadyCancelled: true }
       }
 
       const updated = await tx.booking.update({
@@ -41,11 +59,26 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
             bookingId: booking.id,
             startAtISO: booking.startAt.toISOString(),
             source: "ADMIN",
+            adminId: session.adminId,
+            adminUsername: session.admin.username,
           },
         },
       })
 
-      return { kind: "ok" as const, booking: updated }
+      // 3. Create audit record
+      await createBookingAudit(tx, {
+        adminId: session.adminId,
+        bookingId: booking.id,
+        action: ADMIN_SECURITY.AUDIT.BOOKING.CANCEL,
+        metadata: {
+          oldStatus,
+          newStatus: "CANCELLED",
+          ip,
+          userAgent,
+        },
+      })
+
+      return { kind: "ok" as const, booking: updated, alreadyCancelled: false }
     })
 
     if (result.kind === "error") return result.response

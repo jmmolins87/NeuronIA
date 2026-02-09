@@ -973,6 +973,16 @@
       "title": "ROI Calculator required",
       "description": "To complete your booking, you must first calculate your ROI. This will help us prepare a personalized demonstration for your clinic."
     },
+    "redirect": {
+      "title": "Preparing Your Calculator",
+      "description": "To offer you a personalized demo, we need to know your clinic's data.",
+      "note": "Don't worry, your booking data has been automatically saved and we'll restore it when you return.",
+      "saved": {
+        "date": "Selected date saved",
+        "time": "Selected time saved"
+      },
+      "restored": "Booking data recovered! You can continue where you left off."
+    },
     "form": {
       "title": "Or send us your details",
       "name": {

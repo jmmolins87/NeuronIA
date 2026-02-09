@@ -2,7 +2,9 @@ import { NextRequest } from "next/server"
 import { z } from "zod"
 import { okJson, errorJson } from "@/lib/api/respond"
 import { ApiError, toResponse } from "@/lib/errors"
-import { verifyAdminSession } from "@/lib/admin-auth"
+import { requireAdmin, requireSuperAdminWithCsrf } from "@/lib/admin/middleware"
+import { createUserAudit } from "@/lib/admin/audit"
+import { ADMIN_SECURITY } from "@/lib/admin/constants"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
@@ -20,18 +22,21 @@ const ResetPasswordBody = z.object({
   newPassword: z.string().min(8),
 })
 
+/**
+ * Get User Details - SUPER_ADMIN Only (no CSRF required for GET)
+ */
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await verifyAdminSession(req)
-    if (!session) {
-      throw new ApiError("UNAUTHORIZED", "Invalid or expired session", { status: 401 })
-    }
+    const auth = await requireAdmin(req)
+    if (!auth.ok) return auth.error
+    
+    const { session } = auth.data
 
     // Only SUPER_ADMIN can get user details
-    if (session.role !== "SUPER_ADMIN") {
+    if (session.admin.role !== "SUPER_ADMIN") {
       throw new ApiError("FORBIDDEN", "Only SUPER_ADMIN can view user details", { status: 403 })
     }
 
@@ -68,21 +73,23 @@ export async function GET(
   }
 }
 
+/**
+ * Update User - SUPER_ADMIN Only with CSRF Protection
+ */
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await verifyAdminSession(req)
-    if (!session) {
-      throw new ApiError("UNAUTHORIZED", "Invalid or expired session", { status: 401 })
-    }
+    // 1. Validate SUPER_ADMIN session + CSRF
+    const auth = await requireSuperAdminWithCsrf(req)
+    if (!auth.ok) return auth.error
 
-    // Only SUPER_ADMIN can update users
-    if (session.role !== "SUPER_ADMIN") {
-      throw new ApiError("FORBIDDEN", "Only SUPER_ADMIN can update users", { status: 403 })
-    }
+    const { session } = auth.data
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const userAgent = req.headers.get("user-agent") || undefined
 
+    // 2. Validate input
     const parsed = UpdateUserBody.safeParse(await req.json().catch(() => null))
     if (!parsed.success) {
       throw new ApiError("INVALID_INPUT", "Invalid input data", { status: 400 })
@@ -91,7 +98,7 @@ export async function PUT(
     const updateData = parsed.data
     const { password, ...otherData } = updateData
 
-    // Check if user exists
+    // 3. Check if user exists
     const existingUser = await prisma.adminUser.findUnique({
       where: { id: params.id },
     })
@@ -101,7 +108,7 @@ export async function PUT(
     }
 
     // Prevent self-deactivation
-    if (params.id === session.userId && otherData.isActive === false) {
+    if (params.id === session.adminId && otherData.isActive === false) {
       throw new ApiError("INVALID_INPUT", "Cannot deactivate your own account", { status: 400 })
     }
 
@@ -137,19 +144,37 @@ export async function PUT(
       throw new ApiError("INVALID_INPUT", "No valid fields to update", { status: 400 })
     }
 
-    const updatedUser = await prisma.adminUser.update({
-      where: { id: params.id },
-      data: finalUpdateData,
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        isActive: true,
-        lastLoginAt: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+    // 4. Update user with audit log
+    const updatedUser = await prisma.$transaction(async (tx) => {
+      const user = await tx.adminUser.update({
+        where: { id: params.id },
+        data: finalUpdateData,
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          role: true,
+          isActive: true,
+          lastLoginAt: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      })
+
+      // Create audit record
+      await createUserAudit(tx, {
+        adminId: session.adminId,
+        targetAdminId: user.id,
+        action: ADMIN_SECURITY.AUDIT.USER.UPDATE,
+        metadata: {
+          changes: Object.keys(otherData),
+          changedPassword: !!password,
+          ip,
+          userAgent,
+        },
+      })
+
+      return user
     })
 
     return okJson({
@@ -166,26 +191,28 @@ export async function PUT(
   }
 }
 
+/**
+ * Delete User - SUPER_ADMIN Only with CSRF Protection
+ */
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await verifyAdminSession(req)
-    if (!session) {
-      throw new ApiError("UNAUTHORIZED", "Invalid or expired session", { status: 401 })
-    }
+    // 1. Validate SUPER_ADMIN session + CSRF
+    const auth = await requireSuperAdminWithCsrf(req)
+    if (!auth.ok) return auth.error
 
-    // Only SUPER_ADMIN can delete users
-    if (session.role !== "SUPER_ADMIN") {
-      throw new ApiError("FORBIDDEN", "Only SUPER_ADMIN can delete users", { status: 403 })
-    }
+    const { session } = auth.data
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const userAgent = req.headers.get("user-agent") || undefined
 
     // Prevent self-deletion
-    if (params.id === session.userId) {
+    if (params.id === session.adminId) {
       throw new ApiError("INVALID_INPUT", "Cannot delete your own account", { status: 400 })
     }
 
+    // 2. Check if user exists
     const existingUser = await prisma.adminUser.findUnique({
       where: { id: params.id },
     })
@@ -194,8 +221,25 @@ export async function DELETE(
       throw new ApiError("NOT_FOUND", "User not found", { status: 404 })
     }
 
-    await prisma.adminUser.delete({
-      where: { id: params.id },
+    // 3. Delete user with audit log
+    await prisma.$transaction(async (tx) => {
+      // Create audit record before deletion
+      await createUserAudit(tx, {
+        adminId: session.adminId,
+        targetAdminId: params.id,
+        action: ADMIN_SECURITY.AUDIT.USER.DELETE,
+        metadata: {
+          deletedUsername: existingUser.username,
+          deletedEmail: existingUser.email,
+          deletedRole: existingUser.role,
+          ip,
+          userAgent,
+        },
+      })
+
+      await tx.adminUser.delete({
+        where: { id: params.id },
+      })
     })
 
     return okJson({ message: "User deleted successfully" })

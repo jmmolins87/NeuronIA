@@ -362,7 +362,7 @@ export function RescheduleClient() {
 
   return (
     <SiteShell>
-      <Toaster position="bottom-right" />
+      <Toaster position="top-right" />
 
       <Section variant="default" className="ambient-section py-10 md:py-14">
         <GridPattern squares={[[2, 1], [6, 3], [11, 6], [16, 2]]} />

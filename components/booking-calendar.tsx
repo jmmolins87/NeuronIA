@@ -8,22 +8,24 @@ import { DemoButton } from "@/components/cta/demo-button"
 import { CancelButton } from "@/components/cta/cancel-button"
 import { RoiButton } from "@/components/cta/roi-button"
 import { useTranslation } from "@/components/providers/i18n-provider"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info, Loader2, Calculator } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Calendar, Clock, Check, ChevronLeft, ChevronRight, Info, Loader2, Calculator, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 import type { AvailabilitySlot, ConfirmResponse, EmailResult } from "@/lib/api/bookings"
@@ -128,6 +130,9 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     message: "",
   })
 
+  // Modal de redirección a ROI
+  const [showRedirectModal, setShowRedirectModal] = React.useState(false)
+
   // Load contact data from localStorage on mount
   React.useEffect(() => {
     try {
@@ -148,6 +153,57 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       // Ignore parse errors
     }
   }, [])
+
+  // Restore booking data when returning from ROI calculator
+  React.useEffect(() => {
+    try {
+      const pendingBooking = sessionStorage.getItem("clinvetia-pending-booking")
+      if (pendingBooking) {
+        const parsed = JSON.parse(pendingBooking)
+        if (parsed && typeof parsed === "object") {
+          // Restore date
+          if (parsed.date) {
+            setSelectedDate(new Date(parsed.date))
+          }
+          // Restore time
+          if (parsed.time) {
+            setSelectedTime(parsed.time)
+          }
+          // Restore contact
+          if (parsed.contact) {
+            setContact({
+              fullName: parsed.contact.fullName || "",
+              email: parsed.contact.email || "",
+              phone: parsed.contact.phone || "",
+              clinicName: parsed.contact.clinicName || "",
+              message: parsed.contact.message || "",
+            })
+          }
+          // Restore step
+          if (parsed.step === 3) {
+            setStep(3)
+          } else if (parsed.step === 2) {
+            setStep(2)
+          }
+          // Restore hold if exists
+          if (parsed.hold) {
+            setHold({
+              sessionToken: parsed.hold.sessionToken,
+              expiresAt: new Date(parsed.hold.expiresAt),
+              date: parsed.hold.date,
+              time: parsed.hold.time,
+            })
+            setHoldSecondsLeft(secondsLeft(new Date(parsed.hold.expiresAt), new Date()))
+          }
+          // Clean up
+          sessionStorage.removeItem("clinvetia-pending-booking")
+          toast.success(t("book.redirect.restored"))
+        }
+      }
+    } catch {
+      // Ignore parse errors
+    }
+  }, [t])
 
   // Save contact data to localStorage when it changes
   React.useEffect(() => {
@@ -350,6 +406,34 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       day: "numeric"
     })
   }
+
+  // Guardar datos de reserva y mostrar modal
+  const handleRedirectToROI = React.useCallback(() => {
+    if (!selectedDate || !selectedTime) return
+
+    // Guardar datos de reserva en sessionStorage
+    const pendingBooking = {
+      date: selectedDate.toISOString(),
+      time: selectedTime,
+      step: 3,
+      contact,
+      hold: hold ? {
+        sessionToken: hold.sessionToken,
+        expiresAt: hold.expiresAt.toISOString(),
+        date: hold.date,
+        time: hold.time,
+      } : null,
+    }
+    sessionStorage.setItem("clinvetia-pending-booking", JSON.stringify(pendingBooking))
+
+    // Mostrar modal de redirección
+    setShowRedirectModal(true)
+  }, [selectedDate, selectedTime, contact, hold])
+
+  // Navegar a la calculadora ROI
+  const navigateToROI = React.useCallback(() => {
+    window.location.href = "/roi"
+  }, [])
 
   React.useEffect(() => {
     if (!hold) {
@@ -639,81 +723,20 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
             </CancelButton>
           </div>
 
-          <div className="p-6 rounded-lg bg-linear-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-blue-700 dark:text-green-500" />
-                <span className="font-medium text-blue-700 dark:text-green-500">{formatDate(selectedDate)}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-blue-700 dark:text-green-500" />
-                <span className="font-medium text-blue-700 dark:text-green-500">{selectedTime}</span>
-              </div>
-            </div>
-          </div>
-
-
-
-           <Card className="border-border bg-card/80 backdrop-blur-sm">
-             <CardHeader className="pb-3">
-               <CardTitle className="text-base">{t("book.backend.contact_title")}</CardTitle>
-             </CardHeader>
-             <CardContent className="space-y-4">
-               <div className="grid gap-4 sm:grid-cols-2">
-                 <div className="space-y-2">
-                   <Label htmlFor="booking-fullName">{t("book.calendar.name")}</Label>
-                   <Input
-                     id="booking-fullName"
-                     value={contact.fullName}
-                     onChange={(e) => setContact((p) => ({ ...p, fullName: e.target.value }))}
-                     placeholder={t("book.calendar.namePlaceholder")}
-                   />
-                 </div>
-                 <div className="space-y-2">
-                   <Label htmlFor="booking-email">{t("book.calendar.email")}</Label>
-                   <Input
-                     id="booking-email"
-                     value={contact.email}
-                     onChange={(e) => setContact((p) => ({ ...p, email: e.target.value }))}
-                     placeholder={t("book.calendar.emailPlaceholder")}
-                   />
-                 </div>
+           <div className="p-6 rounded-lg bg-linear-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border border-primary/30">
+             <div className="space-y-3">
+               <div className="flex items-center gap-3">
+                 <Calendar className="w-5 h-5 text-blue-700 dark:text-green-500" />
+                 <span className="font-medium text-blue-700 dark:text-green-500">{formatDate(selectedDate)}</span>
                </div>
-
-               <div className="grid gap-4 sm:grid-cols-2">
-                 <div className="space-y-2">
-                   <Label htmlFor="booking-phone">{t("contact.form.fields.phone.label")}</Label>
-                   <Input
-                     id="booking-phone"
-                     value={contact.phone}
-                     onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
-                     placeholder={t("contact.form.fields.phone.placeholder")}
-                   />
-                 </div>
-                 <div className="space-y-2">
-                   <Label htmlFor="booking-clinic">{t("book.form.clinic.label")}</Label>
-                   <Input
-                     id="booking-clinic"
-                     value={contact.clinicName}
-                     onChange={(e) => setContact((p) => ({ ...p, clinicName: e.target.value }))}
-                     placeholder={t("book.form.clinic.placeholder")}
-                   />
-                 </div>
+               <div className="flex items-center gap-3">
+                 <Clock className="w-5 h-5 text-blue-700 dark:text-green-500" />
+                 <span className="font-medium text-blue-700 dark:text-green-500">{selectedTime}</span>
                </div>
+             </div>
+           </div>
 
-               <div className="space-y-2">
-                 <Label htmlFor="booking-message">{t("book.calendar.message")}</Label>
-                 <Textarea
-                   id="booking-message"
-                   value={contact.message}
-                   onChange={(e) => setContact((p) => ({ ...p, message: e.target.value }))}
-                   placeholder={t("book.calendar.messagePlaceholder")}
-                 />
-               </div>
-             </CardContent>
-           </Card>
-
-            <p className="text-base text-muted-foreground">{t("book.calendar.confirmMessage")}</p>
+             <p className="text-base text-muted-foreground">{t("book.calendar.confirmMessage")}</p>
 
             {/* Warnings - Justo antes del botón final */}
             {!hasROIData && (
@@ -721,8 +744,8 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
                 <div className="flex items-start gap-3">
                   <Info className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-foreground mb-1">{t("book.roiRequired.title")}</p>
-                    <p className="text-sm text-muted-foreground">{t("book.roiRequired.description")}</p>
+                    <p className="font-semibold text-orange-700 dark:text-orange-400 mb-1">{t("book.roiRequired.title")}</p>
+                    <p className="text-sm text-orange-700/80 dark:text-orange-400/80">{t("book.roiRequired.description")}</p>
                   </div>
                 </div>
               </div>
@@ -745,43 +768,44 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
               </div>
             )}
 
-            <div className="flex justify-end">
+             <div className="flex justify-end">
               {!hasROIData ? (
                 <RoiButton
-                  asChild
-                  disabled={confirming || !hold || holdSecondsLeft <= 0}
+                  onClick={handleRedirectToROI}
+                  disabled={!hold || holdSecondsLeft <= 0}
                   className="w-auto cursor-pointer"
                 >
-                  <a href="/roi">
-                    <Calculator className="w-5 h-5 mr-2" />
-                    {t("book.calendar.goToCalculator")}
-                  </a>
+                  <Calculator className="w-5 h-5 mr-2" />
+                  {t("book.calendar.goToCalculator")}
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </RoiButton>
               ) : (
                 <DemoButton
                   onClick={() => {
-                    if (confirming) return
-                    setConfirming(true)
-                    void (async () => {
-                      try {
-                        await handleSubmit()
-                      } finally {
-                        setConfirming(false)
-                      }
-                    })()
+                    // Guardar datos y redirigir a contacto para completar
+                    if (!selectedDate || !selectedTime || !hold) return
+                    
+                    // Guardar en sessionStorage para recuperar en contacto
+                    const pendingBooking = {
+                      date: selectedDate.toISOString(),
+                      time: selectedTime,
+                      hold: {
+                        sessionToken: hold.sessionToken,
+                        expiresAt: hold.expiresAt.toISOString(),
+                        date: hold.date,
+                        time: hold.time,
+                      },
+                    }
+                    sessionStorage.setItem("clinvetia-pending-booking", JSON.stringify(pendingBooking))
+                    
+                    // Redirigir a contacto
+                    window.location.href = "/contacto?from=booking"
                   }}
-                  disabled={
-                    confirming ||
-                    !hold ||
-                    holdSecondsLeft <= 0 ||
-                    !contact.fullName.trim() ||
-                    !contact.email.trim() ||
-                    !contact.phone.trim()
-                  }
+                  disabled={!hold || holdSecondsLeft <= 0}
                   className="w-auto cursor-pointer dark:glow-primary"
                 >
                   <Check className="w-5 h-5 mr-2" />
-                  {confirming ? t("common.loading") : t("book.calendar.confirm")}
+                  {t("book.calendar.confirm")}
                 </DemoButton>
               )}
             </div>
@@ -814,6 +838,51 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Modal de redirección a calculadora ROI */}
+      <Dialog open={showRedirectModal} onOpenChange={setShowRedirectModal}>
+        <DialogContent className="sm:max-w-md" showCloseButton={false}>
+          <DialogHeader className="text-center">
+            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 dark:from-primary/30 dark:to-accent/30 flex items-center justify-center mb-4">
+              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+            </div>
+            <DialogTitle className="text-xl">
+              {t("book.redirect.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="mt-4 space-y-4">
+            {/* Warning con mismo estilo que el de ROI requerida */}
+            <div className="rounded-lg border-2 border-orange-500/50 bg-orange-500/10 p-4">
+              <div className="flex items-start gap-3">
+                <Info className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-orange-700 dark:text-orange-400 mb-1">{t("book.roiRequired.title")}</p>
+                  <p className="text-sm text-orange-700/80 dark:text-orange-400/80">{t("book.roiRequired.description")}</p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-lg bg-primary/5 dark:bg-primary/10 p-4">
+              <p className="text-sm text-muted-foreground">
+                {t("book.redirect.note")}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-primary" />
+              <span>{t("book.redirect.saved.date")}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-primary" />
+              <span>{t("book.redirect.saved.time")}</span>
+            </div>
+          </div>
+          <DialogFooter className="mt-6">
+            <RoiButton onClick={navigateToROI} className="w-full">
+              <Calculator className="w-5 h-5 mr-2" />
+              {t("common.continue")}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </RoiButton>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
     </div>
   )

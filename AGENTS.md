@@ -18,8 +18,7 @@ Rules and conventions for agentic coding tools operating in this repo.
 # Install (use npm; repo tracks package-lock.json)
 npm install
 
-# Node version
-# - package.json engines: 25.5.0
+# Node version: 25.5.0 (see package.json engines)
 
 # Dev
 npm run dev
@@ -36,9 +35,7 @@ npx eslint app/page.tsx
 # Typecheck only
 npx tsc -p tsconfig.json --noEmit
 
-# Convention audits
-# - i18n keys synced + heuristic hardcoded strings scan
-# - inline style + hardcoded color scan
+# Convention audits (i18n keys synced + inline style scan)
 npm run audit
 npm run audit:i18n
 npm run audit:inline
@@ -49,15 +46,12 @@ npm run prisma:migrate:dev
 npm run prisma:migrate:deploy
 npm run prisma:studio
 
-# Tests
-# - No test runner is configured in this repo currently.
-# - If you add one, require single-file + single-test filtering:
-#   Vitest:     npx vitest run path/to/foo.test.ts -t "case name"
-#   Jest:       npx jest path/to/foo.test.ts -t "case name"
-#   Playwright: npx playwright test path/to/spec.spec.ts -g "case name"
-
 # Admin bootstrap
 npm run admin:bootstrap
+
+# Tests - No test runner configured currently.
+# If adding one, require single-file + single-test filtering:
+#   Vitest:  npx vitest run path/to/foo.test.ts -t "case name"
 ```
 
 ## Cursor / Copilot Rules
@@ -65,29 +59,26 @@ npm run admin:bootstrap
 - Cursor rules: none found (`.cursor/rules/` or `.cursorrules`)
 - Copilot rules: none found (`.github/copilot-instructions.md`)
 
-## Code Style (TypeScript/React)
+## Code Style
 
-- Strict TS: fix type errors; avoid `any` (prefer `unknown` + narrowing)
+### TypeScript
+- Strict mode: fix type errors; avoid `any` (prefer `unknown` + narrowing)
 - Types: prefer `interface` for object shapes; `type` for unions/intersections
 - Type-only imports: use `import type { ... }` where applicable
 - Exports: add explicit return types for exported non-trivial functions/components
-- Mutability: prefer `const`; keep helpers small/total; avoid hidden mutation
 
-## Imports
-
+### Imports
 - Keep diffs minimal: do not reorder imports unless you touch that block
 - When editing import blocks: group with blank lines; order = type-only, React/Next, third-party, `@/`, relative, styles
 - Server-only modules: keep `import "server-only"` as the very first import (see `lib/env.ts`, `lib/prisma.ts`)
 
-## Formatting
-
+### Formatting
 - TS/TSX strings: double quotes
 - JS/MJS strings: match the file (repo mixes styles in scripts)
 - Semicolons: mixed; match the file you edit
 - No Prettier config; rely on Next/ESLint defaults
 
-## Naming / Structure
-
+### Naming / Structure
 - Components: `PascalCase`; hooks: `useThing`; functions/vars: `camelCase`; constants: `UPPER_SNAKE_CASE`
 - Routes: `app/**/page.tsx`, `app/**/layout.tsx`; API handlers: `app/api/**/route.ts`
 - File names: follow the local neighborhood (many components use kebab-case)
@@ -116,7 +107,7 @@ npm run admin:bootstrap
 ## Environment / Secrets
 
 - Source of truth: `lib/env.ts` validates with zod and throws on invalid config
-- Minimum required for boot: `APP_URL`, `DATABASE_URL` (see `lib/env.ts` for the full set)
+- Minimum required for boot: `APP_URL`, `DATABASE_URL`, `ADMIN_SESSION_SECRET`, `ADMIN_BOOTSTRAP_PASSWORD`
 - Never commit `.env`, `.env.local`, or real credentials/tokens
 - Never log secrets or raw DB URLs
 
@@ -129,7 +120,7 @@ npm run admin:bootstrap
 - Exceptions: treat caught errors as `unknown`; narrow intentionally
 - Field errors: map zod issues to `{ fields: Record<string, string> }` for form validation feedback
 
-Example API skeleton (keep handlers small and explicit):
+Example API skeleton:
 
 ```ts
 import { z } from "zod"

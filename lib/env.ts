@@ -66,7 +66,15 @@ const EnvSchema = z.object({
   ADMIN_COOKIE_NAME: z.string().default("clinvetia_admin"),
   ADMIN_DEMO_ENABLED: BooleanStringSchema.default("false"),
   
-  // Super Admin Bootstrap
+  // Admin V2: Session & Security
+  SESSION_TTL_DAYS: z.coerce.number().int().min(1).max(90).optional(),
+  ADMIN_DEMO_ALLOWED_ORIGINS: z.string().optional(), // CSV of allowed origins for DEMO login
+  
+  // Admin V2: Bootstrap endpoint
+  ADMIN_BOOTSTRAP_ENABLED: BooleanStringSchema.default("false"),
+  ADMIN_BOOTSTRAP_SECRET: z.string().min(32).optional(),
+  
+  // Super Admin Bootstrap (script)
   ADMIN_BOOTSTRAP_USERNAME: z.string().default("superadmin"),
   ADMIN_BOOTSTRAP_PASSWORD: z.string().min(8),
   ADMIN_BOOTSTRAP_EMAIL: z.string().email().optional(),
@@ -130,6 +138,10 @@ const parsed = EnvSchemaWithRefinements.safeParse({
   ADMIN_SESSION_SECRET: process.env.ADMIN_SESSION_SECRET,
   ADMIN_COOKIE_NAME: process.env.ADMIN_COOKIE_NAME,
   ADMIN_DEMO_ENABLED: process.env.ADMIN_DEMO_ENABLED,
+  SESSION_TTL_DAYS: process.env.SESSION_TTL_DAYS,
+  ADMIN_DEMO_ALLOWED_ORIGINS: process.env.ADMIN_DEMO_ALLOWED_ORIGINS,
+  ADMIN_BOOTSTRAP_ENABLED: process.env.ADMIN_BOOTSTRAP_ENABLED,
+  ADMIN_BOOTSTRAP_SECRET: process.env.ADMIN_BOOTSTRAP_SECRET,
   ADMIN_BOOTSTRAP_USERNAME: process.env.ADMIN_BOOTSTRAP_USERNAME,
   ADMIN_BOOTSTRAP_PASSWORD: process.env.ADMIN_BOOTSTRAP_PASSWORD,
   ADMIN_BOOTSTRAP_EMAIL: process.env.ADMIN_BOOTSTRAP_EMAIL,
@@ -166,6 +178,10 @@ if (!parsed.success) {
      "- ADMIN_BOOTSTRAP_USERNAME",
      "- ADMIN_BOOTSTRAP_EMAIL",
      "- ADMIN_COOKIE_NAME (default: clinvetia_admin)",
+     "- SESSION_TTL_DAYS (default: 7, max: 90)",
+     "- ADMIN_DEMO_ALLOWED_ORIGINS (CSV of allowed origins)",
+     "- ADMIN_BOOTSTRAP_ENABLED (true|false, default: false)",
+     "- ADMIN_BOOTSTRAP_SECRET (32+ characters, required if ADMIN_BOOTSTRAP_ENABLED)",
      "\nOptional (recommended):",
      "- DATABASE_URL_UNPOOLED",
     "\nDetails:",

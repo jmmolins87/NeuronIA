@@ -175,6 +175,15 @@ export async function sendConfirmationEmail(args: {
       timeoutMs: 12_000,
     })
 
+    // Handle response from improved Brevo client
+    if (!res.ok) {
+      throw new Error(res.error || "Email send failed")
+    }
+
+    if (res.skipped) {
+      return { ok: true, skipped: true, provider, emailSkipped: true }
+    }
+
     await prisma.bookingEvent.create({
       data: {
         bookingId: args.booking.id,

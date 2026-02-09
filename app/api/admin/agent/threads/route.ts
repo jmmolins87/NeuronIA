@@ -1,14 +1,18 @@
 import "server-only"
 
+import { NextRequest } from "next/server"
 import { okJson } from "@/lib/api/respond"
-import { requireAdminApiKey } from "@/lib/auth/admin-api"
+import { requireAdmin } from "@/lib/admin/middleware"
 import { prisma } from "@/lib/prisma"
 
 export const runtime = "nodejs"
 
-export async function GET(request: Request) {
-  const auth = requireAdminApiKey(request)
-  if (auth) return auth
+/**
+ * List Threads - Admin Only (no CSRF required for GET)
+ */
+export async function GET(request: NextRequest) {
+  const auth = await requireAdmin(request)
+  if (!auth.ok) return auth.error
 
   const url = new URL(request.url)
   const takeParam = url.searchParams.get("take")

@@ -1,12 +1,13 @@
 import "server-only"
 
+import { NextRequest } from "next/server"
 import { z } from "zod"
 import { Prisma } from "@prisma/client"
 
 import { errorJson, okJson } from "@/lib/api/respond"
+import { requireAdmin } from "@/lib/admin/middleware"
 import { bookingConfig } from "@/lib/booking/config"
 import { addDaysToIsoDate, getLocalDayBoundsUtc, parseIsoDate } from "@/lib/booking/time"
-import { requireAdminApiKey } from "@/lib/auth/admin-api"
 import { prisma } from "@/lib/prisma"
 import { toResponse } from "@/lib/errors"
 
@@ -30,10 +31,13 @@ function zodToFields(error: z.ZodError): Record<string, string> {
   return fields
 }
 
-export async function GET(request: Request) {
+/**
+ * List Bookings - Admin Only (no CSRF required for GET)
+ */
+export async function GET(request: NextRequest) {
   try {
-    const auth = requireAdminApiKey(request)
-    if (auth) return auth
+    const auth = await requireAdmin(request)
+    if (!auth.ok) return auth.error
 
     const url = new URL(request.url)
     const parsed = QuerySchema.safeParse({

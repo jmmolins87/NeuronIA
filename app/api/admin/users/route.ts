@@ -2,7 +2,9 @@ import { NextRequest } from "next/server"
 import { z } from "zod"
 import { okJson, errorJson } from "@/lib/api/respond"
 import { ApiError, toResponse } from "@/lib/errors"
-import { verifyAdminSession } from "@/lib/admin-auth"
+import { requireAdmin, requireSuperAdminWithCsrf } from "@/lib/admin/middleware"
+import { createUserAudit } from "@/lib/admin/audit"
+import { ADMIN_SECURITY } from "@/lib/admin/constants"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
@@ -31,15 +33,19 @@ const UpdateUserBody = z.object({
   isActive: z.boolean().optional(),
 })
 
+/**
+ * List Users - SUPER_ADMIN Only (no CSRF required for GET)
+ */
 export async function GET(req: NextRequest) {
   try {
-    const session = await verifyAdminSession(req)
-    if (!session) {
-      throw new ApiError("UNAUTHORIZED", "Invalid or expired session", { status: 401 })
-    }
+    // 1. Validate admin session + require SUPER_ADMIN role
+    const auth = await requireAdmin(req)
+    if (!auth.ok) return auth.error
+    
+    const { session } = auth.data
 
     // Only SUPER_ADMIN can list users
-    if (session.role !== "SUPER_ADMIN") {
+    if (session.admin.role !== "SUPER_ADMIN") {
       throw new ApiError("FORBIDDEN", "Only SUPER_ADMIN can list users", { status: 403 })
     }
 
@@ -105,18 +111,25 @@ export async function GET(req: NextRequest) {
   }
 }
 
+/**
+ * Create User - SUPER_ADMIN Only with CSRF Protection
+ * 
+ * Security:
+ * - Requires valid admin session with SUPER_ADMIN role
+ * - Requires CSRF token in X-Admin-CSRF header
+ * - Creates audit log entry
+ */
 export async function POST(req: NextRequest) {
   try {
-    const session = await verifyAdminSession(req)
-    if (!session) {
-      throw new ApiError("UNAUTHORIZED", "Invalid or expired session", { status: 401 })
-    }
+    // 1. Validate SUPER_ADMIN session + CSRF
+    const auth = await requireSuperAdminWithCsrf(req)
+    if (!auth.ok) return auth.error
 
-    // Only SUPER_ADMIN can create users
-    if (session.role !== "SUPER_ADMIN") {
-      throw new ApiError("FORBIDDEN", "Only SUPER_ADMIN can create users", { status: 403 })
-    }
+    const { session } = auth.data
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const userAgent = req.headers.get("user-agent") || undefined
 
+    // 2. Validate input
     const parsed = CreateUserBody.safeParse(await req.json().catch(() => null))
     if (!parsed.success) {
       throw new ApiError("INVALID_INPUT", "Invalid input data", { status: 400 })
@@ -124,7 +137,7 @@ export async function POST(req: NextRequest) {
 
     const { username, email, password, role, isActive = true } = parsed.data
 
-    // Check if username already exists
+    // 3. Check if username/email already exists
     const existingUser = await prisma.adminUser.findFirst({
       where: {
         OR: [
@@ -138,26 +151,46 @@ export async function POST(req: NextRequest) {
       throw new ApiError("CONFLICT", "Username or email already exists", { status: 409 })
     }
 
+    // 4. Create user with audit log
     const passwordHash = await bcrypt.hash(password, 12)
 
-    const user = await prisma.adminUser.create({
-      data: {
-        username,
-        email,
-        passwordHash,
-        role,
-        isActive,
-      },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        isActive: true,
-        lastLoginAt: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+    const user = await prisma.$transaction(async (tx) => {
+      // Create user
+      const newUser = await tx.adminUser.create({
+        data: {
+          username,
+          email,
+          passwordHash,
+          role,
+          isActive,
+        },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          role: true,
+          isActive: true,
+          lastLoginAt: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      })
+
+      // Create audit record
+      await createUserAudit(tx, {
+        adminId: session.adminId,
+        targetAdminId: newUser.id,
+        action: ADMIN_SECURITY.AUDIT.USER.CREATE,
+        metadata: {
+          username: newUser.username,
+          email: newUser.email ?? undefined,
+          role: newUser.role,
+          ip,
+          userAgent,
+        },
+      })
+
+      return newUser
     })
 
     return okJson({
