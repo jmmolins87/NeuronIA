@@ -13,16 +13,44 @@ import { HeroModernBackground } from "@/components/backgrounds/hero-modern-bg"
 
 export function HeroSection() {
   const { t } = useTranslation()
+  const [bgOpacity, setBgOpacity] = React.useState(1)
   
   const { ref: heroLogoRef } = useMountAnimation({ delay: 100, duration: 1000, distance: 40 })
   const { ref: heroTitleRef } = useMountAnimation({ delay: 300, duration: 1000, distance: 50 })
   const { ref: heroSubtitleRef } = useMountAnimation({ delay: 500, duration: 900, distance: 40 })
   const { ref: heroButtonsRef } = useMountAnimation({ delay: 900, duration: 800, distance: 30 })
 
+  // Fade out background when scrolling away from hero
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const heroHeight = window.innerHeight
+      const scrollY = window.scrollY
+      const fadeStart = heroHeight * 0.7
+      const fadeEnd = heroHeight * 0.95
+      
+      if (scrollY < fadeStart) {
+        setBgOpacity(1)
+      } else if (scrollY > fadeEnd) {
+        setBgOpacity(0)
+      } else {
+        const fadeProgress = (scrollY - fadeStart) / (fadeEnd - fadeStart)
+        setBgOpacity(1 - fadeProgress)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll() // Check initial state
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   return (
-    <Section variant="default" id="hero" className="relative min-h-screen flex flex-col items-center justify-between overflow-hidden py-8">
-      {/* Modern animated background */}
-      <div className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }}>
+    <Section variant="default" id="hero" className="relative min-h-screen flex flex-col items-center justify-between overflow-hidden py-8 bg-transparent!">
+      {/* Modern animated background - extends to cover header area */}
+      <div 
+        className="fixed inset-0 w-full h-screen transition-opacity duration-500 pointer-events-none" 
+        style={{ zIndex: 0, opacity: bgOpacity }}
+      >
         <HeroModernBackground />
       </div>
       

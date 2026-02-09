@@ -147,8 +147,8 @@ export function Header() {
     <header 
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         isScrolled || !isHomePage
-          ? "border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-          : "border-b border-transparent bg-transparent backdrop-blur-none"
+          ? "border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4">
@@ -191,7 +191,7 @@ export function Header() {
           >
             <span
               aria-hidden
-              className="pointer-events-none absolute -bottom-1 h-0.5 rounded-full bg-gradient-to-r from-gradient-from to-gradient-to dark:from-primary dark:to-primary transition-[transform,width,opacity] duration-300 ease-out motion-reduce:transition-none"
+              className="pointer-events-none absolute -bottom-1 h-0.5 rounded-full bg-linear-to-r from-gradient-from to-gradient-to dark:from-primary dark:to-primary transition-[transform,width,opacity] duration-300 ease-out motion-reduce:transition-none"
               style={indicatorStyle}
             />
             {navLinks.map((link) => {
