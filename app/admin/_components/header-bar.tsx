@@ -83,7 +83,9 @@ export function HeaderBar({
                 <Avatar className="size-7">
                   <AvatarFallback>{session.username.slice(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <span className="hidden sm:inline">{session.username}</span>
+                <div className="hidden flex-col items-start sm:flex">
+                  <span className="text-sm font-medium">{session.username}</span>
+                </div>
                 <ChevronDown className="size-4 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>

@@ -8,6 +8,7 @@ import { errorJson, okJson } from "@/lib/api/respond"
 import { requireAdminWithCsrf } from "@/lib/admin/middleware"
 import { createBookingAudit } from "@/lib/admin/audit"
 import { ADMIN_SECURITY } from "@/lib/admin/constants"
+import { canMutateRealData } from "@/lib/admin/api-helpers"
 import { bookingConfig } from "@/lib/booking/config"
 import { expireHolds } from "@/lib/booking/holds"
 import {
@@ -51,6 +52,8 @@ function isUniqueConstraintError(error: unknown): boolean {
  * Security:
  * - Requires valid admin session
  * - Requires CSRF token in X-Admin-CSRF header
+ * - Only allowed for REAL mode users (DEMO mode blocked)
+ * - Environment guardrails prevent local->prod mutations
  * - Creates audit log entry
  */
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -60,6 +63,13 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     if (!auth.ok) return auth.error
 
     const { session } = auth.data
+    
+    // 2. Validate user can mutate REAL data (not DEMO mode)
+    const mutationCheck = canMutateRealData(session.admin.mode)
+    if (!mutationCheck.allowed && mutationCheck.response) {
+      return mutationCheck.response
+    }
+
     const { id } = await context.params
     if (!id) return errorJson("INVALID_INPUT", "Missing booking id", { status: 400 })
 
@@ -67,7 +77,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
     const userAgent = request.headers.get("user-agent") || undefined
 
-    // 2. Parse and validate request body
+    // 3. Parse and validate request body
     const json = await request.json().catch(() => null)
     const parsed = BodySchema.safeParse(json)
     if (!parsed.success) {

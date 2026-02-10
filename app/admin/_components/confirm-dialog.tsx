@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/components/ui/button"
 import { CancelButton } from "@/components/cta/cancel-button"
+import { DemoButton } from "@/components/cta/demo-button"
 import { Modal } from "@/components/modal"
 
 export function ConfirmDialog({
@@ -41,7 +41,7 @@ export function ConfirmDialog({
           >
             {cancelLabel}
           </CancelButton>
-          <Button
+          <DemoButton
             type="button"
             onClick={() => {
               onConfirm?.()
@@ -49,7 +49,7 @@ export function ConfirmDialog({
             }}
           >
             {confirmLabel}
-          </Button>
+          </DemoButton>
         </>
       }
     >

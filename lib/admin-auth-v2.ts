@@ -17,6 +17,7 @@ import {
   type AdminSessionData,
 } from "./admin/session-manager"
 import { createUserAudit } from "./admin/audit"
+import { enforceSuperAdminMode } from "./admin/enforcement"
 
 /**
  * Admin V2 Authentication - Robust Security
@@ -74,7 +75,8 @@ function getClientIp(request: NextRequest): string {
     return realIp
   }
   
-  return request.ip ?? "unknown"
+  // Fallback to unknown if no IP headers found
+  return "unknown"
 }
 
 // Helper: Check if account is locked
@@ -274,7 +276,18 @@ export async function authenticateAdmin(
       }
     }
 
-    // 8. Success! Reset failed login count and create session
+    // 8. Success! Enforce mode constraints (SUPER_ADMIN must be REAL)
+    const enforcementResult = await enforceSuperAdminMode({
+      id: admin.id,
+      username: admin.username,
+      role: admin.role,
+      mode: admin.mode
+    })
+
+    // Update mode if it was corrected
+    const finalMode = enforcementResult.corrected ? "REAL" : admin.mode
+
+    // 9. Reset failed login count and update last login
     await prisma.adminUser.update({
       where: { id: admin.id },
       data: {
@@ -290,11 +303,14 @@ export async function authenticateAdmin(
     resetRateLimit(ip, username)
 
     // Create session in DB
-    const session = await createSession(prisma, admin, { ipAddress: ip, userAgent })
+    const session = await createSession(prisma, {
+      ...admin,
+      mode: finalMode // Use enforced mode
+    }, { ipAddress: ip, userAgent })
 
     // Audit: successful login
     const auditAction =
-      admin.mode === "DEMO"
+      finalMode === "DEMO"
         ? ADMIN_SECURITY.AUDIT.USER.DEMO_LOGIN
         : ADMIN_SECURITY.AUDIT.USER.LOGIN_SUCCESS
 
@@ -304,15 +320,17 @@ export async function authenticateAdmin(
       metadata: {
         ip,
         userAgent,
-        mode: admin.mode,
+        mode: finalMode,
+        modeEnforced: enforcementResult.corrected,
       },
     })
 
     adminLogger.info("Login successful", {
       username: admin.username,
       role: admin.role,
-      mode: admin.mode,
+      mode: finalMode,
       ip,
+      enforcementApplied: enforcementResult.corrected,
     })
 
     const adminSession: AdminSession = {
@@ -320,7 +338,7 @@ export async function authenticateAdmin(
       username: admin.username,
       email: admin.email,
       role: admin.role,
-      mode: admin.mode,
+      mode: finalMode, // Use enforced mode
       isActive: admin.isActive,
     }
 

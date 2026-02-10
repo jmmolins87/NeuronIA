@@ -11,6 +11,7 @@ export interface AdminSession {
   userId: string
   username: string
   role: "SUPER_ADMIN" | "ADMIN"
+  mode?: "REAL" | "DEMO"  // Optional for backward compatibility
   isActive: boolean
 }
 

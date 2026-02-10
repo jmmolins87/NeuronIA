@@ -1,9 +1,10 @@
 import type { BookingStatus } from "@/app/admin/_mock/bookings"
 
-export function formatDateTime(value: string): string {
+export function formatDateTime(value: string | Date): string {
   try {
-    const d = new Date(value)
+    const d = value instanceof Date ? value : new Date(value)
     return new Intl.DateTimeFormat("es-ES", {
+      timeZone: "Europe/Madrid",
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -11,20 +12,21 @@ export function formatDateTime(value: string): string {
       minute: "2-digit",
     }).format(d)
   } catch {
-    return value
+    return typeof value === 'string' ? value : value.toISOString()
   }
 }
 
-export function formatDate(value: string): string {
+export function formatDate(value: string | Date): string {
   try {
-    const d = new Date(value)
+    const d = value instanceof Date ? value : new Date(value)
     return new Intl.DateTimeFormat("es-ES", {
+      timeZone: "Europe/Madrid",
       year: "numeric",
       month: "short",
       day: "2-digit",
     }).format(d)
   } catch {
-    return value
+    return typeof value === 'string' ? value : value.toISOString()
   }
 }
 

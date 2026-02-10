@@ -87,10 +87,6 @@ export function Footer() {
               {t("footer.cta.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-2">
-              <DemoButton onClick={() => setShowBookingModal(true)} size="sm">
-                <Calendar className="w-4 h-4" />
-                {t("common.bookDemo")}
-              </DemoButton>
               <RoiButton asChild size="sm">
                 <Link href="/roi">
                   <span className="flex items-center gap-2">
@@ -99,6 +95,10 @@ export function Footer() {
                   </span>
                 </Link>
               </RoiButton>
+              <DemoButton onClick={() => setShowBookingModal(true)} size="sm">
+                <Calendar className="w-4 h-4" />
+                {t("common.bookDemo")}
+              </DemoButton>
             </div>
           </div>
         </div>

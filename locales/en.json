@@ -1054,7 +1054,7 @@
       }
     },
     "backend": {
-      "tooltip_1930": "For same-day bookings, after 19:30 we do not allow new reservations. Please choose another day.",
+      "tooltip_1930": "For same-day bookings, after 19:00 we do not allow new reservations. Please choose another day.",
       "hold_title": "Time temporarily held",
       "hold_countdown": "Releases in {{time}}",
       "hold_missing": "Select a time to temporarily hold it.",

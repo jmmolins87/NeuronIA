@@ -1,63 +1,70 @@
 # ClinvetIA Agent Guidelines
 
-Rules and conventions for agentic coding tools operating in this repo.
+**Purpose**: Rules and conventions for AI coding agents operating in this repository.
 
 ## Project Snapshot
 
-- Framework: Next.js 16.1.6 (App Router); React 19.2.3; Server Components by default
-- Language: TypeScript (strict) with path alias `@/*` (see `tsconfig.json`)
-- Styling: Tailwind CSS 4 + shadcn/ui (new-york); tokens live in `app/globals.css`
-- Linting: ESLint v9 flat config in `eslint.config.mjs` (Next core-web-vitals + TS)
-- Theme: `next-themes` + CSS variables
-- i18n: custom provider `components/providers/i18n-provider.tsx` with `locales/es.json` + `locales/en.json`
-- DB: Postgres + Prisma (`prisma/schema.prisma`); singleton client in `lib/prisma.ts`
+- **Framework**: Next.js 16.1.6 (App Router) + React 19.2.3
+  - Default to Server Components; add `"use client"` only when needed
+- **Language**: TypeScript (strict mode); path alias `@/*` resolves to project root
+- **Styling**: Tailwind CSS 4 + shadcn/ui (new-york variant)
+  - CSS variables & theme tokens: `app/globals.css`
+- **Linting**: ESLint v9 (flat config) with Next.js core-web-vitals + TypeScript rules
+- **Theme**: `next-themes` with system detection + manual toggle
+- **i18n**: Custom context provider (`components/providers/i18n-provider.tsx`)
+  - Locales: `locales/es.json` (default) + `locales/en.json`
+  - Translation keys use dot-notation; must stay in sync
+- **Database**: Postgres + Prisma ORM
+  - Schema: `prisma/schema.prisma`
+  - Client singleton: `lib/prisma.ts` (uses PrismaPg adapter)
+- **Node Version**: 25.5.0 (enforced in `package.json` engines)
 
-## Commands
+## Commands Reference
 
 ```bash
-# Install (use npm; repo tracks package-lock.json)
-npm install
+# Installation
+npm install                         # Use npm (tracks package-lock.json)
 
-# Node version: 25.5.0 (see package.json engines)
+# Development
+npm run dev                         # Start dev server (port 3000)
+npm run build                       # Production build (runs prisma generate)
+npm run start                       # Start production server
 
-# Dev
-npm run dev
+# Code Quality
+npm run lint                        # Run ESLint
+npm run lint -- --fix               # Auto-fix linting issues
+npx eslint app/page.tsx             # Lint single file
+npx tsc -p tsconfig.json --noEmit   # Type-check without emitting
 
-# Build / start (build runs prisma generate)
-npm run build
-npm run start
+# Convention Audits (Critical: Run before commits)
+npm run audit                       # Run all audits (i18n + inline styles)
+npm run audit:i18n                  # Check i18n key sync + hardcoded strings
+npm run audit:inline                # Scan for inline styles (fails build)
 
-# Lint
-npm run lint
-npm run lint -- --fix
-npx eslint app/page.tsx
+# Database (Prisma)
+npm run prisma:generate             # Generate Prisma client
+npm run prisma:migrate:dev          # Create & apply migration (dev)
+npm run prisma:migrate:deploy       # Apply migrations (production)
+npm run prisma:studio               # Open Prisma Studio GUI
 
-# Typecheck only
-npx tsc -p tsconfig.json --noEmit
+# Admin System
+npm run admin:bootstrap             # Create super admin user (interactive)
+npm run db:start                    # Start local Postgres (Docker)
+npm run db:stop                     # Stop local Postgres
+npm run db:reset                    # Reset local database
 
-# Convention audits (i18n keys synced + inline style scan)
-npm run audit
-npm run audit:i18n
-npm run audit:inline
-
-# Prisma
-npm run prisma:generate
-npm run prisma:migrate:dev
-npm run prisma:migrate:deploy
-npm run prisma:studio
-
-# Admin bootstrap
-npm run admin:bootstrap
-
-# Tests - No test runner configured currently.
-# If adding one, require single-file + single-test filtering:
-#   Vitest:  npx vitest run path/to/foo.test.ts -t "case name"
+# Testing
+# No test runner configured yet. When adding:
+# - Must support single-file filtering: npx vitest run path/to/file.test.ts
+# - Must support single-test filtering: -t "test name"
+# Example: npx vitest run lib/utils.test.ts -t "calculates total"
 ```
 
-## Cursor / Copilot Rules
+## External Configuration Rules
 
-- Cursor rules: none found (`.cursor/rules/` or `.cursorrules`)
-- Copilot rules: none found (`.github/copilot-instructions.md`)
+**Cursor Rules**: None (checked `.cursor/rules/`, `.cursorrules`)  
+**Copilot Rules**: None (checked `.github/copilot-instructions.md`)  
+**Prettier**: Not configured; follow Next.js/ESLint defaults
 
 ## Code Style
 

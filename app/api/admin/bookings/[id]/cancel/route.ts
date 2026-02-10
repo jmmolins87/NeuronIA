@@ -5,6 +5,7 @@ import { errorJson, okJson } from "@/lib/api/respond"
 import { requireAdminWithCsrf } from "@/lib/admin/middleware"
 import { createBookingAudit } from "@/lib/admin/audit"
 import { ADMIN_SECURITY } from "@/lib/admin/constants"
+import { canMutateRealData } from "@/lib/admin/api-helpers"
 import { env } from "@/lib/env"
 import { prisma } from "@/lib/prisma"
 import { toResponse } from "@/lib/errors"
@@ -17,6 +18,8 @@ export const runtime = "nodejs"
  * Security:
  * - Requires valid admin session
  * - Requires CSRF token in X-Admin-CSRF header
+ * - Only allowed for REAL mode users (DEMO mode blocked)
+ * - Environment guardrails prevent local->prod mutations
  * - Creates audit log entry
  */
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -26,6 +29,13 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     if (!auth.ok) return auth.error
 
     const { session } = auth.data
+    
+    // 2. Validate user can mutate REAL data (not DEMO mode)
+    const mutationCheck = canMutateRealData(session.admin.mode)
+    if (!mutationCheck.allowed && mutationCheck.response) {
+      return mutationCheck.response
+    }
+
     const { id } = await context.params
     if (!id) return errorJson("INVALID_INPUT", "Missing booking id", { status: 400 })
 
@@ -33,7 +43,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
     const userAgent = request.headers.get("user-agent") || undefined
 
-    // 2. Cancel booking + create audit log
+    // 3. Cancel booking + create audit log
     const result = await prisma.$transaction(async (tx) => {
       const booking = await tx.booking.findUnique({ where: { id } })
       if (!booking) {
@@ -65,7 +75,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
         },
       })
 
-      // 3. Create audit record
+      // 4. Create audit record
       await createBookingAudit(tx, {
         adminId: session.adminId,
         bookingId: booking.id,

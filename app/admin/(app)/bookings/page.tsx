@@ -4,10 +4,9 @@ import { BookingsTable } from "@/app/admin/_components/bookings-table"
 import { ErrorBanner } from "@/app/admin/_components/error-banner"
 import { TableSkeleton } from "@/app/admin/_components/skeletons"
 import { PaginationBar } from "@/app/admin/_components/pagination-bar"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { prisma } from "@/lib/prisma"
-import { cookies } from "next/headers"
+import { getCurrentAdmin } from "@/lib/admin-auth-v2"
 
 function getState(searchParams?: Record<string, string | string[] | undefined>) {
   const raw = searchParams?.state
@@ -52,10 +51,9 @@ export default async function AdminBookingsPage({
   const resolved = searchParams ? await searchParams : undefined
   const state = getState(resolved)
   
-  // Check if we're in demo mode
-  const cookieStore = await cookies()
-  const demoCookie = cookieStore.get('clinvetia_admin')?.value
-  const isDemo = demoCookie === 'demo-session'
+  // Check if we're in demo mode based on user session
+  const session = await getCurrentAdmin()
+  const isDemo = session?.admin.mode === 'DEMO'
   
   let rows
   
@@ -120,7 +118,7 @@ export default async function AdminBookingsPage({
               : `Mostrando ${Math.min(total, 50)} reservas más recientes`
             }
           </div>
-          <PaginationBar currentPage={1} totalPages={1} />
+          <PaginationBar page={1} pageCount={1} />
         </div>
       )}
     </div>

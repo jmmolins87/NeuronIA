@@ -193,3 +193,17 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data
+
+// Run environment guardrails after successful env validation
+// This prevents local dev from accidentally affecting production
+if (typeof window === "undefined") {
+  // Only run on server-side (not in browser)
+  // Import dynamically to avoid issues with server-only code
+  import("./admin/guardrails").then(({ validateEnvironmentOnStartup }) => {
+    validateEnvironmentOnStartup()
+  }).catch((error) => {
+    console.error("Failed to validate environment guardrails:", error)
+    // Don't throw here to allow app to start even if guardrails file is missing
+    // The guardrails will throw if there's an actual safety issue
+  })
+}

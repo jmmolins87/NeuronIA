@@ -241,6 +241,22 @@ export default function ContactoPage() {
     }
   }, [mounted])
 
+  // Handlers for missing demo modal
+  const handleSkipDemo = React.useCallback(() => {
+    setShowMissingDemoModal(false)
+    setPendingSubmit(true)
+    // Submit form immediately
+    setTimeout(() => {
+      const form = document.querySelector('form') as HTMLFormElement
+      if (form) form.requestSubmit()
+    }, 100)
+  }, [])
+
+  const handleBookDemo = React.useCallback(() => {
+    setShowMissingDemoModal(false)
+    setShowBookingModal(true)
+  }, [])
+
   // Load contact data from booking summary (if coming from booking page)
   React.useEffect(() => {
     if (!mounted || dataLoaded) return
@@ -276,22 +292,6 @@ export default function ContactoPage() {
       setDataLoaded(true)
     }
   }, [mounted, dataLoaded, agentHandoffLoaded, isFromAgent, agentHandoff, hasSubmittedBefore])
-
-  // Handlers for missing demo modal
-  const handleSkipDemo = React.useCallback(() => {
-    setShowMissingDemoModal(false)
-    setPendingSubmit(true)
-    // Submit form immediately
-    setTimeout(() => {
-      const form = document.querySelector('form') as HTMLFormElement
-      if (form) form.requestSubmit()
-    }, 100)
-  }, [])
-
-  const handleBookDemo = React.useCallback(() => {
-    setShowMissingDemoModal(false)
-    setShowBookingModal(true)
-  }, [])
 
   // Load contact data from booking form draft (if not coming from booking page)
   React.useEffect(() => {
@@ -583,6 +583,60 @@ export default function ContactoPage() {
                     <div className="mt-1 break-words text-sm font-semibold text-foreground">{bookingSummary.contactPhone ?? "-"}</div>
                   </div>
                 </div>
+
+                {/* ROI Summary from Booking */}
+                {!!bookingSummary.roi && isRecord(bookingSummary.roi) && (
+                  <div className="mt-6 pt-6 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 text-white dark:text-black" />
+                      </div>
+                      <h3 className="text-lg font-bold text-foreground">
+                        {t("contact.form.roiSummary.title")}
+                      </h3>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-3">
+                      {/* Monthly Revenue */}
+                      <div className="p-4 rounded-lg border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-base text-muted-foreground">
+                            {t("contact.form.roiSummary.monthlyRevenue")}
+                          </span>
+                          <Euro className="w-5 h-5 text-primary" />
+                        </div>
+                        <p className="text-2xl font-bold text-primary">
+                          {typeof bookingSummary.roi.monthlyRevenue === 'number' 
+                            ? `${bookingSummary.roi.monthlyRevenue.toLocaleString()}€` 
+                            : '-'}
+                        </p>
+                      </div>
+
+                      {/* Yearly Revenue */}
+                      <div className="p-4 rounded-lg border border-border bg-muted/50">
+                        <p className="text-base text-muted-foreground mb-1">
+                          {t("contact.form.roiSummary.yearlyRevenue")}
+                        </p>
+                        <p className="text-2xl font-bold text-foreground">
+                          {typeof bookingSummary.roi.yearlyRevenue === 'number' 
+                            ? `${bookingSummary.roi.yearlyRevenue.toLocaleString()}€` 
+                            : '-'}
+                        </p>
+                      </div>
+
+                      {/* ROI */}
+                      <div className="p-4 rounded-lg border border-border bg-muted/50">
+                        <p className="text-base text-muted-foreground mb-1">
+                          {t("contact.form.roiSummary.roi")}
+                        </p>
+                        <p className="text-2xl font-bold text-foreground">
+                          {typeof bookingSummary.roi.roi === 'number' 
+                            ? `${bookingSummary.roi.roi > 0 ? '+' : ''}${bookingSummary.roi.roi}%` 
+                            : '-'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </Reveal>
           ) : null}
@@ -738,31 +792,198 @@ export default function ContactoPage() {
                       </div>
                     )}
                   </div>
+                </Reveal>
 
-                  {/* Demo Status Section */}
-                  <div className="pt-8 border-t border-border">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
-                        <Calendar className="w-6 h-6 text-white dark:text-black" />
+              {/* Second Box: Contact Form */}
+              <Reveal delay={300} className="h-full">
+                <div ref={formRef as React.RefObject<HTMLDivElement>} className="h-full">
+                  {hasSubmittedBefore ? (
+                    <div className="rounded-xl border border-green-500/50 bg-card/80 backdrop-blur-sm p-8 text-center flex flex-col items-center justify-center h-full">
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-600 to-pink-600 dark:from-primary dark:via-gradient-purple dark:to-gradient-to flex items-center justify-center">
+                        <Check className="w-8 h-8 text-white dark:text-black" />
                       </div>
-                      <h2 className="text-2xl font-bold text-foreground">
-                        {t("contact.form.demoStatus.label")}
-                      </h2>
+                      <h3 className="text-2xl font-bold mb-2 text-foreground">
+                        {t("contact.form.success.title")}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {t("contact.form.success.message")}
+                      </p>
                     </div>
+                  ) : (
+                    <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 transition-all hover:border-primary hover:shadow-2xl dark:hover:shadow-primary/20 h-full flex flex-col">
+                      <h2 className="text-2xl font-bold mb-6 text-foreground">
+                        {t("contact.form.title")}
+                      </h2>
 
-                    {demoCancelled ? (
-                      /* Demo Cancelled - Red Box */
-                      <div className="rounded-lg border border-red-500/50 bg-red-500/10 dark:bg-red-500/20 p-4">
-                        <div className="flex items-start gap-3">
-                          <Info className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0 mt-0.5" />
-                          <div className="flex-1">
-                            <p className="text-base font-medium text-red-700 dark:text-red-300 mb-1">
-                              {t("contact.form.demoStatus.cancelled.title")}
-                            </p>
-                            <p className="text-base text-red-600/80 dark:text-red-400/80">
-                              {t("contact.form.demoStatus.cancelled.message")}
-                            </p>
+                        {/* Campos en líneas separadas */}
+                        <div className="space-y-6">
+                          {/* Name */}
+                          <div className="space-y-2">
+                            <Label htmlFor="name" className="text-base font-medium">
+                              {t("contact.form.fields.name.label")}
+                            </Label>
+                            <div className="relative">
+                              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                              <Input
+                                id="name"
+                                name="name"
+                                type="text"
+                                value={formData.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={t("contact.form.fields.name.placeholder")}
+                                className={`pl-10 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                                autoComplete="off"
+                              />
+                            </div>
+                            {errors.name && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
+                                <span>{errors.name}</span>
+                              </p>
+                            )}
                           </div>
+
+                          {/* Email */}
+                          <div className="space-y-2">
+                            <Label htmlFor="email" className="text-base font-medium">
+                              {t("contact.form.fields.email.label")}
+                            </Label>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                              <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={t("contact.form.fields.email.placeholder")}
+                                className={`pl-10 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                                autoComplete="off"
+                              />
+                            </div>
+                            {errors.email && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
+                                <span>{errors.email}</span>
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Phone */}
+                          <div className="space-y-2">
+                            <Label htmlFor="phone" className="text-base font-medium">
+                              {t("contact.form.fields.phone.label")}
+                            </Label>
+                            <div className="relative">
+                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                              <Input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={t("contact.form.fields.phone.placeholder")}
+                                className={`pl-10 ${errors.phone ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                                autoComplete="off"
+                              />
+                            </div>
+                              {errors.phone && (
+                                <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                  <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
+                                  <span>{errors.phone}</span>
+                                </p>
+                              )}
+                            </div>
+
+                            {/* Clinic */}
+                            <div className="space-y-2">
+                          <Label htmlFor="clinic" className="text-base font-medium">
+                            {t("contact.form.fields.clinic.label")}
+                          </Label>
+                          <div className="relative">
+                            <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                            <Input
+                              id="clinic"
+                              name="clinic"
+                              type="text"
+                              value={formData.clinic}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder={t("contact.form.fields.clinic.placeholder")}
+                              className={`pl-10 ${errors.clinic ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                              autoComplete="off"
+                            />
+                          </div>
+                              {errors.clinic && (
+                                <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                  <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
+                                  <span>{errors.clinic}</span>
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Mensaje */}
+                          <div className="space-y-2">
+                          <Label htmlFor="message" className="text-base font-medium">
+                            {t("contact.form.fields.message.label")}
+                          </Label>
+                          <div className="relative">
+                            <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+                            <Textarea
+                              id="message"
+                              name="message"
+                              value={formData.message}
+                              autoComplete="off"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder={t("contact.form.fields.message.placeholder")}
+                              className={`pl-10 min-h-[180px] ${errors.message ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                            />
+                          </div>
+                            {errors.message && (
+                              <p className="text-base text-red-600 dark:text-red-400 flex items-start gap-2 animate-in fade-in duration-200">
+                                <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 drop-shadow-[0_0_4px_oklch(var(--destructive)/0.35)]" />
+                                <span>{errors.message}</span>
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex justify-start md:justify-end">
+                            <DemoButton 
+                              type="submit" 
+                              className="w-full md:w-auto cursor-pointer dark:glow-primary"
+                              disabled={
+                                hasSubmittedBefore ||
+                                isSubmitting ||
+                                !formData.name.trim() || 
+                                !formData.email.trim() || 
+                                !formData.phone.trim() || 
+                                !formData.clinic.trim() || 
+                                !formData.message.trim() ||
+                                Object.values(errors).some(error => error !== "")
+                              }
+                              aria-disabled={isSubmitting || hasSubmittedBefore}
+                              aria-busy={isSubmitting}
+                            >
+                              {isSubmitting ? (
+                                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                              ) : (
+                                <Send className="w-5 h-5 mr-2" />
+                              )}
+                              {t("contact.form.submit")}
+                            </DemoButton>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  )}
+                </div>
+              </Reveal>
+            </div>
                         </div>
                       </div>
                     ) : hasCalendlyData && calendlyData?.scheduledDate && calendlyData?.scheduledTime ? (
@@ -1063,6 +1284,27 @@ export default function ContactoPage() {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Change ROI Modal */}
+      <AlertDialog open={showChangeROIModal} onOpenChange={setShowChangeROIModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("contact.form.demoStatus.changeROI")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("contact.form.demoStatus.confirmChangeROI")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <CancelButton onClick={() => setShowChangeROIModal(false)}>
+              {t("common.cancel")}
+            </CancelButton>
+            <DemoButton onClick={handleChangeROI}>
+              {t("common.continue")}
+            </DemoButton>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Booking Modal with Calendar */}
       {/* Missing Demo Warning Modal */}
       <AlertDialog open={showMissingDemoModal} onOpenChange={setShowMissingDemoModal}>
         <AlertDialogContent>
@@ -1083,26 +1325,6 @@ export default function ContactoPage() {
             </CancelButton>
             <DemoButton onClick={handleBookDemo}>
               Agendar demo primero
-            </DemoButton>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Change ROI Modal */}
-      <AlertDialog open={showChangeROIModal} onOpenChange={setShowChangeROIModal}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t("contact.form.demoStatus.changeROI")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("contact.form.demoStatus.confirmChangeROI")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <CancelButton onClick={() => setShowChangeROIModal(false)}>
-              {t("common.cancel")}
-            </CancelButton>
-            <DemoButton onClick={handleChangeROI}>
-              {t("common.continue")}
             </DemoButton>
           </AlertDialogFooter>
         </AlertDialogContent>

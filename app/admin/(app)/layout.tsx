@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
 
 import { AdminLayout } from "@/app/admin/_components/admin-layout"
-import { getCurrentAdmin } from "@/lib/admin-auth"
+import { getCurrentAdmin } from "@/lib/admin-auth-v2"
 
 export const metadata: Metadata = {
   title: "ClinvetIA Admin",
@@ -27,7 +27,9 @@ export default async function AdminAppLayout({
       const mockSession = {
         userId: 'demo-user',
         username: 'demo',
+        email: null,
         role: 'ADMIN' as const,
+        mode: 'DEMO' as const,
         isActive: true,
       }
       return <AdminLayout session={mockSession}>{children}</AdminLayout>
@@ -36,5 +38,15 @@ export default async function AdminAppLayout({
     redirect("/admin/login")
   }
 
-  return <AdminLayout session={session}>{children}</AdminLayout>
+  // Transform AdminSessionData to AdminSession
+  const adminSession = {
+    userId: session.admin.id,
+    username: session.admin.username,
+    email: session.admin.email,
+    role: session.admin.role,
+    mode: session.admin.mode,
+    isActive: session.admin.isActive,
+  }
+
+  return <AdminLayout session={adminSession}>{children}</AdminLayout>
 }

@@ -166,6 +166,34 @@ export function assertIsoDateNotPast(date: string, now: Date, timeZone: string):
   }
 }
 
+export function assertSameDayBookingAllowed(date: string, now: Date, timeZone: string): void {
+  const today = formatZonedYYYYMMDD(now, timeZone)
+  
+  // Only applies to same-day bookings
+  if (date !== today) {
+    return
+  }
+
+  // Get current hour in the booking timezone
+  const dtf = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })
+  
+  const currentTime = dtf.format(now)
+  const [currentHour] = currentTime.split(":").map(Number)
+  
+  // Block same-day bookings after 19:00 (7 PM)
+  if (currentHour >= 19) {
+    throw new ApiError("INVALID_INPUT", "Same-day bookings not allowed after 19:00", {
+      status: 400,
+      fields: { date: "Cannot book for today after 19:00. Please select a future date." },
+    })
+  }
+}
+
 export function assertStartAtNotPast(startAt: Date, now: Date): void {
   if (startAt.getTime() <= now.getTime()) {
     throw new ApiError("INVALID_INPUT", "Slot is in the past", {

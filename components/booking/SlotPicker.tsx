@@ -65,8 +65,7 @@ function formatSelectedDate(date: Date, locale: "es" | "en"): string {
 
 function isAfterLocalCutoff1930(now: Date): boolean {
   const hours = now.getHours()
-  const minutes = now.getMinutes()
-  return hours > 19 || (hours === 19 && minutes >= 30)
+  return hours >= 19
 }
 
 export function SlotPicker({

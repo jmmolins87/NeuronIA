@@ -31,7 +31,10 @@ export function BookingSheet({
   open: boolean
   onOpenChange: (next: boolean) => void
 }) {
-  const title = booking ? `${booking.id}` : UI_TEXT.actions.view
+  const title = booking ? `${booking.uid || booking.id}` : UI_TEXT.actions.view
+  const clientName: string = booking?.name || booking?.contactName || "Sin nombre"
+  const clientEmail: string = booking?.email || booking?.contactEmail || "Sin email"
+  const duration: number = booking?.durationMinutes || 30
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -42,7 +45,7 @@ export function BookingSheet({
             {booking ? <StatusBadge status={booking.status} /> : null}
           </SheetTitle>
           <SheetDescription>
-            {booking ? `${formatDateTime(booking.startAt)} • ${booking.durationMinutes}m • ${statusLabel(booking.status)}` : ""}
+            {booking ? `${formatDateTime(booking.startAt)} • ${duration}m • ${statusLabel(booking.status)}` : ""}
           </SheetDescription>
         </SheetHeader>
 
@@ -50,22 +53,26 @@ export function BookingSheet({
           <div className="grid gap-4 px-4 pb-4">
             <Card className="p-4">
               <div className="text-sm font-semibold">Cliente</div>
-              <div className="text-muted-foreground mt-1 text-sm">{booking.name}</div>
+              <div className="text-muted-foreground mt-1 text-sm">{clientName}</div>
               <div className="mt-3 border-t pt-3">
-                <Kv label="Email" value={booking.email} />
-                <Kv label="Locale" value={booking.locale} />
+                <Kv label="Email" value={clientEmail} />
+                {booking.locale && <Kv label="Locale" value={booking.locale} />}
+                {booking.contactPhone && <Kv label="Teléfono" value={booking.contactPhone} />}
+                {booking.contactClinicName && <Kv label="Clínica" value={booking.contactClinicName} />}
                 <Kv label="Creada" value={formatDateTime(booking.createdAt)} />
               </div>
             </Card>
 
-            <Card className="p-4">
-              <div className="text-sm font-semibold">Formulario</div>
-              <div className="mt-3 space-y-2">
-                <Kv label="Empresa" value={booking.form.company} />
-                <Kv label="Rol" value={booking.form.role} />
-                <Kv label="Tamano" value={booking.form.clinicSize} />
-              </div>
-            </Card>
+            {booking.form && (
+              <Card className="p-4">
+                <div className="text-sm font-semibold">Formulario</div>
+                <div className="mt-3 space-y-2">
+                  <Kv label="Empresa" value={booking.form.company} />
+                  <Kv label="Rol" value={booking.form.role} />
+                  <Kv label="Tamano" value={booking.form.clinicSize} />
+                </div>
+              </Card>
+            )}
           </div>
         ) : null}
 
@@ -77,10 +84,10 @@ export function BookingSheet({
                 className="gap-2"
                 onClick={async () => {
                   try {
-                    await navigator.clipboard.writeText(booking.email)
-                    toast.success("Email copiado (mock)")
+                    await navigator.clipboard.writeText(clientEmail)
+                    toast.success("Email copiado")
                   } catch {
-                    toast.error("No se pudo copiar (mock)")
+                    toast.error("No se pudo copiar")
                   }
                 }}
               >

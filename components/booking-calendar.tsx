@@ -65,10 +65,9 @@ function isSameDayLocal(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
 }
 
-function isAfterLocalCutoff1930(now: Date): boolean {
+function isAfterCutoff1900(now: Date): boolean {
   const h = now.getHours()
-  const m = now.getMinutes()
-  return h > 19 || (h === 19 && m >= 30)
+  return h >= 19
 }
 
 function secondsLeft(expiresAt: Date, now: Date): number {
@@ -214,7 +213,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     }
   }, [contact])
 
-  const isTodayCutoff = selectedDate ? isSameDayLocal(selectedDate, new Date()) && isAfterLocalCutoff1930(new Date()) : false
+  const isTodayCutoff = selectedDate ? isSameDayLocal(selectedDate, new Date()) && isAfterCutoff1900(new Date()) : false
 
   React.useEffect(() => {
     if (step !== 2 || !selectedDate) return
@@ -237,6 +236,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
   const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentMonth)
 
   const isDateAvailable = (date: Date) => {
+    const now = new Date()
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     const day = new Date(date)
@@ -248,6 +248,9 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
     
     // Not in the past
     if (day < today) return false
+    
+    // Block same-day bookings after 19:00
+    if (isSameDayLocal(date, now) && isAfterCutoff1900(now)) return false
     
     // Not more than 60 days in the future
     const maxDate = new Date(today)
@@ -651,7 +654,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
                         className={cn(
                           "p-3 rounded-lg text-sm font-medium transition-all border-2",
                           disabled
-                            ? "opacity-40 cursor-not-allowed bg-muted border-border"
+                            ? "opacity-40 cursor-not-allowed bg-muted border-border col-span-full"
                             : isSelected
                               ? "bg-primary text-primary-foreground border-primary dark:glow-primary"
                               : "bg-card border-border hover:bg-primary/10 hover:border-primary cursor-pointer"
@@ -683,7 +686,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
             {hold && (
               <div className="w-full p-4 rounded-lg border-2 border-orange-500/50 bg-orange-500/10 flex items-center justify-between">
                 <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <Clock className="w-5 h-5 text-orange-500 flex-shrink-0" />
+                  <Clock className="w-5 h-5 text-orange-500 shrink-0" />
                   <span className="text-base font-medium text-orange-700 dark:text-orange-400 truncate">
                     {t("book.backend.hold_title")}... {t("book.backend.hold_countdown", { time: formatCountdown(holdSecondsLeft) })}
                   </span>
@@ -842,7 +845,7 @@ export function BookingCalendar({ onBookingComplete, onDateSelected }: BookingCa
       <Dialog open={showRedirectModal} onOpenChange={setShowRedirectModal}>
         <DialogContent className="sm:max-w-md" showCloseButton={false}>
           <DialogHeader className="text-center">
-            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 dark:from-primary/30 dark:to-accent/30 flex items-center justify-center mb-4">
+            <div className="mx-auto w-16 h-16 rounded-full bg-linear-to-br from-primary/20 to-accent/20 dark:from-primary/30 dark:to-accent/30 flex items-center justify-center mb-4">
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
             </div>
             <DialogTitle className="text-xl">

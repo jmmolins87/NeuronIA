@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Eye, MoreHorizontal, XCircle, CalendarClock } from "lucide-react"
 
@@ -23,11 +24,50 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
+async function getCsrfToken(): Promise<string | null> {
+  try {
+    const response = await fetch("/api/admin/auth/me")
+    if (!response.ok) return null
+    const data = await response.json()
+    return data.csrfToken || null
+  } catch {
+    return null
+  }
+}
+
+async function cancelBooking(bookingId: string): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const csrfToken = await getCsrfToken()
+    if (!csrfToken) {
+      return { ok: false, error: "No CSRF token" }
+    }
+
+    const response = await fetch(`/api/admin/bookings/${bookingId}/cancel`, {
+      method: "POST",
+      headers: {
+        "X-Admin-CSRF": csrfToken,
+      },
+    })
+
+    const data = await response.json()
+    
+    if (!response.ok) {
+      return { ok: false, error: data.message || "Error al cancelar" }
+    }
+
+    return { ok: true }
+  } catch (error) {
+    return { ok: false, error: "Error de red" }
+  }
+}
+
 export function BookingsTable({ bookings }: { bookings: Booking[] }) {
+  const router = useRouter()
   const [selected, setSelected] = React.useState<Booking | null>(null)
   const [sheetOpen, setSheetOpen] = React.useState(false)
   const [cancelOpen, setCancelOpen] = React.useState(false)
   const [rescheduleOpen, setRescheduleOpen] = React.useState(false)
+  const [isCancelling, setIsCancelling] = React.useState(false)
 
   if (bookings.length === 0) {
     return <EmptyState />
@@ -157,10 +197,23 @@ export function BookingsTable({ bookings }: { bookings: Booking[] }) {
         open={cancelOpen}
         onOpenChange={setCancelOpen}
         title={UI_TEXT.dialogs.cancelTitle}
-        description={selected ? `${selected.id} • ${selected.email}` : UI_TEXT.dialogs.cancelDescription}
+        description={selected ? `${selected.uid || selected.id} • ${selected.email || selected.contactEmail}` : UI_TEXT.dialogs.cancelDescription}
         confirmLabel={UI_TEXT.actions.cancel}
-        onConfirm={() => {
-          toast.error("Cancelada (mock)")
+        onConfirm={async () => {
+          if (!selected?.id) return
+          
+          setIsCancelling(true)
+          const result = await cancelBooking(selected.id)
+          setIsCancelling(false)
+          setCancelOpen(false)
+          
+          if (result.ok) {
+            toast.success("Reserva cancelada correctamente")
+            // Reload page to show updated data
+            router.refresh()
+          } else {
+            toast.error(result.error || "Error al cancelar la reserva")
+          }
         }}
       />
 

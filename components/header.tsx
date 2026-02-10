@@ -222,13 +222,13 @@ export function Header() {
               <ThemeToggle />
             </div>
             
-            <DemoButton asChild size="sm" className="hidden md:inline-flex">
-              <Link href="/reservar">{t("common.bookDemo")}</Link>
-            </DemoButton>
-            
             <RoiButton asChild size="sm" className="hidden md:inline-flex">
               <Link href="/roi">{t("nav.roi")}</Link>
             </RoiButton>
+            
+            <DemoButton asChild size="sm" className="hidden md:inline-flex">
+              <Link href="/reservar">{t("common.bookDemo")}</Link>
+            </DemoButton>
           </div>
 
           {/* Mobile: Menu button - Al final de todo */}
@@ -281,16 +281,16 @@ export function Header() {
                   </div>
 
                   <div className="mt-3 flex flex-col gap-3 w-full max-w-sm">
-                    <DemoButton asChild size="default" className="w-full">
-                      <Link href="/reservar" onClick={() => setIsOpen(false)}>
-                        {t("common.bookDemo")}
-                      </Link>
-                    </DemoButton>
                     <RoiButton asChild size="default" className="w-full">
                       <Link href="/roi" onClick={() => setIsOpen(false)}>
                         {t("nav.roi")}
                       </Link>
                     </RoiButton>
+                    <DemoButton asChild size="default" className="w-full">
+                      <Link href="/reservar" onClick={() => setIsOpen(false)}>
+                        {t("common.bookDemo")}
+                      </Link>
+                    </DemoButton>
                   </div>
                 </nav>
               </div>

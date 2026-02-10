@@ -3,15 +3,14 @@ import { DateRangeChip } from "@/app/admin/_components/date-range-chip"
 import { ErrorBanner } from "@/app/admin/_components/error-banner"
 import { KpiCard } from "@/app/admin/_components/kpi-card"
 import { KpiGridSkeleton, TableSkeleton } from "@/app/admin/_components/skeletons"
-import { StatusBadge } from "@/app/admin/_components/status-badge"
-import { ACTIVITY, BOOKINGS } from "@/app/admin/_mock/bookings"
+import { RecentBookingsTable } from "@/app/admin/_components/recent-bookings-table"
+import { ACTIVITY, BOOKINGS, type ActivityEvent } from "@/app/admin/_mock/bookings"
 import { formatDateTime } from "@/app/admin/_lib/format"
 import { UI_TEXT } from "@/app/admin/_ui-text"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { CalendarDays, CircleCheck, RotateCcw, XCircle } from "lucide-react"
 import { prisma } from "@/lib/prisma"
-import { cookies } from "next/headers"
+import { getCurrentAdmin } from "@/lib/admin-auth-v2"
 
 function getState(searchParams?: Record<string, string | string[] | undefined>) {
   const raw = searchParams?.state
@@ -80,7 +79,7 @@ async function getRealData() {
       at: event.createdAt.toISOString(),
       title: `${event.action} por ${event.admin.username}`,
       description: `Reserva ${event.booking?.uid || event.bookingId} - ${event.booking?.contactEmail || ''}`,
-      tone: event.action === 'CANCEL' ? 'bad' : event.action === 'RESCHEDULE' ? 'warn' : 'neutral' as const,
+      tone: (event.action === 'CANCEL' ? 'bad' : event.action === 'RESCHEDULE' ? 'warn' : 'neutral') as "bad" | "warn" | "neutral" | "good",
     }))
 
     return {
@@ -112,12 +111,12 @@ export default async function AdminOverviewPage({
   const resolved = searchParams ? await searchParams : undefined
   const state = getState(resolved)
   
-  // Check if we're in demo mode by checking cookies
-  const cookieStore = await cookies()
-  const demoCookie = cookieStore.get('clinvetia_admin')?.value
-  const isDemo = demoCookie === 'demo-session'
+  // Check if we're in demo mode based on user session
+  const session = await getCurrentAdmin()
+  const isDemo = session?.admin.mode === 'DEMO'
   
-  let rows, recent, total, confirmed, cancelled, rescheduled, activity
+  let rows, recent, total, confirmed, cancelled, rescheduled
+  let activity: ActivityEvent[]
   
   if (isDemo) {
     // Use mock data for demo
@@ -147,7 +146,7 @@ export default async function AdminOverviewPage({
     confirmed = realData.confirmed
     cancelled = realData.cancelled
     rescheduled = realData.rescheduled
-    activity = realData.activity
+    activity = realData.activity as ActivityEvent[]
   }
 
   return (
@@ -209,49 +208,7 @@ export default async function AdminOverviewPage({
         {state === "loading" ? (
           <TableSkeleton rows={6} />
         ) : (
-          <Card>
-            <CardHeader className="border-b">
-              <CardTitle className="text-base">{UI_TEXT.sections.recentBookings}</CardTitle>
-            </CardHeader>
-            <CardContent className="px-0">
-              <Table>
-                <TableHeader>
-                  <TableRow className="hover:bg-transparent">
-                    <TableHead>Fecha/hora</TableHead>
-                    <TableHead>Estado</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead className="text-right">Creada</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {recent.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={4} className="text-muted-foreground py-10 text-center">
-                        {isDemo ? UI_TEXT.empty.title : "No hay reservas recientes"}
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    recent.map((b) => (
-                      <TableRow key={b.id}>
-                        <TableCell className="whitespace-nowrap">
-                          {formatDateTime(b.startAt)}
-                        </TableCell>
-                        <TableCell>
-                          <StatusBadge status={b.status} />
-                        </TableCell>
-                        <TableCell className="max-w-[260px] truncate text-muted-foreground">
-                          {b.email}
-                        </TableCell>
-                        <TableCell className="text-right text-muted-foreground whitespace-nowrap">
-                          {formatDateTime(b.createdAt)}
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          <RecentBookingsTable bookings={recent} isDemo={isDemo} />
         )}
 
         {state === "loading" ? (

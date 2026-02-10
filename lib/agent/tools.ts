@@ -23,7 +23,7 @@ function urlFromRequest(requestUrl: string, path: string): string {
 
 function isAfter1930(time: string): boolean {
   // time in HH:mm
-  return time > "19:30"
+  return time >= "19:00"
 }
 
 export async function toolGetAvailability(args: { requestUrl: string; date: string }) {
@@ -43,9 +43,9 @@ export async function toolCreateHold(args: {
   DateSchema.parse(args.date)
   TimeSchema.parse(args.time)
 
-  // Enforce product rule: do not allow times after 19:30.
+  // Enforce product rule: do not allow times after 19:00.
   if (isAfter1930(args.time)) {
-    return { ok: false, code: "CUTOFF_1930", message: "Time not allowed after 19:30" }
+    return { ok: false, code: "CUTOFF_1930", message: "Time not allowed after 19:00" }
   }
 
   const url = urlFromRequest(args.requestUrl, "/api/bookings")

@@ -7,6 +7,7 @@ import type { AdminUser } from "@prisma/client"
 import { env } from "@/lib/env"
 import { ADMIN_SECURITY } from "./constants"
 import { generateCsrfToken } from "./csrf"
+import { enforceSuperAdminMode } from "./enforcement"
 
 /**
  * Session Management with database-backed sessions
@@ -122,6 +123,29 @@ export async function getSessionByToken(
     return null
   }
 
+  // Enforce mode constraints (SUPER_ADMIN must be REAL)
+  const enforcementResult = await enforceSuperAdminMode(session.admin)
+  
+  // If mode was corrected, refetch the admin to get updated data
+  let finalAdmin = session.admin
+  if (enforcementResult.corrected) {
+    const updatedAdmin = await prisma.adminUser.findUnique({
+      where: { id: session.admin.id },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        mode: true,
+        isActive: true,
+      },
+    })
+    
+    if (updatedAdmin) {
+      finalAdmin = updatedAdmin
+    }
+  }
+
   return {
     id: session.id,
     sessionToken: session.sessionToken,
@@ -130,7 +154,7 @@ export async function getSessionByToken(
     expiresAt: session.expiresAt,
     createdAt: session.createdAt,
     lastUsedAt: session.lastUsedAt,
-    admin: session.admin,
+    admin: finalAdmin,
   }
 }
 

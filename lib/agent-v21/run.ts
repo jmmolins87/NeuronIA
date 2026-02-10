@@ -97,7 +97,7 @@ function extractTime(text: string): string | null {
 }
 
 function isAfter1930(time: string): boolean {
-  return time > "19:30"
+  return time >= "19:00"
 }
 
 function mergeState(input: ChatInput): AgentState {

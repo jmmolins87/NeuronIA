@@ -289,29 +289,6 @@ export default function ROIPage() {
       }
     }, 100)
   }
-        }
-      },
-      roi: roiData
-    }
-    
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("lastBooking", JSON.stringify(bookingData))
-    }
-    
-    // Check if there's pending booking data to return to
-    const hasPendingBooking = typeof window !== "undefined" && 
-      sessionStorage.getItem("clinvetia-pending-booking")
-    
-    // Esperar un momento para que se actualice el estado antes de navegar
-    setTimeout(() => {
-      if (hasPendingBooking) {
-        // Redirect back to booking page
-        window.location.href = "/reservar"
-      } else if (pendingNavigation) {
-        window.location.href = pendingNavigation
-      }
-    }, 100)
-  }
 
   const handleCancel = () => {
     clearROIData()

@@ -958,7 +958,7 @@
       }
     },
     "backend": {
-      "tooltip_1930": "Para citas del mismo día, a partir de las 19:30 no se permite reservar. Elige otro día.",
+      "tooltip_1930": "Para citas del mismo día, a partir de las 19:00 no se permite reservar. Elige otro día.",
       "hold_title": "Hora reservada temporalmente",
       "hold_countdown": "Se libera en {{time}}",
       "hold_missing": "Selecciona una hora para bloquearla temporalmente.",
@@ -981,7 +981,6 @@
       "contact_fallback_cta": "Volver a reservar",
       "contact_summary_title": "Datos de tu demo",
       "contact_summary_desc": "Estos son los datos de tu demo que acabas de reservar.",
-      "contact_summary_roi": "ROI enviado"
       "contact_summary_roi": "ROI enviado"
     }
   },

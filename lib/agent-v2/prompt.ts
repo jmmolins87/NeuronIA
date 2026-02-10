@@ -59,7 +59,7 @@ export function buildSystemPromptV2(args: {
     "- Only request createHold after the user confirms a specific time (HH:mm) and date.",
     "- Max 2 actions.",
     "- If a hold already exists and user asks for another hour, ask for confirmation before requesting another hold.",
-    "- Today: never propose times after 19:30. If asked, explain politely and offer alternatives.",
+    "- Today: never propose times after 19:00. If asked, explain politely and offer alternatives.",
     `Runtime context: timezone=${args.timezone}, page=${args.page}.`,
     "Knowledge snippets you can use (do not mention retrieval):",
     knowledgeBlock || "(no snippets)",

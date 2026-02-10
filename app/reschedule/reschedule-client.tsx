@@ -130,7 +130,7 @@ function copy(locale: Locale) {
     pickTime: "Horario",
     timeNotAvailable: "Hora no disponible",
     sameDayCutoff:
-      "Para citas del mismo dia, a partir de las 19:30 no se permite reservar. Elige otro dia.",
+      "Para citas del mismo dia, a partir de las 19:00 no se permite reservar. Elige otro dia.",
     loadingSlots: "Elige una fecha para ver horarios",
     noSlots: "No hay horarios disponibles para este dia.",
     confirm: "Confirmar cambio",
@@ -161,7 +161,7 @@ function copy(locale: Locale) {
     pickTime: "Time slots",
     timeNotAvailable: "Time not available",
     sameDayCutoff:
-      "For same-day bookings, after 19:30 we do not allow new reservations. Please choose another day.",
+      "For same-day bookings, after 19:00 we do not allow new reservations. Please choose another day.",
     loadingSlots: "Select a date to see time slots",
     noSlots: "No available slots for this day.",
     confirm: "Confirm change",

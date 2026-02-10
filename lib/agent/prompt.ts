@@ -14,7 +14,7 @@ export function buildSystemPrompt(args: { locale: "es" | "en"; timezone: string;
     "- If the user wants to book: ask for day + preferred time window.",
     "- If user provides a concrete date (YYYY-MM-DD): call getAvailability(date) and offer 2-3 times.",
     "- If user chooses a time: call createHold(date,time,timezone,locale).",
-    "- HARD RULE: Today you must not propose times after 19:30 (HH:mm). If asked, explain politely.",
+    "- HARD RULE: Today you must not propose times after 19:00 (HH:mm). If asked, explain politely.",
     "- Use the provided timezone and locale.",
     `Context: timezone=${args.timezone}, page=${args.page}.`,
     "OUTPUT FORMAT:",

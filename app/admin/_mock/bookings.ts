@@ -9,21 +9,29 @@ export type BookingLocale = "es" | "en"
 
 export interface Booking {
   id: string
-  startAt: string
-  durationMinutes: number
+  uid?: string
+  startAt: string | Date
+  endAt?: string | Date
+  durationMinutes?: number
   status: BookingStatus
-  email: string
-  name: string
-  locale: BookingLocale
-  createdAt: string
-  form: {
+  email?: string
+  name?: string
+  contactEmail?: string | null
+  contactName?: string | null
+  contactPhone?: string | null
+  contactClinicName?: string | null
+  locale?: BookingLocale
+  createdAt: string | Date
+  updatedAt?: string | Date
+  rescheduledToBookingId?: string | null
+  form?: {
     company: string
     role: string
     clinicSize: string
     goals: string
     notes: string
   }
-  roi: {
+  roi?: {
     currentLeadsPerMonth: number
     avgTicketEur: number
     conversionRatePct: number
